@@ -394,3 +394,5 @@ To be addressed in Step 2d. Do not modify these items during Steps 2b or 2c.
 | Assembly | Type / Member | BCL Equivalent | Notes |
 |---|---|---|---|
 | `StarThrower.Collections` | `ReadOnlyDictionary<TKey,TValue>` | `System.Collections.ObjectModel.ReadOnlyDictionary<TKey,TValue>` (added .NET 4.5) | Custom impl predates BCL addition; candidate for wrapper + `[Obsolete]` |
+| `StarThrower.ByteUtilities` | `ByteUtil.ReverseBytes` | `Array.Reverse(byte[])` or `Span<T>` in-place reversal | Candidate for wrapper + `[Obsolete]` |
+| `StarThrower.ByteUtilities` | `ByteUtil.BytesAreEqual` | `span.SequenceEqual()` (.NET Core 2.1+) | Candidate for wrapper + `[Obsolete]` |
