@@ -246,6 +246,22 @@ Same group order and same deferrals as 2b.
 - Remove `using` directives made redundant by implicit usings
 - Commit per group
 
+***Step 2d — BCL supersedence audit***
+
+During Steps 2b and 2c, log any types or methods that the BCL now provides natively
+in the **BCL Supersedence Log** section at the bottom of this file. Address them here
+as a dedicated pass after 2c is complete.
+
+For each logged item, choose one of:
+- **Keep as-is** — if the implementation differs meaningfully from the BCL equivalent
+- **Wrapper + deprecate** — convert the implementation to delegate to the BCL type, and
+  mark the public API `[Obsolete("Use X instead.")]` to signal consumers to migrate;
+  preserve the public signature so nothing breaks
+- **Remove** — only if the type/method is internal or confirmed to have no external
+  consumers, and only with explicit approval
+
+Do not remove or deprecate any public API without explicit discussion first.
+
 **Step 3 — Configure Roslyn analyzers** (replaces FxCopCmd):
 - Add `<AnalysisMode>Recommended</AnalysisMode>` to shared build props or each csproj
 - `Microsoft.CodeAnalysis.NetAnalyzers` ships with the .NET 10 SDK — no additional
@@ -367,3 +383,14 @@ dotnet test StarThrower.ByteUtilities.Test/StarThrower.ByteUtilities.Test.csproj
 - Do not run git commands
 - Do not run dotnet test unless explicitly asked
 - Do not make multiple changes in one pass without developer review between them
+
+---
+
+## BCL Supersedence Log
+
+Types and methods identified during migration that the BCL now provides natively.
+To be addressed in Step 2d. Do not modify these items during Steps 2b or 2c.
+
+| Assembly | Type / Member | BCL Equivalent | Notes |
+|---|---|---|---|
+| `StarThrower.Collections` | `ReadOnlyDictionary<TKey,TValue>` | `System.Collections.ObjectModel.ReadOnlyDictionary<TKey,TValue>` (added .NET 4.5) | Custom impl predates BCL addition; candidate for wrapper + `[Obsolete]` |
