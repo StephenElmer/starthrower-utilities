@@ -1,0 +1,1578 @@
+<?xml version="1.0" ?>
+<grammar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="grammar.xsd" name="PROMPT">
+
+
+
+    <rule category="S">
+        <category name="NExp"/>
+    </rule>
+
+
+
+    <rule category="NExp">
+        <category name="NConst"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Ln"/>
+    </rule>
+    <rule category="NExp">
+        <category name="GammaLn"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Pow"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Sqrt"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Min"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Max"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Add"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Sub"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Mult"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Div"/>
+    </rule>
+    <rule category="NExp">
+        <category name="NIfElse"/>
+    </rule>
+    <rule category="NExp">
+        <category name="GetFOAdj"/>
+    </rule>
+    <rule category="NExp">
+        <category name="GetSelectedFOAdj"/>
+    </rule>
+    <rule category="NExp">
+        <category name="GetSDAdj"/>
+    </rule>
+    <rule category="NExp">
+        <category name="GetSelectedSDAdj"/>
+    </rule>
+    <rule category="NExp">
+        <category name="DateDiff"/>
+    </rule>
+    <rule category="NExp">
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+    <rule category="NConst">
+        <category name="Number"/>
+    </rule>
+    <rule category="NConst">
+        <category name="Number"/>
+    </rule>
+    <rule category="Ln">
+        <category name="Ln_kw"/>
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="GammaLn">
+        <category name="GammaLn_kw"/>
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="Pow">
+        <category name="Pow_kw"/>
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="comma"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="Sqrt">
+        <category name="Sqrt_kw"/>
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="Min">
+        <category name="Min_kw"/>
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="comma"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="Max">
+        <category name="Max_kw"/>
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="comma"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="Add">
+        <category name="NExp"/>
+        <category name="plus"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="Sub">
+        <category name="NExp"/>
+        <category name="minus"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="Mult">
+        <category name="NExp"/>
+        <category name="times"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="Div">
+        <category name="NExp"/>
+        <category name="slash"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="NIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="NExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="GetFOAdj">
+        <category name="GetFOAdj_kw"/>
+        <category name="openparen"/>
+        <category name="FOExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="GetSelectedFOAdj">
+        <category name="GetSelectedFOAdj_kw"/>
+        <category name="openparen"/>
+        <category name="FExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="GetSDAdj">
+        <category name="GetSDAdj_kw"/>
+        <category name="openparen"/>
+        <category name="SDExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="GetSelectedSDAdj">
+        <category name="GetSelectedSDAdj_kw"/>
+        <category name="openparen"/>
+        <category name="RUExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DateDiff">
+        <category name="DateDiff_kw"/>
+        <category name="openparen"/>
+        <category name="DExp"/>
+        <category name="comma"/>
+        <category name="DExp"/>
+        <category name="comma"/>
+        <category name="DatePart"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="DExp">
+        <category name="DConst"/>
+    </rule>
+    <rule category="DExp">
+        <category name="DIfElse"/>
+    </rule>
+    <rule category="DExp">
+        <category name="DateAdd"/>
+    </rule>
+    <rule category="DExp">
+        <category name="DateSub"/>
+    </rule>
+    <rule category="DExp">
+        <category name="openparen"/>
+        <category name="DExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+    <rule category="DConst">
+        <category name="Integer"/>
+        <category name="slash"/>
+        <category name="Integer"/>
+        <category name="slash"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="DateAdd">
+        <category name="DateAdd_kw"/>
+        <category name="openparen"/>
+        <category name="DExp"/>
+        <category name="comma"/>
+        <category name="NExp"/>
+        <category name="comma"/>
+        <category name="DatePart"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DateSub">
+        <category name="DateSub_kw"/>
+        <category name="openparen"/>
+        <category name="DExp"/>
+        <category name="comma"/>
+        <category name="NExp"/>
+        <category name="comma"/>
+        <category name="DatePart"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="DExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="DExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+    <rule category="BExp">
+        <category name="BConst"/>
+    </rule>
+    <rule category="BExp">
+        <category name="Not"/>
+    </rule>
+    <rule category="BExp">
+        <category name="Or"/>
+    </rule>
+    <rule category="BExp">
+        <category name="And"/>
+    </rule>
+    <rule category="BExp">
+        <category name="BIfElse"/>
+    </rule>
+    <rule category="BExp">
+        <category name="NEQ"/>
+    </rule>
+    <rule category="BExp">
+        <category name="NNE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="NLT"/>
+    </rule>
+    <rule category="BExp">
+        <category name="NLTE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="NGT"/>
+    </rule>
+    <rule category="BExp">
+        <category name="NGTE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="DEQ"/>
+    </rule>
+    <rule category="BExp">
+        <category name="DNE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="DLT"/>
+    </rule>
+    <rule category="BExp">
+        <category name="DLTE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="DGT"/>
+    </rule>
+    <rule category="BExp">
+        <category name="DGTE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="RUEQ"/>
+    </rule>
+    <rule category="BExp">
+        <category name="RUNE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="FEQ"/>
+    </rule>
+    <rule category="BExp">
+        <category name="FNE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="SDEQ"/>
+    </rule>
+    <rule category="BExp">
+        <category name="SDNE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="FOEQ"/>
+    </rule>
+    <rule category="BExp">
+        <category name="FONE"/>
+    </rule>
+    <rule category="BExp">
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+
+    <rule category="BConst">
+        <category name="True_kw"/>
+    </rule>
+    <rule category="BConst">
+        <category name="False_kw"/>
+    </rule>
+    <rule category="Not">
+        <category name="bang"/>
+        <category name="BExp"/>
+    </rule>
+    <rule category="Or">
+        <category name="BExp"/>
+        <category name="pipe"/>
+        <category name="pipe"/>
+        <category name="BExp"/>
+    </rule>
+    <rule category="And">
+        <category name="BExp"/>
+        <category name="amp"/>
+        <category name="amp"/>
+        <category name="BExp"/>
+    </rule>
+    <rule category="BIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NEQ">
+        <category name="NExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="NNE">
+        <category name="NExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="NLT">
+        <category name="NExp"/>
+        <category name="lt"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="NLTE">
+        <category name="NExp"/>
+        <category name="lt"/>
+        <category name="equals"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="NGT">
+        <category name="NExp"/>
+        <category name="gt"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="NGTE">
+        <category name="NExp"/>
+        <category name="gt"/>
+        <category name="equals"/>
+        <category name="NExp"/>
+    </rule>
+    <rule category="DEQ">
+        <category name="DExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="DExp"/>
+    </rule>
+    <rule category="DNE">
+        <category name="DExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="DExp"/>
+    </rule>
+    <rule category="DLT">
+        <category name="DExp"/>
+        <category name="lt"/>
+        <category name="DExp"/>
+    </rule>
+    <rule category="DLTE">
+        <category name="DExp"/>
+        <category name="lt"/>
+        <category name="equals"/>
+        <category name="DExp"/>
+    </rule>
+    <rule category="DGT">
+        <category name="DExp"/>
+        <category name="gt"/>
+        <category name="DExp"/>
+    </rule>
+    <rule category="DGTE">
+        <category name="DExp"/>
+        <category name="gt"/>
+        <category name="equals"/>
+        <category name="DExp"/>
+    </rule>
+    <rule category="RUEQ">
+        <category name="RUExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="RUExp"/>
+    </rule>
+    <rule category="RUNE">
+        <category name="RUExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="RUExp"/>
+    </rule>
+    <rule category="FEQ">
+        <category name="FExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="FExp"/>
+    </rule>
+    <rule category="FNE">
+        <category name="FExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="FExp"/>
+    </rule>
+    <rule category="SDEQ">
+        <category name="SDExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="SDExp"/>
+    </rule>
+    <rule category="SDNE">
+        <category name="SDExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="SDExp"/>
+    </rule>
+    <rule category="FOEQ">
+        <category name="FOExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="FOExp"/>
+    </rule>
+    <rule category="FONE">
+        <category name="FOExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="FOExp"/>
+    </rule>
+
+
+
+    <rule category="RUExp">
+        <category name="RUConst"/>
+    </rule>
+    <rule category="RUExp">
+        <category name="RUIfElse"/>
+    </rule>
+    <rule category="RUExp">
+        <category name="openparen"/>
+        <category name="RUExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+
+    <rule category="RUConst">
+        <category name="MID"/>
+        <category name="dot"/>
+        <category name="RUID"/>
+    </rule>
+    <rule category="RUIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="RUExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="RUExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="FExp">
+        <category name="FConst"/>
+    </rule>
+    <rule category="FExp">
+        <category name="FIfElse"/>
+    </rule>
+    <rule category="FExp">
+        <category name="openparen"/>
+        <category name="FExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="FConst">
+        <category name="MID"/>
+        <category name="dot"/>
+        <category name="RUID"/>
+        <category name="dot"/>
+        <category name="FID"/>
+    </rule>
+    <rule category="FIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="FExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="FExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="SDExp">
+        <category name="SDConst"/>
+    </rule>
+    <rule category="SDExp">
+        <category name="SDIfElse"/>
+    </rule>
+    <rule category="SDExp">
+        <category name="GetSelectedSD"/>
+    </rule>
+    <rule category="SDExp">
+        <category name="openparen"/>
+        <category name="SDExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+    <rule category="SDConst">
+        <category name="MID"/>
+        <category name="dot"/>
+        <category name="RUID"/>
+        <category name="dot"/>
+        <category name="SubDefinition_kw"/>
+        <category name="dot"/>
+        <category name="SDID"/>
+    </rule>
+    <rule category="SDIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="SDExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="SDExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="GetSelectedSD">
+        <category name="GetSelectedSD_kw"/>
+        <category name="openparen"/>
+        <category name="RUExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+    <rule category="FOExp">
+        <category name="FOConst"/>
+    </rule>
+    <rule category="FOExp">
+        <category name="FOIfElse"/>
+    </rule>
+    <rule category="FOExp">
+        <category name="GetSelectedFO"/>
+    </rule>
+    <rule category="FOExp">
+        <category name="openparen"/>
+        <category name="FOExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+    <rule category="FOConst">
+        <category name="MID"/>
+        <category name="dot"/>
+        <category name="RUID"/>
+        <category name="dot"/>
+        <category name="FID"/>
+        <category name="dot"/>
+        <category name="FOID"/>
+    </rule>
+    <rule category="FOIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="FOExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="FOExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="GetSelectedFO">
+        <category name="GetSelectedFO_kw"/>
+        <category name="openparen"/>
+        <category name="FExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+    <!-- Keywords -->
+    <rule category="If_kw">
+        <category name="i"/>
+        <category name="f"/>
+    </rule>
+    <rule category="Then_kw">
+        <category name="t"/>
+        <category name="h"/>
+        <category name="e"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Else_kw">
+        <category name="e"/>
+        <category name="l"/>
+        <category name="s"/>
+        <category name="e"/>
+    </rule>
+    <rule category="True_kw">
+        <category name="t"/>
+        <category name="r"/>
+        <category name="u"/>
+        <category name="e"/>
+    </rule>
+    <rule category="False_kw">
+        <category name="f"/>
+        <category name="a"/>
+        <category name="l"/>
+        <category name="s"/>
+        <category name="e"/>
+    </rule>
+    <rule category="Pow_kw">
+        <category name="p"/>
+        <category name="o"/>
+        <category name="w"/>
+    </rule>
+    <rule category="Ln_kw">
+        <category name="l"/>
+        <category name="n"/>
+    </rule>
+    <rule category="GammaLn_kw">
+        <category name="g"/>
+        <category name="a"/>
+        <category name="m"/>
+        <category name="m"/>
+        <category name="a"/>
+        <category name="l"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Sqrt_kw">
+        <category name="s"/>
+        <category name="q"/>
+        <category name="r"/>
+        <category name="t"/>
+    </rule>
+    <rule category="Min_kw">
+        <category name="m"/>
+        <category name="i"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Max_kw">
+        <category name="m"/>
+        <category name="a"/>
+        <category name="x"/>
+    </rule>
+    <rule category="GetFOAdj_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="f"/>
+        <category name="o"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="j"/>
+    </rule>
+    <rule category="GetSelectedFOAdj_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="s"/>
+        <category name="e"/>
+        <category name="l"/>
+        <category name="e"/>
+        <category name="c"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="d"/>
+        <category name="f"/>
+        <category name="o"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="j"/>
+    </rule>
+    <rule category="GetSDAdj_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="s"/>
+        <category name="d"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="j"/>
+    </rule>
+    <rule category="GetSelectedSDAdj_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="s"/>
+        <category name="e"/>
+        <category name="l"/>
+        <category name="e"/>
+        <category name="c"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="d"/>
+        <category name="s"/>
+        <category name="d"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="j"/>
+    </rule>
+    <rule category="DateDiff_kw">
+        <category name="d"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="d"/>
+        <category name="i"/>
+        <category name="f"/>
+        <category name="f"/>
+    </rule>
+    <rule category="DateAdd_kw">
+        <category name="d"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="d"/>
+    </rule>
+    <rule category="DateSub_kw">
+        <category name="d"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="s"/>
+        <category name="u"/>
+        <category name="b"/>
+    </rule>
+    <rule category="SubDefinition_kw">
+        <category name="s"/>
+        <category name="u"/>
+        <category name="b"/>
+        <category name="d"/>
+        <category name="e"/>
+        <category name="f"/>
+        <category name="i"/>
+        <category name="n"/>
+        <category name="i"/>
+        <category name="t"/>
+        <category name="i"/>
+        <category name="o"/>
+        <category name="n"/>
+    </rule>
+    <rule category="GetSelectedSD_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="s"/>
+        <category name="e"/>
+        <category name="l"/>
+        <category name="e"/>
+        <category name="c"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="d"/>
+        <category name="s"/>
+        <category name="d"/>
+    </rule>
+    <rule category="GetSelectedFO_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="s"/>
+        <category name="e"/>
+        <category name="l"/>
+        <category name="e"/>
+        <category name="c"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="d"/>
+        <category name="f"/>
+        <category name="o"/>
+    </rule>
+    <!-- [end keywords] -->
+
+    <rule category="DatePart">
+        <category name="y"/>
+    </rule>
+    <rule category="DatePart">
+        <category name="m"/>
+    </rule>
+    <rule category="DatePart">
+        <category name="d"/>
+    </rule>
+    <rule category="DatePart">
+        <category name="h"/>
+    </rule>
+    <rule category="DatePart">
+        <category name="n"/>
+    </rule>
+    <rule category="DatePart">
+        <category name="s"/>
+    </rule>
+
+
+    <rule category="MID">
+        <category name="M"/>
+        <category name="underscore"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="RUID">
+        <category name="R"/>
+        <category name="U"/>
+        <category name="underscore"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="FID">
+        <category name="F"/>
+        <category name="underscore"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="SDID">
+        <category name="S"/>
+        <category name="D"/>
+        <category name="underscore"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="FOID">
+        <category name="F"/>
+        <category name="O"/>
+        <category name="underscore"/>
+        <category name="Integer"/>
+    </rule>
+
+    <rule category="GUID">
+        <category name="EightCharLetterOrDigit"/>
+        <category name="minus"/>
+        <category name="FourCharLetterOrDigit"/>
+        <category name="minus"/>
+        <category name="FourCharLetterOrDigit"/>
+        <category name="minus"/>
+        <category name="FourCharLetterOrDigit"/>
+        <category name="minus"/>
+        <category name="TwelveCharLetterOrDigit"/>
+    </rule>
+
+    <rule category="EightCharLetterOrDigit">
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+    </rule>
+
+    <rule category="FourCharLetterOrDigit">
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+    </rule>
+
+    <rule category="TwelveCharLetterOrDigit">
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+    </rule>
+
+    <rule category="LetterOrDigit">
+        <category name="Letter"/>
+    </rule>
+    <rule category="LetterOrDigit">
+        <category name="Digit"/>
+    </rule>
+
+    <rule category="Number">
+        <category name="Integer"/>
+    </rule>
+    <rule category="Number">
+        <category name="SignedInteger"/>
+    </rule>
+    <rule category="Number">
+        <category name="Real"/>
+    </rule>
+
+    <rule category="Real">
+        <category name="Integer"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Real">
+        <category name="SignedInteger"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Real">
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Real">
+        <category name="minus"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Real">
+        <category name="plus"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+
+    <rule category="Integer">
+        <category name="Integer"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Integer">
+        <category name="Digit"/>
+    </rule>
+
+    <rule category="SignedInteger">
+        <category name="plus"/>
+        <category name="Integer"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="SignedInteger">
+        <category name="plus"/>
+        <category name="Digit"/>
+    </rule>
+    <rule category="SignedInteger">
+        <category name="minus"/>
+        <category name="Integer"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="SignedInteger">
+        <category name="minus"/>
+        <category name="Digit"/>
+    </rule>
+
+
+
+    <!-- Letter, Digit, Symbol -->
+    <rule category="Letter">
+        <category name="UpperCaseLetter"/>
+    </rule>
+    <rule category="Letter">
+        <category name="LowerCaseLetter"/>
+    </rule>
+
+    <rule category="UpperCaseLetter">
+        <category name="A"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="B"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="C"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="D"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="E"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="F"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="G"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="H"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="I"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="J"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="K"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="L"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="M"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="N"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="O"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="P"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="Q"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="R"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="S"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="T"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="U"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="V"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="W"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="X"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="Y"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="Z"/>
+    </rule>
+
+    <rule category="LowerCaseLetter">
+        <category name="a"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="b"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="c"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="d"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="e"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="f"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="g"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="h"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="i"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="j"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="k"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="l"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="m"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="n"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="o"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="p"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="q"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="r"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="s"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="t"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="u"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="v"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="w"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="x"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="y"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="z"/>
+    </rule>
+
+    
+    <rule category="Digit">
+        <category name="1"/>
+    </rule>
+    <rule category="Digit">
+        <category name="2"/>
+    </rule>
+    <rule category="Digit">
+        <category name="3"/>
+    </rule>
+    <rule category="Digit">
+        <category name="4"/>
+    </rule>
+    <rule category="Digit">
+        <category name="5"/>
+    </rule>
+    <rule category="Digit">
+        <category name="6"/>
+    </rule>
+    <rule category="Digit">
+        <category name="7"/>
+    </rule>
+    <rule category="Digit">
+        <category name="8"/>
+    </rule>
+    <rule category="Digit">
+        <category name="9"/>
+    </rule>
+    <rule category="Digit">
+        <category name="0"/>
+    </rule>
+    
+    <rule category="Symbol">
+        <category name="lt"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="gt"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="pipe"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="amp"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="caret"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="hash"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="at"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="openparen"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="closeparen"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="underscore"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="openbrace"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="closebrace"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="openbracket"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="closebracket"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="colon"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="semicolon"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="singlequote"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="doublequote"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="dot"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="slash"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="minus"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="equals"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="plus"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="times"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="bang"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="comma"/>
+    </rule>
+
+
+
+    <!-- terminals -->
+    
+    <rule category="a">
+        <category terminal="true" name="a"/>
+    </rule>
+    <rule category="A">
+        <category terminal="true" name="A"/>
+    </rule>
+    <rule category="b">
+        <category terminal="true" name="b"/>
+    </rule>
+    <rule category="B">
+        <category terminal="true" name="B"/>
+    </rule>
+    <rule category="c">
+        <category terminal="true" name="c"/>
+    </rule>
+    <rule category="C">
+        <category terminal="true" name="C"/>
+    </rule>
+    <rule category="d">
+        <category terminal="true" name="d"/>
+    </rule>
+    <rule category="D">
+        <category terminal="true" name="D"/>
+    </rule>
+    <rule category="e">
+        <category terminal="true" name="e"/>
+    </rule>
+    <rule category="E">
+        <category terminal="true" name="E"/>
+    </rule>
+    <rule category="f">
+        <category terminal="true" name="f"/>
+    </rule>
+    <rule category="F">
+        <category terminal="true" name="F"/>
+    </rule>
+    <rule category="g">
+        <category terminal="true" name="g"/>
+    </rule>
+    <rule category="G">
+        <category terminal="true" name="G"/>
+    </rule>
+    <rule category="h">
+        <category terminal="true" name="h"/>
+    </rule>
+    <rule category="H">
+        <category terminal="true" name="H"/>
+    </rule>
+    <rule category="i">
+        <category terminal="true" name="i"/>
+    </rule>
+    <rule category="I">
+        <category terminal="true" name="I"/>
+    </rule>
+    <rule category="j">
+        <category terminal="true" name="j"/>
+    </rule>
+    <rule category="J">
+        <category terminal="true" name="J"/>
+    </rule>
+    <rule category="k">
+        <category terminal="true" name="k"/>
+    </rule>
+    <rule category="K">
+        <category terminal="true" name="K"/>
+    </rule>
+    <rule category="l">
+        <category terminal="true" name="l"/>
+    </rule>
+    <rule category="L">
+        <category terminal="true" name="L"/>
+    </rule>
+    <rule category="m">
+        <category terminal="true" name="m"/>
+    </rule>
+    <rule category="M">
+        <category terminal="true" name="M"/>
+    </rule>
+    <rule category="n">
+        <category terminal="true" name="n"/>
+    </rule>
+    <rule category="N">
+        <category terminal="true" name="N"/>
+    </rule>
+    <rule category="o">
+        <category terminal="true" name="o"/>
+    </rule>
+    <rule category="O">
+        <category terminal="true" name="O"/>
+    </rule>
+    <rule category="p">
+        <category terminal="true" name="p"/>
+    </rule>
+    <rule category="P">
+        <category terminal="true" name="P"/>
+    </rule>
+    <rule category="q">
+        <category terminal="true" name="q"/>
+    </rule>
+    <rule category="Q">
+        <category terminal="true" name="Q"/>
+    </rule>
+    <rule category="r">
+        <category terminal="true" name="r"/>
+    </rule>
+    <rule category="R">
+        <category terminal="true" name="R"/>
+    </rule>
+    <rule category="s">
+        <category terminal="true" name="s"/>
+    </rule>
+    <rule category="S">
+        <category terminal="true" name="S"/>
+    </rule>
+    <rule category="t">
+        <category terminal="true" name="t"/>
+    </rule>
+    <rule category="T">
+        <category terminal="true" name="T"/>
+    </rule>
+    <rule category="u">
+        <category terminal="true" name="u"/>
+    </rule>
+    <rule category="U">
+        <category terminal="true" name="U"/>
+    </rule>
+    <rule category="v">
+        <category terminal="true" name="v"/>
+    </rule>
+    <rule category="V">
+        <category terminal="true" name="V"/>
+    </rule>
+    <rule category="w">
+        <category terminal="true" name="w"/>
+    </rule>
+    <rule category="W">
+        <category terminal="true" name="W"/>
+    </rule>
+    <rule category="x">
+        <category terminal="true" name="x"/>
+    </rule>
+    <rule category="X">
+        <category terminal="true" name="X"/>
+    </rule>
+    <rule category="y">
+        <category terminal="true" name="y"/>
+    </rule>
+    <rule category="Y">
+        <category terminal="true" name="Y"/>
+    </rule>
+    <rule category="z">
+        <category terminal="true" name="z"/>
+    </rule>
+    <rule category="Z">
+        <category terminal="true" name="Z"/>
+    </rule>
+
+    <rule category="1">
+        <category terminal="true" name="1"/>
+    </rule>
+    <rule category="2">
+        <category terminal="true" name="2"/>
+    </rule>
+    <rule category="3">
+        <category terminal="true" name="3"/>
+    </rule>
+    <rule category="4">
+        <category terminal="true" name="4"/>
+    </rule>
+    <rule category="5">
+        <category terminal="true" name="5"/>
+    </rule>
+    <rule category="6">
+        <category terminal="true" name="6"/>
+    </rule>
+    <rule category="7">
+        <category terminal="true" name="7"/>
+    </rule>
+    <rule category="8">
+        <category terminal="true" name="8"/>
+    </rule>
+    <rule category="9">
+        <category terminal="true" name="9"/>
+    </rule>
+    <rule category="0">
+        <category terminal="true" name="0"/>
+    </rule>
+
+    <rule category="comma">
+        <category terminal="true" name=","/>
+    </rule>
+    <rule category="bang">
+        <category terminal="true" name="!"/>
+    </rule>
+    <rule category="times">
+        <category terminal="true" name="*"/>
+    </rule>
+    <rule category="plus">
+        <category terminal="true" name="+"/>
+    </rule>
+    <rule category="equals">
+        <category terminal="true" name="="/>
+    </rule>
+    <rule category="minus">
+        <category terminal="true" name="-"/>
+    </rule>
+    <rule category="slash">
+        <category terminal="true" name="/"/>
+    </rule>
+    <rule category="dot">
+        <category terminal="true" name="."/>
+    </rule>
+    <rule category="lt">
+        <category terminal="true" name="&lt;"/>
+    </rule>
+    <rule category="gt">
+        <category terminal="true" name="&gt;"/>
+    </rule>
+    <rule category="pipe">
+        <category terminal="true" name="|"/>
+    </rule>
+    <rule category="amp">
+        <category terminal="true" name="&amp;"/>
+    </rule>
+    <rule category="caret">
+        <category terminal="true" name="^"/>
+    </rule>
+    <rule category="hash">
+        <category terminal="true" name="#"/>
+    </rule>
+    <rule category="at">
+        <category terminal="true" name="@"/>
+    </rule>
+    <rule category="openparen">
+        <category terminal="true" name="("/>
+    </rule>
+    <rule category="closeparen">
+        <category terminal="true" name=")"/>
+    </rule>
+    <rule category="underscore">
+        <category terminal="true" name="_"/>
+    </rule>
+    <rule category="openbrace">
+        <category terminal="true" name="{"/>
+    </rule>
+    <rule category="closebrace">
+        <category terminal="true" name="}"/>
+    </rule>
+    <rule category="openbracket">
+        <category terminal="true" name="["/>
+    </rule>
+    <rule category="closebracket">
+        <category terminal="true" name="]"/>
+    </rule>
+    <rule category="colon">
+        <category terminal="true" name=":"/>
+    </rule>
+    <rule category="semicolon">
+        <category terminal="true" name=";"/>
+    </rule>
+    <rule category="singlequote">
+        <category terminal="true" name="&apos;"/>
+    </rule>
+    <rule category="doublequote">
+        <category terminal="true" name="&quot;"/>
+    </rule>
+
+</grammar>

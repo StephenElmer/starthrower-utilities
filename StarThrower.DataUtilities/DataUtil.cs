@@ -1,0 +1,1108 @@
+﻿using System;
+using System.Data;
+using System.Globalization;
+using StarThrower.Logging;
+using System.Data.OleDb;
+
+namespace StarThrower.DataUtilities
+{
+    /// <summary>
+    /// A collection of functions that are useful when working with databases.
+    /// </summary>
+    /// <remarks>
+    /// This class provices a set of wrapper functions for safely accessing recordset data.
+    /// </remarks>
+    public static class DataUtil
+    {
+        /// <summary>
+        /// A DateTime which is used throughout the StarThrower Utilities to represent a null valued date.
+        /// </summary>
+        /// <remarks>
+        /// The value of this constant is equivalent to DateTime.MinValue  (00:00:00.0000000, January 1, 0001).
+        /// </remarks>
+        public readonly static DateTime DTNull = DateTime.MinValue;
+
+        public static bool CheckFieldExists(OleDbDataReader dr, string fieldName)
+        {
+            bool result = false;
+            for (int i = 0; i < dr.FieldCount; i++)
+            {
+                if (dr.GetName(i) == fieldName)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+
+        #region [ Boolean ]
+
+        /// <summary>
+        /// Safely retrieves boolean data from a field in  a DataRow
+        /// </summary>
+        /// <param name="dataRow">The DataRow object</param>
+        /// <param name="fieldName">The name of the field</param>
+        /// <returns>The boolean value of the field.  False if the field is null, DBNull, or an error is thrown.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
+        /// <exception cref="ArgumentException">Thrown if fieldName is not a valid field in dataRow.</exception>
+        public static bool GetBooleanField(DataRow dataRow, string fieldName)
+        {
+            if (dataRow == null) throw new ArgumentNullException("dataRow");
+            if (fieldName == null) throw new ArgumentNullException("fieldName");
+
+            try
+            {
+                if (dataRow[fieldName] == null) return false;
+                if (dataRow[fieldName] is DBNull) return false;
+                if (dataRow[fieldName].ToString().Equals("1")) return true; //SQL Server
+                if (String.Compare(dataRow[fieldName].ToString(), "True", StringComparison.OrdinalIgnoreCase) == 0) return true; //Access ?
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBooleanField(DataRow, string)", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static bool GetBoolField(DataRow dr, string field)
+        {
+            return GetBoolField(dr, field, false);
+        }
+        public static bool GetBoolField(OleDbDataReader dr, string field)
+        {
+            return GetBoolField(dr, field, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static bool GetBoolField(DataRow dr, string field, bool defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            bool result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToBoolean(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBoolField(DataRow, string, bool)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static bool GetBoolField(OleDbDataReader dr, string field, bool defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            bool result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToBoolean(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBoolField(OleDbDataReader, string, bool)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ String ]
+
+        ///// <summary>
+        ///// Safely retrieves string data from a field in  a DataRow
+        ///// </summary>
+        ///// <param name="dataRow">The DataRow object</param>
+        ///// <param name="fieldName">The name of the field</param>
+        ///// <returns>The string value of the field.  String.Empty if the field is null, DBNull, or an error is thrown.</returns>
+        ///// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
+        //public static string GetStringField(DataRow dataRow, string fieldName)
+        //{
+        //    if (dataRow == null) throw new ArgumentNullException("dataRow");
+        //    if (fieldName == null) throw new ArgumentNullException("fieldName");
+        //    try
+        //    {
+        //        if (dataRow[fieldName] == null) return String.Empty;
+        //        if (dataRow[fieldName] is DBNull) return String.Empty;
+        //        return dataRow[fieldName].ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetStringField(DataRow, string)", ex);
+        //        throw;
+        //    }
+        //}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static string GetStringField(DataRow dr, string field)
+        {
+            return GetStringField(dr, field, String.Empty);
+        }
+        public static string GetStringField(OleDbDataReader dr, string field)
+        {
+            return GetStringField(dr, field, String.Empty);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static string GetStringField(DataRow dr, string field, string defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+            if (defaultValue == null) throw new ArgumentNullException("defaultValue");
+
+            string result = defaultValue;
+            try
+            {
+                if ((dr[field] != null) && !(dr[field] is DBNull))
+                {
+                    result = dr[field].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetStringField(DataRow, string, string)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static string GetStringField(OleDbDataReader dr, string field, string defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+            if (defaultValue == null) throw new ArgumentNullException("defaultValue");
+
+            string result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = dr[field].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetStringField(OleDbDataReader, string, string)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ DateTime ]
+
+        /// <summary>
+        /// See: http://www.sqlteam.com/article/working-with-time-spans-and-durations-in-sql-server
+        /// </summary>
+        /// <param name="sqlDateTime"></param>
+        /// <returns></returns>
+        public static TimeSpan? GetTimeSpanFromSQLDateTime(DateTime? sqlDateTime)
+        {
+            TimeSpan? result;
+            if (sqlDateTime.HasValue)
+            {
+                DateTime baseDate = new DateTime(1900, 1, 1, 0, 0, 0, 0);
+                DateTime val = sqlDateTime.Value;
+                result = val.Subtract(baseDate);
+            }
+            else
+            {
+                result = null;
+            }
+            return result;
+        }
+
+        public static DateTime? GetSQLDateTimeFromTimeSpan(TimeSpan? timeSpan)
+        {
+            DateTime? result;
+            if (timeSpan.HasValue)
+            {
+                DateTime baseDate = new DateTime(1900, 1, 1, 0, 0, 0, 0);
+                TimeSpan val = timeSpan.Value;
+                result = baseDate.Add(val);
+            }
+            else
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        ///// <summary>
+        ///// Safely retrieves DateTime data from a field in  a DataRow
+        ///// </summary>
+        ///// <param name="dataRow">The DataRow object</param>
+        ///// <param name="fieldName">The name of the field</param>
+        ///// <returns>The DateTime value of the field.  Constants.DT_NULL if the field is null, DBNull, or an error is thrown.</returns>
+        ///// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
+        //public static DateTime GetDateTimeField(DataRow dataRow, string fieldName)
+        //{
+        //    if (dataRow == null) throw new ArgumentNullException("dataRow");
+        //    if (fieldName == null) throw new ArgumentNullException("fieldName");
+        //    try
+        //    {
+        //        if (dataRow[fieldName] == null) return DTNull;
+        //        if (dataRow[fieldName] is DBNull) return DTNull;
+        //        return DateTime.Parse(dataRow[fieldName].ToString(), CultureInfo.InvariantCulture);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDateTimeField(DataRow, string)", ex);
+        //        throw;
+        //    }
+        //}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static DateTime GetDateTimeField(DataRow dr, string field)
+        {
+            return GetDateTimeField(dr, field, DateTime.Now);
+        }
+        public static DateTime GetDateTimeField(OleDbDataReader dr, string field)
+        {
+            return GetDateTimeField(dr, field, DateTime.Now);
+        }
+
+        /// <summary>
+        /// Safely retrieves DateTime data from a field in  a DataRow
+        /// </summary>
+        /// <param name="dr">The DataRow object</param>
+        /// <param name="field">The name of the field</param>
+        /// <param name="defaultValue"></param>
+        /// <returns>The DateTime value of the field.  The value specified by defaultValue if the field is null, DBNull, or an error is thrown.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
+        /// <exception cref="DataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static DateTime GetDateTimeField(DataRow dr, string field, DateTime defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            DateTime result = defaultValue;
+            try
+            {
+                if ((dr[field] != null) && !(dr[field] is DBNull))
+                {
+                    result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDateTimeField(DataRow, string, DateTime)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static DateTime GetDateTimeField(OleDbDataReader dr, string field, DateTime defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            DateTime result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDateTimeField(OleDbDataReader, string, DateTime)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static Nullable<DateTime> GetNullableDateTimeField(DataRow dr, string field)
+        {
+            return GetNullableDateTimeField(dr, field, null);
+        }
+        public static Nullable<DateTime> GetNullableDateTimeField(OleDbDataReader dr, string field)
+        {
+            return GetNullableDateTimeField(dr, field, null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static Nullable<DateTime> GetNullableDateTimeField(DataRow dr, string field, Nullable<DateTime> defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Nullable<DateTime> result = defaultValue;
+            try
+            {
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                {
+                    result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableDateTimeField(DataRow, string, Nullable<DateTime>)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static Nullable<DateTime> GetNullableDateTimeField(OleDbDataReader dr, string field, Nullable<DateTime> defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Nullable<DateTime> result = defaultValue;
+            try
+            {
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                {
+                    result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableDateTimeField(OleDbDataReader, string, Nullable<DateTime>)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ Single / Float ]
+
+        /// <summary>
+        /// Safely retrieves float data from a field in  a DataRow
+        /// </summary>
+        /// <param name="dataRow">The DataRow object</param>
+        /// <param name="fieldName">The name of the field</param>
+        /// <returns>The float value of the field.  0.0f if the field is null, DBNull, or an error is thrown.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
+        public static float GetSingleField(DataRow dataRow, string fieldName)
+        {
+            if (dataRow == null) throw new ArgumentNullException("dataRow");
+            if (fieldName == null) throw new ArgumentNullException("fieldName");
+
+            try
+            {
+                if (dataRow[fieldName] == null) return 0.0f;
+                if (dataRow[fieldName] is DBNull) return 0.0f;
+                return float.Parse(dataRow[fieldName].ToString(), CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetSingleField(DataRow, string)", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static float GetFloatField(DataRow dr, string field)
+        {
+            return GetFloatField(dr, field, 0);
+        }
+        public static float GetFloatField(OleDbDataReader dr, string field)
+        {
+            return GetFloatField(dr, field, 0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static float GetFloatField(DataRow dr, string field, float defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            float result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToSingle(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetFloatField(DataRow, string, float)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static float GetFloatField(OleDbDataReader dr, string field, float defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            float result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToSingle(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetFloatField(OleDbDataReader, string, float)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ Double ]
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static double GetDoubleField(DataRow dr, string field)
+        {
+            return GetDoubleField(dr, field, 0.0);
+        }
+        public static double GetDoubleField(OleDbDataReader dr, string field)
+        {
+            return GetDoubleField(dr, field, 0.0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static double GetDoubleField(DataRow dr, string field, double defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            double result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(DataRow, string, double)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static double GetDoubleField(OleDbDataReader dr, string field, double defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            double result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(OleDbDataReader, string, double)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static Nullable<double> GetNullableDoubleField(DataRow dr, string field)
+        {
+            return GetNullableDoubleField(dr, field, null);
+        }
+        public static Nullable<double> GetNullableDoubleField(OleDbDataReader dr, string field)
+        {
+            return GetNullableDoubleField(dr, field, null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static Nullable<double> GetNullableDoubleField(DataRow dr, string field, Nullable<double> defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Nullable<double> result = defaultValue;
+            try
+            {
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                {
+                    result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(DataRow, string, Nullable<double>)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static Nullable<double> GetNullableDoubleField(OleDbDataReader dr, string field, Nullable<double> defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Nullable<double> result = defaultValue;
+            try
+            {
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                {
+                    result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(OleDbDataReader, string, Nullable<double>)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ long / Int64 ]
+
+        /// <summary>
+        /// Safely retrieves int data from a field in  a DataRow
+        /// </summary>
+        /// <param name="dataRow">The DataRow object</param>
+        /// <param name="fieldName">The name of the field</param>
+        /// <returns>The long value of the field.  0 if the field is null, DBNull, or an error is thrown.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
+        public static long GetInt64Field(DataRow dataRow, string fieldName)
+        {
+            if (dataRow == null) throw new ArgumentNullException("dataRow");
+            if (fieldName == null) throw new ArgumentNullException("fieldName");
+
+            try
+            {
+                if (dataRow[fieldName] == null) return 0;
+                if (dataRow[fieldName] is DBNull) return 0;
+                return Int64.Parse(dataRow[fieldName].ToString(), CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetInt64Field(DataRow, string)", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static long GetLongField(DataRow dr, string field)
+        {
+            return GetLongField(dr, field, 0);
+        }
+        public static long GetLongField(OleDbDataReader dr, string field)
+        {
+            return GetLongField(dr, field, 0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static long GetLongField(DataRow dr, string field, long defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            long result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToInt64(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetLongField(DataRow, string, long)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static long GetLongField(OleDbDataReader dr, string field, long defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            long result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToInt64(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetLongField(OleDbDataReader, string, long)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ int / Int32 ]
+
+        /// <summary>
+        /// Safely retrieves int data from a field in  a DataRow
+        /// </summary>
+        /// <param name="dataRow">The DataRow object</param>
+        /// <param name="fieldName">The name of the field</param>
+        /// <returns>The int value of the field.  0 if the field is null, DBNull, or an error is thrown.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
+        public static int GetInt32Field(DataRow dataRow, string fieldName)
+        {
+            if (dataRow == null) throw new ArgumentNullException("dataRow");
+            if (fieldName == null) throw new ArgumentNullException("fieldName");
+
+            try
+            {
+                if (dataRow[fieldName] == null) return 0;
+                if (dataRow[fieldName] is DBNull) return 0;
+                return Int32.Parse(dataRow[fieldName].ToString(), CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetInt32Field(DataRow, string)", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static int GetIntField(DataRow dr, string field)
+        {
+            return GetIntField(dr, field, 0);
+        }
+        public static int GetIntField(OleDbDataReader dr, string field)
+        {
+            return GetIntField(dr, field, 0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static int GetIntField(DataRow dr, string field, int defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            int result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetIntField(DataRow, string, int)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static int GetIntField(OleDbDataReader dr, string field, int defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            int result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetIntField(OleDbDataReader, string, int)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        public static Nullable<int> GetNullableIntField(DataRow dr, string field)
+        {
+            return GetNullableIntField(dr, field, null);
+        }
+        public static Nullable<int> GetNullableIntField(OleDbDataReader dr, string field)
+        {
+            return GetNullableIntField(dr, field, null);
+        }
+        public static Nullable<int> GetNullableIntField(DataRow dr, string field, Nullable<int> defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Nullable<int> result = defaultValue;
+            try
+            {
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                {
+                    result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableIntField(DataRow, string, Nullable<int>)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static Nullable<int> GetNullableIntField(OleDbDataReader dr, string field, Nullable<int> defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Nullable<int> result = defaultValue;
+            try
+            {
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                {
+                    result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableIntField(OleDbDataReader, string, Nullable<int>)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ short / Int16 ]
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static short GetShortField(DataRow dr, string field)
+        {
+            return GetShortField(dr, field, 0);
+        }
+        public static short GetShortField(OleDbDataReader dr, string field)
+        {
+            return GetShortField(dr, field, 0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static short GetShortField(DataRow dr, string field, short defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            short result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetShortField(DataRow, string, short)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static short GetShortField(OleDbDataReader dr, string field, short defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            short result = defaultValue;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetShortField(OleDbDataReader, string, short)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static Nullable<short> GetNullableShortField(DataRow dr, string field)
+        {
+            return GetNullableShortField(dr, field, null);
+        }
+        public static Nullable<short> GetNullableShortField(OleDbDataReader dr, string field)
+        {
+            return GetNullableShortField(dr, field, null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="field"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
+        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
+        public static Nullable<short> GetNullableShortField(DataRow dr, string field, Nullable<short> defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Nullable<short> result = defaultValue;
+            try
+            {
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                {
+                    result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableShortField(DataRow, string, Nullable<short>)", ex);
+                throw;
+            }
+            return result;
+        }
+        public static Nullable<short> GetNullableShortField(OleDbDataReader dr, string field, Nullable<short> defaultValue)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Nullable<short> result = defaultValue;
+            try
+            {
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                {
+                    result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableShortField(OleDbDataReader, string, Nullable<short>)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ Guid ]
+
+        public static Guid GetGuidField(OleDbDataReader dr, string field)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            Guid result = Guid.Empty;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = (Guid)(dr[field]);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetGuidField(OleDbDataReader, string)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+
+        #region [ Binary ]
+
+        public static byte[] GetBinaryField(OleDbDataReader dr, string field)
+        {
+            if (dr == null) throw new ArgumentNullException("dr");
+            if (field == null) throw new ArgumentNullException("field");
+
+            byte[] result = null;
+            try
+            {
+                if (!(dr[field] is DBNull))
+                {
+                    result = (byte[])(dr[field]);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBinaryField(OleDbDataReader, string)", ex);
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+    }
+}

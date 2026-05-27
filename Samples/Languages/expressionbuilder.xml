@@ -1,0 +1,849 @@
+<?xml version="1.0" ?> 
+<grammar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="grammar.xsd" name="ExpressionBuilder">
+
+
+	
+	<rule category="S">
+		<category name="NExp"/>
+	</rule>
+
+
+	
+	<rule category="NExp">
+		<category name="NConst"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Ln"/>
+	</rule>
+	<rule category="NExp">
+		<category name="GammaLn"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Pow"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Sqrt"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Min"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Max"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Add"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Sub"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Mult"/>
+	</rule>
+	<rule category="NExp">
+		<category name="Div"/>
+	</rule>
+	<rule category="NExp">
+		<category name="NIfElse"/>
+	</rule>
+	<rule category="NExp">
+		<category name="GetFOAdj"/>
+	</rule>
+	<rule category="NExp">
+		<category name="GetSelectedFOAdj"/>
+	</rule>
+	<rule category="NExp">
+		<category name="GetSDAdj"/>
+	</rule>
+	<rule category="NExp">
+		<category name="GetSelectedSDAdj"/>
+	</rule>
+	<rule category="NExp">
+		<category name="DateDiff"/>
+	</rule>
+    <rule category="NExp">
+        <category terminal="true" name="("/>
+        <category name="NExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+
+
+
+
+	<rule category="NConst">
+		<category name="Number"/>
+	</rule>
+    <rule category="NConst">
+        <category name="Number"/>
+    </rule>
+    <rule category="Ln">
+		<category terminal="true" name="ln"/>
+		<category terminal="true" name="("/>
+		<category name="NExp"/>
+		<category terminal="true" name=")"/>
+	</rule>
+	<rule category="GammaLn">
+		<category terminal="true" name="gammaln"/>
+		<category terminal="true" name="("/>
+		<category name="NExp"/>
+		<category terminal="true" name=")"/>
+	</rule>
+	<rule category="Pow">
+		<category terminal="true" name="pow"/>
+        <category terminal="true" name="("/>
+        <category name="NExp"/>
+		<category terminal="true" name=","/>
+		<category name="NExp"/>
+		<category terminal="true" name=")"/>
+	</rule>
+	<rule category="Sqrt">
+		<category terminal="true" name="sqrt"/>
+        <category terminal="true" name="("/>
+        <category name="NExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="Min">
+		<category terminal="true" name="min"/>
+        <category terminal="true" name="("/>
+        <category name="NExp"/>
+		<category terminal="true" name=","/>
+		<category name="NExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="Max">
+		<category terminal="true" name="max"/>
+        <category terminal="true" name="("/>
+        <category name="NExp"/>
+		<category terminal="true" name=","/>
+		<category name="NExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="Add">
+		<category name="NExp"/>
+		<category terminal="true" name="+"/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="Sub">
+		<category name="NExp"/>
+		<category terminal="true" name="-"/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="Mult">
+		<category name="NExp"/>
+		<category terminal="true" name="*"/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="Div">
+		<category name="NExp"/>
+		<category terminal="true" name="/"/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="NIfElse">
+		<category terminal="true" name="if"/>
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="then"/>
+        <category terminal="true" name="("/>
+        <category name="NExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="else"/>
+        <category terminal="true" name="("/>
+        <category name="NExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="GetFOAdj">
+        <category terminal="true" name="getfoadj"/>
+        <category terminal="true" name="("/>
+        <category name="FOExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="GetSelectedFOAdj">
+        <category terminal="true" name="getselectedfoadj"/>
+        <category terminal="true" name="("/>
+        <category name="FExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="GetSDAdj">
+        <category terminal="true" name="getsdadj"/>
+        <category terminal="true" name="("/>
+        <category name="SDExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="GetSelectedSDAdj">
+        <category terminal="true" name="getselectedsdadj"/>
+        <category terminal="true" name="("/>
+        <category name="RUExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="DateDiff">
+		<category terminal="true" name="datediff"/>
+        <category terminal="true" name="("/>
+        <category name="DExp"/>		
+		<category terminal="true" name=","/>
+		<category name="DExp"/>		
+		<category terminal="true" name=","/>
+		<category name="DatePart"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	
+
+
+	<rule category="DExp">
+		<category name="DConst"/>
+	</rule>
+	<rule category="DExp">
+		<category name="DIfElse"/>
+	</rule>
+	<rule category="DExp">
+		<category name="DateAdd"/>
+	</rule>
+	<rule category="DExp">
+		<category name="DateSub"/>
+	</rule>
+    <rule category="DExp">
+        <category terminal="true" name="("/>
+        <category name="DExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+
+
+
+
+
+
+    <rule category="BExp">
+		<category name="BConst"/>
+	</rule>
+	<rule category="BExp">
+		<category name="Not"/>
+	</rule>
+	<rule category="BExp">
+		<category name="Or"/>
+	</rule>
+	<rule category="BExp">
+		<category name="And"/>
+	</rule>
+	<rule category="BExp">
+		<category name="BIfElse"/>
+	</rule>
+	<rule category="BExp">
+		<category name="NEQ"/>
+	</rule>
+	<rule category="BExp">
+		<category name="NNE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="NLT"/>
+	</rule>
+	<rule category="BExp">
+		<category name="NLTE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="NGT"/>
+	</rule>
+	<rule category="BExp">
+		<category name="NGTE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="DEQ"/>
+	</rule>
+	<rule category="BExp">
+		<category name="DNE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="DLT"/>
+	</rule>
+	<rule category="BExp">
+		<category name="DLTE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="DGT"/>
+	</rule>
+	<rule category="BExp">
+		<category name="DGTE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="RUEQ"/>
+	</rule>
+	<rule category="BExp">
+		<category name="RUNE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="FEQ"/>
+	</rule>
+	<rule category="BExp">
+		<category name="FNE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="SDEQ"/>
+	</rule>
+	<rule category="BExp">
+		<category name="SDNE"/>
+	</rule>
+	<rule category="BExp">
+		<category name="FOEQ"/>
+	</rule>
+	<rule category="BExp">
+		<category name="FONE"/>
+	</rule>
+    <rule category="BExp">
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+
+
+
+
+
+    <rule category="BConst">
+		<category terminal="true" name="true"/>
+	</rule>
+	<rule category="BConst">
+		<category terminal="true" name="false"/>
+	</rule>
+	<rule category="Not">
+		<category terminal="true" name="!"/>
+		<category name="BExp"/>
+	</rule>
+	<rule category="Or">
+		<category name="BExp"/>
+		<category terminal="true" name="||"/>
+		<category name="BExp"/>
+	</rule>
+	<rule category="And">
+		<category name="BExp"/>
+		<category terminal="true" name="&amp;&amp;"/>
+		<category name="BExp"/>
+	</rule>
+	<rule category="BIfElse">
+        <category terminal="true" name="if"/>
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="then"/>
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="else"/>
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="NEQ">
+		<category name="NExp"/>
+		<category terminal="true" name="=="/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="NNE">
+		<category name="NExp"/>
+		<category terminal="true" name="!="/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="NLT">
+		<category name="NExp"/>
+		<category terminal="true" name="&lt;"/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="NLTE">
+		<category name="NExp"/>
+		<category terminal="true" name="&lt;="/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="NGT">
+		<category name="NExp"/>
+		<category terminal="true" name="&gt;"/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="NGTE">
+		<category name="NExp"/>
+		<category terminal="true" name="&gt;="/>
+		<category name="NExp"/>
+	</rule>
+	<rule category="DEQ">
+		<category name="DExp"/>
+		<category terminal="true" name="=="/>
+		<category name="DExp"/>
+	</rule>
+	<rule category="DNE">
+		<category name="DExp"/>
+		<category terminal="true" name="!="/>
+		<category name="DExp"/>
+	</rule>
+	<rule category="DLT">
+		<category name="DExp"/>
+		<category terminal="true" name="&lt;"/>
+		<category name="DExp"/>
+	</rule>
+	<rule category="DLTE">
+		<category name="DExp"/>
+		<category terminal="true" name="&lt;="/>
+		<category name="DExp"/>
+	</rule>
+	<rule category="DGT">
+		<category name="DExp"/>
+		<category terminal="true" name="&gt;"/>
+		<category name="DExp"/>
+	</rule>
+	<rule category="DGTE">
+		<category name="DExp"/>
+		<category terminal="true" name="&gt;="/>
+		<category name="DExp"/>
+	</rule>
+	<rule category="RUEQ">
+		<category name="RUExp"/>
+		<category terminal="true" name="=="/>
+		<category name="RUExp"/>
+	</rule>
+	<rule category="RUNE">
+		<category name="RUExp"/>
+		<category terminal="true" name="!="/>
+		<category name="RUExp"/>
+	</rule>
+	<rule category="FEQ">
+		<category name="FExp"/>
+		<category terminal="true" name="=="/>
+		<category name="FExp"/>
+	</rule>
+	<rule category="FNE">
+		<category name="FExp"/>
+		<category terminal="true" name="!="/>
+		<category name="FExp"/>
+	</rule>
+	<rule category="SDEQ">
+		<category name="SDExp"/>
+		<category terminal="true" name="=="/>
+		<category name="SDExp"/>
+	</rule>
+	<rule category="SDNE">
+		<category name="SDExp"/>
+		<category terminal="true" name="!="/>
+		<category name="SDExp"/>
+	</rule>
+	<rule category="FOEQ">
+		<category name="FOExp"/>
+		<category terminal="true" name="=="/>
+		<category name="FOExp"/>
+	</rule>
+	<rule category="FONE">
+		<category name="FOExp"/>
+		<category terminal="true" name="!="/>
+		<category name="FOExp"/>
+	</rule>
+
+
+
+	<rule category="RUExp">
+		<category name="RUConst"/>
+	</rule>
+	<rule category="RUExp">
+		<category name="RUIfElse"/>
+	</rule>
+    <rule category="RUExp">
+        <category terminal="true" name="("/>
+        <category name="RUExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+
+
+
+
+
+    <rule category="RUConst">
+        <category name="ruid"/>
+    </rule>
+	<rule category="RUIfElse">
+        <category terminal="true" name="if"/>
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="then"/>
+        <category terminal="true" name="("/>
+        <category name="RUExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="else"/>
+        <category terminal="true" name="("/>
+        <category name="RUExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	
+	
+	
+	<rule category="FExp">
+		<category name="FConst"/>
+	</rule>
+	<rule category="FExp">
+		<category name="FIfElse"/>
+	</rule>
+    <rule category="FExp">
+        <category terminal="true" name="("/>
+        <category name="FExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+
+
+
+    <rule category="FConst">
+        <category name="ruid"/>
+        <category terminal="true" name="."/>
+        <category name="fid"/>
+	</rule>
+	<rule category="FIfElse">
+        <category terminal="true" name="if"/>
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="then"/>
+        <category terminal="true" name="("/>
+        <category name="FExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="else"/>
+        <category terminal="true" name="("/>
+        <category name="FExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	
+	
+	
+	<rule category="SDExp">
+		<category name="SDConst"/>
+	</rule>
+	<rule category="SDExp">
+		<category name="SDIfElse"/>
+	</rule>
+	<rule category="SDExp">
+		<category name="GetSelectedSD"/>
+	</rule>
+    <rule category="SDExp">
+        <category terminal="true" name="("/>
+        <category name="SDExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+
+
+
+
+    <rule category="SDConst">
+        <category name="ruid"/>
+        <category terminal="true" name="."/>
+        <category terminal="true" name="subdefinition"/>
+        <category terminal="true" name="."/>
+        <category name="sdid"/>
+    </rule>
+	<rule category="SDIfElse">
+        <category terminal="true" name="if"/>
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="then"/>
+        <category terminal="true" name="("/>
+        <category name="SDExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="else"/>
+        <category terminal="true" name="("/>
+        <category name="SDExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="GetSelectedSD">
+        <category terminal="true" name="getselectedsd"/>
+        <category terminal="true" name="("/>
+        <category name="RUExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	
+	
+	
+	
+	<rule category="FOExp">
+		<category name="FOConst"/>
+	</rule>
+	<rule category="FOExp">
+		<category name="FOIfElse"/>
+	</rule>
+	<rule category="FOExp">
+		<category name="GetSelectedFO"/>
+	</rule>
+    <rule category="FOExp">
+        <category terminal="true" name="("/>
+        <category name="FOExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+
+
+
+
+    <rule category="FOConst">
+        <category name="ruid"/>
+        <category terminal="true" name="."/>
+        <category name="fid"/>
+        <category terminal="true" name="."/>
+        <category name="foid"/>
+    </rule>
+	<rule category="FOIfElse">
+        <category terminal="true" name="if"/>
+        <category terminal="true" name="("/>
+        <category name="BExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="then"/>
+        <category terminal="true" name="("/>
+        <category name="FOExp"/>
+        <category terminal="true" name=")"/>
+        <category terminal="true" name="else"/>
+        <category terminal="true" name="("/>
+        <category name="FOExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+	<rule category="GetSelectedFO">
+        <category terminal="true" name="getselectedfo"/>
+        <category terminal="true" name="("/>
+        <category name="FExp"/>
+        <category terminal="true" name=")"/>
+    </rule>
+
+	
+	
+	<rule category="DatePart">
+		<category terminal="true" name="y"/>
+	</rule>
+	<rule category="DatePart">
+		<category terminal="true" name="m"/>
+	</rule>
+	<rule category="DatePart">
+		<category terminal="true" name="d"/>
+	</rule>
+	<rule category="DatePart">
+		<category terminal="true" name="h"/>
+	</rule>
+	<rule category="DatePart">
+		<category terminal="true" name="n"/>
+	</rule>
+	<rule category="DatePart">
+		<category terminal="true" name="s"/>
+	</rule>
+
+
+
+    <rule category="ruid">
+        <category name="String"/>
+    </rule>
+    <rule category="fid">
+        <category name="String"/>
+    </rule>
+    <rule category="sdid">
+        <category name="String"/>
+    </rule>
+    <rule category="foid">
+        <category name="String"/>
+    </rule>
+
+
+
+    <rule category="String">
+        <category name="String"/>
+        <category name="Char"/>
+    </rule>
+    <rule category="String">
+        <category name="Char"/>
+    </rule>
+    <rule category="String">
+        <category name="Number"/>
+    </rule>
+
+    <rule category="Number">
+        <category name="Integer"/>
+    </rule>
+    <rule category="Number">
+        <category name="Integer"/>
+        <category terminal="true" name="."/>
+        <category name="Integer"/>
+    </rule>
+
+    <rule category="Integer">
+        <category name="Integer"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="0"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="1"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="2"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="3"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="4"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="5"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="6"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="7"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="8"/>
+    </rule>
+    <rule category="Integer">
+        <category terminal="true" name="9"/>
+    </rule>
+    
+    
+    
+    <rule category="Char">
+        <category terminal="true" name="a"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="A"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="b"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="B"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="c"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="C"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="d"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="D"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="e"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="F"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="g"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="G"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="h"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="H"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="i"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="I"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="j"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="J"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="k"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="K"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="l"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="L"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="m"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="M"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="n"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="N"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="o"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="O"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="p"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="P"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="q"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="Q"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="r"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="R"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="s"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="S"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="t"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="T"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="u"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="U"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="v"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="V"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="w"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="W"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="x"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="X"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="y"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="Y"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="z"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="Z"/>
+    </rule>
+
+</grammar>

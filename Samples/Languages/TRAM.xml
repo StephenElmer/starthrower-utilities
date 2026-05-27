@@ -1,0 +1,2295 @@
+﻿<?xml version="1.0" ?>
+<grammar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="grammar.xsd" name="PROMPT">
+
+
+
+    <rule category="S">
+        <category name="BooleanExp"/>
+    </rule>
+    <rule category="S">
+        <category name="DateTimeExp"/>
+    </rule>
+    <rule category="S">
+        <category name="DurationExp"/>
+    </rule>
+    <rule category="S">
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="S">
+        <category name="ModelExp"/>
+    </rule>
+    <rule category="S">
+        <category name="ComponentExp"/>
+    </rule>
+    <rule category="S">
+        <category name="DimensionExp"/>
+    </rule>
+    <rule category="S">
+        <category name="FactorExp"/>
+    </rule>
+    <rule category="S">
+        <category name="OptionExp"/>
+    </rule>
+    <rule category="S">
+        <category name="ComponentCollectionExp"/>
+    </rule>
+    <rule category="S">
+        <category name="DimensionCollectionExp"/>
+    </rule>
+
+
+    <rule category="NumericExp">
+        <category name="NumericConst"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericRand"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericLn"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericGammaLn"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericPow"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericSqrt"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericAcos"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericAsin"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericAtan"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericAtan2"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericCos"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericCosh"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericSin"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericSinh"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericTan"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericTanh"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericLog10"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericMinOf"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericMaxOf"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericAdd"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericSubtract"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericMultiply"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericDivide"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericIfElse"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericGetOAdj"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericGetSelectedOAdj"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="DateTimeDiff"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="DurationDiff"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericWeibull" />
+    </rule>
+    <rule category="NumericExp">
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericGetFactorValue"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericGetDimensionValue"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="ComponentCount"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="DimensionCount"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericProduct"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericSum"/>
+    </rule>
+    <rule category="NumericExp">
+        <category name="NumericMean"/>
+    </rule>
+
+
+    <rule category="NumericConst">
+        <category name="Number"/>
+    </rule>
+    <rule category="NumericRand">
+        <category name="NRand_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericLn">
+        <category name="Ln_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericLn">
+        <category name="openparen"/>
+        <category name="Ln_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericGammaLn">
+        <category name="GammaLn_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericPow">
+        <category name="Pow_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericWeibull">
+        <category name="Weibull_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericSqrt">
+        <category name="Sqrt_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericAcos">
+        <category name="Acos_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericAsin">
+        <category name="Asin_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericAtan">
+        <category name="Atan_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericAtan2">
+        <category name="Atan2_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericCos">
+        <category name="Cos_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericCosh">
+        <category name="Cosh_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericLog10">
+        <category name="Log10_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericSin">
+        <category name="Sin_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericSinh">
+        <category name="Sinh_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericTan">
+        <category name="Tan_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericTanh">
+        <category name="Tanh_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericMinOf">
+        <category name="Min_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericMaxOf">
+        <category name="Max_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericAdd">
+        <category name="NumericExp"/>
+        <category name="plus"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericSubtract">
+        <category name="NumericExp"/>
+        <category name="minus"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericMultiply">
+        <category name="NumericExp"/>
+        <category name="times"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericDivide">
+        <category name="NumericExp"/>
+        <category name="slash"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="NumericExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericGetOAdj">
+        <category name="GetOAdj_kw"/>
+        <category name="openparen"/>
+        <category name="FOExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericGetSelectedOAdj">
+        <category name="GetSelectedOAdj_kw"/>
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DateTimeDiff">
+        <category name="DateTimeDiff_kw"/>
+        <category name="openparen"/>
+        <category name="DateTimeExp"/>
+        <category name="comma"/>
+        <category name="DateTimeExp"/>
+        <category name="comma"/>
+        <category name="DateTimePart"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DurationDiff">
+        <category name="DurationDiff_kw"/>
+        <category name="openparen"/>
+        <category name="DurationExp"/>
+        <category name="comma"/>
+        <category name="DurationExp"/>
+        <category name="comma"/>
+        <category name="DateTimePart"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericGetFactorValue">
+        <category name="ngfv_kw"/>
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericGetDimensionValue">
+        <category name="ngdv_kw"/>
+        <category name="openparen"/>
+        <category name="DimensionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="ComponentCount">
+        <category name="count_kw"/>
+        <category name="openparen"/>
+        <category name="ComponentCollectionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DimensionCount">
+        <category name="count_kw"/>
+        <category name="openparen"/>
+        <category name="DimensionCollectionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericProduct">
+        <category name="nprod_kw"/>
+        <category name="openparen"/>
+        <category name="ComponentCollectionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericProduct">
+        <category name="nprod_kw"/>
+        <category name="openparen"/>
+        <category name="DimensionCollectionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericSum">
+        <category name="nsum_kw"/>
+        <category name="openparen"/>
+        <category name="ComponentCollectionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericSum">
+        <category name="nsum_kw"/>
+        <category name="openparen"/>
+        <category name="DimensionCollectionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericMean">
+        <category name="nmean_kw"/>
+        <category name="openparen"/>
+        <category name="ComponentCollectionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericMean">
+        <category name="nmean_kw"/>
+        <category name="openparen"/>
+        <category name="DimensionCollectionExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+    <rule category="DateTimeExp">
+        <category name="DateTimeConst"/>
+    </rule>
+    <rule category="DateTimeExp">
+        <category name="DateTimeRand"/>
+    </rule>
+    <rule category="DateTimeExp">
+        <category name="DateTimeNow"/>
+    </rule>
+    <rule category="DateTimeExp">
+        <category name="DateTimeIfElse"/>
+    </rule>
+    <rule category="DateTimeExp">
+        <category name="DateTimeAdd"/>
+    </rule>
+    <rule category="DateTimeExp">
+        <category name="DateTimeSubtract"/>
+    </rule>
+    <rule category="DateTimeExp">
+        <category name="openparen"/>
+        <category name="DateTimeExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DateTimeExp">
+        <category name="DateTimeGetFactorValue"/>
+    </rule>
+
+    <rule category="DateTimeConst">
+        <category name="FourDigitNum"/>
+        <category name="minus"/>
+        <category name="TwoDigitNum"/>
+        <category name="minus"/>
+        <category name="TwoDigitNum"/>
+        <category name="T"/>
+        <category name="TwoDigitNum"/>
+        <category name="colon"/>
+        <category name="TwoDigitNum"/>
+        <category name="colon"/>
+        <category name="TwoDigitNum"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+        <category name="Z"/>
+    </rule>
+    <rule category="DateTimeRand">
+        <category name="DateTimeRand_kw"/>
+        <category name="openparen"/>
+        <category name="DateTimeExp"/>
+        <category name="comma"/>
+        <category name="DateTimeExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DateTimeGetFactorValue">
+        <category name="dtgfv_kw"/>
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+    <rule category="FourDigitNum">
+        <category name="Digit"/>
+        <category name="Digit"/>
+        <category name="Digit"/>
+        <category name="Digit"/>
+    </rule>
+
+    <rule category="TwoDigitNum">
+        <category name="Digit"/>
+        <category name="Digit"/>
+    </rule>
+
+
+    <rule category="DateTimeNow">
+        <category name="Now_kw"/>
+    </rule>
+    <rule category="DateTimeAdd">
+        <category name="DateTimeAdd_kw"/>
+        <category name="openparen"/>
+        <category name="DateTimeExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="DateTimePart"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DateTimeSubtract">
+        <category name="DateTimeSub_kw"/>
+        <category name="openparen"/>
+        <category name="DateTimeExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="DateTimePart"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DateTimeIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="DateTimeExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="DateTimeExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="DurationExp">
+        <category name="DurationConst"/>
+    </rule>
+    <rule category="DurationExp">
+        <category name="DurationRand"/>
+    </rule>
+    <rule category="DurationExp">
+        <category name="DurationIfElse"/>
+    </rule>
+    <rule category="DurationExp">
+        <category name="DurationAdd"/>
+    </rule>
+    <rule category="DurationExp">
+        <category name="DurationSubtract"/>
+    </rule>
+    <rule category="DurationExp">
+        <category name="openparen"/>
+        <category name="DurationExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DurationExp">
+        <category name="DurationGetFactorValue"/>
+    </rule>
+
+    <rule category="DurationConst">
+        <category name="P"/>
+        <category name="Integer"/>
+        <category name="Y"/>
+        <category name="Integer"/>
+        <category name="M"/>
+        <category name="Integer"/>
+        <category name="D"/>
+        <category name="T"/>
+        <category name="Integer"/>
+        <category name="H"/>
+        <category name="Integer"/>
+        <category name="M"/>
+        <category name="Integer"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+        <category name="S"/>
+    </rule>
+    <rule category="DurationRand">
+        <category name="DurationRand_kw"/>
+        <category name="openparen"/>
+        <category name="DurationExp"/>
+        <category name="comma"/>
+        <category name="DurationExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DurationAdd">
+        <category name="DurationAdd_kw"/>
+        <category name="openparen"/>
+        <category name="DurationExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="DateTimePart"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DurationSubtract">
+        <category name="DurationSub_kw"/>
+        <category name="openparen"/>
+        <category name="DurationExp"/>
+        <category name="comma"/>
+        <category name="NumericExp"/>
+        <category name="comma"/>
+        <category name="DateTimePart"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DurationIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="DurationExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="DurationExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DurationGetFactorValue">
+        <category name="dugfv_kw"/>
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+    <rule category="BooleanExp">
+        <category name="BooleanConst"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="BooleanRand"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="BooleanNot"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="BooleanOr"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="BooleanAnd"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="BooleanIfElse"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="NumericEQ"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="NumericNE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="NumericLT"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="NumericLTE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="NumericGT"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="NumericGTE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DateTimeEQ"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DateTimeNE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DateTimeLT"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DateTimeLTE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DateTimeGT"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DateTimeGTE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DurationEQ"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DurationNE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DurationLT"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DurationLTE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DurationGT"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DurationGTE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="ModelEQ"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="ModelNE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="ComponentEQ"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="ComponentNE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DimensionEQ"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="DimensionNE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="FactorEQ"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="FactorNE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="OptionEQ"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="OptionNE"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="BooleanExp">
+        <category name="BooleanGetFactorValue"/>
+    </rule>
+
+
+
+
+
+    <rule category="BooleanConst">
+        <category name="True_kw"/>
+    </rule>
+    <rule category="BooleanConst">
+        <category name="False_kw"/>
+    </rule>
+    <rule category="BooleanRand">
+        <category name="BRand_kw"/>
+    </rule>
+    <rule category="BooleanNot">
+        <category name="bang"/>
+        <category name="BooleanExp"/>
+    </rule>
+    <rule category="BooleanOr">
+        <category name="BooleanExp"/>
+        <category name="pipe"/>
+        <category name="pipe"/>
+        <category name="BooleanExp"/>
+    </rule>
+    <rule category="BooleanAnd">
+        <category name="BooleanExp"/>
+        <category name="amp"/>
+        <category name="amp"/>
+        <category name="BooleanExp"/>
+    </rule>
+    <rule category="BooleanIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="NumericEQ">
+        <category name="NumericExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericNE">
+        <category name="NumericExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericLT">
+        <category name="NumericExp"/>
+        <category name="lt"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericLTE">
+        <category name="NumericExp"/>
+        <category name="lt"/>
+        <category name="equals"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericGT">
+        <category name="NumericExp"/>
+        <category name="gt"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="NumericGTE">
+        <category name="NumericExp"/>
+        <category name="gt"/>
+        <category name="equals"/>
+        <category name="NumericExp"/>
+    </rule>
+    <rule category="DateTimeEQ">
+        <category name="DateTimeExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="DateTimeExp"/>
+    </rule>
+    <rule category="DateTimeNE">
+        <category name="DateTimeExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="DateTimeExp"/>
+    </rule>
+    <rule category="DateTimeLT">
+        <category name="DateTimeExp"/>
+        <category name="lt"/>
+        <category name="DateTimeExp"/>
+    </rule>
+    <rule category="DateTimeLTE">
+        <category name="DateTimeExp"/>
+        <category name="lt"/>
+        <category name="equals"/>
+        <category name="DateTimeExp"/>
+    </rule>
+    <rule category="DateTimeGT">
+        <category name="DateTimeExp"/>
+        <category name="gt"/>
+        <category name="DateTimeExp"/>
+    </rule>
+    <rule category="DateTimeGTE">
+        <category name="DateTimeExp"/>
+        <category name="gt"/>
+        <category name="equals"/>
+        <category name="DateTimeExp"/>
+    </rule>
+    <rule category="DurationEQ">
+        <category name="DurationExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="DurationExp"/>
+    </rule>
+    <rule category="DurationNE">
+        <category name="DurationExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="DurationExp"/>
+    </rule>
+    <rule category="DurationLT">
+        <category name="DurationExp"/>
+        <category name="lt"/>
+        <category name="DurationExp"/>
+    </rule>
+    <rule category="DurationLTE">
+        <category name="DurationExp"/>
+        <category name="lt"/>
+        <category name="equals"/>
+        <category name="DurationExp"/>
+    </rule>
+    <rule category="DurationGT">
+        <category name="DurationExp"/>
+        <category name="gt"/>
+        <category name="DurationExp"/>
+    </rule>
+    <rule category="DurationGTE">
+        <category name="DurationExp"/>
+        <category name="gt"/>
+        <category name="equals"/>
+        <category name="DurationExp"/>
+    </rule>
+    <rule category="ModelEQ">
+        <category name="ModelExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="ModelExp"/>
+    </rule>
+    <rule category="ModelNE">
+        <category name="ModelExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="ModelExp"/>
+    </rule>
+    <rule category="ComponentEQ">
+        <category name="ComponentExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="ComponentExp"/>
+    </rule>
+    <rule category="ComponentNE">
+        <category name="ComponentExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="ComponentExp"/>
+    </rule>
+    <rule category="DimensionEQ">
+        <category name="DimensionExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="DimensionExp"/>
+    </rule>
+    <rule category="DimensionNE">
+        <category name="DimensionExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="DimensionExp"/>
+    </rule>
+    <rule category="FactorEQ">
+        <category name="FactorExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="FactorExp"/>
+    </rule>
+    <rule category="FactorNE">
+        <category name="FactorExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="FactorExp"/>
+    </rule>
+    <rule category="OptionEQ">
+        <category name="OptionExp"/>
+        <category name="equals"/>
+        <category name="equals"/>
+        <category name="OptionExp"/>
+    </rule>
+    <rule category="OptionNE">
+        <category name="OptionExp"/>
+        <category name="bang"/>
+        <category name="equals"/>
+        <category name="OptionExp"/>
+    </rule>
+    <rule category="BooleanGetFactorValue">
+        <category name="bgfv_kw"/>
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="ModelExp">
+        <category name="ModelConst"/>
+    </rule>
+    <rule category="ModelExp">
+        <category name="ModelIfElse"/>
+    </rule>
+    <rule category="ModelExp">
+        <category name="openparen"/>
+        <category name="ModelExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+    <rule category="ModelConst">
+        <category name="Model_kw"/>
+        <category name="openparen"/>
+        <category name="GUID"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="ModelIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="ModelExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="ModelExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+    <rule category="ComponentExp">
+        <category name="ComponentConst"/>
+    </rule>
+    <rule category="ComponentExp">
+        <category name="ComponentIfElse"/>
+    </rule>
+    <rule category="ComponentExp">
+        <category name="openparen"/>
+        <category name="ComponentExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+    <rule category="ComponentConst">
+        <category name="Component_kw"/>
+        <category name="openparen"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="ComponentIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="ComponentExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="ComponentExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+    <rule category="ComponentCollectionExp">
+        <category name="GetAllComponents"/>
+    </rule>
+
+    <rule category="GetAllComponents">
+        <category name="Components_kw"/>
+    </rule>
+
+
+    <rule category="DimensionExp">
+        <category name="DimensionConst"/>
+    </rule>
+    <rule category="DimensionExp">
+        <category name="DimensionIfElse"/>
+    </rule>
+    <rule category="DimensionExp">
+        <category name="openparen"/>
+        <category name="DimensionExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="DimensionConst">
+        <category name="Dimension_kw"/>
+        <category name="openparen"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="DimensionIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="DimensionExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="DimensionExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+    <rule category="DimensionCollectionExp">
+        <category name="GetAllDimensions"/>
+    </rule>
+
+
+    <rule category="GetAllDimensions">
+        <category name="Dimensions_kw"/>
+    </rule>
+
+
+    <rule category="FactorExp">
+        <category name="FactorConst"/>
+    </rule>
+    <rule category="FactorExp">
+        <category name="FactorIfElse"/>
+    </rule>
+    <rule category="FactorExp">
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="FactorConst">
+        <category name="Factor_kw"/>
+        <category name="openparen"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="FactorIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+    <rule category="OptionExp">
+        <category name="OptionConst"/>
+    </rule>
+    <rule category="OptionExp">
+        <category name="OptionIfElse"/>
+    </rule>
+    <rule category="OptionExp">
+        <category name="GetSelectedO"/>
+    </rule>
+    <rule category="OptionExp">
+        <category name="openparen"/>
+        <category name="OptionExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+
+
+    <rule category="OptionConst">
+        <category name="Option_kw"/>
+        <category name="openparen"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="comma"/>
+        <category name="GUID"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="OptionIfElse">
+        <category name="If_kw"/>
+        <category name="openparen"/>
+        <category name="BooleanExp"/>
+        <category name="closeparen"/>
+        <category name="Then_kw"/>
+        <category name="openparen"/>
+        <category name="OptionExp"/>
+        <category name="closeparen"/>
+        <category name="Else_kw"/>
+        <category name="openparen"/>
+        <category name="OptionExp"/>
+        <category name="closeparen"/>
+    </rule>
+    <rule category="GetSelectedO">
+        <category name="GetSelectedO_kw"/>
+        <category name="openparen"/>
+        <category name="FactorExp"/>
+        <category name="closeparen"/>
+    </rule>
+
+
+    <!-- Keywords -->
+    <rule category="Components_kw">
+        <category name="c"/>
+        <category name="o"/>
+        <category name="m"/>
+        <category name="p"/>
+        <category name="o"/>
+        <category name="n"/>
+        <category name="e"/>
+        <category name="n"/>
+        <category name="t"/>
+        <category name="s"/>
+    </rule>
+    <rule category="Dimensions_kw">
+        <category name="d"/>
+        <category name="i"/>
+        <category name="m"/>
+        <category name="e"/>
+        <category name="n"/>
+        <category name="s"/>
+        <category name="i"/>
+        <category name="o"/>
+        <category name="n"/>
+        <category name="s"/>
+    </rule>
+    <rule category="count_kw">
+        <category name="c"/>
+        <category name="o"/>
+        <category name="u"/>
+        <category name="n"/>
+        <category name="t"/>
+    </rule>
+    <rule category="nprod_kw">
+        <category name="n"/>
+        <category name="p"/>
+        <category name="r"/>
+        <category name="o"/>
+        <category name="d"/>
+    </rule>
+    <rule category="nsum_kw">
+        <category name="n"/>
+        <category name="s"/>
+        <category name="u"/>
+        <category name="m"/>
+    </rule>
+    <rule category="nmean_kw">
+        <category name="n"/>
+        <category name="m"/>
+        <category name="e"/>
+        <category name="a"/>
+        <category name="n"/>
+    </rule>
+
+    <rule category="bgfv_kw">
+        <category name="b"/>
+        <category name="g"/>
+        <category name="f"/>
+        <category name="v"/>
+    </rule>
+    <rule category="dugfv_kw">
+        <category name="d"/>
+        <category name="u"/>
+        <category name="g"/>
+        <category name="f"/>
+        <category name="v"/>
+    </rule>
+    <rule category="dtgfv_kw">
+        <category name="d"/>
+        <category name="t"/>
+        <category name="g"/>
+        <category name="f"/>
+        <category name="v"/>
+    </rule>
+    <rule category="ngfv_kw">
+        <category name="n"/>
+        <category name="g"/>
+        <category name="f"/>
+        <category name="v"/>
+    </rule>
+    <rule category="ngdv_kw">
+        <category name="n"/>
+        <category name="g"/>
+        <category name="d"/>
+        <category name="v"/>
+    </rule>
+    <rule category="NRand_kw">
+        <category name="n"/>
+        <category name="r"/>
+        <category name="a"/>
+        <category name="n"/>
+        <category name="d"/>
+    </rule>
+    <rule category="BRand_kw">
+        <category name="b"/>
+        <category name="r"/>
+        <category name="a"/>
+        <category name="n"/>
+        <category name="d"/>
+    </rule>
+    <rule category="DateTimeRand_kw">
+        <category name="d"/>
+        <category name="t"/>
+        <category name="r"/>
+        <category name="a"/>
+        <category name="n"/>
+        <category name="d"/>
+    </rule>
+    <rule category="DurationRand_kw">
+        <category name="d"/>
+        <category name="u"/>
+        <category name="r"/>
+        <category name="a"/>
+        <category name="n"/>
+        <category name="d"/>
+    </rule>
+    <rule category="Model_kw">
+        <category name="m"/>
+        <category name="o"/>
+        <category name="d"/>
+        <category name="e"/>
+        <category name="l"/>
+    </rule>
+    <rule category="Component_kw">
+        <category name="c"/>
+        <category name="o"/>
+        <category name="m"/>
+        <category name="p"/>
+        <category name="o"/>
+        <category name="n"/>
+        <category name="e"/>
+        <category name="n"/>
+        <category name="t"/>
+    </rule>
+    <rule category="Dimension_kw">
+        <category name="d"/>
+        <category name="i"/>
+        <category name="m"/>
+        <category name="e"/>
+        <category name="n"/>
+        <category name="s"/>
+        <category name="i"/>
+        <category name="o"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Factor_kw">
+        <category name="f"/>
+        <category name="a"/>
+        <category name="c"/>
+        <category name="t"/>
+        <category name="o"/>
+        <category name="r"/>
+    </rule>
+    <rule category="Option_kw">
+        <category name="o"/>
+        <category name="p"/>
+        <category name="t"/>
+        <category name="i"/>
+        <category name="o"/>
+        <category name="n"/>
+    </rule>
+    <rule category="If_kw">
+        <category name="i"/>
+        <category name="f"/>
+    </rule>
+    <rule category="Then_kw">
+        <category name="t"/>
+        <category name="h"/>
+        <category name="e"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Else_kw">
+        <category name="e"/>
+        <category name="l"/>
+        <category name="s"/>
+        <category name="e"/>
+    </rule>
+    <rule category="True_kw">
+        <category name="t"/>
+        <category name="r"/>
+        <category name="u"/>
+        <category name="e"/>
+    </rule>
+    <rule category="False_kw">
+        <category name="f"/>
+        <category name="a"/>
+        <category name="l"/>
+        <category name="s"/>
+        <category name="e"/>
+    </rule>
+    <rule category="Pow_kw">
+        <category name="p"/>
+        <category name="o"/>
+        <category name="w"/>
+    </rule>
+    <rule category="Weibull_kw">
+        <category name="w"/>
+        <category name="e"/>
+        <category name="i"/>
+        <category name="b"/>
+        <category name="u"/>
+        <category name="l"/>
+        <category name="l"/>
+    </rule>
+    <rule category="Ln_kw">
+        <category name="l"/>
+        <category name="n"/>
+    </rule>
+    <rule category="GammaLn_kw">
+        <category name="g"/>
+        <category name="a"/>
+        <category name="m"/>
+        <category name="m"/>
+        <category name="a"/>
+        <category name="l"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Sqrt_kw">
+        <category name="s"/>
+        <category name="q"/>
+        <category name="r"/>
+        <category name="t"/>
+    </rule>
+    <rule category="Acos_kw">
+        <category name="a"/>
+        <category name="c"/>
+        <category name="o"/>
+        <category name="s"/>
+    </rule>
+    <rule category="Asin_kw">
+        <category name="a"/>
+        <category name="s"/>
+        <category name="i"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Atan_kw">
+        <category name="a"/>
+        <category name="t"/>
+        <category name="a"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Atan2_kw">
+        <category name="a"/>
+        <category name="t"/>
+        <category name="a"/>
+        <category name="n"/>
+        <category name="2"/>
+    </rule>
+    <rule category="Cos_kw">
+        <category name="c"/>
+        <category name="o"/>
+        <category name="s"/>
+    </rule>
+    <rule category="Cosh_kw">
+        <category name="c"/>
+        <category name="o"/>
+        <category name="s"/>
+        <category name="h"/>
+    </rule>
+    <rule category="Log10_kw">
+        <category name="l"/>
+        <category name="o"/>
+        <category name="g"/>
+        <category name="1"/>
+        <category name="0"/>
+    </rule>
+    <rule category="Sin_kw">
+        <category name="s"/>
+        <category name="i"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Sinh_kw">
+        <category name="s"/>
+        <category name="i"/>
+        <category name="n"/>
+        <category name="h"/>
+    </rule>
+    <rule category="Tan_kw">
+        <category name="t"/>
+        <category name="a"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Tanh_kw">
+        <category name="t"/>
+        <category name="a"/>
+        <category name="n"/>
+        <category name="h"/>
+    </rule>
+    <rule category="Min_kw">
+        <category name="m"/>
+        <category name="i"/>
+        <category name="n"/>
+    </rule>
+    <rule category="Max_kw">
+        <category name="m"/>
+        <category name="a"/>
+        <category name="x"/>
+    </rule>
+    <rule category="GetOAdj_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="o"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="j"/>
+    </rule>
+    <rule category="GetSelectedOAdj_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="s"/>
+        <category name="e"/>
+        <category name="l"/>
+        <category name="e"/>
+        <category name="c"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="d"/>
+        <category name="o"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="j"/>
+    </rule>
+    <rule category="DateTimeDiff_kw">
+        <category name="d"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="i"/>
+        <category name="m"/>
+        <category name="e"/>
+        <category name="d"/>
+        <category name="i"/>
+        <category name="f"/>
+        <category name="f"/>
+    </rule>
+    <rule category="DurationDiff_kw">
+        <category name="d"/>
+        <category name="u"/>
+        <category name="r"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="i"/>
+        <category name="o"/>
+        <category name="n"/>
+        <category name="d"/>
+        <category name="i"/>
+        <category name="f"/>
+        <category name="f"/>
+    </rule>
+    <rule category="Now_kw">
+        <category name="n"/>
+        <category name="o"/>
+        <category name="w"/>
+    </rule>
+    <rule category="DateTimeAdd_kw">
+        <category name="d"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="i"/>
+        <category name="m"/>
+        <category name="e"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="d"/>
+    </rule>
+    <rule category="DateTimeSub_kw">
+        <category name="d"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="i"/>
+        <category name="m"/>
+        <category name="e"/>
+        <category name="s"/>
+        <category name="u"/>
+        <category name="b"/>
+    </rule>
+    <rule category="DurationAdd_kw">
+        <category name="d"/>
+        <category name="u"/>
+        <category name="r"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="i"/>
+        <category name="o"/>
+        <category name="n"/>
+        <category name="a"/>
+        <category name="d"/>
+        <category name="d"/>
+    </rule>
+    <rule category="DurationSub_kw">
+        <category name="d"/>
+        <category name="u"/>
+        <category name="r"/>
+        <category name="a"/>
+        <category name="t"/>
+        <category name="i"/>
+        <category name="o"/>
+        <category name="n"/>
+        <category name="s"/>
+        <category name="u"/>
+        <category name="b"/>
+    </rule>
+    <rule category="GetSelectedO_kw">
+        <category name="g"/>
+        <category name="e"/>
+        <category name="t"/>
+        <category name="s"/>
+        <category name="e"/>
+        <category name="l"/>
+        <category name="e"/>
+        <category name="c"/>
+        <category name="t"/>
+        <category name="e"/>
+        <category name="d"/>
+        <category name="o"/>
+    </rule>
+    <!-- [end keywords] -->
+
+    <rule category="DateTimePart">
+        <category name="y"/>
+    </rule>
+    <rule category="DateTimePart">
+        <category name="m"/>
+    </rule>
+    <rule category="DateTimePart">
+        <category name="d"/>
+    </rule>
+    <rule category="DateTimePart">
+        <category name="h"/>
+    </rule>
+    <rule category="DateTimePart">
+        <category name="n"/>
+    </rule>
+    <rule category="DateTimePart">
+        <category name="s"/>
+    </rule>
+
+
+    <rule category="GUID">
+        <category name="openbrace"/>
+        <category name="EightCharLetterOrDigit"/>
+        <category name="minus"/>
+        <category name="FourCharLetterOrDigit"/>
+        <category name="minus"/>
+        <category name="FourCharLetterOrDigit"/>
+        <category name="minus"/>
+        <category name="FourCharLetterOrDigit"/>
+        <category name="minus"/>
+        <category name="TwelveCharLetterOrDigit"/>
+        <category name="closebrace"/>
+    </rule>
+
+    <rule category="EightCharLetterOrDigit">
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+    </rule>
+
+    <rule category="FourCharLetterOrDigit">
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+    </rule>
+
+    <rule category="TwelveCharLetterOrDigit">
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+        <category name="LetterOrDigit"/>
+    </rule>
+
+    <rule category="LetterOrDigit">
+        <category name="LowerCaseLetter"/>
+    </rule>
+    <rule category="LetterOrDigit">
+        <category name="Digit"/>
+    </rule>
+
+    <rule category="Number">
+        <category name="Integer"/>
+    </rule>
+    <rule category="Number">
+        <category name="SignedInteger"/>
+    </rule>
+    <rule category="Number">
+        <category name="Real"/>
+    </rule>
+
+    <rule category="Real">
+        <category name="Integer"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Real">
+        <category name="SignedInteger"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Real">
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Real">
+        <category name="minus"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Real">
+        <category name="plus"/>
+        <category name="dot"/>
+        <category name="Integer"/>
+    </rule>
+
+    <rule category="Integer">
+        <category name="Integer"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="Integer">
+        <category name="Digit"/>
+    </rule>
+
+    <rule category="SignedInteger">
+        <category name="plus"/>
+        <category name="Integer"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="SignedInteger">
+        <category name="plus"/>
+        <category name="Digit"/>
+    </rule>
+    <rule category="SignedInteger">
+        <category name="minus"/>
+        <category name="Integer"/>
+        <category name="Integer"/>
+    </rule>
+    <rule category="SignedInteger">
+        <category name="minus"/>
+        <category name="Digit"/>
+    </rule>
+
+
+
+    <!-- Letter, Digit, Symbol -->
+    <rule category="Letter">
+        <category name="UpperCaseLetter"/>
+    </rule>
+    <rule category="Letter">
+        <category name="LowerCaseLetter"/>
+    </rule>
+
+    <rule category="UpperCaseLetter">
+        <category name="A"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="B"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="C"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="D"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="E"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="F"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="G"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="H"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="I"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="J"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="K"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="L"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="M"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="N"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="O"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="P"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="Q"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="R"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="S"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="T"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="U"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="V"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="W"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="X"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="Y"/>
+    </rule>
+    <rule category="UpperCaseLetter">
+        <category name="Z"/>
+    </rule>
+
+    <rule category="LowerCaseLetter">
+        <category name="a"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="b"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="c"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="d"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="e"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="f"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="g"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="h"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="i"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="j"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="k"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="l"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="m"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="n"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="o"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="p"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="q"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="r"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="s"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="t"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="u"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="v"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="w"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="x"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="y"/>
+    </rule>
+    <rule category="LowerCaseLetter">
+        <category name="z"/>
+    </rule>
+
+
+    <rule category="Digit">
+        <category name="1"/>
+    </rule>
+    <rule category="Digit">
+        <category name="2"/>
+    </rule>
+    <rule category="Digit">
+        <category name="3"/>
+    </rule>
+    <rule category="Digit">
+        <category name="4"/>
+    </rule>
+    <rule category="Digit">
+        <category name="5"/>
+    </rule>
+    <rule category="Digit">
+        <category name="6"/>
+    </rule>
+    <rule category="Digit">
+        <category name="7"/>
+    </rule>
+    <rule category="Digit">
+        <category name="8"/>
+    </rule>
+    <rule category="Digit">
+        <category name="9"/>
+    </rule>
+    <rule category="Digit">
+        <category name="0"/>
+    </rule>
+
+    <rule category="Symbol">
+        <category name="lt"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="gt"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="pipe"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="amp"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="caret"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="hash"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="at"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="openparen"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="closeparen"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="underscore"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="openbrace"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="closebrace"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="openbracket"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="closebracket"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="colon"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="semicolon"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="singlequote"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="doublequote"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="dot"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="slash"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="minus"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="equals"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="plus"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="times"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="bang"/>
+    </rule>
+    <rule category="Symbol">
+        <category name="comma"/>
+    </rule>
+
+
+
+    <!-- terminals -->
+
+    <rule category="a">
+        <category terminal="true" name="a"/>
+    </rule>
+    <rule category="A">
+        <category terminal="true" name="A"/>
+    </rule>
+    <rule category="b">
+        <category terminal="true" name="b"/>
+    </rule>
+    <rule category="B">
+        <category terminal="true" name="B"/>
+    </rule>
+    <rule category="c">
+        <category terminal="true" name="c"/>
+    </rule>
+    <rule category="C">
+        <category terminal="true" name="C"/>
+    </rule>
+    <rule category="d">
+        <category terminal="true" name="d"/>
+    </rule>
+    <rule category="D">
+        <category terminal="true" name="D"/>
+    </rule>
+    <rule category="e">
+        <category terminal="true" name="e"/>
+    </rule>
+    <rule category="E">
+        <category terminal="true" name="E"/>
+    </rule>
+    <rule category="f">
+        <category terminal="true" name="f"/>
+    </rule>
+    <rule category="F">
+        <category terminal="true" name="F"/>
+    </rule>
+    <rule category="g">
+        <category terminal="true" name="g"/>
+    </rule>
+    <rule category="G">
+        <category terminal="true" name="G"/>
+    </rule>
+    <rule category="h">
+        <category terminal="true" name="h"/>
+    </rule>
+    <rule category="H">
+        <category terminal="true" name="H"/>
+    </rule>
+    <rule category="i">
+        <category terminal="true" name="i"/>
+    </rule>
+    <rule category="I">
+        <category terminal="true" name="I"/>
+    </rule>
+    <rule category="j">
+        <category terminal="true" name="j"/>
+    </rule>
+    <rule category="J">
+        <category terminal="true" name="J"/>
+    </rule>
+    <rule category="k">
+        <category terminal="true" name="k"/>
+    </rule>
+    <rule category="K">
+        <category terminal="true" name="K"/>
+    </rule>
+    <rule category="l">
+        <category terminal="true" name="l"/>
+    </rule>
+    <rule category="L">
+        <category terminal="true" name="L"/>
+    </rule>
+    <rule category="m">
+        <category terminal="true" name="m"/>
+    </rule>
+    <rule category="M">
+        <category terminal="true" name="M"/>
+    </rule>
+    <rule category="n">
+        <category terminal="true" name="n"/>
+    </rule>
+    <rule category="N">
+        <category terminal="true" name="N"/>
+    </rule>
+    <rule category="o">
+        <category terminal="true" name="o"/>
+    </rule>
+    <rule category="O">
+        <category terminal="true" name="O"/>
+    </rule>
+    <rule category="p">
+        <category terminal="true" name="p"/>
+    </rule>
+    <rule category="P">
+        <category terminal="true" name="P"/>
+    </rule>
+    <rule category="q">
+        <category terminal="true" name="q"/>
+    </rule>
+    <rule category="Q">
+        <category terminal="true" name="Q"/>
+    </rule>
+    <rule category="r">
+        <category terminal="true" name="r"/>
+    </rule>
+    <rule category="R">
+        <category terminal="true" name="R"/>
+    </rule>
+    <rule category="s">
+        <category terminal="true" name="s"/>
+    </rule>
+    <rule category="S">
+        <category terminal="true" name="S"/>
+    </rule>
+    <rule category="t">
+        <category terminal="true" name="t"/>
+    </rule>
+    <rule category="T">
+        <category terminal="true" name="T"/>
+    </rule>
+    <rule category="u">
+        <category terminal="true" name="u"/>
+    </rule>
+    <rule category="U">
+        <category terminal="true" name="U"/>
+    </rule>
+    <rule category="v">
+        <category terminal="true" name="v"/>
+    </rule>
+    <rule category="V">
+        <category terminal="true" name="V"/>
+    </rule>
+    <rule category="w">
+        <category terminal="true" name="w"/>
+    </rule>
+    <rule category="W">
+        <category terminal="true" name="W"/>
+    </rule>
+    <rule category="x">
+        <category terminal="true" name="x"/>
+    </rule>
+    <rule category="X">
+        <category terminal="true" name="X"/>
+    </rule>
+    <rule category="y">
+        <category terminal="true" name="y"/>
+    </rule>
+    <rule category="Y">
+        <category terminal="true" name="Y"/>
+    </rule>
+    <rule category="z">
+        <category terminal="true" name="z"/>
+    </rule>
+    <rule category="Z">
+        <category terminal="true" name="Z"/>
+    </rule>
+
+    <rule category="1">
+        <category terminal="true" name="1"/>
+    </rule>
+    <rule category="2">
+        <category terminal="true" name="2"/>
+    </rule>
+    <rule category="3">
+        <category terminal="true" name="3"/>
+    </rule>
+    <rule category="4">
+        <category terminal="true" name="4"/>
+    </rule>
+    <rule category="5">
+        <category terminal="true" name="5"/>
+    </rule>
+    <rule category="6">
+        <category terminal="true" name="6"/>
+    </rule>
+    <rule category="7">
+        <category terminal="true" name="7"/>
+    </rule>
+    <rule category="8">
+        <category terminal="true" name="8"/>
+    </rule>
+    <rule category="9">
+        <category terminal="true" name="9"/>
+    </rule>
+    <rule category="0">
+        <category terminal="true" name="0"/>
+    </rule>
+
+    <rule category="comma">
+        <category terminal="true" name=","/>
+    </rule>
+    <rule category="bang">
+        <category terminal="true" name="!"/>
+    </rule>
+    <rule category="times">
+        <category terminal="true" name="*"/>
+    </rule>
+    <rule category="plus">
+        <category terminal="true" name="+"/>
+    </rule>
+    <rule category="equals">
+        <category terminal="true" name="="/>
+    </rule>
+    <rule category="minus">
+        <category terminal="true" name="-"/>
+    </rule>
+    <rule category="slash">
+        <category terminal="true" name="/"/>
+    </rule>
+    <rule category="dot">
+        <category terminal="true" name="."/>
+    </rule>
+    <rule category="lt">
+        <category terminal="true" name="&lt;"/>
+    </rule>
+    <rule category="gt">
+        <category terminal="true" name="&gt;"/>
+    </rule>
+    <rule category="pipe">
+        <category terminal="true" name="|"/>
+    </rule>
+    <rule category="amp">
+        <category terminal="true" name="&amp;"/>
+    </rule>
+    <rule category="caret">
+        <category terminal="true" name="^"/>
+    </rule>
+    <rule category="hash">
+        <category terminal="true" name="#"/>
+    </rule>
+    <rule category="at">
+        <category terminal="true" name="@"/>
+    </rule>
+    <rule category="openparen">
+        <category terminal="true" name="("/>
+    </rule>
+    <rule category="closeparen">
+        <category terminal="true" name=")"/>
+    </rule>
+    <rule category="underscore">
+        <category terminal="true" name="_"/>
+    </rule>
+    <rule category="openbrace">
+        <category terminal="true" name="{"/>
+    </rule>
+    <rule category="closebrace">
+        <category terminal="true" name="}"/>
+    </rule>
+    <rule category="openbracket">
+        <category terminal="true" name="["/>
+    </rule>
+    <rule category="closebracket">
+        <category terminal="true" name="]"/>
+    </rule>
+    <rule category="colon">
+        <category terminal="true" name=":"/>
+    </rule>
+    <rule category="semicolon">
+        <category terminal="true" name=";"/>
+    </rule>
+    <rule category="singlequote">
+        <category terminal="true" name="&apos;"/>
+    </rule>
+    <rule category="doublequote">
+        <category terminal="true" name="&quot;"/>
+    </rule>
+
+</grammar>

@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+
+<!--
+	Test grammar for Pep. For category S, should license strings like:
+		Mary saw the man
+		Mary saw the man in the park
+		Mary saw the man in the park with the telescope
+		Mary saw the man in the park with the telescope at midnight
+		etc.
+	Should have 2 parses for Mary saw her duck.
+	Should not license string like (for category S):
+		Mary midnight
+		Mary saw the the telescope
+-->
+<grammar name="tiny">
+    <rule category="S">
+        <category name="phrase"/>
+        <category name="whitespace"/>
+        <category name="phrase"/>
+    </rule>
+
+    <rule category="phrase">
+        <category name="token"/>
+    </rule>
+    <rele category="phrase">
+        <category name="phrase"/>
+        <category name="whitespace"/>
+        <category name="token"/>
+    </rele>
+
+    
+    
+    
+    <rule category="whitespace">
+        <category name="whitespacechar"/>    
+    </rule>
+    <rule category="whitespace">
+        <category name="whitespace"/>
+        <category name="whitespacechar"/>
+    </rule>
+
+
+    <rule category="whitespacechar">
+        <category name="blank"/>
+    </rule>
+    <rule category="whitespacechar">
+        <category name="tab"/>
+    </rule>
+
+
+    <rule category="blank">
+        <category terminal="true" name="&#032;"/>
+    </rule>
+    <rule category="tab">
+        <category terminal="true" name="&#009;"/>
+    </rule>
+
+
+
+    <rule category="token">
+        <category name="Char"/>
+    </rule>
+    <rule category="token">
+        <category name="token"/>
+        <category name="Char"/>
+    </rule>
+
+
+    <rule category="Char">
+        <category terminal="true" name="a"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="A"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="b"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="B"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="c"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="C"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="d"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="D"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="e"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="F"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="g"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="G"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="h"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="H"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="i"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="I"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="j"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="J"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="k"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="K"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="l"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="L"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="m"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="M"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="n"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="N"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="o"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="O"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="p"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="P"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="q"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="Q"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="r"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="R"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="s"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="S"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="t"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="T"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="u"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="U"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="v"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="V"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="w"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="W"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="x"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="X"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="y"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="Y"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="z"/>
+    </rule>
+    <rule category="Char">
+        <category terminal="true" name="Z"/>
+    </rule>
+
+</grammar>

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<!--
+	Test grammar for Pep. For category S, should license strings like:
+		Mary saw the man
+		Mary saw the man in the park
+		Mary saw the man in the park with the telescope
+		Mary saw the man in the park with the telescope at midnight
+		etc.
+	Should have 2 parses for Mary saw her duck.
+	Should not license string like (for category S):
+		Mary midnight
+		Mary saw the the telescope
+-->
+<grammar name="tiny">
+
+    
+    <rule category="S">
+        <category name="phrase"/>
+        <category name="whitespace"/>
+        <category name="phrase"/>
+    </rule>
+
+
+
+    <rule category="phrase">
+        <category name="token"/>
+    </rule>
+    <rele category="phrase">
+        <category name="phrase"/>
+        <category name="whitespaceopt"/>
+        <category name="token"/>
+    </rele>
+
+
+
+    <rule category="whitespaceopt">
+        <category name="whitespace"/>
+    </rule>
+    <rule category="whitespaceopt">
+        <category terminal="true" name=""/>
+    </rule>    
+    
+
+    <rule category="whitespace">
+        <category name="whitespacechar"/>    
+    </rule>
+    <rule category="whitespace">
+        <category name="whitespace"/>
+        <category name="whitespacechar"/>
+    </rule>
+
+    
+    <rule category="whitespacechar">
+        <category terminal="true" name="&#032;"/>
+    </rule>
+    <rule category="whitespacechar">
+        <category terminal="true" name="&#009;"/>
+    </rule>
+
+
+
+    <rule category="token">
+        <category name="Mary"/>
+    </rule>
+    <rule category="token">
+        <category name="left"/>
+    </rule>
+
+
+    <rule category="Mary">
+        <category terminal="true" name="M"/>
+        <category terminal="true" name="a"/>
+        <category terminal="true" name="r"/>
+        <category terminal="true" name="y"/>
+    </rule>
+    <rule category="left">
+        <category terminal="true" name="l"/>
+        <category terminal="true" name="e"/>
+        <category terminal="true" name="f"/>
+        <category terminal="true" name="t"/>
+    </rule>
+
+    
+
+
+</grammar>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dictionary>
+    <Words>
+        <Recognized>
+            <Word>Util</Word>
+        </Recognized>
+    </Words>
+    <!--
+    <Acronyms>
+        <CasingExceptions>
+            <Acronym>Cr</Acronym>
+            <Acronym>Lf</Acronym>
+        </CasingExceptions>
+    </Acronyms>
+    -->
+</Dictionary>

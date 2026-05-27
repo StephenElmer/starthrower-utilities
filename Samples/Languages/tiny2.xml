@@ -1,0 +1,367 @@
+<?xml version="1.0"?>
+
+<!--
+	Test grammar for Pep. For category S, should license strings like:
+		Mary saw the man
+		Mary saw the man in the park
+		Mary saw the man in the park with the telescope
+		Mary saw the man in the park with the telescope at midnight
+		etc.
+	Should have 2 parses for Mary saw her duck.
+	Should not license string like (for category S):
+		Mary midnight
+		Mary saw the the telescope
+-->
+<grammar name="tiny">
+    
+	<rule category="S">
+		<category name="NP"/>
+        <category name="space"/>
+        <category name="VP"/>
+	</rule>
+
+
+
+    <rule category="NP">
+        <category name="Det"/>
+        <category name="space"/>
+        <category name="N"/>
+    </rule>
+    <rule category="NP">
+        <category name="her"/>
+    </rule>
+    <rule category="NP">
+        <category name="mary"/>
+    </rule>
+    <rule category="NP">
+        <category name="midnight"/>
+    </rule>
+
+    
+    
+    <rule category="VP">
+		<category name="VP"/>
+        <category name="space"/>
+		<category name="PP"/>
+	</rule>
+    <rule category="VP">
+		<category name="VT"/>
+        <category name="space"/>
+        <category name="NP"/>
+	</rule>
+	<rule category="VP">
+		<category name="VS"/>
+        <category name="space"/>
+        <category name="S"/>
+	</rule>
+    <rule category="VP">
+        <category name="left"/>
+    </rule>
+    <rule category="VP">
+        <category name="duck"/>
+    </rule>
+
+    
+    
+    <rule category="N">
+		<category name="N"/>
+        <category name="space"/>
+        <category name="PP"/>
+	</rule>
+    <rule category="N">
+        <category name="dragon"/>
+    </rule>
+    <rule category="N">
+        <category name="telescope"/>
+    </rule>
+    <rule category="N">
+        <category name="man"/>
+    </rule>
+    <rule category="N">
+        <category name="cave"/>
+    </rule>
+    <rule category="N">
+        <category name="park"/>
+    </rule>
+    <rule category="N">
+        <category name="duck"/>
+    </rule>
+
+    
+    
+    <rule category="PP">
+		<category name="P"/>
+        <category name="space"/>
+        <category name="NP"/>
+	</rule>
+    <rule category="PP">
+        <category name="there"/>
+    </rule>
+
+    
+	
+    
+    
+    <rule category="Det">
+		<category name="the"/>
+	</rule>
+	<rule category="Det">
+		<category name="a"/>
+	</rule>
+	<rule category="Det">
+		<category name="her"/>
+	</rule>
+	
+	
+	
+    <rule category="VS">
+		<category name="thought"/>
+	</rule>
+    <rule category="VS">
+        <category name="saw"/>
+    </rule>
+
+    
+    
+    <rule category="VT">
+		<category name="saw"/>
+	</rule>
+    <rule category="VT">
+        <category name="loved"/>
+    </rule>
+
+    
+    
+    <rule category="P">
+        <category name="in"/>
+    </rule>
+    <rule category="P">
+        <category name="at"/>
+    </rule>
+    <rule category="P">
+        <category name="with"/>
+    </rule>
+
+
+
+
+    <rule category="at">
+        <category name="a"/>
+        <category name="t"/>
+    </rule>
+    <rule category="cave">
+        <category name="c"/>
+        <category name="a"/>
+        <category name="v"/>
+        <category name="e"/>
+    </rule>
+    <rule category="dragon">
+        <category name="d"/>
+        <category name="r"/>
+        <category name="a"/>
+        <category name="g"/>
+        <category name="o"/>
+        <category name="n"/>
+    </rule>
+    <rule category="duck">
+        <category name="d"/>
+        <category name="u"/>
+        <category name="c"/>
+        <category name="k"/>
+    </rule>
+    <rule category="her">
+        <category name="h"/>
+        <category name="e"/>
+        <category name="r"/>
+    </rule>
+    <rule category="in">
+        <category name="i"/>
+        <category name="n"/>
+    </rule>
+    <rule category="left">
+        <category name="l"/>
+        <category name="e"/>
+        <category name="f"/>
+        <category name="t"/>
+    </rule>
+    <rule category="loved">
+        <category name="l"/>
+        <category name="o"/>
+        <category name="v"/>
+        <category name="e"/>
+        <category name="d"/>
+    </rule>
+    <rule category="man">
+        <category name="m"/>
+        <category name="a"/>
+        <category name="n"/>
+    </rule>
+    <rule category="mary">
+        <category name="m"/>
+        <category name="a"/>
+        <category name="r"/>
+        <category name="y"/>
+    </rule>
+    <rule category="midnight">
+        <category name="m"/>
+        <category name="i"/>
+        <category name="d"/>
+        <category name="n"/>
+        <category name="i"/>
+        <category name="g"/>
+        <category name="h"/>
+        <category name="t"/>
+    </rule>
+    <rule category="park">
+        <category name="p"/>
+        <category name="a"/>
+        <category name="r"/>
+        <category name="k"/>
+    </rule>
+    <rule category="saw">
+        <category name="s"/>
+        <category name="a"/>
+        <category name="w"/>
+    </rule>
+    <rule category="telescope">
+        <category name="t"/>
+        <category name="e"/>
+        <category name="l"/>
+        <category name="e"/>
+        <category name="s"/>
+        <category name="c"/>
+        <category name="o"/>
+        <category name="p"/>
+        <category name="e"/>
+    </rule>
+    <rule category="the">
+        <category name="t"/>
+        <category name="h"/>
+        <category name="e"/>
+    </rule>
+    <rule category="there">
+        <category name="t"/>
+        <category name="h"/>
+        <category name="e"/>
+        <category name="r"/>
+        <category name="e"/>
+    </rule>
+    <rule category="thought">
+        <category name="t"/>
+        <category name="h"/>
+        <category name="o"/>
+        <category name="u"/>
+        <category name="g"/>
+        <category name="h"/>
+        <category name="t"/>
+    </rule>
+    <rule category="with">
+        <category name="w"/>
+        <category name="i"/>
+        <category name="t"/>
+        <category name="h"/>
+    </rule>
+
+
+    <rule category="space">
+        <category name="["/>
+        <category name="s"/>
+        <category name="p"/>
+        <category name="]"/>
+    </rule>
+    <rule category="space">
+        <category name="spc"/>
+    </rule>
+    
+
+    <rule category="[">
+        <category terminal="true" name="["/>
+    </rule>
+    <rule category="]">
+        <category terminal="true" name="]"/>
+    </rule>
+
+    <rule category="spc">
+        <category terminal="true" name=" "/>
+    </rule>
+
+    <rule category="a">
+        <category terminal="true" name="a"/>
+    </rule>
+    <rule category="b">
+        <category terminal="true" name="b"/>
+    </rule>
+    <rule category="c">
+        <category terminal="true" name="c"/>
+    </rule>
+    <rule category="d">
+        <category terminal="true" name="d"/>
+    </rule>
+    <rule category="e">
+        <category terminal="true" name="e"/>
+    </rule>
+    <rule category="f">
+        <category terminal="true" name="f"/>
+    </rule>
+    <rule category="g">
+        <category terminal="true" name="g"/>
+    </rule>
+    <rule category="h">
+        <category terminal="true" name="h"/>
+    </rule>
+    <rule category="i">
+        <category terminal="true" name="i"/>
+    </rule>
+    <rule category="j">
+        <category terminal="true" name="j"/>
+    </rule>
+    <rule category="k">
+        <category terminal="true" name="k"/>
+    </rule>
+    <rule category="l">
+        <category terminal="true" name="l"/>
+    </rule>
+    <rule category="m">
+        <category terminal="true" name="m"/>
+    </rule>
+    <rule category="n">
+        <category terminal="true" name="n"/>
+    </rule>
+    <rule category="o">
+        <category terminal="true" name="o"/>
+    </rule>
+    <rule category="p">
+        <category terminal="true" name="p"/>
+    </rule>
+    <rule category="q">
+        <category terminal="true" name="q"/>
+    </rule>
+    <rule category="r">
+        <category terminal="true" name="r"/>
+    </rule>
+    <rule category="s">
+        <category terminal="true" name="s"/>
+    </rule>
+    <rule category="t">
+        <category terminal="true" name="t"/>
+    </rule>
+    <rule category="u">
+        <category terminal="true" name="u"/>
+    </rule>
+    <rule category="v">
+        <category terminal="true" name="v"/>
+    </rule>
+    <rule category="w">
+        <category terminal="true" name="w"/>
+    </rule>
+    <rule category="x">
+        <category terminal="true" name="x"/>
+    </rule>
+    <rule category="y">
+        <category terminal="true" name="y"/>
+    </rule>
+    <rule category="z">
+        <category terminal="true" name="z"/>
+    </rule>
+
+</grammar>

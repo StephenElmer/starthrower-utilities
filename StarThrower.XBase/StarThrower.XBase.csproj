@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{98F85930-E405-4A5C-8982-9D48E5F4171F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StarThrower.XBase</RootNamespace>
+    <AssemblyName>StarThrower.XBase</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\StarThrower.public.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>true</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BadDataException.cs" />
+    <Compile Include="BooleanField.cs" />
+    <Compile Include="DateField.cs" />
+    <Compile Include="FieldType.cs" />
+    <Compile Include="FieldNotFoundException.cs" />
+    <Compile Include="FloatField.cs" />
+    <Compile Include="Internal\Field.cs" />
+    <Compile Include="Internal\FieldCollection.cs" />
+    <Compile Include="Internal\File.cs" />
+    <Compile Include="Internal\FileHeader.cs" />
+    <Compile Include="Internal\Record.cs" />
+    <Compile Include="Internal\RecordCollection.cs" />
+    <Compile Include="InvalidDataTypeException.cs" />
+    <Compile Include="InvalidDecimalCountException.cs" />
+    <Compile Include="InvalidFieldLengthException.cs" />
+    <Compile Include="MemoField.cs" />
+    <Compile Include="NumericField.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StringField.cs" />
+    <Compile Include="UndefinedField.cs" />
+    <Compile Include="XBase.cs" />
+    <Compile Include="XBaseField.cs" />
+    <Compile Include="XBaseFieldCollection.cs" />
+    <Compile Include="XBaseFile.cs" />
+    <Compile Include="XBaseRecord.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\StarThrower.public.snk">
+      <Link>StarThrower.public.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StarThrower.ByteUtilities\StarThrower.ByteUtilities.csproj">
+      <Project>{ae629497-b0cc-4680-a62e-3900c3493c94}</Project>
+      <Name>StarThrower.ByteUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StarThrower.Logging\StarThrower.Logging.csproj">
+      <Project>{1b9836c2-7070-4205-9c46-91a86569a7b6}</Project>
+      <Name>StarThrower.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StarThrower.StringUtilities\StarThrower.StringUtilities.csproj">
+      <Project>{29c73ecc-4b0c-4894-9cf6-732e045fc4fb}</Project>
+      <Name>StarThrower.StringUtilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe" -R "$(TargetPath)" "D:\Keys\StarThrower\StarThrower.snk"
+copy $(TargetPath) $(SolutionDir)..\Deploy\$(TargetFileName)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

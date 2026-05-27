@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<grammar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="grammar.xsd" name="Earley">
+    
+    <rule category="S">
+        <category name="E"/>
+    </rule>
+
+    <rule category="E">
+        <category name="T"/>
+    </rule>
+    <rule category="E">
+        <category name="E"/>
+        <category terminal="true" name="+"/>
+        <category name="T"/>
+    </rule>
+
+    <rule category="T">
+        <category name="p"/>
+    </rule>
+    <rule category="T">
+        <category name="T"/>
+        <category terminal="true" name="*"/>
+        <category name="p"/>
+    </rule>
+
+    <rule category="p">
+        <category terminal="true" name="a"/>
+    </rule>
+
+</grammar>

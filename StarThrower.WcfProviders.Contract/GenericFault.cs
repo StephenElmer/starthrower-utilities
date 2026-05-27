@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+
+namespace StarThrower.WcfProviders.Contract
+{
+    [DataContract]
+    public class GenericFault
+    {
+        private string _message = String.Empty;
+
+        [DataMember]
+        public string Message
+        {
+            get { return _message; }
+            set { _message = value; }
+        }
+
+        public GenericFault() { }
+
+        public GenericFault(string message)
+        {
+            _message = message;
+        }
+    }
+}

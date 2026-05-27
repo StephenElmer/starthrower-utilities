@@ -1,0 +1,55 @@
+/***********************************************************************************
+    StarThrower Utilities
+    Copyright (C) 2005-2007  Steve Elmer
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+***********************************************************************************/
+
+using System;
+
+namespace StarThrower.Gis.GeoUtilities.Datums
+{
+    /// <summary>
+    /// ESRI ArgIMS: Arc_1950_To_WGS_1984_1
+    /// NGIA GeoTrans: ARC 1950, Mean
+    /// Ellipsoid: Clarke_1880_RGS,  DeltaX: -143,  SigmaX: 20,  DeltaY: -90,  SigmaY: 33,  DeltaZ: -294,  SigmaZ: 20,  RotationX: 0,  RotationY: 0,  RotationZ: 0,  ScaleFactor: 1,  North: 10,  South: -36,  East: 42,  West: 4
+    /// </summary>
+    public class Arc1950Mean : Datum
+    {
+        public override bool IsSevenParamDatum
+        {
+            get { return false; }
+        }
+
+        internal Arc1950Mean()
+        {
+            this.Ellipsoid = new Ellipsoids.Clarke1880Rgs();
+            this.DeltaX = -143;
+            this.SigmaX = 20;
+            this.DeltaY = -90;
+            this.SigmaY = 33;
+            this.DeltaZ = -294;
+            this.SigmaZ = 20;
+            this.RotationX = 0;
+            this.RotationY = 0;
+            this.RotationZ = 0;
+            this.RotationScaleFactor = 1;
+            this.Domain.Top = 10;
+            this.Domain.Left = 4;
+            this.Domain.Bottom = -36;
+            this.Domain.Right = 42;
+        }
+    }
+}

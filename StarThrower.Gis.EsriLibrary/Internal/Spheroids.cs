@@ -1,0 +1,210 @@
+/***********************************************************************************
+    StarThrower Utilities
+    Copyright (C) 2005-2007  Steve Elmer
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+***********************************************************************************/
+
+using System;
+
+namespace StarThrower.Gis.EsriLibrary
+{
+    internal static class Spheroids
+    {
+        internal const string Airy_1830 = "Airy_1830";
+        internal const string Airy_Modified = "Airy_Modified";
+        internal const string ATS_1977 = "ATS_1977";
+        internal const string Australian = "Australian";
+        internal const string Bessel_1841 = "Bessel_1841";
+        internal const string Bessel_Modified = "Bessel_Modified";
+        internal const string Bessel_Namibia = "Bessel_Namibia";
+        internal const string Clarke_1858 = "Clarke_1858";
+        internal const string Clarke_1866 = "Clarke_1866";
+        internal const string Clarke_1866_Michigan = "Clarke_1866_Michigan";
+        internal const string Clarke_1880 = "Clarke_1880";
+        internal const string Clarke_1880_Arc = "Clarke_1880_Arc";
+        internal const string Clarke_1880_Benoit = "Clarke_1880_Benoit";
+        internal const string Clarke_1880_IGN = "Clarke_1880_IGN";
+        internal const string Clarke_1880_RGS = "Clarke_1880_RGS";
+        internal const string Everest_1830 = "Everest_1830";
+        internal const string Everest_1830_Modified = "Everest_1830_Modified";
+        internal const string Everest_Adjustment_1937 = "Everest_Adjustment_1937";
+        internal const string Everest_Definition_1962 = "Everest_Definition_1962";
+        internal const string Everest_Definition_1967 = "Everest_Definition_1967";
+        internal const string Everest_Definition_1975 = "Everest_Definition_1975";
+        internal const string Everest_Modified_1969 = "Everest_Modified_1969";
+        internal const string GRS_1967 = "GRS_1967";
+        internal const string GRS_1967_Truncated = "GRS_1967_Truncated";
+        internal const string GRS_1980 = "GRS_1980";
+        internal const string GRS_1980_Adj_WI_AD_JN = "GRS_1980_Adj_WI_AD_JN";
+        internal const string GRS_1980_Adj_WI_AL = "GRS_1980_Adj_WI_AL";
+        internal const string GRS_1980_Adj_WI_BA = "GRS_1980_Adj_WI_BA";
+        internal const string GRS_1980_Adj_WI_BF = "GRS_1980_Adj_WI_BF";
+        internal const string GRS_1980_Adj_WI_BN = "GRS_1980_Adj_WI_BN";
+        internal const string GRS_1980_Adj_WI_BR = "GRS_1980_Adj_WI_BR";
+        internal const string GRS_1980_Adj_WI_BU = "GRS_1980_Adj_WI_BU";
+        internal const string GRS_1980_Adj_WI_CK = "GRS_1980_Adj_WI_CK";
+        internal const string GRS_1980_Adj_WI_CL_FL_OG_WN = "GRS_1980_Adj_WI_CL_FL_OG_WN";
+        internal const string GRS_1980_Adj_WI_CO = "GRS_1980_Adj_WI_CO";
+        internal const string GRS_1980_Adj_WI_CP = "GRS_1980_Adj_WI_CP";
+        internal const string GRS_1980_Adj_WI_CR = "GRS_1980_Adj_WI_CR";
+        internal const string GRS_1980_Adj_WI_DD_JF = "GRS_1980_Adj_WI_DD_JF";
+        internal const string GRS_1980_Adj_WI_DG = "GRS_1980_Adj_WI_DG";
+        internal const string GRS_1980_Adj_WI_DN = "GRS_1980_Adj_WI_DN";
+        internal const string GRS_1980_Adj_WI_DR = "GRS_1980_Adj_WI_DR";
+        internal const string GRS_1980_Adj_WI_DU = "GRS_1980_Adj_WI_DU";
+        internal const string GRS_1980_Adj_WI_EC = "GRS_1980_Adj_WI_EC";
+        internal const string GRS_1980_Adj_WI_FN = "GRS_1980_Adj_WI_FN";
+        internal const string GRS_1980_Adj_WI_FR = "GRS_1980_Adj_WI_FR";
+        internal const string GRS_1980_Adj_WI_GL_MQ = "GRS_1980_Adj_WI_GL_MQ";
+        internal const string GRS_1980_Adj_WI_GR_LF = "GRS_1980_Adj_WI_GR_LF";
+        internal const string GRS_1980_Adj_WI_GT = "GRS_1980_Adj_WI_GT";
+        internal const string GRS_1980_Adj_WI_IA = "GRS_1980_Adj_WI_IA";
+        internal const string GRS_1980_Adj_WI_IR = "GRS_1980_Adj_WI_IR";
+        internal const string GRS_1980_Adj_WI_JA = "GRS_1980_Adj_WI_JA";
+        internal const string GRS_1980_Adj_WI_KN_MW_OZ_RA = "GRS_1980_Adj_WI_KN_MW_OZ_RA";
+        internal const string GRS_1980_Adj_WI_KW_MT_SG = "GRS_1980_Adj_WI_KW_MT_SG";
+        internal const string GRS_1980_Adj_WI_LC = "GRS_1980_Adj_WI_LC";
+        internal const string GRS_1980_Adj_WI_LG = "GRS_1980_Adj_WI_LG";
+        internal const string GRS_1980_Adj_WI_LN = "GRS_1980_Adj_WI_LN";
+        internal const string GRS_1980_Adj_WI_MA = "GRS_1980_Adj_WI_MA";
+        internal const string GRS_1980_Adj_WI_ME = "GRS_1980_Adj_WI_ME";
+        internal const string GRS_1980_Adj_WI_MN = "GRS_1980_Adj_WI_MN";
+        internal const string GRS_1980_Adj_WI_MR = "GRS_1980_Adj_WI_MR";
+        internal const string GRS_1980_Adj_WI_OC = "GRS_1980_Adj_WI_OC";
+        internal const string GRS_1980_Adj_WI_ON = "GRS_1980_Adj_WI_ON";
+        internal const string GRS_1980_Adj_WI_PK = "GRS_1980_Adj_WI_PK";
+        internal const string GRS_1980_Adj_WI_PP_PC = "GRS_1980_Adj_WI_PP_PC";
+        internal const string GRS_1980_Adj_WI_PR = "GRS_1980_Adj_WI_PR";
+        internal const string GRS_1980_Adj_WI_PT = "GRS_1980_Adj_WI_PT";
+        internal const string GRS_1980_Adj_WI_RC = "GRS_1980_Adj_WI_RC";
+        internal const string GRS_1980_Adj_WI_RK = "GRS_1980_Adj_WI_RK";
+        internal const string GRS_1980_Adj_WI_RS = "GRS_1980_Adj_WI_RS";
+        internal const string GRS_1980_Adj_WI_SC = "GRS_1980_Adj_WI_SC";
+        internal const string GRS_1980_Adj_WI_SH = "GRS_1980_Adj_WI_SH";
+        internal const string GRS_1980_Adj_WI_SK = "GRS_1980_Adj_WI_SK";
+        internal const string GRS_1980_Adj_WI_SW = "GRS_1980_Adj_WI_SW";
+        internal const string GRS_1980_Adj_WI_TA = "GRS_1980_Adj_WI_TA";
+        internal const string GRS_1980_Adj_WI_TR = "GRS_1980_Adj_WI_TR";
+        internal const string GRS_1980_Adj_WI_VI = "GRS_1980_Adj_WI_VI";
+        internal const string GRS_1980_Adj_WI_VR = "GRS_1980_Adj_WI_VR";
+        internal const string GRS_1980_Adj_WI_WA = "GRS_1980_Adj_WI_WA";
+        internal const string GRS_1980_Adj_WI_WB = "GRS_1980_Adj_WI_WB";
+        internal const string GRS_1980_Adj_WI_WD = "GRS_1980_Adj_WI_WD";
+        internal const string GRS_1980_Adj_WI_WK = "GRS_1980_Adj_WI_WK";
+        internal const string GRS_1980_Adj_WI_WP = "GRS_1980_Adj_WI_WP";
+        internal const string GRS_1980_Adj_WI_WS = "GRS_1980_Adj_WI_WS";
+        internal const string GRS_1980_Adj_WI_WW = "GRS_1980_Adj_WI_WW";
+        internal const string Helmert_1906 = "Helmert_1906";
+        internal const string Indonesian = "Indonesian";
+        internal const string International_1924 = "International_1924";
+        internal const string Krasovsky_1940 = "Krasovsky_1940";
+        internal const string Plessis_1817 = "Plessis_1817";
+        internal const string S_GRS_1980_Adj_MN_Anoka = "S_GRS_1980_Adj_MN_Anoka";
+        internal const string S_GRS_1980_Adj_MN_Becker = "S_GRS_1980_Adj_MN_Becker";
+        internal const string S_GRS_1980_Adj_MN_Beltrami_North = "S_GRS_1980_Adj_MN_Beltrami_North";
+        internal const string S_GRS_1980_Adj_MN_Beltrami_South = "S_GRS_1980_Adj_MN_Beltrami_South";
+        internal const string S_GRS_1980_Adj_MN_Benton = "S_GRS_1980_Adj_MN_Benton";
+        internal const string S_GRS_1980_Adj_MN_Big_Stone = "S_GRS_1980_Adj_MN_Big_Stone";
+        internal const string S_GRS_1980_Adj_MN_Blue_Earth = "S_GRS_1980_Adj_MN_Blue_Earth";
+        internal const string S_GRS_1980_Adj_MN_Brown = "S_GRS_1980_Adj_MN_Brown";
+        internal const string S_GRS_1980_Adj_MN_Carlton = "S_GRS_1980_Adj_MN_Carlton";
+        internal const string S_GRS_1980_Adj_MN_Carver = "S_GRS_1980_Adj_MN_Carver";
+        internal const string S_GRS_1980_Adj_MN_Cass_North = "S_GRS_1980_Adj_MN_Cass_North";
+        internal const string S_GRS_1980_Adj_MN_Cass_South = "S_GRS_1980_Adj_MN_Cass_South";
+        internal const string S_GRS_1980_Adj_MN_Chippewa = "S_GRS_1980_Adj_MN_Chippewa";
+        internal const string S_GRS_1980_Adj_MN_Chisago = "S_GRS_1980_Adj_MN_Chisago";
+        internal const string S_GRS_1980_Adj_MN_Cook_North = "S_GRS_1980_Adj_MN_Cook_North";
+        internal const string S_GRS_1980_Adj_MN_Cook_South = "S_GRS_1980_Adj_MN_Cook_South";
+        internal const string S_GRS_1980_Adj_MN_Cottonwood = "S_GRS_1980_Adj_MN_Cottonwood";
+        internal const string S_GRS_1980_Adj_MN_Crow_Wing = "S_GRS_1980_Adj_MN_Crow_Wing";
+        internal const string S_GRS_1980_Adj_MN_Dakota = "S_GRS_1980_Adj_MN_Dakota";
+        internal const string S_GRS_1980_Adj_MN_Dodge = "S_GRS_1980_Adj_MN_Dodge";
+        internal const string S_GRS_1980_Adj_MN_Douglas = "S_GRS_1980_Adj_MN_Douglas";
+        internal const string S_GRS_1980_Adj_MN_Faribault = "S_GRS_1980_Adj_MN_Faribault";
+        internal const string S_GRS_1980_Adj_MN_Fillmore = "S_GRS_1980_Adj_MN_Fillmore";
+        internal const string S_GRS_1980_Adj_MN_Freeborn = "S_GRS_1980_Adj_MN_Freeborn";
+        internal const string S_GRS_1980_Adj_MN_Goodhue = "S_GRS_1980_Adj_MN_Goodhue";
+        internal const string S_GRS_1980_Adj_MN_Grant = "S_GRS_1980_Adj_MN_Grant";
+        internal const string S_GRS_1980_Adj_MN_Hennepin = "S_GRS_1980_Adj_MN_Hennepin";
+        internal const string S_GRS_1980_Adj_MN_Houston = "S_GRS_1980_Adj_MN_Houston";
+        internal const string S_GRS_1980_Adj_MN_Isanti = "S_GRS_1980_Adj_MN_Isanti";
+        internal const string S_GRS_1980_Adj_MN_Itasca_North = "S_GRS_1980_Adj_MN_Itasca_North";
+        internal const string S_GRS_1980_Adj_MN_Itasca_South = "S_GRS_1980_Adj_MN_Itasca_South";
+        internal const string S_GRS_1980_Adj_MN_Jackson = "S_GRS_1980_Adj_MN_Jackson";
+        internal const string S_GRS_1980_Adj_MN_Kanabec = "S_GRS_1980_Adj_MN_Kanabec";
+        internal const string S_GRS_1980_Adj_MN_Kandiyohi = "S_GRS_1980_Adj_MN_Kandiyohi";
+        internal const string S_GRS_1980_Adj_MN_Kittson = "S_GRS_1980_Adj_MN_Kittson";
+        internal const string S_GRS_1980_Adj_MN_Koochiching = "S_GRS_1980_Adj_MN_Koochiching";
+        internal const string S_GRS_1980_Adj_MN_Lac_Qui_Parle = "S_GRS_1980_Adj_MN_Lac_Qui_Parle";
+        internal const string S_GRS_1980_Adj_MN_Lake_of_the_Woods_North = "S_GRS_1980_Adj_MN_Lake_of_the_Woods_North";
+        internal const string S_GRS_1980_Adj_MN_Lake_of_the_Woods_South = "S_GRS_1980_Adj_MN_Lake_of_the_Woods_South";
+        internal const string S_GRS_1980_Adj_MN_Le_Sueur = "S_GRS_1980_Adj_MN_Le_Sueur";
+        internal const string S_GRS_1980_Adj_MN_Lincoln = "S_GRS_1980_Adj_MN_Lincoln";
+        internal const string S_GRS_1980_Adj_MN_Lyon = "S_GRS_1980_Adj_MN_Lyon";
+        internal const string S_GRS_1980_Adj_MN_Mahnomen = "S_GRS_1980_Adj_MN_Mahnomen";
+        internal const string S_GRS_1980_Adj_MN_Marshall = "S_GRS_1980_Adj_MN_Marshall";
+        internal const string S_GRS_1980_Adj_MN_Martin = "S_GRS_1980_Adj_MN_Martin";
+        internal const string S_GRS_1980_Adj_MN_McLeod = "S_GRS_1980_Adj_MN_McLeod";
+        internal const string S_GRS_1980_Adj_MN_Meeker = "S_GRS_1980_Adj_MN_Meeker";
+        internal const string S_GRS_1980_Adj_MN_Morrison = "S_GRS_1980_Adj_MN_Morrison";
+        internal const string S_GRS_1980_Adj_MN_Mower = "S_GRS_1980_Adj_MN_Mower";
+        internal const string S_GRS_1980_Adj_MN_Murray = "S_GRS_1980_Adj_MN_Murray";
+        internal const string S_GRS_1980_Adj_MN_Nicollet = "S_GRS_1980_Adj_MN_Nicollet";
+        internal const string S_GRS_1980_Adj_MN_Nobles = "S_GRS_1980_Adj_MN_Nobles";
+        internal const string S_GRS_1980_Adj_MN_Norman = "S_GRS_1980_Adj_MN_Norman";
+        internal const string S_GRS_1980_Adj_MN_Olmsted = "S_GRS_1980_Adj_MN_Olmsted";
+        internal const string S_GRS_1980_Adj_MN_Ottertail = "S_GRS_1980_Adj_MN_Ottertail";
+        internal const string S_GRS_1980_Adj_MN_Pennington = "S_GRS_1980_Adj_MN_Pennington";
+        internal const string S_GRS_1980_Adj_MN_Pine = "S_GRS_1980_Adj_MN_Pine";
+        internal const string S_GRS_1980_Adj_MN_Pipestone = "S_GRS_1980_Adj_MN_Pipestone";
+        internal const string S_GRS_1980_Adj_MN_Polk = "S_GRS_1980_Adj_MN_Polk";
+        internal const string S_GRS_1980_Adj_MN_Pope = "S_GRS_1980_Adj_MN_Pope";
+        internal const string S_GRS_1980_Adj_MN_Ramsey = "S_GRS_1980_Adj_MN_Ramsey";
+        internal const string S_GRS_1980_Adj_MN_Red_Lake = "S_GRS_1980_Adj_MN_Red_Lake";
+        internal const string S_GRS_1980_Adj_MN_Redwood = "S_GRS_1980_Adj_MN_Redwood";
+        internal const string S_GRS_1980_Adj_MN_Renville = "S_GRS_1980_Adj_MN_Renville";
+        internal const string S_GRS_1980_Adj_MN_Rice = "S_GRS_1980_Adj_MN_Rice";
+        internal const string S_GRS_1980_Adj_MN_Rock = "S_GRS_1980_Adj_MN_Rock";
+        internal const string S_GRS_1980_Adj_MN_Roseau = "S_GRS_1980_Adj_MN_Roseau";
+        internal const string S_GRS_1980_Adj_MN_Scott = "S_GRS_1980_Adj_MN_Scott";
+        internal const string S_GRS_1980_Adj_MN_Sherburne = "S_GRS_1980_Adj_MN_Sherburne";
+        internal const string S_GRS_1980_Adj_MN_Sibley = "S_GRS_1980_Adj_MN_Sibley";
+        internal const string S_GRS_1980_Adj_MN_St_Louis_Central = "S_GRS_1980_Adj_MN_St_Louis_Central";
+        internal const string S_GRS_1980_Adj_MN_St_Louis_North = "S_GRS_1980_Adj_MN_St_Louis_North";
+        internal const string S_GRS_1980_Adj_MN_St_Louis_South = "S_GRS_1980_Adj_MN_St_Louis_South";
+        internal const string S_GRS_1980_Adj_MN_Stearns = "S_GRS_1980_Adj_MN_Stearns";
+        internal const string S_GRS_1980_Adj_MN_Steele = "S_GRS_1980_Adj_MN_Steele";
+        internal const string S_GRS_1980_Adj_MN_Stevens = "S_GRS_1980_Adj_MN_Stevens";
+        internal const string S_GRS_1980_Adj_MN_Swift = "S_GRS_1980_Adj_MN_Swift";
+        internal const string S_GRS_1980_Adj_MN_Todd = "S_GRS_1980_Adj_MN_Todd";
+        internal const string S_GRS_1980_Adj_MN_Traverse = "S_GRS_1980_Adj_MN_Traverse";
+        internal const string S_GRS_1980_Adj_MN_Wabasha = "S_GRS_1980_Adj_MN_Wabasha";
+        internal const string S_GRS_1980_Adj_MN_Wadena = "S_GRS_1980_Adj_MN_Wadena";
+        internal const string S_GRS_1980_Adj_MN_Waseca = "S_GRS_1980_Adj_MN_Waseca";
+        internal const string S_GRS_1980_Adj_MN_Watonwan = "S_GRS_1980_Adj_MN_Watonwan";
+        internal const string S_GRS_1980_Adj_MN_Winona = "S_GRS_1980_Adj_MN_Winona";
+        internal const string S_GRS_1980_Adj_MN_Wright = "S_GRS_1980_Adj_MN_Wright";
+        internal const string S_GRS_1980_Adj_MN_Yellow_Medicine = "S_GRS_1980_Adj_MN_Yellow_Medicine";
+        internal const string Sphere = "Sphere";
+        internal const string Sphere_ARC_INFO = "Sphere_ARC_INFO";
+        internal const string Sphere_EMEP = "Sphere_EMEP";
+        internal const string Struve_1860 = "Struve_1860";
+        internal const string War_Office = "War_Office";
+        internal const string WGS_1972 = "WGS_1972";
+        internal const string WGS_1984 = "WGS_1984";
+        internal const string Xian_1980 = "Xian_1980";    
+    }
+}

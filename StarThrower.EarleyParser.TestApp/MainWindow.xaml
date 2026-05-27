@@ -1,0 +1,36 @@
+﻿<Window x:Class="StarThrower.EarleyParser.TestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="532" Width="640">
+    <Grid>
+        <Label Content="Grammar" Height="28" HorizontalAlignment="Left" Margin="10,10,0,0" Name="lblGrammar" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="74,10,0,0" Name="txtGrammar" Text="D:\StarThrower\Development\StarThrower.Utilities\Current\Code\Samples\Languages\TRAM.xml" VerticalAlignment="Top" Width="451" />
+        <Label Content="Input" Height="28" HorizontalAlignment="Left" Margin="10,51,0,0" Name="lblInput" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="74,51,0,0" Name="txtInput" Text="D:\StarThrower\Development\StarThrower.Utilities\Current\Code\Samples\Inputs\TRAM2.txt" VerticalAlignment="Top" Width="451" />
+        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="531,10,0,0" Name="btnBrowseGrammar" VerticalAlignment="Top" Width="75" Click="btnBrowseGrammar_Click" />
+        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="531,51,0,0" Name="btnBrowseInput" VerticalAlignment="Top" Width="75" Click="btnBrowseInput_Click" />
+
+
+        <Button Content="Parse Grammar" Height="23" HorizontalAlignment="Left" Margin="12,144,0,0" Name="btnParseGrammar" VerticalAlignment="Top" Width="110" Click="btnParseGrammar_Click" />
+        <Button Content="Parse Input" Height="23" HorizontalAlignment="Left" Margin="347,329,0,0" Name="btnParseInput" VerticalAlignment="Top" Width="110" Click="btnParseInput_Click" />
+        <GroupBox Header="Ignore Case" Height="70" HorizontalAlignment="Left" Margin="12,201,0,0" Name="gbIgnoreCase" VerticalAlignment="Top" Width="197">
+            <Grid>
+                <RadioButton Content="Yes" Height="16" HorizontalAlignment="Left" Margin="10,15,0,0" Name="rbIgnoreCaseYes" IsChecked="True" VerticalAlignment="Top" />
+                <RadioButton Content="No" Height="16" HorizontalAlignment="Left" Margin="71,15,0,0" Name="rbIgnoreCaseNo" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Predict Preterminals" Height="70" HorizontalAlignment="Left" Margin="12,282,0,0" Name="gbPredictPreterminals" VerticalAlignment="Top" Width="197">
+            <Grid>
+                <RadioButton Content="Yes" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="10,15,0,0" Name="rbPredictPreterminalsYes" VerticalAlignment="Top" />
+                <RadioButton Content="No" Height="16" HorizontalAlignment="Left" Margin="71,15,0,0" Name="rbPredictPreterminalsNo" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Tokenization" Height="97" HorizontalAlignment="Left" Margin="12,359,0,0" Name="gbTokenization" VerticalAlignment="Top" Width="197">
+            <Grid>
+                <CheckBox Content="Ignore Whitespace" Height="16" HorizontalAlignment="Left" Margin="23,37,0,0" Name="chkIgnoreWhitespace" VerticalAlignment="Top" IsEnabled="True" />
+                <RadioButton Content="Lex" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="10,15,0,0" Name="rbLex" VerticalAlignment="Top" Checked="rbLex_Checked" />
+                <RadioButton Content="Tokenize" Height="16" HorizontalAlignment="Left" Margin="71,15,0,0" Name="rbTokenize" VerticalAlignment="Top" Checked="rbTokenize_Checked" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

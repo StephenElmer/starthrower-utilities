@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<grammar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="grammar.xsd" name="MyGrammar">
+    
+    <rule category="S">
+        <category name="NExp"/>
+    </rule>
+    
+    <rule category="NExp">
+        <category name="Add"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Sub"/>
+    </rule>
+    <rule category="NExp">
+        <category name="Num"/>
+    </rule>
+
+    <rule category="Add">
+        <category name="NExp"/>
+        <category terminal="true" name="+"/>
+        <category name="NExp"/>
+    </rule>
+
+    <rule category="Sub">
+        <category name="NExp"/>
+        <category terminal="true" name="-"/>
+        <category name="NExp"/>
+    </rule>
+    
+    <rule category="Num">
+        <category terminal="true" name="3"/>
+    </rule>
+    <rule category="Num">
+        <category terminal="true" name="5"/>
+    </rule>
+
+</grammar>
