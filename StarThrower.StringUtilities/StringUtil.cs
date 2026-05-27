@@ -13,6 +13,13 @@ namespace StarThrower.StringUtilities
         private static char[] _invalidXmlChars = { '&', '<', '>', '\"', '=', '\'' };
         private static int[] _invalidXmlCharInts = { 38, 60, 62, 34, 61, 39 };
 
+        // Required on .NET Core: Windows code page encodings (e.g. Windows-1252) are not
+        // registered by default. This registers the full code-pages provider once.
+        static StringUtil()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
         /// <summary>
         /// The symbol used for degrees (as in 32° F).
         /// </summary>

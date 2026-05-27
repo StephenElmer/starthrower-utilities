@@ -240,6 +240,37 @@ support is needed in Phase 2. The pattern established here — new abstract/prov
 agnostic implementation + `[Obsolete]` wrapper for the old concrete type — is the
 template for similar cases elsewhere.
 
+**Special case — `StarThrower.StringUtilities`:** `Microsoft.VisualBasic` was removed from
+the production code in an earlier pass (when the library targeted PCL) because the VB
+runtime was not PCL-compatible. The VB-compatible behavior (e.g. `Asc`/`Chr`/`Hex` byte
+mapping for characters 128–255) was re-implemented explicitly using `Encoding.GetEncoding
+("Windows-1252")`.
+
+On .NET Core, non-Unicode code page encodings are not registered by default.
+`Encoding.GetEncoding("Windows-1252")` throws unless `CodePagesEncodingProvider` is
+registered first. The fix is a static constructor on `StringUtil`:
+```csharp
+static StringUtil()
+{
+    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+}
+```
+`CodePagesEncodingProvider` ships in the .NET shared framework (no NuGet package needed)
+and works on all platforms, making `StringUtilities` fully cross-platform.
+
+**Why not restore the VB library?** `Microsoft.VisualBasic.Core` is cross-platform on
+.NET 5+, but `Strings.Chr()` for values 128–255 uses `CultureInfo.CurrentCulture
+.TextInfo.ANSICodePage` internally. On Linux/macOS the ANSI code page is typically 0 or
+undefined, so behavior is locale-dependent and potentially wrong. The explicit
+Windows-1252 encoding is deterministic everywhere and is the better choice.
+
+**Test oracle pattern:** The test project (`StringUtilities.Test`) retains
+`Microsoft.VisualBasic.Strings.Chr()` calls deliberately — they serve as an independent
+oracle to verify that the production implementation produces results consistent with VB
+behavior. The explicit `<Reference Include="Microsoft.VisualBasic" />` is a net48
+artifact; on net10.0 the assembly is part of the shared framework and no explicit
+reference is needed (remove it when upgrading the test project).
+
 Groups 8–10 — **pause and evaluate** before upgrading:
 - `WcfProviders.Contract` / `WcfProviders` / `WcfProviders.Test` — .NET 10 requires
   `CoreWCF`; migration approach needs explicit decision before proceeding
