@@ -437,3 +437,14 @@ To be addressed in Step 2d. Do not modify these items during Steps 2b or 2c.
 | `StarThrower.ByteUtilities` | `ByteUtil.ReverseBytes` | `Array.Reverse(byte[])` or `Span<T>` in-place reversal | Candidate for wrapper + `[Obsolete]` |
 | `StarThrower.ByteUtilities` | `ByteUtil.BytesAreEqual` | `span.SequenceEqual()` (.NET Core 2.1+) | Candidate for wrapper + `[Obsolete]` |
 | `StarThrower.DataUtilities` | All `OleDbDataReader` overloads | `DbDataReader` (abstract base in `System.Data.Common`) | **Done in Step 2b.** New `DbDataReader` overloads added as primary API; `OleDbDataReader` overloads marked `[Obsolete]` and delegate to them. Requires `System.Data.OleDb` NuGet package (Windows-only). |
+
+---
+
+## Pending Analyzer Warnings Log
+
+Warnings surfaced during Step 2b/2c that are pre-existing issues (not introduced by the
+migration). To be addressed in Step 3. Do not fix these during Steps 2b or 2c.
+
+| Assembly | File | Rule | Description |
+|---|---|---|---|
+| `StarThrower.EarleyParser` | `Parser.cs:165` | CA2200 | `throw ex;` re-throws caught exception, losing original stack trace. Change to bare `throw;`. |
