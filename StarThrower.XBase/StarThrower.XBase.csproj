@@ -1,10 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\StarThrower.public.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>true</DelaySign>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,12 +9,5 @@
     <ProjectReference Include="..\StarThrower.Logging\StarThrower.Logging.csproj" />
     <ProjectReference Include="..\StarThrower.StringUtilities\StarThrower.StringUtilities.csproj" />
   </ItemGroup>
-
-  <Target Name="SignAndDeploy" AfterTargets="Build"
-          Condition="Exists('D:\Keys\StarThrower\StarThrower.snk')">
-    <Exec Command='"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe" -R "$(TargetPath)" "D:\Keys\StarThrower\StarThrower.snk"' />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)..\Deploy\"
-          ContinueOnError="true" />
-  </Target>
 
 </Project>

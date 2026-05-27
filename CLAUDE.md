@@ -271,6 +271,25 @@ behavior. The explicit `<Reference Include="Microsoft.VisualBasic" />` is a net4
 artifact; on net10.0 the assembly is part of the shared framework and no explicit
 reference is needed (remove it when upgrading the test project).
 
+**Special case — `[Serializable]` custom exceptions (`StarThrower.XBase` and
+`StarThrower.Gis.GeoUtilities`):** All custom exceptions in these two assemblies carry
+the legacy FxCop-recommended serializable exception pattern: `[Serializable]` attribute
+plus a protected `(SerializationInfo, StreamingContext)` constructor delegating to base.
+
+In .NET 8+, the base `Exception(SerializationInfo, StreamingContext)` constructor is
+marked `[Obsolete]` (diagnostic ID `SYSLIB0051`), so every such constructor produces a
+build warning on net10.0. Additionally, `BinaryFormatter` — the only consumer of this
+pattern — is fully removed in .NET 9+.
+
+Since none of these exceptions have custom fields (the serialization constructor is pure
+boilerplate that only calls `base(info, context)`), the fix is to remove `[Serializable]`
+and the serialization constructor from all affected classes. The three meaningful
+constructors (default, message, message+inner) are untouched, so this is a non-breaking
+public API change. Apply during the Step 2b upgrade for each affected assembly:
+- **XBase**: 5 exceptions — `BadDataException`, `FieldNotFoundException`,
+  `InvalidDataTypeException`, `InvalidDecimalCountException`, `InvalidFieldLengthException`
+- **Gis.GeoUtilities**: 17 exceptions in the `Exceptions/` folder
+
 Groups 8–10 — **pause and evaluate** before upgrading:
 - `WcfProviders.Contract` / `WcfProviders` / `WcfProviders.Test` — .NET 10 requires
   `CoreWCF`; migration approach needs explicit decision before proceeding
@@ -448,3 +467,6 @@ migration). To be addressed in Step 3. Do not fix these during Steps 2b or 2c.
 | Assembly | File | Rule | Description |
 |---|---|---|---|
 | `StarThrower.EarleyParser` | `Parser.cs:165` | CA2200 | `throw ex;` re-throws caught exception, losing original stack trace. Change to bare `throw;`. |
+| `StarThrower.XBase` | `Internal/Record.cs:317` | CA2200 | Same `throw ex;` pattern as above. |
+| `StarThrower.XBase` | `Internal/Field.cs:353` | CA2200 | Same `throw ex;` pattern as above. |
+| `StarThrower.XBase` | `Internal/File.cs:468, 479, 491` | CA2022 | `FileStream.Read()` may return fewer bytes than requested (partial read). Review whether the dBASE file format guarantees full reads; if not, replace with `ReadExactly()` (available in .NET 7+). |
