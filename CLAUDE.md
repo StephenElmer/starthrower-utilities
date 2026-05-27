@@ -231,6 +231,15 @@ test without it. Signing for NuGet publication will be handled in the CI/CD pipe
 
 Groups 1–7 (through `Gis.EsriLibrary`): upgrade to net10.0 in order.
 
+**Special case — `StarThrower.DataUtilities`:** `System.Data.OleDb` was removed from
+.NET itself in .NET Core and requires the `System.Data.OleDb` NuGet package on net10.
+The migration added `DbDataReader` overloads as the going-forward API, with the original
+`OleDbDataReader` overloads preserved as `[Obsolete]` wrappers delegating to them.
+This makes the library Windows-only (OleDb is Windows-only); revisit if cross-platform
+support is needed in Phase 2. The pattern established here — new abstract/provider-
+agnostic implementation + `[Obsolete]` wrapper for the old concrete type — is the
+template for similar cases elsewhere.
+
 Groups 8–10 — **pause and evaluate** before upgrading:
 - `WcfProviders.Contract` / `WcfProviders` / `WcfProviders.Test` — .NET 10 requires
   `CoreWCF`; migration approach needs explicit decision before proceeding
@@ -396,3 +405,4 @@ To be addressed in Step 2d. Do not modify these items during Steps 2b or 2c.
 | `StarThrower.Collections` | `ReadOnlyDictionary<TKey,TValue>` | `System.Collections.ObjectModel.ReadOnlyDictionary<TKey,TValue>` (added .NET 4.5) | Custom impl predates BCL addition; candidate for wrapper + `[Obsolete]` |
 | `StarThrower.ByteUtilities` | `ByteUtil.ReverseBytes` | `Array.Reverse(byte[])` or `Span<T>` in-place reversal | Candidate for wrapper + `[Obsolete]` |
 | `StarThrower.ByteUtilities` | `ByteUtil.BytesAreEqual` | `span.SequenceEqual()` (.NET Core 2.1+) | Candidate for wrapper + `[Obsolete]` |
+| `StarThrower.DataUtilities` | All `OleDbDataReader` overloads | `DbDataReader` (abstract base in `System.Data.Common`) | **Done in Step 2b.** New `DbDataReader` overloads added as primary API; `OleDbDataReader` overloads marked `[Obsolete]` and delegate to them. Requires `System.Data.OleDb` NuGet package (Windows-only). |

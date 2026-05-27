@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Data;
+using System.Data.Common;
+using System.Data.OleDb;
 using System.Globalization;
 using StarThrower.Logging;
-using System.Data.OleDb;
 
 namespace StarThrower.DataUtilities
 {
@@ -22,7 +23,7 @@ namespace StarThrower.DataUtilities
         /// </remarks>
         public readonly static DateTime DTNull = DateTime.MinValue;
 
-        public static bool CheckFieldExists(OleDbDataReader dr, string fieldName)
+        public static bool CheckFieldExists(DbDataReader dr, string fieldName)
         {
             bool result = false;
             for (int i = 0; i < dr.FieldCount; i++)
@@ -35,6 +36,10 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static bool CheckFieldExists(OleDbDataReader dr, string fieldName)
+            => CheckFieldExists((DbDataReader)dr, fieldName);
 
 
         #region [ Boolean ]
@@ -68,31 +73,30 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static bool GetBoolField(DataRow dr, string field)
         {
             return GetBoolField(dr, field, false);
         }
+
+        public static bool GetBoolField(DbDataReader dr, string field)
+            => GetBoolField(dr, field, false);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static bool GetBoolField(OleDbDataReader dr, string field)
-        {
-            return GetBoolField(dr, field, false);
-        }
+            => GetBoolField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static bool GetBoolField(DataRow dr, string field, bool defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -113,7 +117,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static bool GetBoolField(OleDbDataReader dr, string field, bool defaultValue)
+
+        public static bool GetBoolField(DbDataReader dr, string field, bool defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -128,67 +133,46 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBoolField(OleDbDataReader, string, bool)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBoolField(DbDataReader, string, bool)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static bool GetBoolField(OleDbDataReader dr, string field, bool defaultValue)
+            => GetBoolField((DbDataReader)dr, field, defaultValue);
 
         #endregion
 
 
         #region [ String ]
 
-        ///// <summary>
-        ///// Safely retrieves string data from a field in  a DataRow
-        ///// </summary>
-        ///// <param name="dataRow">The DataRow object</param>
-        ///// <param name="fieldName">The name of the field</param>
-        ///// <returns>The string value of the field.  String.Empty if the field is null, DBNull, or an error is thrown.</returns>
-        ///// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
-        //public static string GetStringField(DataRow dataRow, string fieldName)
-        //{
-        //    if (dataRow == null) throw new ArgumentNullException("dataRow");
-        //    if (fieldName == null) throw new ArgumentNullException("fieldName");
-        //    try
-        //    {
-        //        if (dataRow[fieldName] == null) return String.Empty;
-        //        if (dataRow[fieldName] is DBNull) return String.Empty;
-        //        return dataRow[fieldName].ToString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetStringField(DataRow, string)", ex);
-        //        throw;
-        //    }
-        //}
-
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static string GetStringField(DataRow dr, string field)
         {
             return GetStringField(dr, field, String.Empty);
         }
+
+        public static string GetStringField(DbDataReader dr, string field)
+            => GetStringField(dr, field, String.Empty);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static string GetStringField(OleDbDataReader dr, string field)
-        {
-            return GetStringField(dr, field, String.Empty);
-        }
+            => GetStringField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static string GetStringField(DataRow dr, string field, string defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -210,7 +194,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static string GetStringField(OleDbDataReader dr, string field, string defaultValue)
+
+        public static string GetStringField(DbDataReader dr, string field, string defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -226,11 +211,15 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetStringField(OleDbDataReader, string, string)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetStringField(DbDataReader, string, string)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static string GetStringField(OleDbDataReader dr, string field, string defaultValue)
+            => GetStringField((DbDataReader)dr, field, defaultValue);
 
         #endregion
 
@@ -275,46 +264,23 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        ///// <summary>
-        ///// Safely retrieves DateTime data from a field in  a DataRow
-        ///// </summary>
-        ///// <param name="dataRow">The DataRow object</param>
-        ///// <param name="fieldName">The name of the field</param>
-        ///// <returns>The DateTime value of the field.  Constants.DT_NULL if the field is null, DBNull, or an error is thrown.</returns>
-        ///// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
-        //public static DateTime GetDateTimeField(DataRow dataRow, string fieldName)
-        //{
-        //    if (dataRow == null) throw new ArgumentNullException("dataRow");
-        //    if (fieldName == null) throw new ArgumentNullException("fieldName");
-        //    try
-        //    {
-        //        if (dataRow[fieldName] == null) return DTNull;
-        //        if (dataRow[fieldName] is DBNull) return DTNull;
-        //        return DateTime.Parse(dataRow[fieldName].ToString(), CultureInfo.InvariantCulture);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDateTimeField(DataRow, string)", ex);
-        //        throw;
-        //    }
-        //}
-
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static DateTime GetDateTimeField(DataRow dr, string field)
         {
             return GetDateTimeField(dr, field, DateTime.Now);
         }
+
+        public static DateTime GetDateTimeField(DbDataReader dr, string field)
+            => GetDateTimeField(dr, field, DateTime.Now);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static DateTime GetDateTimeField(OleDbDataReader dr, string field)
-        {
-            return GetDateTimeField(dr, field, DateTime.Now);
-        }
+            => GetDateTimeField((DbDataReader)dr, field);
 
         /// <summary>
         /// Safely retrieves DateTime data from a field in  a DataRow
@@ -345,7 +311,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static DateTime GetDateTimeField(OleDbDataReader dr, string field, DateTime defaultValue)
+
+        public static DateTime GetDateTimeField(DbDataReader dr, string field, DateTime defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -360,38 +327,41 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDateTimeField(OleDbDataReader, string, DateTime)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDateTimeField(DbDataReader, string, DateTime)", ex);
                 throw;
             }
             return result;
         }
 
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static DateTime GetDateTimeField(OleDbDataReader dr, string field, DateTime defaultValue)
+            => GetDateTimeField((DbDataReader)dr, field, defaultValue);
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static Nullable<DateTime> GetNullableDateTimeField(DataRow dr, string field)
         {
             return GetNullableDateTimeField(dr, field, null);
         }
+
+        public static Nullable<DateTime> GetNullableDateTimeField(DbDataReader dr, string field)
+            => GetNullableDateTimeField(dr, field, null);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<DateTime> GetNullableDateTimeField(OleDbDataReader dr, string field)
-        {
-            return GetNullableDateTimeField(dr, field, null);
-        }
+            => GetNullableDateTimeField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static Nullable<DateTime> GetNullableDateTimeField(DataRow dr, string field, Nullable<DateTime> defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -412,7 +382,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static Nullable<DateTime> GetNullableDateTimeField(OleDbDataReader dr, string field, Nullable<DateTime> defaultValue)
+
+        public static Nullable<DateTime> GetNullableDateTimeField(DbDataReader dr, string field, Nullable<DateTime> defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -427,11 +398,15 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableDateTimeField(OleDbDataReader, string, Nullable<DateTime>)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableDateTimeField(DbDataReader, string, Nullable<DateTime>)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static Nullable<DateTime> GetNullableDateTimeField(OleDbDataReader dr, string field, Nullable<DateTime> defaultValue)
+            => GetNullableDateTimeField((DbDataReader)dr, field, defaultValue);
 
         #endregion
 
@@ -464,31 +439,30 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static float GetFloatField(DataRow dr, string field)
         {
             return GetFloatField(dr, field, 0);
         }
+
+        public static float GetFloatField(DbDataReader dr, string field)
+            => GetFloatField(dr, field, 0);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static float GetFloatField(OleDbDataReader dr, string field)
-        {
-            return GetFloatField(dr, field, 0);
-        }
+            => GetFloatField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static float GetFloatField(DataRow dr, string field, float defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -509,7 +483,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static float GetFloatField(OleDbDataReader dr, string field, float defaultValue)
+
+        public static float GetFloatField(DbDataReader dr, string field, float defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -524,11 +499,15 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetFloatField(OleDbDataReader, string, float)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetFloatField(DbDataReader, string, float)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static float GetFloatField(OleDbDataReader dr, string field, float defaultValue)
+            => GetFloatField((DbDataReader)dr, field, defaultValue);
 
         #endregion
 
@@ -536,31 +515,30 @@ namespace StarThrower.DataUtilities
         #region [ Double ]
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static double GetDoubleField(DataRow dr, string field)
         {
             return GetDoubleField(dr, field, 0.0);
         }
+
+        public static double GetDoubleField(DbDataReader dr, string field)
+            => GetDoubleField(dr, field, 0.0);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static double GetDoubleField(OleDbDataReader dr, string field)
-        {
-            return GetDoubleField(dr, field, 0.0);
-        }
+            => GetDoubleField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static double GetDoubleField(DataRow dr, string field, double defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -581,7 +559,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static double GetDoubleField(OleDbDataReader dr, string field, double defaultValue)
+
+        public static double GetDoubleField(DbDataReader dr, string field, double defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -596,38 +575,41 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(OleDbDataReader, string, double)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(DbDataReader, string, double)", ex);
                 throw;
             }
             return result;
         }
 
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static double GetDoubleField(OleDbDataReader dr, string field, double defaultValue)
+            => GetDoubleField((DbDataReader)dr, field, defaultValue);
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static Nullable<double> GetNullableDoubleField(DataRow dr, string field)
         {
             return GetNullableDoubleField(dr, field, null);
         }
+
+        public static Nullable<double> GetNullableDoubleField(DbDataReader dr, string field)
+            => GetNullableDoubleField(dr, field, null);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<double> GetNullableDoubleField(OleDbDataReader dr, string field)
-        {
-            return GetNullableDoubleField(dr, field, null);
-        }
+            => GetNullableDoubleField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static Nullable<double> GetNullableDoubleField(DataRow dr, string field, Nullable<double> defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -648,7 +630,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static Nullable<double> GetNullableDoubleField(OleDbDataReader dr, string field, Nullable<double> defaultValue)
+
+        public static Nullable<double> GetNullableDoubleField(DbDataReader dr, string field, Nullable<double> defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -663,11 +646,15 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(OleDbDataReader, string, Nullable<double>)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableDoubleField(DbDataReader, string, Nullable<double>)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static Nullable<double> GetNullableDoubleField(OleDbDataReader dr, string field, Nullable<double> defaultValue)
+            => GetNullableDoubleField((DbDataReader)dr, field, defaultValue);
 
         #endregion
 
@@ -700,31 +687,30 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static long GetLongField(DataRow dr, string field)
         {
             return GetLongField(dr, field, 0);
         }
+
+        public static long GetLongField(DbDataReader dr, string field)
+            => GetLongField(dr, field, 0);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static long GetLongField(OleDbDataReader dr, string field)
-        {
-            return GetLongField(dr, field, 0);
-        }
+            => GetLongField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static long GetLongField(DataRow dr, string field, long defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -745,7 +731,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static long GetLongField(OleDbDataReader dr, string field, long defaultValue)
+
+        public static long GetLongField(DbDataReader dr, string field, long defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -760,11 +747,15 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetLongField(OleDbDataReader, string, long)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetLongField(DbDataReader, string, long)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static long GetLongField(OleDbDataReader dr, string field, long defaultValue)
+            => GetLongField((DbDataReader)dr, field, defaultValue);
 
         #endregion
 
@@ -797,31 +788,30 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static int GetIntField(DataRow dr, string field)
         {
             return GetIntField(dr, field, 0);
         }
+
+        public static int GetIntField(DbDataReader dr, string field)
+            => GetIntField(dr, field, 0);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static int GetIntField(OleDbDataReader dr, string field)
-        {
-            return GetIntField(dr, field, 0);
-        }
+            => GetIntField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static int GetIntField(DataRow dr, string field, int defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -842,7 +832,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static int GetIntField(OleDbDataReader dr, string field, int defaultValue)
+
+        public static int GetIntField(DbDataReader dr, string field, int defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -857,20 +848,28 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetIntField(OleDbDataReader, string, int)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetIntField(DbDataReader, string, int)", ex);
                 throw;
             }
             return result;
         }
 
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static int GetIntField(OleDbDataReader dr, string field, int defaultValue)
+            => GetIntField((DbDataReader)dr, field, defaultValue);
+
         public static Nullable<int> GetNullableIntField(DataRow dr, string field)
         {
             return GetNullableIntField(dr, field, null);
         }
+
+        public static Nullable<int> GetNullableIntField(DbDataReader dr, string field)
+            => GetNullableIntField(dr, field, null);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<int> GetNullableIntField(OleDbDataReader dr, string field)
-        {
-            return GetNullableIntField(dr, field, null);
-        }
+            => GetNullableIntField((DbDataReader)dr, field);
+
         public static Nullable<int> GetNullableIntField(DataRow dr, string field, Nullable<int> defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -891,7 +890,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static Nullable<int> GetNullableIntField(OleDbDataReader dr, string field, Nullable<int> defaultValue)
+
+        public static Nullable<int> GetNullableIntField(DbDataReader dr, string field, Nullable<int> defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -906,11 +906,15 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableIntField(OleDbDataReader, string, Nullable<int>)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableIntField(DbDataReader, string, Nullable<int>)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static Nullable<int> GetNullableIntField(OleDbDataReader dr, string field, Nullable<int> defaultValue)
+            => GetNullableIntField((DbDataReader)dr, field, defaultValue);
 
         #endregion
 
@@ -918,31 +922,30 @@ namespace StarThrower.DataUtilities
         #region [ short / Int16 ]
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static short GetShortField(DataRow dr, string field)
         {
             return GetShortField(dr, field, 0);
         }
+
+        public static short GetShortField(DbDataReader dr, string field)
+            => GetShortField(dr, field, 0);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static short GetShortField(OleDbDataReader dr, string field)
-        {
-            return GetShortField(dr, field, 0);
-        }
+            => GetShortField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static short GetShortField(DataRow dr, string field, short defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -963,7 +966,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static short GetShortField(OleDbDataReader dr, string field, short defaultValue)
+
+        public static short GetShortField(DbDataReader dr, string field, short defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -978,38 +982,41 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetShortField(OleDbDataReader, string, short)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetShortField(DbDataReader, string, short)", ex);
                 throw;
             }
             return result;
         }
 
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static short GetShortField(OleDbDataReader dr, string field, short defaultValue)
+            => GetShortField((DbDataReader)dr, field, defaultValue);
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static Nullable<short> GetNullableShortField(DataRow dr, string field)
         {
             return GetNullableShortField(dr, field, null);
         }
+
+        public static Nullable<short> GetNullableShortField(DbDataReader dr, string field)
+            => GetNullableShortField(dr, field, null);
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<short> GetNullableShortField(OleDbDataReader dr, string field)
-        {
-            return GetNullableShortField(dr, field, null);
-        }
+            => GetNullableShortField((DbDataReader)dr, field);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        /// <exception cref="ArivuDataValidationException">Thrown if any parameter is programatically invalid.</exception>
-        /// <exception cref="ArivuDataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static Nullable<short> GetNullableShortField(DataRow dr, string field, Nullable<short> defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
@@ -1030,7 +1037,8 @@ namespace StarThrower.DataUtilities
             }
             return result;
         }
-        public static Nullable<short> GetNullableShortField(OleDbDataReader dr, string field, Nullable<short> defaultValue)
+
+        public static Nullable<short> GetNullableShortField(DbDataReader dr, string field, Nullable<short> defaultValue)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -1045,18 +1053,22 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableShortField(OleDbDataReader, string, Nullable<short>)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableShortField(DbDataReader, string, Nullable<short>)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static Nullable<short> GetNullableShortField(OleDbDataReader dr, string field, Nullable<short> defaultValue)
+            => GetNullableShortField((DbDataReader)dr, field, defaultValue);
 
         #endregion
 
 
         #region [ Guid ]
 
-        public static Guid GetGuidField(OleDbDataReader dr, string field)
+        public static Guid GetGuidField(DbDataReader dr, string field)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -1071,18 +1083,22 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetGuidField(OleDbDataReader, string)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetGuidField(DbDataReader, string)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static Guid GetGuidField(OleDbDataReader dr, string field)
+            => GetGuidField((DbDataReader)dr, field);
 
         #endregion
 
 
         #region [ Binary ]
 
-        public static byte[] GetBinaryField(OleDbDataReader dr, string field)
+        public static byte[] GetBinaryField(DbDataReader dr, string field)
         {
             if (dr == null) throw new ArgumentNullException("dr");
             if (field == null) throw new ArgumentNullException("field");
@@ -1097,11 +1113,15 @@ namespace StarThrower.DataUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBinaryField(OleDbDataReader, string)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBinaryField(DbDataReader, string)", ex);
                 throw;
             }
             return result;
         }
+
+        [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
+        public static byte[] GetBinaryField(OleDbDataReader dr, string field)
+            => GetBinaryField((DbDataReader)dr, field);
 
         #endregion
     }
