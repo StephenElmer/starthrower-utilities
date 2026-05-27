@@ -80,7 +80,7 @@ Each library has a paired `*.Test` project. Tests currently use MSTest (VS Test)
 Migration target is **xUnit + FluentAssertions**.
 
 Additional projects:
-- `StarThrower.EarleyParser.TestApp` — console app for interactive parser testing
+- `StarThrower.EarleyParser.TestApp` — WPF app for interactive parser testing (WinExe, not a console app)
 - `StarThrower.Providers.TestWebApp` — ASP.NET MVC 4 web app for provider testing (see
   constraints below)
 
@@ -196,6 +196,23 @@ For each project, the conversion steps are:
 - Delete `packages.config` → convert to `<PackageReference>` elements in the csproj
 - Delete `Properties/AssemblyInfo.cs`
 - Remove any FxCopCmd post-build event steps
+- Convert the legacy `<PostBuildEvent>` (sn.exe re-sign + Deploy copy) to a proper
+  MSBuild `<Target>` — the old `<PostBuildEvent>` in a `<PropertyGroup>` does not
+  evaluate `$(TargetPath)` correctly in SDK-style projects. Use this pattern on all
+  library projects (not test projects):
+  ```xml
+  <Target Name="SignAndDeploy" AfterTargets="Build"
+          Condition="Exists('D:\Keys\StarThrower\StarThrower.snk')">
+    <Exec Command='"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe" -R "$(TargetPath)" "D:\Keys\StarThrower\StarThrower.snk"' />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)..\Deploy\"
+          ContinueOnError="true" />
+  </Target>
+  ```
+  **Why this is needed for net48:** The .NET Framework CLR enforces strong-name
+  verification at load time. A delay-signed assembly (public key only) has an invalid
+  signature and will fail to load, causing all tests to fail. The `sn.exe -R` step
+  applies the full private-key signature. The `Condition` makes the target a silent
+  no-op if the private key is not present (e.g. on a CI machine).
 - Known NuGet packages in use: Castle.Core, Moq, Newtonsoft.Json (verify per project
   from its `packages.config` before deleting it)
 
@@ -206,6 +223,11 @@ After the full sweep: `dotnet test` the solution and confirm all tests pass. Com
 
 Same group order as 2a. After upgrading each project, fix any breaking API changes and
 verify tests pass before moving to the next group. Commit per group.
+
+**For each project upgraded to net10.0: remove the `SignAndDeploy` target.** The .NET
+runtime does not enforce strong-name verification, so delay-signed assemblies load and
+test without it. Signing for NuGet publication will be handled in the CI/CD pipeline
+(Phase 2).
 
 Groups 1–7 (through `Gis.EsriLibrary`): upgrade to net10.0 in order.
 
@@ -245,6 +267,11 @@ Same group order and same deferrals as 2b.
 - Replace `Assert.IsNotNull(x)` with `x.Should().NotBeNull()`
 - Replace `Assert.IsTrue(x)` with `x.Should().BeTrue()`
 - Preserve all existing test logic — only update the framework scaffolding
+- Package changes per test project:
+  - Remove: `Microsoft.NET.Test.Sdk`, `MSTest.TestAdapter`, `MSTest.TestFramework`
+  - Add: `xunit`, `xunit.runner.visualstudio` (v2) **or** just `xunit` (v3, self-hosted, no
+    `Microsoft.NET.Test.Sdk` needed)
+  - xUnit v3 is the likely target for net10; evaluate at migration time
 
 **Step 6 — Fix nullable warnings:**
 - Do not suppress with `!` operator — annotate properly
