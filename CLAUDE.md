@@ -149,6 +149,21 @@ steps together autonomously.
 
 ### Phase 1 — Foundation (current priority)
 
+**Note: Project-by-project order**
+Start with simplest, least-dependent projects first:
+Good starting order (test projects will be done in conjunction with their respective libraries):
+1. Logging
+2. MathUtilities, Matrices, Collections, ByteUtilities, DataUtilities, FileUtilities
+3. StringUtilities
+4. DateTimeUtilities 
+5. EarleyParser
+6. XBase, Gis.GeoUtilities
+7. Gis.EsriLibrary
+8. WcfProviders.Contract
+9. WcfProviders
+10. EfProviders
+11. Providers.TestWebApp
+
 **Step 1 — Clean up TFS artifacts** before first Git commit:
 - Remove `GlobalSection(TeamFoundationVersionControl)` block from
   `StarThrower.Utilities.sln`
@@ -157,14 +172,28 @@ steps together autonomously.
 - Delete all `*.vssscc` and `*.vspscc` files (TFS binding files, one per project)
 
 **Step 2 — Convert all projects to SDK-style `.csproj` format:**
-- Target framework: `net10.0`
-- Language version: `14.0`
+
+***Step 2a — Convert to SDK-style (net48)***
+- SDK-style csproj format
+- Delete packages.config → replace with PackageReference
+- Delete Properties/AssemblyInfo.cs
+- Remove FxCopCmd post-build steps
+- Known dependencies: Castle.Core, Moq, Newtonsoft.Json
+- Verify build + all tests pass
+- Commit + sync
+
+***Step 2b — Upgrade TFM to `net10.0`, project by project***
+- One project at a time
+- Fix breaking API changes per project
+- Verify tests pass after each
+- Commit per project or logical group
+
+***Step 2c — Enable C# `14.0`, nullable, implicit usings***
+- One project at a time
 - Enable nullable reference types: `<Nullable>enable</Nullable>`
 - Enable implicit usings: `<ImplicitUsings>enable</ImplicitUsings>`
-- Delete `packages.config` files — replace with `<PackageReference>` items
-- Delete `Properties/AssemblyInfo.cs` files — SDK generates assembly info automatically
-- Known NuGet dependencies (from packages folder): Castle.Core, Moq, Newtonsoft.Json
-- Remove FxCopCmd.exe post-build steps; Roslyn analyzers are configured separately
+- Work through warnings
+- Commit
 
 **Step 3 — Configure Roslyn analyzers** (replaces FxCopCmd):
 - Add `<AnalysisMode>Recommended</AnalysisMode>` to shared build props or each csproj
