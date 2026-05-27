@@ -131,7 +131,7 @@ Current/
 
 - **Framework:** .NET 4.8 (upgraded from .NET 4.0 by VS 2026 on open)
 - **Language:** C# (legacy, no modern idioms)
-- **Source control:** Currently also bound to TFS/TFVC (being migrated away from)
+- **Source control:** Git (TFS/TFVC artifacts removed — Step 1 complete)
 - **Test framework:** MSTest (VS Test)
 - **NuGet:** Old `packages.config` style, local `packages/` folder
 - **Code analysis:** Post-build FxCopCmd.exe (legacy; to be replaced with Roslyn analyzers)
@@ -171,29 +171,58 @@ Good starting order (test projects will be done in conjunction with their respec
   from every `.csproj` file
 - Delete all `*.vssscc` and `*.vspscc` files (TFS binding files, one per project)
 
-**Step 2 — Convert all projects to SDK-style `.csproj` format:**
+**Step 2 — Modernize project format and runtime**
 
-***Step 2a — Convert to SDK-style (net48)***
-- SDK-style csproj format
-- Delete packages.config → replace with PackageReference
-- Delete Properties/AssemblyInfo.cs
-- Remove FxCopCmd post-build steps
-- Known dependencies: Castle.Core, Moq, Newtonsoft.Json
-- Verify build + all tests pass
-- Commit + sync
+***Step 2a — Convert all projects to SDK-style csproj (net48) — full solution sweep***
+
+Goal: get the entire solution building with SDK-style project files before changing any
+runtime behavior. Safe to do in one sweep since the TFM stays at net48 throughout.
+
+Process each group as a unit (library + its test project together):
+1. `Logging` + `Logging.Test`
+2. `MathUtilities` + test, `Matrices` + test, `Collections` (no test project),
+   `ByteUtilities` + test, `DataUtilities` + test, `FileUtilities` (no test project)
+3. `StringUtilities` + test
+4. `DateTimeUtilities` + test
+5. `EarleyParser` + test + `EarleyParser.TestApp`
+6. `XBase` + test, `Gis.GeoUtilities` + test
+7. `Gis.EsriLibrary` (no test project)
+8. `WcfProviders.Contract`, `WcfProviders` + test
+9. `EfProviders` + test
+10. `Providers.TestWebApp`
+
+For each project, the conversion steps are:
+- Replace legacy `.csproj` XML with SDK-style (`<Project Sdk="Microsoft.NET.Sdk">`)
+- Delete `packages.config` → convert to `<PackageReference>` elements in the csproj
+- Delete `Properties/AssemblyInfo.cs`
+- Remove any FxCopCmd post-build event steps
+- Known NuGet packages in use: Castle.Core, Moq, Newtonsoft.Json (verify per project
+  from its `packages.config` before deleting it)
+
+After each group: `dotnet build` the solution and confirm it compiles.
+After the full sweep: `dotnet test` the solution and confirm all tests pass. Commit.
 
 ***Step 2b — Upgrade TFM to `net10.0`, project by project***
-- One project at a time
-- Fix breaking API changes per project
-- Verify tests pass after each
-- Commit per project or logical group
 
-***Step 2c — Enable C# `14.0`, nullable, implicit usings***
-- One project at a time
-- Enable nullable reference types: `<Nullable>enable</Nullable>`
-- Enable implicit usings: `<ImplicitUsings>enable</ImplicitUsings>`
-- Work through warnings
-- Commit
+Same group order as 2a. After upgrading each project, fix any breaking API changes and
+verify tests pass before moving to the next group. Commit per group.
+
+Groups 1–7 (through `Gis.EsriLibrary`): upgrade to net10.0 in order.
+
+Groups 8–10 — **pause and evaluate** before upgrading:
+- `WcfProviders.Contract` / `WcfProviders` / `WcfProviders.Test` — .NET 10 requires
+  `CoreWCF`; migration approach needs explicit decision before proceeding
+- `EfProviders` / `EfProviders.Test` — EF version story on .NET 10 needs evaluation
+- `Providers.TestWebApp` — ASP.NET MVC 4; likely needs a full rebuild as ASP.NET Core;
+  out of scope for Phase 1
+
+***Step 2c — Enable C# 14, nullable, implicit usings — project by project***
+
+Same group order and same deferrals as 2b.
+- Add `<Nullable>enable</Nullable>` and `<ImplicitUsings>enable</ImplicitUsings>`
+- Work through nullable warnings — do not suppress with `!`, fix the root cause
+- Remove `using` directives made redundant by implicit usings
+- Commit per group
 
 **Step 3 — Configure Roslyn analyzers** (replaces FxCopCmd):
 - Add `<AnalysisMode>Recommended</AnalysisMode>` to shared build props or each csproj
