@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace StarThrower.Logging
+﻿namespace StarThrower.Logging
 {
     /// <summary>
     /// Base class for implementations of IErrorReporter

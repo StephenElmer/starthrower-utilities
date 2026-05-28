@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace StarThrower.Logging
+﻿namespace StarThrower.Logging
 {
     public static class Logger
     {
@@ -129,7 +126,6 @@ namespace StarThrower.Logging
                     {
                         r.Report(source, ex);
                     }
-                    r = null;
                 }
             }
             catch

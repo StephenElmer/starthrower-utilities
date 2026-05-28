@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace StarThrower.Logging
+﻿namespace StarThrower.Logging
 {
     /// <summary>
     /// This interface enables you to create and register different output mediums for reported errors.

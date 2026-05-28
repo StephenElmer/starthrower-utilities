@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarThrower.Logging
+﻿namespace StarThrower.Logging
 {
     public static class ErrorPolicy
     {
