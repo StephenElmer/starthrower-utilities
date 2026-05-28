@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace StarThrower.Collections
 {
     public class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+        where TKey : notnull
     {
         #region [ Private Instance Variables ]
 
@@ -49,7 +51,7 @@ namespace StarThrower.Collections
             throw new NotSupportedException("This dictionary is read-only");
         }
 
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
             return _dictionary.TryGetValue(key, out value);
         }
