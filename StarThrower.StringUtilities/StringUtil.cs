@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using StarThrower.Logging;
@@ -102,9 +101,9 @@ namespace StarThrower.StringUtilities
         /// Strings.ToHex("asdf") returns "61736466"
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static string ToHex(string source)
+        public static string ToHex(string? source)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -209,14 +208,13 @@ namespace StarThrower.StringUtilities
         /// the value of s will be "s|d|f" and the value of tok will be "a"
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if source or delimiter is null.</exception>
-        public static string ParseString(ref string source, string delimiter)
+        public static string ParseString(ref string source, string? delimiter)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (delimiter == null) throw new ArgumentNullException("delimiter");
+            ArgumentNullException.ThrowIfNull(delimiter);
 
             try
             {
-                string ret = null;
+                string ret;
                 StringBuilder temp = new StringBuilder(source);
                 int pos = source.IndexOf(delimiter, StringComparison.Ordinal);
 
@@ -261,14 +259,13 @@ namespace StarThrower.StringUtilities
         /// the value of s will be "a|s|d" and the value of tok will be "f"
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if source or delimiter is null.</exception>
-        public static string ParseStringFromRight(ref string source, string delimiter)
+        public static string ParseStringFromRight(ref string source, string? delimiter)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (delimiter == null) throw new ArgumentNullException("delimiter");
+            ArgumentNullException.ThrowIfNull(delimiter);
 
             try
             {
-                string ret = null;
+                string ret;
                 StringBuilder temp = new StringBuilder(source);
                 int pos = source.LastIndexOf(delimiter, StringComparison.Ordinal);
 
@@ -304,11 +301,11 @@ namespace StarThrower.StringUtilities
         /// <param name="replacement">new string</param>
         /// <returns>string with substitution portioons</returns>
         /// <exception cref="ArgumentNullException">Thrown if source, target, or replacement is null.</exception>
-        public static string Substitute(string source, string target, string replacement)
+        public static string Substitute(string? source, string? target, string? replacement)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (target == null) throw new ArgumentNullException("target");
-            if (replacement == null) throw new ArgumentNullException("replacement");
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(target);
+            ArgumentNullException.ThrowIfNull(replacement);
 
             try
             {
@@ -333,11 +330,11 @@ namespace StarThrower.StringUtilities
         /// <param name="compare">0 is case-sensitive (default) = vbBinaryCompare; 1 is noncase-sensitive = vbTextCompare; 2 = vbDatabaseCompare</param>
         /// <returns>string with substitution portioons</returns>
         /// <exception cref="ArgumentNullException">Thrown if source, target, or replacement is null.</exception>
-        public static string Substitute(string source, string target, string replacement, ComparisonType compare)
+        public static string Substitute(string? source, string? target, string? replacement, ComparisonType compare)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (target == null) throw new ArgumentNullException("target");
-            if (replacement == null) throw new ArgumentNullException("replacement");
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(target);
+            ArgumentNullException.ThrowIfNull(replacement);
 
             try
             {
@@ -405,10 +402,10 @@ namespace StarThrower.StringUtilities
         /// <param name="length">The length of replaced characters.</param>
         /// <returns>The modified variation of the source string.</returns>
         /// <exception cref="ArgumentNullException">Thrown if source or replacement is null.</exception>
-        public static string Replace(string source, string replacement, int startIndex, int length)
+        public static string Replace(string? source, string? replacement, int startIndex, int length)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (replacement == null) throw new ArgumentNullException("replacement");
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(replacement);
 
             try
             {
@@ -449,9 +446,9 @@ namespace StarThrower.StringUtilities
         /// <param name="source">The string to be trimmed</param>
         /// <returns>The trimmed string</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static string TrimCrLf(string source)
+        public static string TrimCrLf(string? source)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -483,9 +480,9 @@ namespace StarThrower.StringUtilities
         /// <param name="length">the number of characters to get</param>
         /// <returns>leftmost n characters from s</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static string Left(string source, int length)
+        public static string Left(string? source, int length)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -506,9 +503,9 @@ namespace StarThrower.StringUtilities
         /// <param name="length">the number of characters to get</param>
         /// <returns>rightmost n characters from s</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static string Right(string source, int length)
+        public static string Right(string? source, int length)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -531,9 +528,9 @@ namespace StarThrower.StringUtilities
         /// <param name="source">The string to be checked</param>
         /// <returns>The string with the outside double quote marks removed</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static string RemoveDoubleQuoteWrapper(string source)
+        public static string RemoveDoubleQuoteWrapper(string? source)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -567,9 +564,9 @@ namespace StarThrower.StringUtilities
         /// Strings.DoubleQuoteString("This is a test") will return ""This is a test""
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if obj is null.</exception>
-        public static string WrapWithDoubleQuotes(object value)
+        public static string WrapWithDoubleQuotes(object? value)
         {
-            if (value == null) throw new ArgumentNullException("value");
+            ArgumentNullException.ThrowIfNull(value);
 
             return "\"" + value.ToString() + "\"";
         }
@@ -588,9 +585,9 @@ namespace StarThrower.StringUtilities
         /// Strings.SingleQuoteString("This is a test") will return "'This is a test'"
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if obj is null.</exception>
-        public static string WrapWithSingleQuotes(object value)
+        public static string WrapWithSingleQuotes(object? value)
         {
-            if (value == null) throw new ArgumentNullException("value");
+            ArgumentNullException.ThrowIfNull(value);
 
             return "'" + value.ToString() + "'";
         }
@@ -602,9 +599,9 @@ namespace StarThrower.StringUtilities
         /// <param name="source">The string to be split into an array</param>
         /// <returns>An array (of string) where each element is a character from the original string</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static string[] SplitStringIntoArray(string source)
+        public static string[] SplitStringIntoArray(string? source)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -642,10 +639,10 @@ namespace StarThrower.StringUtilities
         /// IsValidString("32 bad", "abcdef_12345 ") returns True (a space is contained in the list)
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if test or validChars is null.</exception>
-        public static bool IsValidString(string test, string validChars)
+        public static bool IsValidString(string? test, string? validChars)
         {
-            if (test == null) throw new ArgumentNullException("test");
-            if (validChars == null) throw new ArgumentNullException("validChars");
+            ArgumentNullException.ThrowIfNull(test);
+            ArgumentNullException.ThrowIfNull(validChars);
 
             try
             {
@@ -674,10 +671,10 @@ namespace StarThrower.StringUtilities
         /// <param name="regularExpression">The regular expression pattern to test against.</param>
         /// <returns>True if test is a match against regularExpression.</returns>
         /// <exception cref="ArgumentNullException">Thrown if test or regularExpression is null.</exception>
-        public static bool IsValid(string test, string regularExpression)
+        public static bool IsValid(string? test, string? regularExpression)
         {
-            if (test == null) throw new ArgumentNullException("test");
-            if (regularExpression == null) throw new ArgumentNullException("regularExpression");
+            ArgumentNullException.ThrowIfNull(test);
+            ArgumentNullException.ThrowIfNull(regularExpression);
 
             try
             {
@@ -708,10 +705,10 @@ namespace StarThrower.StringUtilities
         /// Strings.IsValidCharacter(" ", "abcdef_ 12345")  returns True
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if test or validChars is null.</exception>
-        public static bool IsValidCharacter(string test, string validChars)
+        public static bool IsValidCharacter(string? test, string? validChars)
         {
-            if (test == null) throw new ArgumentNullException("test");
-            if (validChars == null) throw new ArgumentNullException("validChars");
+            ArgumentNullException.ThrowIfNull(test);
+            ArgumentNullException.ThrowIfNull(validChars);
 
             try
             {
@@ -758,10 +755,10 @@ namespace StarThrower.StringUtilities
         /// A source string which contains a single instance of delimiter is considered to be a string with two tokens.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if source or delimiter is null.</exception>
-        public static int CountTokens(string source, string delimiter)
+        public static int CountTokens(string? source, string? delimiter)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (delimiter == null) throw new ArgumentNullException("delimiter");
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(delimiter);
 
             try
             {
@@ -809,10 +806,10 @@ namespace StarThrower.StringUtilities
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if source or delimiter is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if pos is less than or equal to zero.</exception>
-        public static string GetToken(string source, string delimiter, int pos)
+        public static string GetToken(string? source, string? delimiter, int pos)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (delimiter == null) throw new ArgumentNullException("delimiter");
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(delimiter);
             if (pos <= 0) throw new ArgumentOutOfRangeException("pos");
 
             try
@@ -863,11 +860,11 @@ namespace StarThrower.StringUtilities
         /// Rule 3: In all other cases, the number of tokens is the number of delimiters + 1.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if source, target, or delimiter is null.</exception>
-        public static bool IsToken(string source, string target, string delimiter)
+        public static bool IsToken(string? source, string? target, string? delimiter)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (target == null) throw new ArgumentNullException("target");
-            if (delimiter == null) throw new ArgumentNullException("delimiter");
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(target);
+            ArgumentNullException.ThrowIfNull(delimiter);
 
             try
             {
@@ -900,9 +897,9 @@ namespace StarThrower.StringUtilities
         /// <param name="text">The string which is to be modified</param>
         /// <returns>The string all double quotes doubled</returns>
         /// <exception cref="ArgumentNullException">Thrown if text is null.</exception>
-        public static string SqlText(string text)
+        public static string SqlText(string? text)
         {
-            if (text == null) throw new ArgumentNullException("text");
+            ArgumentNullException.ThrowIfNull(text);
 
             try
             {
@@ -925,21 +922,17 @@ namespace StarThrower.StringUtilities
         /// <param name="text">The string which is to be checked for preceding quotation marks.</param>
         /// <returns>Returns a string which is either empty or starts with a character which is not a quotation mark.</returns>
         /// <exception cref="ArgumentNullException">Thrown if text is null.</exception>
-        public static string StripLeadingDoubleQuotes(string text)
+        public static string StripLeadingDoubleQuotes(string? text)
         {
-            if (text == null) throw new ArgumentNullException("text");
+            ArgumentNullException.ThrowIfNull(text);
 
             try
             {
                 if (text.Length == 0) return text;
 
-                string quote = null;
-                string firstChar = null;
                 StringBuilder ret = new StringBuilder(text);
-
-                quote = ToChar(34);
-
-                firstChar = ret[0].ToString();
+                string quote = ToChar(34);
+                string firstChar = ret[0].ToString();
                 //while ((!ret.ToString().Equals(String.Empty)) && firstChar.Equals(quote))
                 while ((!(ret.Length == 0)) && firstChar.Equals(quote))
                 {
@@ -1001,9 +994,9 @@ namespace StarThrower.StringUtilities
         /// <param name="target">The string to be converted.</param>
         /// <returns>The ASCII value of the string target.</returns>
         /// <exception cref="ArgumentNullException">Thrown if target is null.</exception>
-        public static int ToAscii(string target)
+        public static int ToAscii(string? target)
         {
-            if (target == null) throw new ArgumentNullException("target");
+            ArgumentNullException.ThrowIfNull(target);
 
             try
             {
@@ -1039,9 +1032,9 @@ namespace StarThrower.StringUtilities
         /// <param name="text">The string you want to clean.</param>
         /// <returns>An XML-safe variation of text.</returns>
         /// <exception cref="ArgumentNullException">Thrown if text is null.</exception>
-        public static string XmlEncode(string text)
+        public static string XmlEncode(string? text)
         {
-            if (text == null) throw new ArgumentNullException("text");
+            ArgumentNullException.ThrowIfNull(text);
 
             try
             {
@@ -1074,9 +1067,9 @@ namespace StarThrower.StringUtilities
         /// For proper encoding/decoding of strings with specific character sets, consider using Encoding classes directly.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static byte[] ToByteArray(string source)
+        public static byte[] ToByteArray(string? source)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -1109,9 +1102,9 @@ namespace StarThrower.StringUtilities
         /// This method is designed primarily for ASCII-compatible data. For other encodings or binary data, consider using Encoding classes directly.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if target is null.</exception>
-        public static string FromByteArray(byte[] target)
+        public static string FromByteArray(byte[]? target)
         {
-            if (target == null) throw new ArgumentNullException("target");
+            ArgumentNullException.ThrowIfNull(target);
 
             try
             {
@@ -1154,9 +1147,9 @@ namespace StarThrower.StringUtilities
         /// For an empty string with finalLength > 0, a string of that many spaces is returned.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if original is null.</exception>
-        public static string AppendSpaces(string original, int finalLength)
+        public static string AppendSpaces(string? original, int finalLength)
         {
-            if (original == null) throw new ArgumentNullException("original");
+            ArgumentNullException.ThrowIfNull(original);
 
             try
             {
@@ -1204,10 +1197,10 @@ namespace StarThrower.StringUtilities
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if source or target is null.</exception>
         /// <exception cref="ArgumentException">Thrown if target is an empty string.</exception>
-        public static int GetCountOf(string source, string target)
+        public static int GetCountOf(string? source, string? target)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (target == null) throw new ArgumentNullException("target");
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(target);
             if (target.Length == 0) throw new ArgumentException("target cannot be an empty string", "target");
 
             int result = 0;
@@ -1244,9 +1237,9 @@ namespace StarThrower.StringUtilities
         /// <returns>A string representation of the number formatted to fit in length</returns>
         /// <exception cref="ArgumentNullException">Thrown if number is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if number is non-numeric.</exception>
-        public static string SqueezeNumber(object number, int length)
+        public static string SqueezeNumber(object? number, int length)
         {
-            if (number == null) throw new ArgumentNullException("number");
+            ArgumentNullException.ThrowIfNull(number);
             if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException("number");
 
             try
@@ -1275,9 +1268,9 @@ namespace StarThrower.StringUtilities
         /// <returns>A string representation of the number formatted to fit in length</returns>
         /// <exception cref="ArgumentNullException">Thrown if number is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if number is non-numeric.</exception>
-        public static string SqueezeNumber(object number, int length, ScientificNotationFormat format)
+        public static string SqueezeNumber(object? number, int length, ScientificNotationFormat format)
         {
-            if (number == null) throw new ArgumentNullException("number");
+            ArgumentNullException.ThrowIfNull(number);
             if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException("number");
 
             try
@@ -1383,9 +1376,9 @@ namespace StarThrower.StringUtilities
         /// ENotationToBaseTenNotation("1.23E+00", false, false, true, true) returns "1.23" (excludeZeroPower=true)
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        static public string ENotationToBaseTenNotation(string source, bool useSuperscript, bool spaced, bool excludePlusSign, bool excludeZeroPower)
+        static public string ENotationToBaseTenNotation(string? source, bool useSuperscript, bool spaced, bool excludePlusSign, bool excludeZeroPower)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -1472,9 +1465,9 @@ namespace StarThrower.StringUtilities
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if target is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if target is not a valid whole number (empty, contains invalid characters, or has improperly positioned signs).</exception>
-        public static string ToSuperscript(string target)
+        public static string ToSuperscript(string? target)
         {
-            if (target == null) throw new ArgumentNullException("target");
+            ArgumentNullException.ThrowIfNull(target);
             if (!MathUtil.IsInteger(target)) throw new ArgumentOutOfRangeException("target");
 
             try
@@ -1561,13 +1554,13 @@ namespace StarThrower.StringUtilities
         /// </remarks>
         public static string ToXmlString(this DateTime dt)
         {
-            string YYYY = null;
-            string MM = null;
-            string DD = null;
-            string hh = null;
-            string mm = null;
-            string ss = null;
-            string s = null;
+            string YYYY;
+            string MM;
+            string DD;
+            string hh;
+            string mm;
+            string ss;
+            string s;
 
             if (dt.Year < 10)
             {

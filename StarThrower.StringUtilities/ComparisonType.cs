@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarThrower.StringUtilities
+﻿namespace StarThrower.StringUtilities
 {
     /// <summary>
     /// A set of comparison "modes" for use within the StarThrower Utilities.

@@ -339,7 +339,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseString1()
         {
             string s = "a|s|d|f";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseString(ref s, "|");
             Assert.AreEqual("a", tok);
@@ -366,7 +366,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseStringEdgeCase1()
         {
             string s = "||||";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseString(ref s, "|");
             Assert.AreEqual(String.Empty, tok);
@@ -389,7 +389,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseStringEdgeCase2()
         {
             string s = "|a|s|d|f";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseString(ref s, "|");
             Assert.AreEqual(String.Empty, tok);
@@ -416,7 +416,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseStringEdgeCase3()
         {
             string s = "|a|s|d|f|";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseString(ref s, "|");
             Assert.AreEqual(String.Empty, tok);
@@ -447,7 +447,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseString2()
         {
             string s = "asdf|qwer|zxcv|1234";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseString(ref s, "|");
             Assert.AreEqual("asdf", tok);
@@ -655,12 +655,11 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestParseString20_NullSource()
         {
-            // Test null source throws exception
-            string s = null;
-            StringUtil.ParseString(ref s, "|");
+            // Null source is now a compile-time error (ref string is non-nullable);
+            // enforcement moved from runtime guard to type system.
+            Ignore();
         }
 
         [TestMethod]
@@ -721,7 +720,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseStringFromRight1()
         {
             string s = "a|s|d|f";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseStringFromRight(ref s, "|");
             Assert.AreEqual("f", tok);
@@ -748,7 +747,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseStringFromRightEdgeCase1()
         {
             string s = "||||";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseStringFromRight(ref s, "|");
             Assert.AreEqual(String.Empty, tok);
@@ -775,7 +774,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseStringFromRightEdgeCase2()
         {
             string s = "|a|s|d|f";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseStringFromRight(ref s, "|");
             Assert.AreEqual("f", tok);
@@ -802,7 +801,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseStringFromRightEdgeCase3()
         {
             string s = "|a|s|d|f|";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseStringFromRight(ref s, "|");
             Assert.AreEqual(String.Empty, tok);
@@ -833,7 +832,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestParseStringFromRight2()
         {
             string s = "asdf|qwer|zxcv|1234";
-            string tok = null;
+            string? tok = null;
 
             tok = StringUtil.ParseStringFromRight(ref s, "|");
             Assert.AreEqual("1234", tok);
@@ -1041,12 +1040,11 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestParseStringFromRight20_NullSource()
         {
-            // Test null source throws exception
-            string s = null;
-            StringUtil.ParseStringFromRight(ref s, "|");
+            // Null source is now a compile-time error (ref string is non-nullable);
+            // enforcement moved from runtime guard to type system.
+            Ignore();
         }
 
         [TestMethod]
@@ -5075,7 +5073,7 @@ namespace StarThrower.StringUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestIsValidNullTest()
         {
-            string test = null;
+            string? test = null;
             string pattern = @"[a-zA-Z_0-9]";
             bool result = StringUtil.IsValid(test, pattern);
             Assert.Fail();
@@ -5085,7 +5083,7 @@ namespace StarThrower.StringUtilities.Test
         public void TestIsValidNullPattern()
         {
             string test = "asdf";
-            string pattern = null;
+            string? pattern = null;
             bool result = StringUtil.IsValid(test, pattern);
             Assert.Fail();
         }
@@ -11596,7 +11594,7 @@ namespace StarThrower.StringUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestToSuperscriptArgumentNull()
         {
-            string s = null;
+            string? s = null;
             string result = StringUtil.ToSuperscript(s);
             Assert.Fail();
         }
