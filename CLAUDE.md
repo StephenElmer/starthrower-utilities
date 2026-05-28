@@ -129,16 +129,19 @@ Current/
 
 ## Current State
 
-- **Framework:** .NET 4.8 (upgraded from .NET 4.0 by VS 2026 on open)
-- **Language:** C# (legacy, no modern idioms)
-- **Source control:** Git (TFS/TFVC artifacts removed — Step 1 complete)
-- **Test framework:** MSTest (VS Test)
-- **NuGet:** Old `packages.config` style, local `packages/` folder
-- **Code analysis:** Post-build FxCopCmd.exe (legacy; to be replaced with Roslyn analyzers)
-- **Pending NuGet updates:** 14 updates outstanding, including at least one flagged with
-  a vulnerability and one deprecated — these will be resolved during the NuGet migration
-  to PackageReference, not before
-- **All existing tests pass** — this is the verified baseline before any migration work
+- **Framework:**
+  - `net10.0` — Groups 1–7 complete (Logging, MathUtilities, Matrices, Collections,
+    ByteUtilities, DataUtilities, FileUtilities, StringUtilities, DateTimeUtilities,
+    EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
+  - `net48` retained indefinitely — WcfProviders.Contract, WcfProviders, EfProviders,
+    Providers.TestWebApp (System.Web blocker; see Step 2b notes)
+- **Language:** C# (modern idioms not yet applied — Step 2c pending)
+- **Source control:** Git / GitHub (TFS artifacts removed — Step 1 complete)
+- **Test framework:** MSTest (VS Test) — xUnit migration pending (Step 5)
+- **NuGet:** PackageReference (packages.config removed — Step 2a complete)
+- **Code analysis:** FxCopCmd removed — Roslyn analyzers pending (Step 3)
+- **Steps complete:** 1, 2a, 2b (Groups 1–7)
+- **All tests passing** on all migrated (net10.0) projects
 
 ---
 
@@ -317,12 +320,29 @@ requires net6.0+ and cannot be used while the project stays on net48.
 These projects will remain at net48 until a deliberate redesign decision is made for a
 future phase. Exclude them from Steps 2c, 2d, 3, 4, and 5.
 
-***Step 2c — Enable C# 14, nullable, implicit usings — project by project***
+***Step 2c — Enable C# 14, nullable, implicit usings — project by project*** ← CURRENT STEP
 
-Same group order and same deferrals as 2b.
-- Add `<Nullable>enable</Nullable>` and `<ImplicitUsings>enable</ImplicitUsings>`
+**Scope: Groups 1–7 (net10.0 projects) only.** Do not apply to WcfProviders,
+EfProviders, or Providers.TestWebApp — these remain on net48 and are excluded from
+this step and all subsequent steps unless explicitly noted.
+
+Same group order as 2b:
+1. `Logging` + test
+2. `MathUtilities` + test, `Matrices` + test, `Collections`, `ByteUtilities` + test,
+   `DataUtilities` + test, `FileUtilities`
+3. `StringUtilities` + test
+4. `DateTimeUtilities` + test
+5. `EarleyParser` + test + `EarleyParser.TestApp`
+6. `XBase` + test, `Gis.GeoUtilities` + test
+7. `Gis.EsriLibrary`
+
+For each project:
+- Add `<Nullable>enable</Nullable>` and `<ImplicitUsings>enable</ImplicitUsings>` to csproj
 - Work through nullable warnings — do not suppress with `!`, fix the root cause
+- Add `?` to reference types that are legitimately nullable
+- Add null guards where parameters must be non-null
 - Remove `using` directives made redundant by implicit usings
+- Verify build is clean and tests pass
 - Commit per group
 
 ***Step 2d — BCL supersedence audit***
