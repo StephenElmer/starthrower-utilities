@@ -1,4 +1,6 @@
-﻿namespace StarThrower.Logging
+﻿using System;
+
+namespace StarThrower.Logging
 {
     /// <summary>
     /// This interface enables you to create and register different output mediums for reported errors.

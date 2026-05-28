@@ -320,7 +320,7 @@ requires net6.0+ and cannot be used while the project stays on net48.
 These projects will remain at net48 until a deliberate redesign decision is made for a
 future phase. Exclude them from Steps 2c, 2d, 3, 4, and 5.
 
-***Step 2c — Enable C# 14, nullable, implicit usings — project by project*** ← CURRENT STEP
+***Step 2c — Enable C# 14 and nullable — project by project*** ← CURRENT STEP
 
 **Scope: Groups 1–7 (net10.0 projects) only.** Do not apply to WcfProviders,
 EfProviders, or Providers.TestWebApp — these remain on net48 and are excluded from
@@ -336,12 +336,19 @@ Same group order as 2b:
 6. `XBase` + test, `Gis.GeoUtilities` + test
 7. `Gis.EsriLibrary`
 
+**Note on implicit usings:** `<ImplicitUsings>enable</ImplicitUsings>` is deliberately
+omitted. This solution mixes net10.0 and net48 projects; applying implicit usings only
+to net10.0 projects would create asymmetric conventions across the solution. Also,
+`System.Collections.ObjectModel` and other commonly-used namespaces are not on the
+implicit list, which caused confusing linter noise in practice. Explicit using directives
+are easier to grep, consistent across all TFMs, and make each file self-contained.
+
 For each project:
-- Add `<Nullable>enable</Nullable>` and `<ImplicitUsings>enable</ImplicitUsings>` to csproj
+- Add `<Nullable>enable</Nullable>` to csproj (do **not** add `<ImplicitUsings>`)
 - Work through nullable warnings — do not suppress with `!`, fix the root cause
 - Add `?` to reference types that are legitimately nullable
 - Add null guards where parameters must be non-null
-- Remove `using` directives made redundant by implicit usings
+- Remove only `using` directives that are genuinely unused by the file
 - Verify build is clean and tests pass
 - Commit per group
 
@@ -456,7 +463,6 @@ working logic solely to apply them. Always explain the pattern when applying it.
 - Use collection expressions `[x, y, z]` instead of `new List<T> { x, y, z }`
 - Use pattern matching instead of long if/else chains
 - Use `ReadOnlySpan<T>` in string-parsing or byte-manipulation hot paths where appropriate
-- Remove redundant `using` directives made unnecessary by `ImplicitUsings`
 
 ---
 

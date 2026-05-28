@@ -13,7 +13,7 @@ namespace StarThrower.Matrices
         {
             get
             {
-                if (indexes == null) throw new ArgumentNullException("indexes");
+                ArgumentNullException.ThrowIfNull(indexes);
 
                 //TODO: requires still more validation
 
@@ -35,7 +35,7 @@ namespace StarThrower.Matrices
             }
             set
             {
-                if (indexes == null) throw new ArgumentNullException("indexes");
+                ArgumentNullException.ThrowIfNull(indexes);
 
                 //TODO: requires still more validation
 
@@ -59,7 +59,7 @@ namespace StarThrower.Matrices
 
         public override Collection<TIndex> GetIndexesAt(params int[] indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
 
             //TODO: requires still more validation
 
@@ -94,7 +94,7 @@ namespace StarThrower.Matrices
 
         public override TValue GetItemAt(params int[] indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
 
             //TODO: requires still more validation
 
@@ -121,7 +121,7 @@ namespace StarThrower.Matrices
 
         public override void SetItemAt(TValue value, params int[] indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
 
             //TODO: requires still more validation
 
@@ -148,7 +148,7 @@ namespace StarThrower.Matrices
 
         public MultipleDimensionMatrix(params IEnumerable<TIndex>[] indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Length < 2) throw new InvalidOperationException("MultipleDimensionMatrix must contain at least two values in its indices list");
 
             if (indexes.Length > 2)

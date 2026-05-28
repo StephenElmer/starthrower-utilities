@@ -1,4 +1,5 @@
-﻿using StarThrower.Logging;
+﻿using System;
+using StarThrower.Logging;
 
 namespace StarThrower.MathUtilities
 {
@@ -72,7 +73,7 @@ namespace StarThrower.MathUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Mathematics.IsWholeNumber(string)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "MathUtil.IsWholeNumber(string)", ex);
                 throw;
             }
         }
@@ -95,7 +96,7 @@ namespace StarThrower.MathUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Mathematics.IsInteger(string)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "MathUtil.IsInteger(string)", ex);
                 throw;
             }
         }
@@ -118,7 +119,7 @@ namespace StarThrower.MathUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Mathematics.IsLong(string)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "MathUtil.IsLong(string)", ex);
                 throw;
             }
         }
@@ -148,7 +149,7 @@ namespace StarThrower.MathUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Mathematics.RoundTo(double, long)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "MathUtil.RoundTo(double, long)", ex);
                 throw;
             }
         }

@@ -13,14 +13,14 @@ namespace StarThrower.Matrices
         {
             get
             {
-                if (indexes == null) throw new ArgumentNullException("indexes");
+                ArgumentNullException.ThrowIfNull(indexes);
                 if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
                 if (!_values.ContainsKey(indexes[0])) throw new InvalidOperationException("OneDimensionMatrix does not have an index associated with " + indexes[0].ToString());
                 return _values[indexes[0]];
             }
             set
             {
-                if (indexes == null) throw new ArgumentNullException("indexes");
+                ArgumentNullException.ThrowIfNull(indexes);
                 if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
                 if (!_values.ContainsKey(indexes[0])) throw new InvalidOperationException("OneDimensionMatrix does not have an index associated with " + indexes[0].ToString());
                 _values[indexes[0]] = value;
@@ -29,7 +29,7 @@ namespace StarThrower.Matrices
 
         public override Collection<TIndex> GetIndexesAt(params int[] indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
             if (indexes[0] < 0) throw new IndexOutOfRangeException();
             if (indexes[0] >= _values.Count) throw new IndexOutOfRangeException();
@@ -43,7 +43,7 @@ namespace StarThrower.Matrices
 
         public override TValue GetItemAt(params int[] indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
             if (indexes[0] < 0) throw new IndexOutOfRangeException();
             if (indexes[0] >= _values.Count) throw new IndexOutOfRangeException();
@@ -54,7 +54,7 @@ namespace StarThrower.Matrices
 
         public override void SetItemAt(TValue value, params int[] indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
             if (indexes[0] < 0) throw new IndexOutOfRangeException();
             if (indexes[0] >= _values.Count) throw new IndexOutOfRangeException();
@@ -65,7 +65,7 @@ namespace StarThrower.Matrices
 
         public OneDimensionMatrix(IEnumerable<TIndex> indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Count() < 1) throw new InvalidOperationException("OneDimensionMatrix must contain at least one value in its indices list");
 
             _values = new Dictionary<TIndex, TValue>();

@@ -13,12 +13,12 @@ namespace StarThrower.Matrices
         {
             get
             {
-                if (indexes == null) throw new ArgumentNullException("indexes");
+                ArgumentNullException.ThrowIfNull(indexes);
                 return _matrix[indexes];
             }
             set
             {
-                if (indexes == null) throw new ArgumentNullException("indexes");
+                ArgumentNullException.ThrowIfNull(indexes);
                 _matrix[indexes] = value;
             }
         }
@@ -40,7 +40,7 @@ namespace StarThrower.Matrices
 
         public Matrix(params IEnumerable<TIndex>[] indexes)
         {
-            if (indexes == null) throw new ArgumentNullException("indexes");
+            ArgumentNullException.ThrowIfNull(indexes);
 
             int count = indexes.Count();
             if (count == 1)

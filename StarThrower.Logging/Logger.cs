@@ -1,4 +1,7 @@
-﻿namespace StarThrower.Logging
+﻿using System;
+using System.Collections.Generic;
+
+namespace StarThrower.Logging
 {
     public static class Logger
     {
