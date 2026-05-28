@@ -52,16 +52,16 @@ namespace StarThrower.DataUtilities
         /// <returns>The boolean value of the field.  False if the field is null, DBNull, or an error is thrown.</returns>
         /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
         /// <exception cref="ArgumentException">Thrown if fieldName is not a valid field in dataRow.</exception>
-        public static bool GetBooleanField(DataRow dataRow, string fieldName)
+        public static bool GetBooleanField(DataRow? dataRow, string? fieldName)
         {
-            if (dataRow == null) throw new ArgumentNullException("dataRow");
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(dataRow);
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             try
             {
                 if (dataRow[fieldName] == null) return false;
                 if (dataRow[fieldName] is DBNull) return false;
-                if (dataRow[fieldName].ToString().Equals("1")) return true; //SQL Server
+                if (dataRow[fieldName].ToString() == "1") return true; //SQL Server
                 if (String.Compare(dataRow[fieldName].ToString(), "True", StringComparison.OrdinalIgnoreCase) == 0) return true; //Access ?
                 return false;
             }
@@ -78,12 +78,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static bool GetBoolField(DataRow dr, string field)
+        public static bool GetBoolField(DataRow? dr, string? field)
         {
             return GetBoolField(dr, field, false);
         }
 
-        public static bool GetBoolField(DbDataReader dr, string field)
+        public static bool GetBoolField(DbDataReader? dr, string? field)
             => GetBoolField(dr, field, false);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -97,10 +97,10 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static bool GetBoolField(DataRow dr, string field, bool defaultValue)
+        public static bool GetBoolField(DataRow? dr, string? field, bool defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             bool result = defaultValue;
             try
@@ -118,10 +118,10 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static bool GetBoolField(DbDataReader dr, string field, bool defaultValue)
+        public static bool GetBoolField(DbDataReader? dr, string? field, bool defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             bool result = defaultValue;
             try
@@ -154,12 +154,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static string GetStringField(DataRow dr, string field)
+        public static string GetStringField(DataRow? dr, string? field)
         {
             return GetStringField(dr, field, String.Empty);
         }
 
-        public static string GetStringField(DbDataReader dr, string field)
+        public static string GetStringField(DbDataReader? dr, string? field)
             => GetStringField(dr, field, String.Empty);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -173,10 +173,10 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string GetStringField(DataRow dr, string field, string defaultValue)
+        public static string GetStringField(DataRow? dr, string? field, string defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
             if (defaultValue == null) throw new ArgumentNullException("defaultValue");
 
             string result = defaultValue;
@@ -184,7 +184,7 @@ namespace StarThrower.DataUtilities
             {
                 if ((dr[field] != null) && !(dr[field] is DBNull))
                 {
-                    result = dr[field].ToString();
+                    result = dr[field].ToString() ?? result;
                 }
             }
             catch (Exception ex)
@@ -195,10 +195,10 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static string GetStringField(DbDataReader dr, string field, string defaultValue)
+        public static string GetStringField(DbDataReader? dr, string? field, string defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
             if (defaultValue == null) throw new ArgumentNullException("defaultValue");
 
             string result = defaultValue;
@@ -206,7 +206,7 @@ namespace StarThrower.DataUtilities
             {
                 if (!(dr[field] is DBNull))
                 {
-                    result = dr[field].ToString();
+                    result = dr[field].ToString() ?? result;
                 }
             }
             catch (Exception ex)
@@ -270,12 +270,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static DateTime GetDateTimeField(DataRow dr, string field)
+        public static DateTime GetDateTimeField(DataRow? dr, string? field)
         {
             return GetDateTimeField(dr, field, DateTime.Now);
         }
 
-        public static DateTime GetDateTimeField(DbDataReader dr, string field)
+        public static DateTime GetDateTimeField(DbDataReader? dr, string? field)
             => GetDateTimeField(dr, field, DateTime.Now);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -291,10 +291,10 @@ namespace StarThrower.DataUtilities
         /// <returns>The DateTime value of the field.  The value specified by defaultValue if the field is null, DBNull, or an error is thrown.</returns>
         /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         /// <exception cref="DataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
-        public static DateTime GetDateTimeField(DataRow dr, string field, DateTime defaultValue)
+        public static DateTime GetDateTimeField(DataRow? dr, string? field, DateTime defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             DateTime result = defaultValue;
             try
@@ -312,10 +312,10 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static DateTime GetDateTimeField(DbDataReader dr, string field, DateTime defaultValue)
+        public static DateTime GetDateTimeField(DbDataReader? dr, string? field, DateTime defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             DateTime result = defaultValue;
             try
@@ -343,12 +343,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static Nullable<DateTime> GetNullableDateTimeField(DataRow dr, string field)
+        public static Nullable<DateTime> GetNullableDateTimeField(DataRow? dr, string? field)
         {
             return GetNullableDateTimeField(dr, field, null);
         }
 
-        public static Nullable<DateTime> GetNullableDateTimeField(DbDataReader dr, string field)
+        public static Nullable<DateTime> GetNullableDateTimeField(DbDataReader? dr, string? field)
             => GetNullableDateTimeField(dr, field, null);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -362,15 +362,15 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static Nullable<DateTime> GetNullableDateTimeField(DataRow dr, string field, Nullable<DateTime> defaultValue)
+        public static Nullable<DateTime> GetNullableDateTimeField(DataRow? dr, string? field, Nullable<DateTime> defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Nullable<DateTime> result = defaultValue;
             try
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
                 {
                     result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
                 }
@@ -383,15 +383,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static Nullable<DateTime> GetNullableDateTimeField(DbDataReader dr, string field, Nullable<DateTime> defaultValue)
+        public static Nullable<DateTime> GetNullableDateTimeField(DbDataReader? dr, string? field, Nullable<DateTime> defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Nullable<DateTime> result = defaultValue;
             try
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
                 {
                     result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
                 }
@@ -420,16 +420,16 @@ namespace StarThrower.DataUtilities
         /// <param name="fieldName">The name of the field</param>
         /// <returns>The float value of the field.  0.0f if the field is null, DBNull, or an error is thrown.</returns>
         /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
-        public static float GetSingleField(DataRow dataRow, string fieldName)
+        public static float GetSingleField(DataRow? dataRow, string? fieldName)
         {
-            if (dataRow == null) throw new ArgumentNullException("dataRow");
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(dataRow);
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             try
             {
                 if (dataRow[fieldName] == null) return 0.0f;
                 if (dataRow[fieldName] is DBNull) return 0.0f;
-                return float.Parse(dataRow[fieldName].ToString(), CultureInfo.InvariantCulture);
+                return Convert.ToSingle(dataRow[fieldName], CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
@@ -444,12 +444,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static float GetFloatField(DataRow dr, string field)
+        public static float GetFloatField(DataRow? dr, string? field)
         {
             return GetFloatField(dr, field, 0);
         }
 
-        public static float GetFloatField(DbDataReader dr, string field)
+        public static float GetFloatField(DbDataReader? dr, string? field)
             => GetFloatField(dr, field, 0);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -463,10 +463,10 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static float GetFloatField(DataRow dr, string field, float defaultValue)
+        public static float GetFloatField(DataRow? dr, string? field, float defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             float result = defaultValue;
             try
@@ -484,10 +484,10 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static float GetFloatField(DbDataReader dr, string field, float defaultValue)
+        public static float GetFloatField(DbDataReader? dr, string? field, float defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             float result = defaultValue;
             try
@@ -520,12 +520,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static double GetDoubleField(DataRow dr, string field)
+        public static double GetDoubleField(DataRow? dr, string? field)
         {
             return GetDoubleField(dr, field, 0.0);
         }
 
-        public static double GetDoubleField(DbDataReader dr, string field)
+        public static double GetDoubleField(DbDataReader? dr, string? field)
             => GetDoubleField(dr, field, 0.0);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -539,10 +539,10 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static double GetDoubleField(DataRow dr, string field, double defaultValue)
+        public static double GetDoubleField(DataRow? dr, string? field, double defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             double result = defaultValue;
             try
@@ -560,10 +560,10 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static double GetDoubleField(DbDataReader dr, string field, double defaultValue)
+        public static double GetDoubleField(DbDataReader? dr, string? field, double defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             double result = defaultValue;
             try
@@ -591,12 +591,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static Nullable<double> GetNullableDoubleField(DataRow dr, string field)
+        public static Nullable<double> GetNullableDoubleField(DataRow? dr, string? field)
         {
             return GetNullableDoubleField(dr, field, null);
         }
 
-        public static Nullable<double> GetNullableDoubleField(DbDataReader dr, string field)
+        public static Nullable<double> GetNullableDoubleField(DbDataReader? dr, string? field)
             => GetNullableDoubleField(dr, field, null);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -610,15 +610,15 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static Nullable<double> GetNullableDoubleField(DataRow dr, string field, Nullable<double> defaultValue)
+        public static Nullable<double> GetNullableDoubleField(DataRow? dr, string? field, Nullable<double> defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Nullable<double> result = defaultValue;
             try
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
                 {
                     result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
                 }
@@ -631,15 +631,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static Nullable<double> GetNullableDoubleField(DbDataReader dr, string field, Nullable<double> defaultValue)
+        public static Nullable<double> GetNullableDoubleField(DbDataReader? dr, string? field, Nullable<double> defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Nullable<double> result = defaultValue;
             try
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
                 {
                     result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
                 }
@@ -668,16 +668,16 @@ namespace StarThrower.DataUtilities
         /// <param name="fieldName">The name of the field</param>
         /// <returns>The long value of the field.  0 if the field is null, DBNull, or an error is thrown.</returns>
         /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
-        public static long GetInt64Field(DataRow dataRow, string fieldName)
+        public static long GetInt64Field(DataRow? dataRow, string? fieldName)
         {
-            if (dataRow == null) throw new ArgumentNullException("dataRow");
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(dataRow);
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             try
             {
                 if (dataRow[fieldName] == null) return 0;
                 if (dataRow[fieldName] is DBNull) return 0;
-                return Int64.Parse(dataRow[fieldName].ToString(), CultureInfo.InvariantCulture);
+                return Convert.ToInt64(dataRow[fieldName], CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
@@ -692,12 +692,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static long GetLongField(DataRow dr, string field)
+        public static long GetLongField(DataRow? dr, string? field)
         {
             return GetLongField(dr, field, 0);
         }
 
-        public static long GetLongField(DbDataReader dr, string field)
+        public static long GetLongField(DbDataReader? dr, string? field)
             => GetLongField(dr, field, 0);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -711,10 +711,10 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static long GetLongField(DataRow dr, string field, long defaultValue)
+        public static long GetLongField(DataRow? dr, string? field, long defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             long result = defaultValue;
             try
@@ -732,10 +732,10 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static long GetLongField(DbDataReader dr, string field, long defaultValue)
+        public static long GetLongField(DbDataReader? dr, string? field, long defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             long result = defaultValue;
             try
@@ -769,16 +769,16 @@ namespace StarThrower.DataUtilities
         /// <param name="fieldName">The name of the field</param>
         /// <returns>The int value of the field.  0 if the field is null, DBNull, or an error is thrown.</returns>
         /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
-        public static int GetInt32Field(DataRow dataRow, string fieldName)
+        public static int GetInt32Field(DataRow? dataRow, string? fieldName)
         {
-            if (dataRow == null) throw new ArgumentNullException("dataRow");
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(dataRow);
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             try
             {
                 if (dataRow[fieldName] == null) return 0;
                 if (dataRow[fieldName] is DBNull) return 0;
-                return Int32.Parse(dataRow[fieldName].ToString(), CultureInfo.InvariantCulture);
+                return Convert.ToInt32(dataRow[fieldName], CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
@@ -793,12 +793,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static int GetIntField(DataRow dr, string field)
+        public static int GetIntField(DataRow? dr, string? field)
         {
             return GetIntField(dr, field, 0);
         }
 
-        public static int GetIntField(DbDataReader dr, string field)
+        public static int GetIntField(DbDataReader? dr, string? field)
             => GetIntField(dr, field, 0);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -812,10 +812,10 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int GetIntField(DataRow dr, string field, int defaultValue)
+        public static int GetIntField(DataRow? dr, string? field, int defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             int result = defaultValue;
             try
@@ -833,10 +833,10 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static int GetIntField(DbDataReader dr, string field, int defaultValue)
+        public static int GetIntField(DbDataReader? dr, string? field, int defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             int result = defaultValue;
             try
@@ -858,27 +858,27 @@ namespace StarThrower.DataUtilities
         public static int GetIntField(OleDbDataReader dr, string field, int defaultValue)
             => GetIntField((DbDataReader)dr, field, defaultValue);
 
-        public static Nullable<int> GetNullableIntField(DataRow dr, string field)
+        public static Nullable<int> GetNullableIntField(DataRow? dr, string? field)
         {
             return GetNullableIntField(dr, field, null);
         }
 
-        public static Nullable<int> GetNullableIntField(DbDataReader dr, string field)
+        public static Nullable<int> GetNullableIntField(DbDataReader? dr, string? field)
             => GetNullableIntField(dr, field, null);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<int> GetNullableIntField(OleDbDataReader dr, string field)
             => GetNullableIntField((DbDataReader)dr, field);
 
-        public static Nullable<int> GetNullableIntField(DataRow dr, string field, Nullable<int> defaultValue)
+        public static Nullable<int> GetNullableIntField(DataRow? dr, string? field, Nullable<int> defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Nullable<int> result = defaultValue;
             try
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
                 {
                     result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
                 }
@@ -891,15 +891,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static Nullable<int> GetNullableIntField(DbDataReader dr, string field, Nullable<int> defaultValue)
+        public static Nullable<int> GetNullableIntField(DbDataReader? dr, string? field, Nullable<int> defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Nullable<int> result = defaultValue;
             try
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
                 {
                     result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
                 }
@@ -927,12 +927,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static short GetShortField(DataRow dr, string field)
+        public static short GetShortField(DataRow? dr, string? field)
         {
             return GetShortField(dr, field, 0);
         }
 
-        public static short GetShortField(DbDataReader dr, string field)
+        public static short GetShortField(DbDataReader? dr, string? field)
             => GetShortField(dr, field, 0);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -946,10 +946,10 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short GetShortField(DataRow dr, string field, short defaultValue)
+        public static short GetShortField(DataRow? dr, string? field, short defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             short result = defaultValue;
             try
@@ -967,10 +967,10 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static short GetShortField(DbDataReader dr, string field, short defaultValue)
+        public static short GetShortField(DbDataReader? dr, string? field, short defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             short result = defaultValue;
             try
@@ -998,12 +998,12 @@ namespace StarThrower.DataUtilities
         /// <param name="dr"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        public static Nullable<short> GetNullableShortField(DataRow dr, string field)
+        public static Nullable<short> GetNullableShortField(DataRow? dr, string? field)
         {
             return GetNullableShortField(dr, field, null);
         }
 
-        public static Nullable<short> GetNullableShortField(DbDataReader dr, string field)
+        public static Nullable<short> GetNullableShortField(DbDataReader? dr, string? field)
             => GetNullableShortField(dr, field, null);
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
@@ -1017,15 +1017,15 @@ namespace StarThrower.DataUtilities
         /// <param name="field"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static Nullable<short> GetNullableShortField(DataRow dr, string field, Nullable<short> defaultValue)
+        public static Nullable<short> GetNullableShortField(DataRow? dr, string? field, Nullable<short> defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Nullable<short> result = defaultValue;
             try
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
                 {
                     result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
                 }
@@ -1038,15 +1038,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
-        public static Nullable<short> GetNullableShortField(DbDataReader dr, string field, Nullable<short> defaultValue)
+        public static Nullable<short> GetNullableShortField(DbDataReader? dr, string? field, Nullable<short> defaultValue)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Nullable<short> result = defaultValue;
             try
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString().Trim()))
+                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
                 {
                     result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
                 }
@@ -1068,10 +1068,10 @@ namespace StarThrower.DataUtilities
 
         #region [ Guid ]
 
-        public static Guid GetGuidField(DbDataReader dr, string field)
+        public static Guid GetGuidField(DbDataReader? dr, string? field)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
             Guid result = Guid.Empty;
             try
@@ -1098,12 +1098,12 @@ namespace StarThrower.DataUtilities
 
         #region [ Binary ]
 
-        public static byte[] GetBinaryField(DbDataReader dr, string field)
+        public static byte[]? GetBinaryField(DbDataReader? dr, string? field)
         {
-            if (dr == null) throw new ArgumentNullException("dr");
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(dr);
+            ArgumentNullException.ThrowIfNull(field);
 
-            byte[] result = null;
+            byte[]? result = null;
             try
             {
                 if (!(dr[field] is DBNull))
@@ -1120,7 +1120,7 @@ namespace StarThrower.DataUtilities
         }
 
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
-        public static byte[] GetBinaryField(OleDbDataReader dr, string field)
+        public static byte[]? GetBinaryField(OleDbDataReader dr, string field)
             => GetBinaryField((DbDataReader)dr, field);
 
         #endregion

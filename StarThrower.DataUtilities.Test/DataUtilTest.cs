@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Text;
 using System.Data;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.DataUtilities;
 
@@ -28,7 +25,7 @@ namespace StarThrower.DataUtilities.Test
             bool expected = true;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(bool));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             bool actual = DataUtil.GetBooleanField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -39,7 +36,7 @@ namespace StarThrower.DataUtilities.Test
             bool expected = false;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(bool));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             bool actual = DataUtil.GetBooleanField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -50,7 +47,7 @@ namespace StarThrower.DataUtilities.Test
             bool expected = false;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(bool));
-            DataRow r = t.Rows.Add(new object[] { null });
+            DataRow? r = t.Rows.Add(new object?[] { null });
             bool actual = DataUtil.GetBooleanField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -58,7 +55,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetBoolFieldArgumentNull1()
         {
-            DataRow r = null;
+            DataRow? r = null;
             string fieldName = "SomeField";
             bool result = DataUtil.GetBooleanField(r, fieldName);
             Assert.Fail();
@@ -69,8 +66,8 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { "some data" });
-            string fieldName = null;
+            DataRow? r = t.Rows.Add(new object[] { "some data" });
+            string? fieldName = null;
             bool actual = DataUtil.GetBooleanField(r, fieldName);
             Assert.Fail();
         }
@@ -81,7 +78,7 @@ namespace StarThrower.DataUtilities.Test
             bool expected = false;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(bool));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             bool actual = DataUtil.GetBooleanField(r, "SomeOtherField");
             Assert.Fail();
         }
@@ -97,7 +94,7 @@ namespace StarThrower.DataUtilities.Test
             string expected = "some data";
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             string actual = DataUtil.GetStringField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -108,7 +105,7 @@ namespace StarThrower.DataUtilities.Test
             string expected = String.Empty;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             string actual = DataUtil.GetStringField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -119,7 +116,7 @@ namespace StarThrower.DataUtilities.Test
             string expected = String.Empty;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { null });
+            DataRow? r = t.Rows.Add(new object?[] { null });
             string actual = DataUtil.GetStringField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -127,7 +124,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetStringFieldArgumentNull1()
         {
-            DataRow r = null;
+            DataRow? r = null;
             string fieldName = "SomeField";
             string result = DataUtil.GetStringField(r, fieldName);
             Assert.Fail();
@@ -138,8 +135,8 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { "some data" });
-            string fieldName = null;
+            DataRow? r = t.Rows.Add(new object[] { "some data" });
+            string? fieldName = null;
             string result = DataUtil.GetStringField(r, fieldName);
             Assert.Fail();
         }
@@ -150,7 +147,7 @@ namespace StarThrower.DataUtilities.Test
             string expected = "some data";
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             string actual = DataUtil.GetStringField(r, "SomeOtherField");
             Assert.Fail();
         }
@@ -166,7 +163,7 @@ namespace StarThrower.DataUtilities.Test
             float expected = 0.0f;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(float));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             float actual = DataUtil.GetSingleField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -177,7 +174,7 @@ namespace StarThrower.DataUtilities.Test
             float expected = 123.456f;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(float));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             float actual = DataUtil.GetSingleField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -188,7 +185,7 @@ namespace StarThrower.DataUtilities.Test
             float expected = 0.0f;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(float));
-            DataRow r = t.Rows.Add(new object[] { null });
+            DataRow? r = t.Rows.Add(new object?[] { null });
             float actual = DataUtil.GetSingleField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -196,7 +193,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetFloatFieldArgumentNull1()
         {
-            DataRow r = null;
+            DataRow? r = null;
             string fieldName = "SomeField";
             float actual = DataUtil.GetSingleField(r, fieldName);
             Assert.Fail();
@@ -207,8 +204,8 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { "some data" });
-            string fieldName = null;
+            DataRow? r = t.Rows.Add(new object[] { "some data" });
+            string? fieldName = null;
             float actual = DataUtil.GetSingleField(r, fieldName);
             Assert.Fail();
         }
@@ -219,7 +216,7 @@ namespace StarThrower.DataUtilities.Test
             float expected = 0.0f;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(float));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             float actual = DataUtil.GetSingleField(r, "SomeOtherField");
             Assert.Fail();
         }
@@ -235,7 +232,7 @@ namespace StarThrower.DataUtilities.Test
             DateTime expected = new DateTime(2007, 6, 24);
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(DateTime));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             DateTime actual = DataUtil.GetDateTimeField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -246,7 +243,7 @@ namespace StarThrower.DataUtilities.Test
             DateTime expected = new DateTime(2007, 6, 24, 7, 39, 15);
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(DateTime));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             DateTime actual = DataUtil.GetDateTimeField(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -256,7 +253,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(DateTime));
-            DataRow r = t.Rows.Add(new object[] { null });
+            DataRow? r = t.Rows.Add(new object?[] { null });
             DateTime actual = DataUtil.GetDateTimeField(r, "SomeField");
             // When field is null, GetDateTimeField returns DateTime.Now (at the time of call)
             // We verify it's recent (within last second) rather than comparing exact values
@@ -267,7 +264,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetDateTimeFieldArgumentNull1()
         {
-            DataRow r = null;
+            DataRow? r = null;
             string fieldName = "SomeField";
             DateTime actual = DataUtil.GetDateTimeField(r, fieldName);
             Assert.Fail();
@@ -278,8 +275,8 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { "some data" });
-            string fieldName = null;
+            DataRow? r = t.Rows.Add(new object[] { "some data" });
+            string? fieldName = null;
             DateTime actual = DataUtil.GetDateTimeField(r, fieldName);
             Assert.Fail();
         }
@@ -290,7 +287,7 @@ namespace StarThrower.DataUtilities.Test
             DateTime expected = DataUtil.DTNull;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(DateTime));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             DateTime actual = DataUtil.GetDateTimeField(r, "SomeOtherField");
             Assert.Fail();
         }
@@ -305,7 +302,7 @@ namespace StarThrower.DataUtilities.Test
             int expected = 1;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(int));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             int actual = DataUtil.GetInt32Field(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -316,7 +313,7 @@ namespace StarThrower.DataUtilities.Test
             int expected = 0;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(int));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             int actual = DataUtil.GetInt32Field(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -327,7 +324,7 @@ namespace StarThrower.DataUtilities.Test
             int expected = 0;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(int));
-            DataRow r = t.Rows.Add(new object[] { null });
+            DataRow? r = t.Rows.Add(new object?[] { null });
             int actual = DataUtil.GetInt32Field(r, "SomeField");
             Assert.AreEqual(expected, actual);
         }
@@ -335,7 +332,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetIntFieldArgumentNull1()
         {
-            DataRow r = null;
+            DataRow? r = null;
             string fieldName = "SomeField";
             int actual = DataUtil.GetInt32Field(r, fieldName);
             Assert.Fail();
@@ -346,8 +343,8 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
-            DataRow r = t.Rows.Add(new object[] { "some data" });
-            string fieldName = null;
+            DataRow? r = t.Rows.Add(new object[] { "some data" });
+            string? fieldName = null;
             int actual = DataUtil.GetInt32Field(r, fieldName);
             Assert.Fail();
         }
@@ -358,7 +355,7 @@ namespace StarThrower.DataUtilities.Test
             int expected = 0;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(int));
-            DataRow r = t.Rows.Add(new object[] { expected });
+            DataRow? r = t.Rows.Add(new object[] { expected });
             int actual = DataUtil.GetInt32Field(r, "SomeOtherField");
             Assert.Fail();
         }
@@ -413,7 +410,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(false, DataUtil.GetBoolField(dr, "F"));
         }
@@ -423,7 +420,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(true, DataUtil.GetBoolField(dr, "F", true));
         }
@@ -431,7 +428,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetBoolFieldDbReader_NullReader()
         {
-            DataUtil.GetBoolField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetBoolField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -441,7 +438,7 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(bool));
             t.Rows.Add(true);
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetBoolField(dr, (string)null);
+            DataUtil.GetBoolField(dr, (string?)null);
         }
 
         // GetStringField(DbDataReader)
@@ -461,7 +458,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(string.Empty, DataUtil.GetStringField(dr, "F"));
         }
@@ -471,7 +468,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual("default", DataUtil.GetStringField(dr, "F", "default"));
         }
@@ -479,7 +476,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetStringFieldDbReader_NullReader()
         {
-            DataUtil.GetStringField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetStringField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -489,7 +486,7 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(string));
             t.Rows.Add("x");
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetStringField(dr, (string)null);
+            DataUtil.GetStringField(dr, (string?)null);
         }
 
         // GetDateTimeField(DbDataReader)
@@ -511,7 +508,7 @@ namespace StarThrower.DataUtilities.Test
             DateTime sentinel = new DateTime(1999, 1, 1);
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(DateTime));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(sentinel, DataUtil.GetDateTimeField(dr, "F", sentinel));
         }
@@ -519,7 +516,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetDateTimeFieldDbReader_NullReader()
         {
-            DataUtil.GetDateTimeField((System.Data.Common.DbDataReader)null, "F", DateTime.MinValue);
+            DataUtil.GetDateTimeField((System.Data.Common.DbDataReader?)null, "F", DateTime.MinValue);
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -529,7 +526,7 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(DateTime));
             t.Rows.Add(DateTime.Now);
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetDateTimeField(dr, (string)null, DateTime.MinValue);
+            DataUtil.GetDateTimeField(dr, (string?)null, DateTime.MinValue);
         }
 
         // GetFloatField(DbDataReader)
@@ -549,7 +546,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(float));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(99f, DataUtil.GetFloatField(dr, "F", 99f));
         }
@@ -557,7 +554,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetFloatFieldDbReader_NullReader()
         {
-            DataUtil.GetFloatField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetFloatField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         // GetDoubleField(DbDataReader)
@@ -577,7 +574,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(double));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(0.0, DataUtil.GetDoubleField(dr, "F"));
         }
@@ -585,7 +582,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetDoubleFieldDbReader_NullReader()
         {
-            DataUtil.GetDoubleField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetDoubleField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         // GetLongField(DbDataReader)
@@ -605,7 +602,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(long));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(0L, DataUtil.GetLongField(dr, "F"));
         }
@@ -613,7 +610,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetLongFieldDbReader_NullReader()
         {
-            DataUtil.GetLongField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetLongField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         // GetIntField(DbDataReader)
@@ -633,7 +630,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(int));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(0, DataUtil.GetIntField(dr, "F"));
         }
@@ -641,7 +638,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetIntFieldDbReader_NullReader()
         {
-            DataUtil.GetIntField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetIntField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         // GetShortField(DbDataReader)
@@ -661,7 +658,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(short));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual((short)0, DataUtil.GetShortField(dr, "F"));
         }
@@ -669,7 +666,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetShortFieldDbReader_NullReader()
         {
-            DataUtil.GetShortField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetShortField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         // GetGuidField(DbDataReader)
@@ -690,7 +687,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(Guid));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.AreEqual(Guid.Empty, DataUtil.GetGuidField(dr, "F"));
         }
@@ -698,7 +695,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetGuidFieldDbReader_NullReader()
         {
-            DataUtil.GetGuidField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetGuidField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -708,7 +705,7 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(Guid));
             t.Rows.Add(Guid.NewGuid());
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetGuidField(dr, (string)null);
+            DataUtil.GetGuidField(dr, (string?)null);
         }
 
         // GetBinaryField(DbDataReader)
@@ -729,7 +726,7 @@ namespace StarThrower.DataUtilities.Test
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(byte[]));
-            t.Rows.Add((object)null);
+            t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
             Assert.IsNull(DataUtil.GetBinaryField(dr, "F"));
         }
@@ -737,7 +734,7 @@ namespace StarThrower.DataUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetBinaryFieldDbReader_NullReader()
         {
-            DataUtil.GetBinaryField((System.Data.Common.DbDataReader)null, "F");
+            DataUtil.GetBinaryField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -747,7 +744,7 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(byte[]));
             t.Rows.Add((object)new byte[] { 1 });
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetBinaryField(dr, (string)null);
+            DataUtil.GetBinaryField(dr, (string?)null);
         }
 
         #endregion
