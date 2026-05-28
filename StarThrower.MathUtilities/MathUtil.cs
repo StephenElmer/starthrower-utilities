@@ -1,5 +1,4 @@
-﻿using System;
-using StarThrower.Logging;
+﻿using StarThrower.Logging;
 
 namespace StarThrower.MathUtilities
 {
@@ -40,7 +39,7 @@ namespace StarThrower.MathUtilities
         /// </summary>
         /// <param name="test">The string to be checked</param>
         /// <returns>true if the string represents an integer; otherwise false.</returns>
-        public static bool IsNumeric(string test)
+        public static bool IsNumeric(string? test)
         {
             if (string.IsNullOrEmpty(test))
                 return false;
@@ -60,9 +59,9 @@ namespace StarThrower.MathUtilities
         /// <param name="test">The string to be checked</param>
         /// <returns>true if the string represents a whole number; otherwise false.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static bool IsWholeNumber(string test)
+        public static bool IsWholeNumber(string? test)
         {
-            if (test == null) throw new ArgumentNullException("test");
+            ArgumentNullException.ThrowIfNull(test);
 
             try
             {
@@ -84,9 +83,9 @@ namespace StarThrower.MathUtilities
         /// <param name="test">The string to be checked</param>
         /// <returns>true if the string represents an integer; otherwise false.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static bool IsInteger(string test)
+        public static bool IsInteger(string? test)
         {
-            if (test == null) throw new ArgumentNullException("test");
+            ArgumentNullException.ThrowIfNull(test);
 
             try
             {
@@ -107,9 +106,9 @@ namespace StarThrower.MathUtilities
         /// <param name="test">The string to be checked</param>
         /// <returns>True if the string represents an long, False if otherwise</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static bool IsLong(string test)
+        public static bool IsLong(string? test)
         {
-            if (test == null) throw new ArgumentNullException("test");
+            ArgumentNullException.ThrowIfNull(test);
 
             try
             {
