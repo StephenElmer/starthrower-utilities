@@ -15,7 +15,7 @@ namespace StarThrower.ByteUtilities
         /// <returns>A byte array equivalent to the subset of length length that begins at startIndex in the original byte array, or an empty byte array if startIndex is equal to the length of the original byte array and length is zero.</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if startIndex is less than zero or greater than source.Length - 1.  Also thrown if startIndex + length exceeds the length of the array.</exception>
-        public static byte[] ByteSubstring(byte[] source, long startIndex, long length)
+        public static byte[] ByteSubstring(byte[]? source, long startIndex, long length)
         {
             return ByteSubstring(source, startIndex, length, false);
         }
@@ -30,9 +30,9 @@ namespace StarThrower.ByteUtilities
         /// <returns>A byte array equivalent to the subset of length length that begins at startIndex in the original byte array, or an empty byte array if startIndex is equal to the length of the original byte array and length is zero.</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if startIndex is less than zero or greater than source.Length - 1.  Also thrown if startIndex + length exceeds the length of the array.</exception>
-        public static byte[] ByteSubstring(byte[] source, long startIndex, long length, bool trimWithNulls)
+        public static byte[] ByteSubstring(byte[]? source, long startIndex, long length, bool trimWithNulls)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
             if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException("startIndex");
             if ((startIndex + length) > source.Length) throw new ArgumentOutOfRangeException("length");
 
@@ -74,9 +74,9 @@ namespace StarThrower.ByteUtilities
         /// <param name="source">The byte array to be reversed.</param>
         /// <returns>A new instance of a byte array with the elements in reverse order from the original.</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static byte[] ReverseBytes(byte[] source)
+        public static byte[] ReverseBytes(byte[]? source)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -126,9 +126,9 @@ namespace StarThrower.ByteUtilities
         /// <param name="source">The byte array whose bits are to be reversed.</param>
         /// <returns>A new instance of a byte array with the bits in each byte reversed.</returns>
         /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
-        public static byte[] ReverseBits(byte[] source)
+        public static byte[] ReverseBits(byte[]? source)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            ArgumentNullException.ThrowIfNull(source);
 
             try
             {
@@ -154,9 +154,9 @@ namespace StarThrower.ByteUtilities
         /// <param name="bitEndian">The Bit Endian of each byte in the array.</param>
         /// <returns>The float value of the byte array.</returns>
         /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
-        public static float ByteArrayToSingle(byte[] value, ByteEndian byteEndian, BitEndian bitEndian)
+        public static float ByteArrayToSingle(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
-            if (value == null) throw new ArgumentNullException("value");
+            ArgumentNullException.ThrowIfNull(value);
 
             try
             {
@@ -201,9 +201,9 @@ namespace StarThrower.ByteUtilities
         /// <param name="bitEndian">The Bit Endian of each byte in the array.</param>
         /// <returns>The Integer value of the byte array.</returns>
         /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
-        public static Int32 ByteArrayToInt32(byte[] value, ByteEndian byteEndian, BitEndian bitEndian)
+        public static Int32 ByteArrayToInt32(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
-            if (value == null) throw new ArgumentNullException("value");
+            ArgumentNullException.ThrowIfNull(value);
 
             try
             {
@@ -251,9 +251,9 @@ namespace StarThrower.ByteUtilities
         /// <returns>The short value of the byte array.</returns>
         /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if there are not at least two bytes in the array.</exception>
-        public static Int16 ByteArrayToInt16(byte[] value, ByteEndian byteEndian, BitEndian bitEndian)
+        public static Int16 ByteArrayToInt16(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
-            if (value == null) throw new ArgumentNullException("value");
+            ArgumentNullException.ThrowIfNull(value);
             if (value.Length < 2) throw new ArgumentOutOfRangeException("value");
 
             try
@@ -341,9 +341,9 @@ namespace StarThrower.ByteUtilities
         /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
         /// <exception cref="InvalidEndianException">Thrown if byteEndian or bitEndian are something other than Little or Big.</exception>
         /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
-        public static double ByteArrayToDouble(byte[] value, ByteEndian byteEndian, BitEndian bitEndian)
+        public static double ByteArrayToDouble(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
-            if (value == null) throw new ArgumentNullException("value");
+            ArgumentNullException.ThrowIfNull(value);
 
             try
             {
@@ -578,10 +578,10 @@ namespace StarThrower.ByteUtilities
         /// <param name="value2">The second byte array</param>
         /// <returns>True if the lengths are the same and every element matches.  False if otherwise.</returns>
         /// <exception cref="ArgumentNullException">Thrown if value1 or value2 is null.</exception>
-        public static bool BytesAreEqual(byte[] value1, byte[] value2)
+        public static bool BytesAreEqual(byte[]? value1, byte[]? value2)
         {
-            if (value1 == null) throw new ArgumentNullException("value1");
-            if (value2 == null) throw new ArgumentNullException("value2");
+            ArgumentNullException.ThrowIfNull(value1);
+            ArgumentNullException.ThrowIfNull(value2);
 
             try
             {
@@ -606,10 +606,10 @@ namespace StarThrower.ByteUtilities
         /// <param name="value2">The second byte array.</param>
         /// <returns>a xor b</returns>
         /// <exception cref="ArgumentNullException">Thrown if a or b is null.</exception>
-        public static byte[] XorByteArray(byte[] value1, byte[] value2)
+        public static byte[] XorByteArray(byte[]? value1, byte[]? value2)
         {
-            if (value1 == null) throw new ArgumentNullException("value1");
-            if (value2 == null) throw new ArgumentNullException("value2");
+            ArgumentNullException.ThrowIfNull(value1);
+            ArgumentNullException.ThrowIfNull(value2);
 
             try
             {

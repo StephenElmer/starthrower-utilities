@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarThrower.ByteUtilities
+﻿namespace StarThrower.ByteUtilities
 {
     /// <summary>
     /// The order of bits in a byte.

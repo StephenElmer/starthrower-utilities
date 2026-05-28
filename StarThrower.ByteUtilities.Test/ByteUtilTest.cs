@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.ByteUtilities;
 
@@ -41,8 +38,8 @@ namespace StarThrower.ByteUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestXorByteArrayArgumentNull1()
         {
-            byte[] a = null;
-            byte[] b = new byte[] { 1, 2 };
+            byte[]? a = null;
+            byte[]? b = new byte[] { 1, 2 };
             byte[] result = ByteUtil.XorByteArray(a, b);
             Assert.Fail();
         }
@@ -51,7 +48,7 @@ namespace StarThrower.ByteUtilities.Test
         public void TextXorByteArrayArgumentNull2()
         {
             byte[] a = new byte[] { 1, 2 };
-            byte[] b = null;
+            byte[]? b = null;
             byte[] result = ByteUtil.XorByteArray(a, b);
             Assert.Fail();
         }
@@ -512,7 +509,7 @@ namespace StarThrower.ByteUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestByteSubstringWithTrimWithNullsArgumentNull()
         {
-            byte[] source = null;
+            byte[]? source = null;
             byte[] actual = ByteUtil.ByteSubstring(source, 0, 1, true);
             Assert.Fail();
         }
@@ -728,7 +725,7 @@ namespace StarThrower.ByteUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestReverseBitsArrayArgumentNull()
         {
-            byte[] source = null;
+            byte[]? source = null;
             byte[] actual = ByteUtil.ReverseBits(source);
             Assert.Fail();
         }
@@ -917,7 +914,7 @@ namespace StarThrower.ByteUtilities.Test
             ByteEndian byteEndian = ByteEndian.Little;
             BitEndian bitEndian = BitEndian.Little;
 
-            byte[] value = null;
+            byte[]? value = null;
             Int32 actual = ByteUtil.ByteArrayToInt32(value, byteEndian, bitEndian);
             Assert.Fail();
         }
@@ -933,7 +930,7 @@ namespace StarThrower.ByteUtilities.Test
             ByteEndian byteEndian = ByteEndian.Little;
             BitEndian bitEndian = BitEndian.Little;
 
-            byte[] bytes = null;
+            byte[]? bytes = null;
             short actual = ByteUtil.ByteArrayToInt16(bytes, byteEndian, bitEndian);
             Assert.Fail();
         }
@@ -1273,7 +1270,7 @@ namespace StarThrower.ByteUtilities.Test
             ByteEndian byteEndian = ByteEndian.Little;
             BitEndian bitEndian = BitEndian.Little;
 
-            byte[] value = null;
+            byte[]? value = null;
             float actual = ByteUtil.ByteArrayToSingle(value, byteEndian, bitEndian);
             Assert.Fail();
         }
@@ -1520,7 +1517,7 @@ namespace StarThrower.ByteUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestBytesAreEqualFirstArrayNull()
         {
-            byte[] arr1 = null;
+            byte[]? arr1 = null;
             byte[] arr2 = new byte[] { 0x01, 0x02 };
             bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
             Assert.Fail();
@@ -1530,7 +1527,7 @@ namespace StarThrower.ByteUtilities.Test
         public void TestBytesAreEqualSecondArrayNull()
         {
             byte[] arr1 = new byte[] { 0x01, 0x02 };
-            byte[] arr2 = null;
+            byte[]? arr2 = null;
             bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
             Assert.Fail();
         }
@@ -1538,8 +1535,8 @@ namespace StarThrower.ByteUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestBytesAreEqualBothArraysNull()
         {
-            byte[] arr1 = null;
-            byte[] arr2 = null;
+            byte[]? arr1 = null;
+            byte[]? arr2 = null;
             bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
             Assert.Fail();
         }
