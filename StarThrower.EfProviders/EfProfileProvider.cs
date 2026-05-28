@@ -10,7 +10,6 @@ using System.Text;
 using System.Web;
 using System.Web.Profile;
 using System.Diagnostics;
-using StarThrower.ByteUtilities;
 
 namespace StarThrower.EfProviders
 {
@@ -635,7 +634,58 @@ namespace StarThrower.EfProviders
 
         private byte[] GetBinaryPropertyValue(ProfileItem info, aspnet_Profile p)
         {
-            return ByteUtil.ByteSubstring(p.PropertyValuesBinary, info.StartIndex, info.Length);
+            //return p.PropertyValuesBinary.AsSpan(info.StartIndex, info.Length).ToArray();
+            return ByteSubstring(p.PropertyValuesBinary, info.StartIndex, info.Length, true);
+        }
+
+        /// <summary>
+        /// Retrieves a subset of bytes from a byte array. The subset starts at a specified position and has a specified length.
+        /// 
+        /// NOTE: This was pulled out of StarThrower.ByteUtilities because the functionality is needed in this class but we don't want to take a dependency on the entire StarThrower.ByteUtilities assembly just for this one method.  This method is not intended to be a general purpose utility method and is only intended to be used in the context of parsing profile property values from the aspnet_Profile table, which is why it has the additional parameter for whether or not to pad the remaining space with nulls.
+        /// </summary>
+        /// <param name="source">The original array of bytes.</param>
+        /// <param name="startIndex">The index of the start of the subset.</param>
+        /// <param name="length">The number of bytes in the subset.</param>
+        /// <param name="trimWithNulls">Whether or not to pad the space remaining after startIndex + length with nulls</param>
+        /// <returns>A byte array equivalent to the subset of length length that begins at startIndex in the original byte array, or an empty byte array if startIndex is equal to the length of the original byte array and length is zero.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if startIndex is less than zero or greater than source.Length - 1.  Also thrown if startIndex + length exceeds the length of the array.</exception>
+        public static byte[] ByteSubstring(byte[] source, long startIndex, long length, bool trimWithNulls)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException("startIndex");
+            if ((startIndex + length) > source.Length) throw new ArgumentOutOfRangeException("length");
+
+            bool isNullTerminated = false;
+
+            try
+            {
+                byte[] result = new byte[length];
+
+                for (long i = 0; i < length; i++)
+                {
+                    if (!isNullTerminated)
+                    {
+                        byte b = source[startIndex + i];
+                        result[i] = b;
+                        if (trimWithNulls && b == 0)
+                        {
+                            isNullTerminated = true;
+                        }
+                    }
+                    else
+                    {
+                        result[i] = 0;
+                    }
+                }
+
+                return result;
+            }
+            catch //(Exception ex)
+            {
+                //Logger.ReportError(ErrorPolicy.Internal, "Bytes.ByteSubstring(byte[], long, long)", ex);
+                throw;
+            }
         }
 
         #endregion

@@ -290,12 +290,32 @@ public API change. Apply during the Step 2b upgrade for each affected assembly:
   `InvalidDataTypeException`, `InvalidDecimalCountException`, `InvalidFieldLengthException`
 - **Gis.GeoUtilities**: 17 exceptions in the `Exceptions/` folder
 
-Groups 8–10 — **pause and evaluate** before upgrading:
-- `WcfProviders.Contract` / `WcfProviders` / `WcfProviders.Test` — .NET 10 requires
-  `CoreWCF`; migration approach needs explicit decision before proceeding
-- `EfProviders` / `EfProviders.Test` — EF version story on .NET 10 needs evaluation
-- `Providers.TestWebApp` — ASP.NET MVC 4; likely needs a full rebuild as ASP.NET Core;
-  out of scope for Phase 1
+Groups 8–10 — **staying at net48 indefinitely**; do not upgrade these projects during
+Phase 1. The shared blocker across all three groups is `System.Web` — the ASP.NET
+Framework Membership/Profile/Role provider model (`MembershipProvider`, `RoleProvider`,
+`ProfileProvider`) does not exist in .NET Core and has no shim. Each group has
+additional blockers on top of that:
+- `WcfProviders.Contract` / `WcfProviders` / `WcfProviders.Test` — `System.ServiceModel`
+  (WCF) requires a full migration to `CoreWCF` (not just a namespace swap); additionally
+  the contract DTOs reference `System.Web.Security.MembershipUser` and
+  `System.Web.Profile.ProfileInfoCollection`, which are Framework-only types
+- `EfProviders` / `EfProviders.Test` — uses EF6 Database-First (`ObjectContext`,
+  `ObjectSet<T>`, EDMX designer); migrating to EF Core requires scaffolding a new
+  `DbContext` and rewriting ~3,500 lines of business logic; additionally blocked by the
+  `System.Web` provider model above
+- `Providers.TestWebApp` — ASP.NET MVC 4; every layer (routing, controllers, views,
+  authentication, session) depends on `System.Web`; would be a full rewrite as ASP.NET
+  Core, not a migration; out of scope for Phase 1 regardless
+
+**EfProviders / ByteUtilities dependency:** `EfProviders` previously had a project
+reference to `StarThrower.ByteUtilities` (now net10.0) solely for one call —
+`ByteUtil.ByteSubstring()` inside `EfProfileProvider.GetBinaryPropertyValue()`. The
+project reference was removed and the method was inlined directly into `EfProfileProvider`
+with a comment explaining why. The modern equivalent (`AsSpan(start, length).ToArray()`)
+requires net6.0+ and cannot be used while the project stays on net48.
+
+These projects will remain at net48 until a deliberate redesign decision is made for a
+future phase. Exclude them from Steps 2c, 2d, 3, 4, and 5.
 
 ***Step 2c — Enable C# 14, nullable, implicit usings — project by project***
 

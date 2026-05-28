@@ -20,10 +20,6 @@
     <None Include="ProviderModel.edmx" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\StarThrower.ByteUtilities\StarThrower.ByteUtilities.csproj" />
-  </ItemGroup>
-
   <Target Name="SignAndDeploy" AfterTargets="Build"
           Condition="Exists('D:\Keys\StarThrower\StarThrower.snk')">
     <Exec Command='"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe" -R "$(TargetPath)" "D:\Keys\StarThrower\StarThrower.snk"' />
