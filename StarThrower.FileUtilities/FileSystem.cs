@@ -18,10 +18,10 @@ namespace StarThrower.FileUtilities
         /// <returns></returns>
         /// <see>http://support.microsoft.com/kb/320348</see>
         /// <exception cref="ArgumentNullException">Thrown if file1 or file2 is null.</exception>
-        public static bool FileCompare(string file1, string file2)
+        public static bool FileCompare(string? file1, string? file2)
         {
-            if (file1 == null) throw new ArgumentNullException("file1");
-            if (file2 == null) throw new ArgumentNullException("file2");
+            ArgumentNullException.ThrowIfNull(file1);
+            ArgumentNullException.ThrowIfNull(file2);
 
             try
             {
