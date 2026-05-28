@@ -1122,7 +1122,7 @@ namespace StarThrower.Gis.GeoUtilities
         {
             // Check if this is a southern hemisphere zone
             bool isSouthernHemisphere = false;
-            IZone zone = utmCoordSys as dynamic != null ? (utmCoordSys as dynamic).Zone : null;
+            IZone zone = (utmCoordSys as IZonedCoordinateSystem)?.Zone;
             if (zone != null)
             {
                 isSouthernHemisphere = zone.IsSouthernHemisphere;
@@ -1181,7 +1181,7 @@ namespace StarThrower.Gis.GeoUtilities
 
             // Check if this is a southern hemisphere zone
             bool isSouthernHemisphere = false;
-            IZone zone = utmCoordSys as dynamic != null ? (utmCoordSys as dynamic).Zone : null;
+            IZone zone = (utmCoordSys as IZonedCoordinateSystem)?.Zone;
             if (zone != null)
             {
                 isSouthernHemisphere = zone.IsSouthernHemisphere;

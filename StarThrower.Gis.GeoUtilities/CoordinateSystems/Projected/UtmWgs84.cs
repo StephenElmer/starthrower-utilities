@@ -25,7 +25,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
     /// An implementation of the Universal Transverse Mercator (UTM) Projected Coordinate System based upon the WGS84 Datum.
     /// This variation provides the full range of UTM Zones ranging from 1 thru 60 and from C thru X.
     /// </summary>
-    public class UtmWgs84 : ProjectedCoordinateSystem
+    public class UtmWgs84 : ProjectedCoordinateSystem, IZonedCoordinateSystem
     {
         #region Private Instance Variables
 

@@ -26,7 +26,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
     /// This variation provides only the North / South variation ranging from 1 thru 60 longitudinal zones with 
     /// just North and South latitudinal zones.
     /// </summary>
-    public class UtmWgs84Ns : ProjectedCoordinateSystem
+    public class UtmWgs84Ns : ProjectedCoordinateSystem, IZonedCoordinateSystem
     {
         #region Private Instance Variables
 
