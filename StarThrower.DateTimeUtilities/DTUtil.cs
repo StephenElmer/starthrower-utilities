@@ -106,13 +106,13 @@ namespace StarThrower.DateTimeUtilities
         {
             try
             {
-                string YYYY = null;
-                string MM = null;
-                string DD = null;
-                string hh = null;
-                string mm = null;
-                string ss = null;
-                string s = null;
+                string YYYY;
+                string MM;
+                string DD;
+                string hh;
+                string mm;
+                string ss;
+                string s;
                 string TZD = "+00:00";
 
                 if (dt.Year < 10)
@@ -209,9 +209,9 @@ namespace StarThrower.DateTimeUtilities
         /// See http://www.w3.org/TR/NOTE-datetime for more information on the ISO 8601 standard.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if iso is null.</exception>
-        public static DateTime Iso8601ToDateTime(string iso)
+        public static DateTime Iso8601ToDateTime(string? iso)
         {
-            if (iso == null) throw new ArgumentNullException("iso");
+            ArgumentNullException.ThrowIfNull(iso);
 
             try
             {
@@ -226,10 +226,10 @@ namespace StarThrower.DateTimeUtilities
                 //return outDate;
 
                 string strDelim2 = String.Empty;
-                char[] chrDelim2 = null;
+                char[] chrDelim2;
                 string time = split1[1];
-                string newTime = null;
-                string[] split2 = null;
+                string newTime;
+                string[] split2;
                 if (time.Contains("+"))
                 {
                     strDelim2 = "+";

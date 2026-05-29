@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarThrower.DateTimeUtilities
+﻿namespace StarThrower.DateTimeUtilities
 {
     /// <summary>
     /// A set of "units" associated with DateTime values.

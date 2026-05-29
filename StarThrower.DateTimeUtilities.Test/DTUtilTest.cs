@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.DateTimeUtilities;
 
@@ -291,7 +288,7 @@ namespace StarThrower.DateTimeUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestIso8601ToDateTimeArgumentNull()
         {
-            string s = null;
+            string? s = null;
             DateTime dt = DTUtil.Iso8601ToDateTime(s);
             Assert.Fail();
         }
