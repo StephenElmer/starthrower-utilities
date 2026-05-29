@@ -80,11 +80,11 @@ namespace StarThrower.EarleyParser
         /// <param name="right">The right side (productions) licensed for this rule's left side.</param>
         /// <exception cref="ArgumentNullException">Thrown if left or right is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown if left is terminal, or if right is empty or contains a null category.</exception>
-        public Rule(Category left, ReadOnlyCollection<Category> right)
+        public Rule(Category? left, ReadOnlyCollection<Category>? right)
         {
-            if (left == null) throw new ArgumentNullException("left");
+            ArgumentNullException.ThrowIfNull(left);
             if (left.IsTerminal) throw new InvalidOperationException("left Category is terminal.");
-            if (right == null) throw new ArgumentNullException("right");
+            ArgumentNullException.ThrowIfNull(right);
             if (right.Count == 0) throw new InvalidOperationException("no right Categories.");
             foreach (Category c in right)
             {
@@ -105,7 +105,7 @@ namespace StarThrower.EarleyParser
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this) return true;
             if (obj == null) return false;
@@ -121,7 +121,7 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
-        public bool Equals(Rule other)
+        public bool Equals(Rule? other)
         {
             if (other == this) return true;
             if (other == null) return false;

@@ -125,10 +125,10 @@ namespace StarThrower.EarleyParser
         /// <returns>A parse for the specified tokens and seed, containing a completed chart.</returns>
         /// <exception cref="ArgumentNullException">Thrown if seed is null or tokens is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown if tokens is empty.</exception>
-        public Parse Parse(string[] tokens, Category seed)
+        public Parse Parse(string[]? tokens, Category? seed)
         {
-            if (seed == null) throw new ArgumentNullException("seed");
-            if (tokens == null) throw new ArgumentNullException("tokens");
+            ArgumentNullException.ThrowIfNull(seed);
+            ArgumentNullException.ThrowIfNull(tokens);
             if (tokens.Length == 0) throw new InvalidOperationException("tokens is empty");
 
             Chart chart = new Chart();
@@ -179,9 +179,13 @@ namespace StarThrower.EarleyParser
             {
                 //get a separate list  to avoid concurrently modifying chart
                 List<Edge> l = new List<Edge>();
-                foreach (Edge edge in chart.GetEdgesAt(index))
+                ReadOnlyCollection<Edge>? edgesAtIndex = chart.GetEdgesAt(index);
+                if (edgesAtIndex != null)
                 {
-                    l.Add(edge);
+                    foreach (Edge edge in edgesAtIndex)
+                    {
+                        l.Add(edge);
+                    }
                 }
                 ReadOnlyCollection<Edge> edges = new ReadOnlyCollection<Edge>(l);
 
@@ -202,7 +206,7 @@ namespace StarThrower.EarleyParser
         /// <param name="index">The index in the string under consideration.</param>
         private void PredictForEdge(Chart chart, Edge edge, int index)
         {
-            Category active = edge.DottedRule.ActiveCategory; //null, if passive
+            Category? active = edge.DottedRule.ActiveCategory; //null, if passive
 
             if (active != null && _grammar.ContainsRules(active))
             {
@@ -238,19 +242,22 @@ namespace StarThrower.EarleyParser
         /// <param name="index">The start index of the scan</param>
         /// <param name="token">The token that was scanned.</param>
         /// <exception cref="ArgumentNullException">Thrown if chart or token are null.</exception>
-        private void Scan(Chart chart, int index, string token)
+        private void Scan(Chart? chart, int index, string? token)
         {
-            if (token == null) throw new ArgumentNullException("token");
-            if (chart == null) throw new ArgumentNullException("chart");
+            ArgumentNullException.ThrowIfNull(token);
+            ArgumentNullException.ThrowIfNull(chart);
 
             if (chart.ContainsEdgesAt(index)) //any predictions at this index?
             {
-                ReadOnlyCollection<Edge> tempEdges = chart.GetEdgesAt(index);
+                ReadOnlyCollection<Edge>? tempEdgesNullable = chart.GetEdgesAt(index);
                 //get a separate list to avoid concurrently modifying chart
                 List<Edge> l = new List<Edge>();
-                foreach (Edge edge in tempEdges)
+                if (tempEdgesNullable != null)
                 {
-                    l.Add(edge);
+                    foreach (Edge edge in tempEdgesNullable)
+                    {
+                        l.Add(edge);
+                    }
                 }
                 ReadOnlyCollection<Edge> edges = new ReadOnlyCollection<Edge>(l);
 
@@ -261,13 +268,17 @@ namespace StarThrower.EarleyParser
                     {
                         if (!edge.IsPassive)
                         {
-                            Rule r = _grammar.SingletonPreterminal(edge.DottedRule.ActiveCategory, token, _options.IgnoreCase);
-                            if (r != null)
+                            Category? activeCategory = edge.DottedRule.ActiveCategory;
+                            if (activeCategory != null)
                             {
-                                Edge pt = Edge.PredictFor(r, index);
-                                if (chart.AddEdge(index, pt))
+                                Rule? r = _grammar.SingletonPreterminal(activeCategory, token, _options.IgnoreCase);
+                                if (r != null)
                                 {
-                                    FireEdgePredicted(new EdgeEventArgs(index, pt));
+                                    Edge pt = Edge.PredictFor(r, index);
+                                    if (chart.AddEdge(index, pt))
+                                    {
+                                        FireEdgePredicted(new EdgeEventArgs(index, pt));
+                                    }
                                 }
                             }
                         }
@@ -280,16 +291,19 @@ namespace StarThrower.EarleyParser
                     if (!edge.IsPassive)
                     {
                         DottedRule dr = edge.DottedRule;
-
-                        StringComparison sc = (_options.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
-                        if (dr.ActiveCategory.IsTerminal &&
-                            (String.Compare(dr.ActiveCategory.Name, token, sc) == 0))
+                        Category? activeCategory = dr.ActiveCategory;
+                        if (activeCategory != null)
                         {
-                            Edge newEdge = Edge.Scan(edge, token);
-                            int successor = index + 1; //save next index
-                            if (chart.AddEdge(successor, newEdge))
+                            StringComparison sc = (_options.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+                            if (activeCategory.IsTerminal &&
+                                (String.Compare(activeCategory.Name, token, sc) == 0))
                             {
-                                FireEdgeScanned(new EdgeEventArgs(successor, newEdge));
+                                Edge newEdge = Edge.Scan(edge, token);
+                                int successor = index + 1; //save next index
+                                if (chart.AddEdge(successor, newEdge))
+                                {
+                                    FireEdgeScanned(new EdgeEventArgs(successor, newEdge));
+                                }
                             }
                         }
                     }
@@ -308,9 +322,13 @@ namespace StarThrower.EarleyParser
             {
                 //get a separate list to avoid concurrently modifying chart
                 List<Edge> l = new List<Edge>();
-                foreach (Edge edge in chart.GetEdgesAt(index))
+                ReadOnlyCollection<Edge>? edgesNullable = chart.GetEdgesAt(index);
+                if (edgesNullable != null)
                 {
-                    l.Add(edge);
+                    foreach (Edge edge in edgesNullable)
+                    {
+                        l.Add(edge);
+                    }
                 }
                 ReadOnlyCollection<Edge> edges = new ReadOnlyCollection<Edge>(l);
 
@@ -338,22 +356,25 @@ namespace StarThrower.EarleyParser
             if (edge.IsPassive && chart.ContainsEdgesAt(eo))
             {
                 //get all edges at this edge's origin
-                foreach (Edge originEdge in chart.GetEdgesAt(eo))
+                ReadOnlyCollection<Edge>? edgesAtEo = chart.GetEdgesAt(eo);
+                if (edgesAtEo != null)
                 {
-
-                    //compare each non-passive edge's active category with
-                    //the left side of the edge used to complete
-                    if (!originEdge.IsPassive && originEdge.DottedRule.ActiveCategory.Equals(edge.DottedRule.Left))
+                    foreach (Edge originEdge in edgesAtEo)
                     {
-
-                        //add new edge with dot advanced by one if same
-                        Edge newEdge = Edge.Complete(originEdge, edge);
-
-                        if (chart.AddEdge(index, newEdge))
+                        //compare each non-passive edge's active category with
+                        //the left side of the edge used to complete
+                        Category? activeCategory = originEdge.DottedRule.ActiveCategory;
+                        if (!originEdge.IsPassive && activeCategory != null && activeCategory.Equals(edge.DottedRule.Left))
                         {
-                            FireEdgeCompleted(new EdgeEventArgs(index, newEdge));
-                            //only recursively complete if the chart did not already contain this edge.
-                            CompleteForEdge(chart, newEdge, index);
+                            //add new edge with dot advanced by one if same
+                            Edge newEdge = Edge.Complete(originEdge, edge);
+
+                            if (chart.AddEdge(index, newEdge))
+                            {
+                                FireEdgeCompleted(new EdgeEventArgs(index, newEdge));
+                                //only recursively complete if the chart did not already contain this edge.
+                                CompleteForEdge(chart, newEdge, index);
+                            }
                         }
                     }
                 }

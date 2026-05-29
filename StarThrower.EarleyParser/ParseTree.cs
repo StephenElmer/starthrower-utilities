@@ -23,8 +23,8 @@ namespace StarThrower.EarleyParser
         #region [ Private Instance Variables ]
 
         private Category _node;
-        private ParseTree _parent;
-        private Collection<ParseTree> _children;
+        private ParseTree? _parent;
+        private Collection<ParseTree>? _children;
 
         #endregion
 
@@ -44,17 +44,17 @@ namespace StarThrower.EarleyParser
         /// "S -> NP VP" if this parse tree's node is "NP" and is one of the children of "S".
         /// If this parse tree is the root node in a series of parse trees, null is returned.
         /// </summary>
-        public ParseTree Parent
+        public ParseTree? Parent
         {
             get { return _parent; }
         }
 
         /// <summary>
         /// Gets the child parse trees of this parse tree, retaining their linear ordering,
-        /// returning for a subtree "NP -> Det N", an array that contains parse trees 
+        /// returning for a subtree "NP -> Det N", an array that contains parse trees
         /// whose node is "Det, N" in that order, or null if this parse tree has no children.
         /// </summary>
-        public Collection<ParseTree> Children
+        public Collection<ParseTree>? Children
         {
             get { return _children; }
         }
@@ -70,7 +70,7 @@ namespace StarThrower.EarleyParser
         /// <param name="node">The category of the node of this parse tree.</param>
         /// <param name="parent">This parse tree's parent tree, or null if this parse
         /// tree is the root node.</param>
-        public ParseTree(Category node, ParseTree parent) : this(node, parent, null) { }
+        public ParseTree(Category node, ParseTree? parent) : this(node, parent, null) { }
 
         /// <summary>
         /// Creates a new parse tree with the specified category, parent, and child trees.
@@ -80,7 +80,7 @@ namespace StarThrower.EarleyParser
         /// tree is the root node.</param>
         /// <param name="children">The list of children of this parse tree, in their
         /// linear order.</param>
-        public ParseTree(Category node, ParseTree parent, Collection<ParseTree> children)
+        public ParseTree(Category node, ParseTree? parent, Collection<ParseTree>? children)
         {
             _node = node;
             _parent = parent;
@@ -112,7 +112,7 @@ namespace StarThrower.EarleyParser
         /// <param name="parent">The parent tree of the new parse tree.</param>
         /// <returns>A new parse tree whose node is the specified edge's dotted rule's
         /// left side and whose children are based on the bases of the specified edge.</returns>
-        public static ParseTree NewParseTree(Edge edge, ParseTree parent)
+        public static ParseTree NewParseTree(Edge edge, ParseTree? parent)
         {
             Edge e;
             ParseTree parentTree;
@@ -130,7 +130,7 @@ namespace StarThrower.EarleyParser
             }
 
             DottedRule dr = e.DottedRule;
-            ParseTree newTree = null;
+            ParseTree newTree;
 
             if (e.IsPassive) //basis from a completion?
             {
@@ -162,7 +162,7 @@ namespace StarThrower.EarleyParser
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this) return true;
             if (obj == null) return false;
@@ -170,7 +170,8 @@ namespace StarThrower.EarleyParser
             ParseTree other = (ParseTree)obj;
 
             if (!_node.Equals(other._node)) return false;
-            if (!((_parent == null && other._parent == null) || (_parent.Node.Equals(other._parent.Node)))) return false;
+            if ((_parent == null) != (other._parent == null)) return false;
+            if (_parent != null && !_parent.Node.Equals(other._parent!.Node)) return false;
             if ((_children == null && other._children != null) || (_children != null && other._children == null)) return false;
             if (_children != null)
             {
@@ -184,13 +185,14 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
-        public bool Equals(ParseTree other)
+        public bool Equals(ParseTree? other)
         {
             if (other == this) return true;
             if (other == null) return false;
 
             if (!_node.Equals(other._node)) return false;
-            if (!((_parent == null && other._parent == null) || (_parent.Node.Equals(other._parent.Node)))) return false;
+            if ((_parent == null) != (other._parent == null)) return false;
+            if (_parent != null && !_parent.Node.Equals(other._parent!.Node)) return false;
             if ((_children == null && other._children != null) || (_children != null && other._children == null)) return false;
             if (_children != null)
             {

@@ -29,7 +29,7 @@ namespace StarThrower.EarleyParser
         private Category _seed;
         private Chart _chart;
         private bool _error;
-        private Collection<ParseTree> _parseTrees;
+        private Collection<ParseTree>? _parseTrees;
 
         #endregion
 
@@ -149,7 +149,7 @@ namespace StarThrower.EarleyParser
 
         private Collection<Edge> GetCompletedEdges(Category category, int origin, int index)
         {
-            ReadOnlyCollection<Edge> edges = _chart.GetEdgesAt(index);
+            ReadOnlyCollection<Edge>? edges = _chart.GetEdgesAt(index);
             if (edges == null || edges.Count == 0)
             { // any edges at this index?
                 return new Collection<Edge>();
@@ -186,9 +186,9 @@ namespace StarThrower.EarleyParser
         /// the edge is not contained in this parse's chart, returns null.  The
         /// parse tree returned will be the same as calling ParseTree.NewParseTree(edge);</returns>
         /// <exception cref="ArgumentNullException">Thrown if edge is null.</exception>
-        public ParseTree GetParseTreeFor(Edge edge)
+        public ParseTree? GetParseTreeFor(Edge? edge)
         {
-            if (edge == null) throw new ArgumentNullException("edge");
+            ArgumentNullException.ThrowIfNull(edge);
 
             if (!_chart.ContainsEdge(edge)) return null;
             return ParseTree.NewParseTree(edge);
@@ -214,9 +214,9 @@ namespace StarThrower.EarleyParser
         /// <returns>A set of parse trees for the given category at the given origin and string index position, 
         /// or the empty set if no edges match.</returns>
         /// <exception cref="ArgumentNullException">Thrown if category is null.</exception>
-        public Collection<ParseTree> GetParseTreesFor(Category category, int origin, int index)
+        public Collection<ParseTree> GetParseTreesFor(Category? category, int origin, int index)
         {
-            if (category == null) throw new ArgumentNullException("category");
+            ArgumentNullException.ThrowIfNull(category);
 
             Collection<ParseTree> trees = new Collection<ParseTree>();
             foreach (Edge e in GetCompletedEdges(category, origin, index))
@@ -239,7 +239,7 @@ namespace StarThrower.EarleyParser
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this) return true;
             if (obj == null) return false;
@@ -270,7 +270,7 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
-        public bool Equals(Parse other)
+        public bool Equals(Parse? other)
         {
             if (other == this) return true;
             if (other == null) return false;

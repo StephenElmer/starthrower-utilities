@@ -20,7 +20,7 @@ namespace StarThrower.EarleyParser
         #region [ Private Instance Variables ]
 
         private int _position;
-        private Category _activeCategory;
+        private Category? _activeCategory;
 
         #endregion
 
@@ -44,7 +44,7 @@ namespace StarThrower.EarleyParser
         /// rule's dot position is already at the end of the right side
         /// category sequence, returns null.
         /// </summary>
-        public Category ActiveCategory
+        public Category? ActiveCategory
         {
             get { return _activeCategory; }
         }
@@ -115,9 +115,9 @@ namespace StarThrower.EarleyParser
         /// is used by Earley parsers for seeding.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the seed category is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown if the seed category is a terminal.</exception>
-        public static DottedRule CreateStartRule(Category seed)
+        public static DottedRule CreateStartRule(Category? seed)
         {
-            if (seed == null) throw new ArgumentNullException("seed");
+            ArgumentNullException.ThrowIfNull(seed);
             if (seed.IsTerminal) throw new InvalidOperationException("seed is a terminal: " + seed.ToString());
 
             List<Category> l = new List<Category>();
@@ -138,7 +138,7 @@ namespace StarThrower.EarleyParser
         /// <param name="obj"></param>
         /// <returns>True if the specified object is an instance of DottedRule
         /// and it's underlying rule and position are equal to this dotted rule's rule and position.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this) return true;
             if (obj == null) return false;
@@ -150,7 +150,7 @@ namespace StarThrower.EarleyParser
                 base.Equals(other);
         }
 
-        public bool Equals(DottedRule other)
+        public bool Equals(DottedRule? other)
         {
             if (other == this) return true;
             if (other == null) return false;

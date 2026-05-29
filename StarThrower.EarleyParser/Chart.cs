@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -209,7 +208,7 @@ namespace StarThrower.EarleyParser
         /// <param name="edge">The edge to find the index of.</param>
         /// <returns>The index of the specified edge, or -1 if the specified edge is null
         /// or is not contained in this chart.</returns>
-        public int GetIndexOfEdge(Edge edge)
+        public int GetIndexOfEdge(Edge? edge)
         {
             if (edge == null) return Chart.NullIndex;
             foreach (int key in _edgeSets.Keys)
@@ -246,7 +245,7 @@ namespace StarThrower.EarleyParser
         /// edge set returned by this method is not guaranteed to contain the 
         /// edges in the order in which they were added.  This method returns
         /// a read-only collection of edges.</returns>
-        public ReadOnlyCollection<Edge> GetEdgesAt(int index)
+        public ReadOnlyCollection<Edge>? GetEdgesAt(int index)
         {
             if (!_edgeSets.ContainsKey(index)) return null;
             return new ReadOnlyCollection<Edge>(_edgeSets[index]);
@@ -263,9 +262,9 @@ namespace StarThrower.EarleyParser
         /// the given index.</returns>
         /// <exception cref="ArgumentNullException">Thrown if edge is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if index is less than zero.</exception>
-        public bool AddEdge(int index, Edge edge)
+        public bool AddEdge(int index, Edge? edge)
         {
-            if (edge == null) throw new ArgumentNullException("edge");
+            ArgumentNullException.ThrowIfNull(edge);
             if (index < 0) throw new ArgumentOutOfRangeException("index");
 
             if (!_edgeSets.ContainsKey(index))
@@ -297,7 +296,7 @@ namespace StarThrower.EarleyParser
         /// <param name="obj"></param>
         /// <returns>True if the specified object is an instance of Chart ant it
         /// contains the same edges at the same indices as this chart.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this) return true;
             if (obj == null) return false;
@@ -322,7 +321,7 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
-        public bool Equals(Chart other)
+        public bool Equals(Chart? other)
         {
             if (other == this) return true;
             if (other == null) return false;

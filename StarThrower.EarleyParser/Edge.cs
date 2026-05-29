@@ -103,7 +103,7 @@ namespace StarThrower.EarleyParser
         /// <param name="bases">The set of bases, in order, that completed this edge.
         /// If this is null, the empty set is used.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if origin is less than 0.</exception>
-        public Edge(DottedRule dottedRule, int origin, ReadOnlyCollection<Edge> bases)
+        public Edge(DottedRule dottedRule, int origin, ReadOnlyCollection<Edge>? bases)
         {
             if (origin < 0) throw new ArgumentOutOfRangeException("origin");
 
@@ -133,9 +133,9 @@ namespace StarThrower.EarleyParser
         /// <param name="origin">The origin position of the newly predicted edge.</param>
         /// <returns>A new edge whose dotted rule is the specified rule at position 0.  The new edge's origin is the specified origin.</returns>
         /// <exception cref="ArgumentNullException">Thrown if rule is null.</exception>
-        public static Edge PredictFor(Rule rule, int origin)
+        public static Edge PredictFor(Rule? rule, int origin)
         {
-            if (rule == null) throw new ArgumentNullException("rule");
+            ArgumentNullException.ThrowIfNull(rule);
             return new Edge(new DottedRule(rule), origin);
         }
 
@@ -153,10 +153,10 @@ namespace StarThrower.EarleyParser
         /// The specified edge's dotted rule's active category is not a terminal.
         /// The edge's rule's active category's name is not equal to the scanned token.
         /// </exception>
-        public static Edge Scan(Edge edge, string token)
+        public static Edge Scan(Edge? edge, string? token)
         {
-            if (edge == null) throw new ArgumentNullException("edge");
-            if (token == null) throw new ArgumentNullException("token");
+            ArgumentNullException.ThrowIfNull(edge);
+            ArgumentNullException.ThrowIfNull(token);
             if (edge.IsPassive) throw new InvalidOperationException("passive edge");
 
             DottedRule dr = edge.DottedRule;
@@ -188,11 +188,11 @@ namespace StarThrower.EarleyParser
         ///     has a dotted rule whose position is 0, (meaning that no completion has actually taken place)
         ///     has a dotted rule whose left category does not equal this edge's dotted rule's active category.
         /// </exception>
-        public static Edge Complete(Edge toComplete, Edge basis)
+        public static Edge Complete(Edge? toComplete, Edge? basis)
         {
-            if (toComplete == null) throw new ArgumentNullException("toComplete");
+            ArgumentNullException.ThrowIfNull(toComplete);
             if (toComplete.IsPassive) throw new InvalidOperationException("attempt to complete passive edge: " + toComplete.ToString());
-            if (basis == null) throw new ArgumentNullException("basis");
+            ArgumentNullException.ThrowIfNull(basis);
             if (!basis.IsPassive) throw new InvalidOperationException("basis is active: " + basis.ToString());
             if (basis.DottedRule.Position == 0 || !basis.DottedRule.Left.Equals(toComplete.DottedRule.ActiveCategory)) { throw new InvalidOperationException(toComplete.ToString() + " is NotFiniteNumberException completed by basis " + basis.ToString()); }
 
@@ -232,7 +232,7 @@ namespace StarThrower.EarleyParser
 
         #region [ Object Overrides ]
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this) return true;
             if (obj == null) return false;

@@ -68,7 +68,7 @@ namespace StarThrower.EarleyParser.TestApp
             Grammar grammar = grammarParser.Parse();
 
             string input = File.ReadAllText(inputFile);
-            string[] tokens = null;
+            string[]? tokens = null;
             if (rbLex.IsChecked.HasValue && rbLex.IsChecked.Value)
             {
                 bool ignoreWhitespace = (chkIgnoreWhitespace.IsChecked.HasValue && chkIgnoreWhitespace.IsChecked.Value);
@@ -101,11 +101,11 @@ namespace StarThrower.EarleyParser.TestApp
         {
             string oldFileName = txtGrammar.Text.Trim();
 
-            string folder = System.IO.Path.GetDirectoryName(oldFileName);
+            string? folder = System.IO.Path.GetDirectoryName(oldFileName);
             string file = System.IO.Path.GetFileName(oldFileName);
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.InitialDirectory = folder;
+            dlg.InitialDirectory = folder ?? string.Empty;
             dlg.FileName = file;
             dlg.Multiselect = false;
             dlg.Filter = "XML Files (*.xml)|*.xml";
@@ -120,11 +120,11 @@ namespace StarThrower.EarleyParser.TestApp
         {
             string oldFileName = txtInput.Text.Trim();
 
-            string folder = System.IO.Path.GetDirectoryName(oldFileName);
+            string? folder = System.IO.Path.GetDirectoryName(oldFileName);
             string file = System.IO.Path.GetFileName(oldFileName);
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.InitialDirectory = folder;
+            dlg.InitialDirectory = folder ?? string.Empty;
             dlg.FileName = file;
             dlg.Multiselect = false;
             dlg.Filter = "Text Files (*.txt)|*.txt";

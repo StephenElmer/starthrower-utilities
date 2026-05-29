@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarThrower.EarleyParser
+﻿namespace StarThrower.EarleyParser
 {
     public class ParserOptions
     {

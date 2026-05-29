@@ -46,22 +46,30 @@ namespace StarThrower.EarleyParser
         public Grammar Parse()
         {
 
-            XmlElement grammarNode = _doc.DocumentElement;
-            string name = grammarNode.Attributes.GetNamedItem("name").Value;
+            XmlElement grammarNode = _doc.DocumentElement
+                ?? throw new InvalidOperationException("Grammar XML has no root element.");
+            string name = grammarNode.Attributes?.GetNamedItem("name")?.Value
+                ?? throw new InvalidOperationException("Grammar XML has no 'name' attribute.");
             Grammar g = new Grammar(name);
-            foreach (XmlNode ruleNode in grammarNode.SelectNodes("rule"))
+            foreach (XmlNode ruleNode in grammarNode.SelectNodes("rule")
+                ?? throw new InvalidOperationException("Grammar XML 'rule' SelectNodes returned null."))
             {
-                string leftName = ruleNode.Attributes.GetNamedItem("category").Value;
+                string leftName = ruleNode.Attributes?.GetNamedItem("category")?.Value
+                    ?? throw new InvalidOperationException("Rule XML has no 'category' attribute.");
                 Category left = new Category(leftName);
 
                 List<Category> l = new List<Category>();
-                foreach (XmlNode catNode in ruleNode.SelectNodes("category"))
+                foreach (XmlNode catNode in ruleNode.SelectNodes("category")
+                    ?? throw new InvalidOperationException("Rule XML 'category' SelectNodes returned null."))
                 {
-                    string rightName = catNode.Attributes.GetNamedItem("name").Value;
+                    string rightName = catNode.Attributes?.GetNamedItem("name")?.Value
+                        ?? throw new InvalidOperationException("Category XML has no 'name' attribute.");
                     bool isTerminal = false;
-                    if (catNode.Attributes.GetNamedItem("terminal") != null)
+                    XmlNode? terminalNode = catNode.Attributes?.GetNamedItem("terminal");
+                    if (terminalNode != null)
                     {
-                        string terminalAsString = catNode.Attributes.GetNamedItem("terminal").Value;
+                        string terminalAsString = terminalNode.Value
+                            ?? throw new InvalidOperationException("'terminal' attribute has no value.");
                         isTerminal = bool.Parse(terminalAsString);
                     }
                     Category c = new Category(rightName, isTerminal);

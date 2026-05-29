@@ -25,7 +25,7 @@ namespace StarThrower.EarleyParser.Test
 
         #region [ Private Instance Variables ]
 
-        private TestContext testContextInstance;
+        private TestContext? testContextInstance;
         private Category S;
         private Category E;
         private Category T;
@@ -52,7 +52,7 @@ namespace StarThrower.EarleyParser.Test
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
+        public TestContext? TestContext
         {
             get
             {

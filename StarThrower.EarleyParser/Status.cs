@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarThrower.EarleyParser
+﻿namespace StarThrower.EarleyParser
 {
     /// <summary>
     /// Reflects the status of a parse completed by an Earley parser.

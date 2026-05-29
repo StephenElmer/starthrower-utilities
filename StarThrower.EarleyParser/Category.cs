@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace StarThrower.EarleyParser
 {
@@ -26,12 +25,12 @@ namespace StarThrower.EarleyParser
 
             public RootCategory(string name, bool isTerminal) : base(name, isTerminal) { }
 
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
                 return this == obj;
             }
 
-            public bool Equals(RootCategory other)
+            public bool Equals(RootCategory? other)
             {
                 return this == other;
             }
@@ -42,22 +41,7 @@ namespace StarThrower.EarleyParser
             }
         }
 
-        private static readonly RootCategory _root;
-        private static object _rootLockObj = new object();
-
-        static Category()
-        {
-            if (_root == null)
-            {
-                lock (_rootLockObj)
-                {
-                    if (_root == null)
-                    {
-                        _root = new RootCategory("<start>", false);
-                    }
-                }
-            }
-        }
+        private static readonly RootCategory _root = new RootCategory("<start>", false);
 
         /// <summary>
         /// Special "start" category for seeding Earley parsers.
@@ -105,7 +89,7 @@ namespace StarThrower.EarleyParser
         /// Creates a new non-terminal category with the specified name.
         /// </summary>
         /// <param name="name">The name of the new non-terminal category</param>
-        public Category(string name) : this(name, false) { }
+        public Category(string? name) : this(name, false) { }
 
         /// <summary>
         /// Creates a new category name with the specified terminal status.
@@ -114,9 +98,9 @@ namespace StarThrower.EarleyParser
         /// <param name="isTerminal">Whether or not this category is a terminal</param>
         /// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown if name is blank or an empty string for a non-terminal category.</exception>
-        public Category(string name, bool isTerminal)
+        public Category(string? name, bool isTerminal)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             
             //TODO: hmm... this was originaly the other way around, but the other way around if fails the Ctor_ThrowsOnWHitespaceName() test.  Why was it made to allow whitespace?
             string temp = name.Trim();
@@ -140,7 +124,7 @@ namespace StarThrower.EarleyParser
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns>True if the objects are equivalent.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this) return true;
             if (obj == null) return false;
@@ -152,7 +136,7 @@ namespace StarThrower.EarleyParser
 
         }
 
-        public bool Equals(Category other)
+        public bool Equals(Category? other)
         {
             if (other == this) return true;
             if (other == null) return false;

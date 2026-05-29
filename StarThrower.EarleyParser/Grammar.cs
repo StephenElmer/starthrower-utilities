@@ -39,9 +39,9 @@ namespace StarThrower.EarleyParser
 
         #region [ Public Methods ]
 
-        public void AddRule(Rule rule)
+        public void AddRule(Rule? rule)
         {
-            if (rule == null) throw new ArgumentNullException("rule");
+            ArgumentNullException.ThrowIfNull(rule);
 
             if (_rules.ContainsKey(rule.Left))
             {
@@ -78,7 +78,7 @@ namespace StarThrower.EarleyParser
             return result;
         }
 
-        public Rule SingletonPreterminal(Category left, string token, bool ignoreCase)
+        public Rule? SingletonPreterminal(Category left, string token, bool ignoreCase)
         {
             if (_rules.ContainsKey(left))
             {
@@ -99,7 +99,7 @@ namespace StarThrower.EarleyParser
 
         #region [ Object Overrides ]
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this) return true;
             if (obj == null) return false;
@@ -124,7 +124,7 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
-        public bool Equals(Grammar other)
+        public bool Equals(Grammar? other)
         {
             if (other == this) return true;
             if (other == null) return false;
