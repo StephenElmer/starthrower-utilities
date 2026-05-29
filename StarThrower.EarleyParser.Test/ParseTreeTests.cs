@@ -198,8 +198,8 @@ namespace StarThrower.EarleyParser.Test
             sEdge = Edge.Complete(sEdge, new Edge(new DottedRule(new Rule(f.VP, right3), 2), 3));
 
             ParseTree sTree = ParseTree.NewParseTree(sEdge, null);
-            Collection<ParseTree> sChildren = sTree.Children;
-
+            Collection<ParseTree>? sChildren = sTree.Children;
+            Assert.IsNotNull(sChildren);
             Assert.AreEqual(f.NP, sChildren[0].Node);
             Assert.AreEqual(f.VP, sChildren[1].Node);
         }
@@ -228,11 +228,14 @@ namespace StarThrower.EarleyParser.Test
             Fixture f = GetCustomFixture();
 
             Collection<ParseTree> vpSubTrees = f.parse.GetParseTreesFor(f.VP, 1, 4);
-            foreach (Edge edge in f.parse.Chart.GetEdgesAt(4))
+            ReadOnlyCollection<Edge>? edgesAt4 = f.parse.Chart.GetEdgesAt(4);
+            Assert.IsNotNull(edgesAt4);
+            foreach (Edge edge in edgesAt4)
             {
                 if (edge.Origin == 1 && edge.IsPassive && edge.DottedRule.Left.Equals(f.VP))
                 {
-                    ParseTree pt = f.parse.GetParseTreeFor(edge);
+                    ParseTree? pt = f.parse.GetParseTreeFor(edge);
+                    Assert.IsNotNull(pt);
                     Assert.AreEqual(true, vpSubTrees.Contains(pt));
                 }
             }
@@ -281,13 +284,18 @@ namespace StarThrower.EarleyParser.Test
 
             Collection<ParseTree> sSubTrees = f.parse.GetParseTreesFor(f.S, 2, 4);
             ParseTree sSubTree = sSubTrees[0];
-            Collection<ParseTree> sChildren = sSubTree.Children;
+            Collection<ParseTree>? sChildren = sSubTree.Children;
+            Assert.IsNotNull(sChildren);
             Assert.AreEqual(f.NP, sChildren[0].Node);
             ParseTree sVPSubTree = sChildren[1];
             Assert.AreEqual(f.VP, sVPSubTree.Node);
-            ParseTree viSubTree = sVPSubTree.Children[0];
+            Collection<ParseTree>? vpChildren = sVPSubTree.Children;
+            Assert.IsNotNull(vpChildren);
+            ParseTree viSubTree = vpChildren[0];
             Assert.AreEqual(f.VI, viSubTree.Node);
-            ParseTree duckSubTree = viSubTree.Children[0];
+            Collection<ParseTree>? viChildren = viSubTree.Children;
+            Assert.IsNotNull(viChildren);
+            ParseTree duckSubTree = viChildren[0];
             Assert.AreEqual(f.duck, duckSubTree.Node);
 
             // back up
@@ -319,7 +327,8 @@ namespace StarThrower.EarleyParser.Test
 
             foreach (ParseTree pt in f.parseTrees)
             {
-                Collection<ParseTree> i = pt.Children;
+                Collection<ParseTree>? i = pt.Children;
+                Assert.IsNotNull(i);
                 Assert.AreEqual(f.NP, i[0].Node);
                 Assert.AreEqual(f.VP, i[1].Node);
             }
@@ -349,9 +358,13 @@ namespace StarThrower.EarleyParser.Test
             Parse prse = p.Parse(t, f.S);
             ParseTree tree = prse.ParseTrees[0];
             int npCount = 0;
-            foreach (ParseTree c in tree.Children)
+            Collection<ParseTree>? treeChildren = tree.Children;
+            Assert.IsNotNull(treeChildren);
+            foreach (ParseTree c in treeChildren)
             {
-                foreach (ParseTree x in c.Children)
+                Collection<ParseTree>? cChildren = c.Children;
+                Assert.IsNotNull(cChildren);
+                foreach (ParseTree x in cChildren)
                 {
                     if (x.Node.Equals(f.he))
                     {

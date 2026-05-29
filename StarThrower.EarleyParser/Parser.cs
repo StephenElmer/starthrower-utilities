@@ -33,14 +33,14 @@ namespace StarThrower.EarleyParser
     /// </summary>
     public class Parser
     {
-        public event EventHandler<EdgeEventArgs> OnEdgePredicted;
-        public event EventHandler<EdgeEventArgs> OnEdgeScanned;
-        public event EventHandler<EdgeEventArgs> OnEdgeCompleted;
+        public event EventHandler<EdgeEventArgs>? OnEdgePredicted;
+        public event EventHandler<EdgeEventArgs>? OnEdgeScanned;
+        public event EventHandler<EdgeEventArgs>? OnEdgeCompleted;
 
 
         protected virtual void FireEdgePredicted(EdgeEventArgs e)
         {
-            EventHandler<EdgeEventArgs> handler = OnEdgePredicted;
+            EventHandler<EdgeEventArgs>? handler = OnEdgePredicted;
             if (handler != null)
             {
                 handler(this, e);
@@ -49,7 +49,7 @@ namespace StarThrower.EarleyParser
 
         protected virtual void FireEdgeScanned(EdgeEventArgs e)
         {
-            EventHandler<EdgeEventArgs> handler = OnEdgeScanned;
+            EventHandler<EdgeEventArgs>? handler = OnEdgeScanned;
             if (handler != null)
             {
                 handler(this, e);
@@ -58,7 +58,7 @@ namespace StarThrower.EarleyParser
 
         protected virtual void FireEdgeCompleted(EdgeEventArgs e)
         {
-            EventHandler<EdgeEventArgs> handler = OnEdgeCompleted;
+            EventHandler<EdgeEventArgs>? handler = OnEdgeCompleted;
             if (handler != null)
             {
                 handler(this, e);
@@ -94,7 +94,8 @@ namespace StarThrower.EarleyParser
 
         public Parser(Grammar grammar, ParserOptions options)
         {
-            this.Grammar = grammar;
+            ArgumentNullException.ThrowIfNull(grammar);
+            _grammar = grammar;
             _options = options;
         }
 

@@ -78,7 +78,7 @@ namespace StarThrower.EarleyParser.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void Ctor_ThrowsOnNullLeft()
         {
-            Category left = null;
+            Category? left = null;
             List<Category> l = new List<Category>();
             l.Add(new Category("R"));
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(l);
@@ -103,7 +103,7 @@ namespace StarThrower.EarleyParser.Test
         public void Ctor_ThrowsOnNullRight()
         {
             Category left = new Category("L", false);
-            ReadOnlyCollection<Category> right = null;
+            ReadOnlyCollection<Category>? right = null;
             Rule r = new Rule(left, right);
             Assert.Fail("Expected an exception here!");
         }
@@ -122,12 +122,11 @@ namespace StarThrower.EarleyParser.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void Ctor_ThrowsOnNullItemInRight()
         {
-            Category left = null;
-            List<Category> l = new List<Category>();
-            l.Add(new Category("R", false));
-            l.Add(null);
-            l.Add(new Category("r", true));
-            ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(l);
+            Category? left = null;
+            Category[] arr = new Category[3];
+            arr[0] = new Category("R", false);
+            arr[2] = new Category("r", true);
+            ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(arr);
             Rule r = new Rule(left, right);
             Assert.Fail("Expected an exception here!");
         }
@@ -307,7 +306,7 @@ namespace StarThrower.EarleyParser.Test
             ReadOnlyCollection<Category> right1 = new ReadOnlyCollection<Category>(l);
             Rule r1 = new Rule(left1, right1);
 
-            Rule r2 = null;
+            Rule? r2 = null;
 
             Assert.AreEqual(false, r1.Equals(r2));
         }
@@ -406,7 +405,8 @@ namespace StarThrower.EarleyParser.Test
             l.Add(f.X);
             l.Add(f.Z);
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(l);
-            Rule r = new Rule(null, right);
+            Category? nullLeft = null;
+            Rule r = new Rule(nullLeft, right);
             Assert.Fail("Expected an exception to be thrown.");
         }
 
@@ -415,7 +415,7 @@ namespace StarThrower.EarleyParser.Test
         public void Ctor2()
         {
             Fixture f = new Fixture();
-            ReadOnlyCollection<Category> right = null;
+            ReadOnlyCollection<Category>? right = null;
             Rule r = new Rule(f.Z, right);
             Assert.Fail("Expected an exception to be thrown.");
         }

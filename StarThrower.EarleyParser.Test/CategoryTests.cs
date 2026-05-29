@@ -142,7 +142,8 @@ namespace StarThrower.EarleyParser.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void Ctor_ThrowsOnNullName()
         {
-            Category c = new Category(null, false);
+            string? nullName = null;
+            Category c = new Category(nullName, false);
             Assert.Fail("Expected an exception to be thrown!");
         }
 
@@ -182,7 +183,7 @@ namespace StarThrower.EarleyParser.Test
         public void Equals_ReturnsFalseWhenNull()
         {
             Category a = new Category("A", false);
-            Category b = null;
+            Category? b = null;
             Assert.AreEqual(false, a.Equals(b));
         }
 

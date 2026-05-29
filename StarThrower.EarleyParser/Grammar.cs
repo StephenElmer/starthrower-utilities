@@ -105,20 +105,15 @@ namespace StarThrower.EarleyParser
             if (obj == null) return false;
             if (!(obj is Grammar)) return false;
             Grammar other = (Grammar)obj;
-            if ((_name == null && other._name != null) || (_name != null && other._name == null)) return false;
-            if ((_name != null) && (String.Compare(_name, other._name, StringComparison.Ordinal) != 0)) return false;
-            if ((_rules == null && other._rules != null) || (_rules != null && other._rules == null)) return false;
-            if (_rules != null)
+            if (String.Compare(_name, other._name, StringComparison.Ordinal) != 0) return false;
+            if (_rules.Count != other._rules.Count) return false;
+            foreach (Category key in _rules.Keys)
             {
-                if (_rules.Count != other._rules.Count) return false;
-                foreach (Category key in _rules.Keys)
+                if (!other._rules.ContainsKey(key)) return false;
+                if (_rules[key].Count != other._rules[key].Count) return false;
+                for (int i = 0; i < _rules[key].Count; i++)
                 {
-                    if (!other._rules.ContainsKey(key)) return false;
-                    if (_rules[key].Count != other._rules[key].Count) return false;
-                    for (int i = 0; i < _rules[key].Count; i++)
-                    {
-                        if (!_rules[key][i].Equals(other._rules[key][i])) return false;
-                    }
+                    if (!_rules[key][i].Equals(other._rules[key][i])) return false;
                 }
             }
             return true;
@@ -128,20 +123,15 @@ namespace StarThrower.EarleyParser
         {
             if (other == this) return true;
             if (other == null) return false;
-            if ((_name == null && other._name != null) || (_name != null && other._name == null)) return false;
-            if ((_name != null) && (String.Compare(_name, other._name, StringComparison.Ordinal) != 0)) return false;
-            if ((_rules == null && other._rules != null) || (_rules != null && other._rules == null)) return false;
-            if (_rules != null)
+            if (String.Compare(_name, other._name, StringComparison.Ordinal) != 0) return false;
+            if (_rules.Count != other._rules.Count) return false;
+            foreach (Category key in _rules.Keys)
             {
-                if (_rules.Count != other._rules.Count) return false;
-                foreach (Category key in _rules.Keys)
+                if (!other._rules.ContainsKey(key)) return false;
+                if (_rules[key].Count != other._rules[key].Count) return false;
+                for (int i = 0; i < _rules[key].Count; i++)
                 {
-                    if (!other._rules.ContainsKey(key)) return false;
-                    if (_rules[key].Count != other._rules[key].Count) return false;
-                    for (int i = 0; i < _rules[key].Count; i++)
-                    {
-                        if (!_rules[key][i].Equals(other._rules[key][i])) return false;
-                    }
+                    if (!_rules[key][i].Equals(other._rules[key][i])) return false;
                 }
             }
             return true;

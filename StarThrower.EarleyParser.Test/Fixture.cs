@@ -15,8 +15,8 @@ namespace StarThrower.EarleyParser.Test
         public string[] tokens;
         public DottedRule dot1, dot2, dot3;
         public Chart chart;
-        public Parse parse;
-        public Collection<ParseTree> parseTrees;
+        public Parse parse = new Parse(new Category("<uninitialized>"), new Chart());
+        public Collection<ParseTree> parseTrees = new Collection<ParseTree>();
         public Category VI, VT, VS, saw, duck, her, he;
         public Parser earleyParser;
         public Grammar emptyGrammar;

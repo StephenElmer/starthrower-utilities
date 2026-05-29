@@ -94,7 +94,8 @@ namespace StarThrower.EarleyParser.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreateStartRule_ThrowsOnNull()
         {
-            DottedRule.CreateStartRule(null);
+            Category? nullSeed = null;
+            DottedRule.CreateStartRule(nullSeed);
             Assert.Fail("Should have thrown an exception here.");
         }
 

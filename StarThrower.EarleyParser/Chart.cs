@@ -302,19 +302,14 @@ namespace StarThrower.EarleyParser
             if (obj == null) return false;
             if (!(obj is Chart)) return false;
             Chart other = (Chart)obj;
-            if ((_edgeSets == null && other._edgeSets != null) || (_edgeSets != null && other._edgeSets == null)) return false;
-            if (_edgeSets != null)
+            if (_edgeSets.Count != other._edgeSets.Count) return false;
+            foreach (int key in _edgeSets.Keys)
             {
-                if (_edgeSets.Count != other._edgeSets.Count) return false;
-                foreach (int key in _edgeSets.Keys)
+                if (!other._edgeSets.ContainsKey(key)) return false;
+                if (_edgeSets[key].Count != other._edgeSets[key].Count) return false;
+                for (int i = 0; i < _edgeSets[key].Count; i++)
                 {
-                    if (!other._edgeSets.ContainsKey(key)) return false;
-                    if ((_edgeSets[key] == null && other._edgeSets[key] != null) || (_edgeSets[key] != null && other._edgeSets[key] == null)) return false;
-                    if (_edgeSets[key].Count != other._edgeSets[key].Count) return false;
-                    for (int i = 0; i < _edgeSets[key].Count; i++)
-                    {
-                        if (!_edgeSets[key][i].Equals(other._edgeSets[key][i])) return false;
-                    }
+                    if (!_edgeSets[key][i].Equals(other._edgeSets[key][i])) return false;
                 }
             }
 
@@ -325,19 +320,14 @@ namespace StarThrower.EarleyParser
         {
             if (other == this) return true;
             if (other == null) return false;
-            if ((_edgeSets == null && other._edgeSets != null) || (_edgeSets != null && other._edgeSets == null)) return false;
-            if (_edgeSets != null)
+            if (_edgeSets.Count != other._edgeSets.Count) return false;
+            foreach (int key in _edgeSets.Keys)
             {
-                if (_edgeSets.Count != other._edgeSets.Count) return false;
-                foreach (int key in _edgeSets.Keys)
+                if (!other._edgeSets.ContainsKey(key)) return false;
+                if (_edgeSets[key].Count != other._edgeSets[key].Count) return false;
+                for (int i = 0; i < _edgeSets[key].Count; i++)
                 {
-                    if (!other._edgeSets.ContainsKey(key)) return false;
-                    if ((_edgeSets[key] == null && other._edgeSets[key] != null) || (_edgeSets[key] != null && other._edgeSets[key] == null)) return false;
-                    if (_edgeSets[key].Count != other._edgeSets[key].Count) return false;
-                    for (int i = 0; i < _edgeSets[key].Count; i++)
-                    {
-                        if (!_edgeSets[key][i].Equals(other._edgeSets[key][i])) return false;
-                    }
+                    if (!_edgeSets[key][i].Equals(other._edgeSets[key][i])) return false;
                 }
             }
 

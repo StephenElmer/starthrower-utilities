@@ -115,7 +115,7 @@ namespace StarThrower.EarleyParser
         public static ParseTree NewParseTree(Edge edge, ParseTree? parent)
         {
             Edge e;
-            ParseTree parentTree;
+            ParseTree? parentTree;
 
             if (edge.DottedRule.Left.Equals(Category.Root))
             {
@@ -135,18 +135,21 @@ namespace StarThrower.EarleyParser
             if (e.IsPassive) //basis from a completion?
             {
                 int basisCount = e.Bases.Count;
-                newTree = new ParseTree(dr.Left, parentTree, (basisCount == 0 ? null : new Collection<ParseTree>()));
-                if (basisCount > 0)
+                Collection<ParseTree>? children = basisCount > 0 ? new Collection<ParseTree>() : null;
+                newTree = new ParseTree(dr.Left, parentTree, children);
+                if (basisCount > 0 && children != null)
                 {
                     foreach (Edge ed in e.Bases)
                     {
-                        newTree.Children.Add(ParseTree.NewParseTree(ed, newTree));
+                        children.Add(ParseTree.NewParseTree(ed, newTree));
                     }
                 }
             }
             else //from a scan
             {
-                newTree = new ParseTree(dr.ActiveCategory, parentTree, null);
+                Category? activeCategory = dr.ActiveCategory;
+                if (activeCategory == null) throw new InvalidOperationException("non-passive edge has no active category");
+                newTree = new ParseTree(activeCategory, parentTree, null);
             }
             return newTree;
         }
@@ -171,9 +174,9 @@ namespace StarThrower.EarleyParser
 
             if (!_node.Equals(other._node)) return false;
             if ((_parent == null) != (other._parent == null)) return false;
-            if (_parent != null && !_parent.Node.Equals(other._parent!.Node)) return false;
-            if ((_children == null && other._children != null) || (_children != null && other._children == null)) return false;
-            if (_children != null)
+            if (_parent != null && other._parent != null && !_parent.Node.Equals(other._parent.Node)) return false;
+            if ((_children == null) != (other._children == null)) return false;
+            if (_children != null && other._children != null)
             {
                 if (_children.Count != other._children.Count) return false;
                 for (int i = 0; i < _children.Count; i++)
@@ -192,9 +195,9 @@ namespace StarThrower.EarleyParser
 
             if (!_node.Equals(other._node)) return false;
             if ((_parent == null) != (other._parent == null)) return false;
-            if (_parent != null && !_parent.Node.Equals(other._parent!.Node)) return false;
-            if ((_children == null && other._children != null) || (_children != null && other._children == null)) return false;
-            if (_children != null)
+            if (_parent != null && other._parent != null && !_parent.Node.Equals(other._parent.Node)) return false;
+            if ((_children == null) != (other._children == null)) return false;
+            if (_children != null && other._children != null)
             {
                 if (_children.Count != other._children.Count) return false;
                 for (int i = 0; i < _children.Count; i++)

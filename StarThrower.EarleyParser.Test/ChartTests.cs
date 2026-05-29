@@ -225,7 +225,8 @@ namespace StarThrower.EarleyParser.Test
         public void GetEdge()
         {
             Fixture f = new Fixture();
-            ReadOnlyCollection<Edge> zeroEdges = f.chart.GetEdgesAt(0);
+            ReadOnlyCollection<Edge>? zeroEdges = f.chart.GetEdgesAt(0);
+            Assert.IsNotNull(zeroEdges);
             Assert.AreEqual(true, zeroEdges.Contains(f.edge1));
             Assert.AreEqual(true, zeroEdges.Contains(f.edge2));
         }

@@ -246,25 +246,21 @@ namespace StarThrower.EarleyParser
             if (!(obj is Parse)) return false;
             Parse other = (Parse)obj;
             if (_error != other._error) return false;
-            if (!((_seed == null && other._seed == null) || _seed.Equals(other._seed))) return false;
-            if (!((_chart == null && other._chart == null) || _chart.Equals(other._chart))) return false;
-            if ((_parseTrees == null && other._parseTrees != null) || (_parseTrees != null && other._parseTrees == null)) return false;
+            if (!_seed.Equals(other._seed)) return false;
+            if (!_chart.Equals(other._chart)) return false;
+            if ((_parseTrees == null) != (other._parseTrees == null)) return false;
             if (_parseTrees != null)
             {
-                if (_parseTrees.Count != other._parseTrees.Count) return false;
+                if (other._parseTrees == null || _parseTrees.Count != other._parseTrees.Count) return false;
                 for (int i = 0; i < _parseTrees.Count; i++)
                 {
                     if (!_parseTrees[i].Equals(other._parseTrees[i])) return false;
                 }
             }
-            if ((_tokens == null && other._tokens != null) || (_tokens != null && other._tokens == null)) return false;
-            if (_tokens != null)
+            if (_tokens.Count != other._tokens.Count) return false;
+            for (int i = 0; i < _tokens.Count; i++)
             {
-                if (_tokens.Count != other._tokens.Count) return false;
-                for (int i = 0; i < _tokens.Count; i++)
-                {
-                    if (!_tokens[i].Equals(other._tokens[i])) return false;
-                }
+                if (!_tokens[i].Equals(other._tokens[i])) return false;
             }
 
             return true;
@@ -275,25 +271,21 @@ namespace StarThrower.EarleyParser
             if (other == this) return true;
             if (other == null) return false;
             if (_error != other._error) return false;
-            if (!((_seed == null && other._seed == null) || _seed.Equals(other._seed))) return false;
-            if (!((_chart == null && other._chart == null) || _chart.Equals(other._chart))) return false;
-            if ((_parseTrees == null && other._parseTrees != null) || (_parseTrees != null && other._parseTrees == null)) return false;
+            if (!_seed.Equals(other._seed)) return false;
+            if (!_chart.Equals(other._chart)) return false;
+            if ((_parseTrees == null) != (other._parseTrees == null)) return false;
             if (_parseTrees != null)
             {
-                if (_parseTrees.Count != other._parseTrees.Count) return false;
+                if (other._parseTrees == null || _parseTrees.Count != other._parseTrees.Count) return false;
                 for (int i = 0; i < _parseTrees.Count; i++)
                 {
                     if (!_parseTrees[i].Equals(other._parseTrees[i])) return false;
                 }
             }
-            if ((_tokens == null && other._tokens != null) || (_tokens != null && other._tokens == null)) return false;
-            if (_tokens != null)
+            if (_tokens.Count != other._tokens.Count) return false;
+            for (int i = 0; i < _tokens.Count; i++)
             {
-                if (_tokens.Count != other._tokens.Count) return false;
-                for (int i = 0; i < _tokens.Count; i++)
-                {
-                    if (!_tokens[i].Equals(other._tokens[i])) return false;
-                }
+                if (!_tokens[i].Equals(other._tokens[i])) return false;
             }
 
             return true;

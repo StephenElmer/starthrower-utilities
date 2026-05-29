@@ -160,8 +160,10 @@ namespace StarThrower.EarleyParser
             if (edge.IsPassive) throw new InvalidOperationException("passive edge");
 
             DottedRule dr = edge.DottedRule;
-            if (!dr.ActiveCategory.IsTerminal) { throw new InvalidOperationException("edge's active category is nonterminal: " + edge.ToString()); }
-            if (String.Compare(dr.ActiveCategory.Name, token, StringComparison.OrdinalIgnoreCase) != 0) { throw new InvalidOperationException("token " + token + " incompatible with " + edge.ToString()); }
+            Category? activeCategory = dr.ActiveCategory;
+            if (activeCategory == null) throw new InvalidOperationException("edge has no active category: " + edge.ToString());
+            if (!activeCategory.IsTerminal) { throw new InvalidOperationException("edge's active category is nonterminal: " + edge.ToString()); }
+            if (String.Compare(activeCategory.Name, token, StringComparison.OrdinalIgnoreCase) != 0) { throw new InvalidOperationException("token " + token + " incompatible with " + edge.ToString()); }
 
 
             //TODO: not so sure about the order of this.  The Java version is expressed as per this commented out code,
@@ -240,14 +242,10 @@ namespace StarThrower.EarleyParser
             Edge other = (Edge)obj;
             if (_origin != other._origin) return false;
             if (!_dottedRule.Equals(other._dottedRule)) return false;
-            if ((_bases == null && other._bases != null) || (_bases != null && other._bases == null)) return false;
-            if (_bases != null)
+            if (_bases.Count != other._bases.Count) return false;
+            for (int i = 0; i < _bases.Count; i++)
             {
-                if (_bases.Count != other._bases.Count) return false;
-                for (int i = 0; i < _bases.Count; i++)
-                {
-                    if (!_bases[i].Equals(other._bases[i])) return false;
-                }
+                if (!_bases[i].Equals(other._bases[i])) return false;
             }
 
             return true;

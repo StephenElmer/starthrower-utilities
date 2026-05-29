@@ -133,7 +133,8 @@ namespace StarThrower.EarleyParser.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void Predict_5()
         {
-            Edge pe = Edge.PredictFor(null, 0);
+            Rule? nullRule = null;
+            Edge pe = Edge.PredictFor(nullRule, 0);
             Assert.Fail("Expected an exception to be thrown.");
         }
 
@@ -151,7 +152,8 @@ namespace StarThrower.EarleyParser.Test
         public void Complete_1()
         {
             Fixture f = new Fixture();
-            Edge e = Edge.Complete(f.edge2, null);
+            Edge? nullEdge = null;
+            Edge e = Edge.Complete(f.edge2, nullEdge);
             Assert.Fail("Expected an exception to be thrown.");
         }
 

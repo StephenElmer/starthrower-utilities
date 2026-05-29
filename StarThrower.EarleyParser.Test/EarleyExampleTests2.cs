@@ -18,9 +18,70 @@ namespace StarThrower.EarleyParser.Test
 
         public EarleyExampleTests2()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            S = new Category("S", false);
+            E = new Category("E", false);
+            T = new Category("T", false);
+
+            Plus = new Category("Plus", false);
+            Times = new Category("Times", false);
+            P = new Category("p", false);
+
+            plus = new Category("+", true);
+            times = new Category("*", true);
+
+            List<Category> l = new List<Category>();
+            l.Add(E);
+            ReadOnlyCollection<Category> rightOfS = new ReadOnlyCollection<Category>(l);
+            S_E = new Rule(S, rightOfS);
+
+            l = new List<Category>();
+            l.Add(T);
+            ReadOnlyCollection<Category> rightOfE_T = new ReadOnlyCollection<Category>(l);
+            E_T = new Rule(E, rightOfE_T);
+
+            l = new List<Category>();
+            l.Add(E);
+            l.Add(Plus);
+            l.Add(T);
+            ReadOnlyCollection<Category> rightOfE_EPlusT = new ReadOnlyCollection<Category>(l);
+            E_EPlusT = new Rule(E, rightOfE_EPlusT);
+
+            l = new List<Category>();
+            l.Add(P);
+            ReadOnlyCollection<Category> rightOfT_P = new ReadOnlyCollection<Category>(l);
+            T_P = new Rule(T, rightOfT_P);
+
+            l = new List<Category>();
+            l.Add(T);
+            l.Add(Times);
+            l.Add(P);
+            ReadOnlyCollection<Category> rightOfT_TTimesP = new ReadOnlyCollection<Category>(l);
+            T_TTimesP = new Rule(T, rightOfT_TTimesP);
+
+            l = new List<Category>();
+            l.Add(new Category("a", true));
+            ReadOnlyCollection<Category> rightOfP = new ReadOnlyCollection<Category>(l);
+            P_a = new Rule(P, rightOfP);
+
+            l = new List<Category>();
+            l.Add(plus);
+            ReadOnlyCollection<Category> rightOfPlus = new ReadOnlyCollection<Category>(l);
+            Plus_plus = new Rule(Plus, rightOfPlus);
+
+            l = new List<Category>();
+            l.Add(times);
+            ReadOnlyCollection<Category> rightOfTimes = new ReadOnlyCollection<Category>(l);
+            Times_times = new Rule(Times, rightOfTimes);
+
+            g = new Grammar("Earley");
+            g.AddRule(S_E);
+            g.AddRule(E_T);
+            g.AddRule(E_EPlusT);
+            g.AddRule(T_P);
+            g.AddRule(T_TTimesP);
+            g.AddRule(P_a);
+            g.AddRule(Plus_plus);
+            g.AddRule(Times_times);
         }
 
         #endregion
@@ -86,77 +147,7 @@ namespace StarThrower.EarleyParser.Test
         // Use ClassCleanup to run code after all tests in a class have run
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
-
-        [TestInitialize()]
-        public void MyTestInitialize()
-        {
-            S = new Category("S", false);
-            E = new Category("E", false);
-            T = new Category("T", false);
-
-            Plus = new Category("Plus", false);
-            Times = new Category("Times", false);
-            P = new Category("p", false);
-
-            plus = new Category("+", true);
-            times = new Category("*", true);
-
-
-            List<Category> l = new List<Category>();
-            l.Add(E);
-            ReadOnlyCollection<Category> rightOfS = new ReadOnlyCollection<Category>(l);
-            S_E = new Rule(S, rightOfS);
-
-            l = new List<Category>();
-            l.Add(T);
-            ReadOnlyCollection<Category> rightOfE_T = new ReadOnlyCollection<Category>(l);
-            E_T = new Rule(E, rightOfE_T);
-
-            l = new List<Category>();
-            l.Add(E);
-            l.Add(Plus);
-            l.Add(T);
-            ReadOnlyCollection<Category> rightOfE_EPlusT = new ReadOnlyCollection<Category>(l);
-            E_EPlusT = new Rule(E, rightOfE_EPlusT);
-
-            l = new List<Category>();
-            l.Add(P);
-            ReadOnlyCollection<Category> rightOfT_P = new ReadOnlyCollection<Category>(l);
-            T_P = new Rule(T, rightOfT_P);
-
-            l = new List<Category>();
-            l.Add(T);
-            l.Add(Times);
-            l.Add(P);
-            ReadOnlyCollection<Category> rightOfT_TTimesP = new ReadOnlyCollection<Category>(l);
-            T_TTimesP = new Rule(T, rightOfT_TTimesP);
-
-            l = new List<Category>();
-            l.Add(new Category("a", true));
-            ReadOnlyCollection<Category> rightOfP = new ReadOnlyCollection<Category>(l);
-            P_a = new Rule(P, rightOfP);
-
-            l = new List<Category>();
-            l.Add(plus);
-            ReadOnlyCollection<Category> rightOfPlus = new ReadOnlyCollection<Category>(l);
-            Plus_plus = new Rule(Plus, rightOfPlus);
-
-            l = new List<Category>();
-            l.Add(times);
-            ReadOnlyCollection<Category> rightOfTimes = new ReadOnlyCollection<Category>(l);
-            Times_times = new Rule(Times, rightOfTimes);
-
-            g = new Grammar("Earley");
-            g.AddRule(S_E);
-            g.AddRule(E_T);
-            g.AddRule(E_EPlusT);
-            g.AddRule(T_P);
-            g.AddRule(T_TTimesP);
-            g.AddRule(P_a);
-            g.AddRule(Plus_plus);
-            g.AddRule(Times_times);
-        }
-
+        //
         // Use TestCleanup to run code after each test has run
         // [TestCleanup()]
         // public void MyTestCleanup() { }
