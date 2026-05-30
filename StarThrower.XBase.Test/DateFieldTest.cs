@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.XBase;
 
@@ -74,12 +71,10 @@ namespace StarThrower.XBase.Test
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
             record.SetData("MYDATE", dtNow);
             file.AddRecord(record);
-            record = null;
 
             record = file.CreateRecord();
             record.SetData("MYDATE", new DateTime(1968, 5, 18));
             file.AddRecord(record);
-            record = null;
 
 
             Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYDATE"), typeof(DateTime));

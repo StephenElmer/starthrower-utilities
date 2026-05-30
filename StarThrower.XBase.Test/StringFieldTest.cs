@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.XBase;
 
@@ -85,12 +82,10 @@ namespace StarThrower.XBase.Test
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
             record.SetData("MYSTRING", "1234567890");
             file.AddRecord(record);
-            record = null;
 
             record = file.CreateRecord();
             record.SetData("MYSTRING", "abcdefghij");
             file.AddRecord(record);
-            record = null;
 
             Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYSTRING"), typeof(string));
             Assert.AreEqual("1234567890", file.GetRecord(0).GetData("MYSTRING"));
@@ -113,22 +108,18 @@ namespace StarThrower.XBase.Test
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
             record.SetData("MYSTRING", "");
             file.AddRecord(record);
-            record = null;
 
             record = file.CreateRecord();
             record.SetData("MYSTRING", "1");
             file.AddRecord(record);
-            record = null;
 
             record = file.CreateRecord();
             record.SetData("MYSTRING", "123456789");
             file.AddRecord(record);
-            record = null;
 
             record = file.CreateRecord();
             record.SetData("MYSTRING", "         0");
             file.AddRecord(record);
-            record = null;
 
             Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYSTRING"), typeof(string));
             Assert.AreEqual("          ", file.GetRecord(0).GetData("MYSTRING"));
@@ -157,7 +148,6 @@ namespace StarThrower.XBase.Test
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
             record.SetData("MYSTRING", "          0");
             file.AddRecord(record);
-            record = null;
 
             Assert.Fail();
         }
@@ -176,7 +166,6 @@ namespace StarThrower.XBase.Test
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
             record.SetData("MYSTRING", "12345678901");
             file.AddRecord(record);
-            record = null;
 
             Assert.Fail();
         }

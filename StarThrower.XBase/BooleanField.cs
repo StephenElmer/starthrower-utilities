@@ -11,7 +11,7 @@ namespace StarThrower.XBase
             this.Code = 'L';
         }
 
-        public override XBaseField Owner
+        public override XBaseField? Owner
         {
             get { return base.Owner; }
             set
@@ -19,8 +19,8 @@ namespace StarThrower.XBase
                 if (value == null) throw new ArgumentNullException("value");
 
                 base.Owner = value;
-                base.Owner.Length = 1;
-                base.Owner.DecimalCount = 0;
+                value.Length = 1;
+                value.DecimalCount = 0;
             }
         }
 

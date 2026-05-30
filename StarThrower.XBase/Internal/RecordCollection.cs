@@ -2,10 +2,7 @@
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Resources;
 using System.Globalization;
-using System.Threading;
 using StarThrower.Logging;
 
 namespace StarThrower.XBase.Internal
@@ -17,7 +14,7 @@ namespace StarThrower.XBase.Internal
     {
         #region Private Member Variables
 
-        private StarThrower.XBase.Internal.FileHeader _fileHeader;
+        private StarThrower.XBase.Internal.FileHeader? _fileHeader;
         private List<StarThrower.XBase.Internal.Record> _list;
 
         #endregion
@@ -25,7 +22,7 @@ namespace StarThrower.XBase.Internal
 
         #region Internal Properties
 
-        internal StarThrower.XBase.Internal.FileHeader FileHeader
+        internal StarThrower.XBase.Internal.FileHeader? FileHeader
         {
             get { return _fileHeader; }
             set { _fileHeader = value; }
@@ -69,6 +66,7 @@ namespace StarThrower.XBase.Internal
 
         internal byte[] GetBytes()
         {
+            if (_fileHeader == null) throw new InvalidOperationException("FileHeader is not set.");
             byte[] result = new byte[this.Count * _fileHeader.RecordLength];
             Int32 curIdx = 0;
             for (Int32 i = 0; i < this.Count; i++)
@@ -309,11 +307,12 @@ namespace StarThrower.XBase.Internal
         /// </summary>
         /// <param name="value">The Object to add to the IList.</param>
         /// <returns>The position into which the new element was inserted.</returns>
-        public int Add(object value)
+        public int Add(object? value)
         {
             try
             {
-                _list.Add(value as StarThrower.XBase.Internal.Record);
+                if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
+                _list.Add(item);
                 return _list.Count - 1;
             }
             catch (Exception ex)
@@ -328,11 +327,11 @@ namespace StarThrower.XBase.Internal
         /// </summary>
         /// <param name="value">The Record to locate in the RecordCollection.</param>
         /// <returns>true if the Record is found in the RecordCollection; otherwise, false.</returns>
-        public bool Contains(object value)
+        public bool Contains(object? value)
         {
             try
             {
-                return _list.Contains(value as StarThrower.XBase.Internal.Record);
+                return value is StarThrower.XBase.Internal.Record item && _list.Contains(item);
             }
             catch (Exception ex)
             {
@@ -346,11 +345,11 @@ namespace StarThrower.XBase.Internal
         /// </summary>
         /// <param name="value">The Record to locate in the RecordCollection.</param>
         /// <returns>The index of value if found in the RecordCollection; otherwise, -1.</returns>
-        public int IndexOf(object value)
+        public int IndexOf(object? value)
         {
             try
             {
-                return _list.IndexOf(value as StarThrower.XBase.Internal.Record);
+                return value is StarThrower.XBase.Internal.Record item ? _list.IndexOf(item) : -1;
             }
             catch (Exception ex)
             {
@@ -364,11 +363,12 @@ namespace StarThrower.XBase.Internal
         /// </summary>
         /// <param name="index">The zero-based index at which value should be inserted.</param>
         /// <param name="value">The Record to insert into the RecordCollection.</param>
-        public void Insert(int index, object value)
+        public void Insert(int index, object? value)
         {
             try
             {
-                _list.Insert(index, value as StarThrower.XBase.Internal.Record);
+                if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
+                _list.Insert(index, item);
             }
             catch (Exception ex)
             {
@@ -389,11 +389,11 @@ namespace StarThrower.XBase.Internal
         /// Removes the first occurrence of a specific Record from the RecordCollection.
         /// </summary>
         /// <param name="value">The Object to remove from the IList.</param>
-        public void Remove(object value)
+        public void Remove(object? value)
         {
             try
             {
-                _list.Remove(value as StarThrower.XBase.Internal.Record);
+                if (value is StarThrower.XBase.Internal.Record item) _list.Remove(item);
             }
             catch (Exception ex)
             {
@@ -407,14 +407,15 @@ namespace StarThrower.XBase.Internal
         /// </summary>
         /// <param name="index">The zero-based index of the Record to get or set.</param>
         /// <returns>The Record at the specified index.</returns>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get { return _list[index]; }
             set
             {
                 try
                 {
-                    _list[index] = value as StarThrower.XBase.Internal.Record;
+                    if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
+                    _list[index] = item;
                 }
                 catch (Exception ex)
                 {
@@ -438,7 +439,8 @@ namespace StarThrower.XBase.Internal
         {
             try
             {
-                _list.CopyTo(array as StarThrower.XBase.Internal.Record[], index);
+                if (array is not StarThrower.XBase.Internal.Record[] typed) throw new ArgumentException("array must be Record[].", nameof(array));
+                _list.CopyTo(typed, index);
             }
             catch (Exception ex)
             {
@@ -460,7 +462,7 @@ namespace StarThrower.XBase.Internal
         /// </summary>
         public object SyncRoot
         {
-            get { return null; }
+            get { return this; }
         }
 
         #endregion
@@ -474,7 +476,7 @@ namespace StarThrower.XBase.Internal
         /// <param name="obj">The object to compare to this object.</param>
         /// <returns>true if other is an instance of the same class as this object and has reference or value equality with this object; otherwise, false.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (Object.ReferenceEquals(obj, null)) return false;
             if (Object.ReferenceEquals(obj, this)) return true;

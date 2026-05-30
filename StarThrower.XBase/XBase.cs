@@ -145,7 +145,7 @@ namespace StarThrower.XBase
 
         internal static StarThrower.XBase.FieldType GetTypeFromByteCode(byte code)
         {
-            FieldType result = null;
+            FieldType result = new StarThrower.XBase.UndefinedField();
 
             switch ((char)code)
             {

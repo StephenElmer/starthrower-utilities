@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.FileUtilities;
 using StarThrower.XBase;
@@ -14,11 +11,11 @@ namespace StarThrower.XBase.Test
     {
         #region [ Test Harness Stuff ]
 
-        private TestContext testContextInstance;
+        private TestContext? testContextInstance;
         private string _inputFolder = String.Empty;
         private string _outputFolder = String.Empty;
 
-        public TestContext TestContext
+        public TestContext? TestContext
         {
             get { return testContextInstance; }
             set { testContextInstance = value; }
@@ -133,7 +130,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -148,7 +144,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -168,7 +163,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -193,7 +187,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -216,7 +209,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(intputFile, outputFile));
         }
@@ -256,7 +248,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
         }
@@ -298,7 +289,6 @@ namespace StarThrower.XBase.Test
             f.Save();
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
         }
@@ -324,7 +314,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -367,7 +356,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
         }
@@ -410,7 +398,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
         }
@@ -430,7 +417,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -464,7 +450,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
         }
@@ -511,7 +496,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -533,7 +517,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -559,7 +542,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }
@@ -581,7 +563,6 @@ namespace StarThrower.XBase.Test
             f.SaveAs(outputFile);
             f.Close();
             f.Dispose();
-            f = null;
 
             Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
         }

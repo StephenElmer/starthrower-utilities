@@ -6,7 +6,7 @@ namespace StarThrower.XBase
     {
         #region Private Instance Variables
 
-        private XBaseField _owner;
+        private XBaseField? _owner;
         private string _text = "Undefined";
         private char _code = 'U';
 
@@ -27,7 +27,7 @@ namespace StarThrower.XBase
             protected set { _code = value; }
         }
 
-        public virtual XBaseField Owner
+        public virtual XBaseField? Owner
         {
             get { return _owner; }
             set { _owner = value; }

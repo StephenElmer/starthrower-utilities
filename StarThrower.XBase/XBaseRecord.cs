@@ -112,8 +112,7 @@ namespace StarThrower.XBase
         {
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new FieldNotFoundException();
-            string result = null;
-            if (!_fields[index].IsValidData(data, out result)) throw new BadDataException(result);
+            if (!_fields[index].IsValidData(data, out string result)) throw new BadDataException(result);
             SetDataAtIndex(index, result);
         }
 
@@ -121,8 +120,7 @@ namespace StarThrower.XBase
         {
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new FieldNotFoundException();
-            string result = null;
-            if (!_fields[index].IsValidData(data, out result)) throw new BadDataException(result);
+            if (!_fields[index].IsValidData(data, out string result)) throw new BadDataException(result);
             SetDataAtIndex(index, result);
         }
 
@@ -130,8 +128,7 @@ namespace StarThrower.XBase
         {
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new FieldNotFoundException();
-            string result = null;
-            if (!_fields[index].IsValidData(data, out result)) throw new BadDataException(result);
+            if (!_fields[index].IsValidData(data, out string result)) throw new BadDataException(result);
             SetDataAtIndex(index, result);
         }
 
@@ -139,8 +136,7 @@ namespace StarThrower.XBase
         {
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new FieldNotFoundException();
-            string result = null;
-            if (!_fields[index].IsValidData(data, out result)) throw new BadDataException(result);
+            if (!_fields[index].IsValidData(data, out string result)) throw new BadDataException(result);
             SetDataAtIndex(index, result);
         }
 
@@ -148,8 +144,7 @@ namespace StarThrower.XBase
         {
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new FieldNotFoundException();
-            string result = null;
-            if (!_fields[index].IsValidData(data, out result)) throw new BadDataException(result);
+            if (!_fields[index].IsValidData(data, out string result)) throw new BadDataException(result);
             SetDataAtIndex(index, result);
         }
 
@@ -157,8 +152,7 @@ namespace StarThrower.XBase
         {
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new FieldNotFoundException();
-            string result = null;
-            if (!_fields[index].IsValidData(data, out result)) throw new BadDataException(result);
+            if (!_fields[index].IsValidData(data, out string result)) throw new BadDataException(result);
             SetDataAtIndex(index, result);
         }
 
@@ -173,7 +167,7 @@ namespace StarThrower.XBase
         /// <param name="obj">The object to compare to this object.</param>
         /// <returns>true if other is an instance of the same class as this object and has reference or value equality with this object; otherwise, false.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (Object.ReferenceEquals(obj, null)) return false;
             if (Object.ReferenceEquals(obj, this)) return true;

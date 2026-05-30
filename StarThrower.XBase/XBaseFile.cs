@@ -68,11 +68,7 @@ namespace StarThrower.XBase
         {
             if (disposing)
             {
-                if (_file != null)
-                {
-                    _file.Dispose();
-                    _file = null;
-                }
+                _file.Dispose();
             }
         }
 

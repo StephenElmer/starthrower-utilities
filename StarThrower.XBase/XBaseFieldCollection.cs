@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Resources;
 using System.Globalization;
-using System.Threading;
 using StarThrower.Logging;
 
 namespace StarThrower.XBase
@@ -360,11 +356,12 @@ namespace StarThrower.XBase
         /// </summary>
         /// <param name="value">The Object to add to the IList.</param>
         /// <returns>The position into which the new element was inserted.</returns>
-        public int Add(object value)
+        public int Add(object? value)
         {
             try
             {
-                _list.Add(value as StarThrower.XBase.XBaseField);
+                if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
+                _list.Add(item);
                 return _list.Count - 1;
             }
             catch (Exception ex)
@@ -379,11 +376,11 @@ namespace StarThrower.XBase
         /// </summary>
         /// <param name="value">The XBaseField to locate in the XBaseFieldCollection.</param>
         /// <returns>true if the XBaseField is found in the XBaseFieldCollection; otherwise, false.</returns>
-        public bool Contains(object value)
+        public bool Contains(object? value)
         {
             try
             {
-                return _list.Contains(value as StarThrower.XBase.XBaseField);
+                return value is StarThrower.XBase.XBaseField item && _list.Contains(item);
             }
             catch (Exception ex)
             {
@@ -397,11 +394,11 @@ namespace StarThrower.XBase
         /// </summary>
         /// <param name="value">The XBaseField to locate in the XBaseFieldCollection.</param>
         /// <returns>The index of value if found in the XBaseFieldCollection; otherwise, -1.</returns>
-        public int IndexOf(object value)
+        public int IndexOf(object? value)
         {
             try
             {
-                return _list.IndexOf(value as StarThrower.XBase.XBaseField);
+                return value is StarThrower.XBase.XBaseField item ? _list.IndexOf(item) : -1;
             }
             catch (Exception ex)
             {
@@ -415,11 +412,12 @@ namespace StarThrower.XBase
         /// </summary>
         /// <param name="index">The zero-based index at which value should be inserted.</param>
         /// <param name="value">The XBaseField to insert into the XBaseFieldCollection.</param>
-        public void Insert(int index, object value)
+        public void Insert(int index, object? value)
         {
             try
             {
-                _list.Insert(index, value as StarThrower.XBase.XBaseField);
+                if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
+                _list.Insert(index, item);
             }
             catch (Exception ex)
             {
@@ -440,11 +438,11 @@ namespace StarThrower.XBase
         /// Removes the first occurrence of a specific XBaseField from the XBaseFieldCollection.
         /// </summary>
         /// <param name="value">The Object to remove from the IList.</param>
-        public void Remove(object value)
+        public void Remove(object? value)
         {
             try
             {
-                _list.Remove(value as StarThrower.XBase.XBaseField);
+                if (value is StarThrower.XBase.XBaseField item) _list.Remove(item);
             }
             catch (Exception ex)
             {
@@ -458,14 +456,15 @@ namespace StarThrower.XBase
         /// </summary>
         /// <param name="index">The zero-based index of the XBaseField to get or set.</param>
         /// <returns>The XBaseField at the specified index.</returns>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get { return _list[index]; }
             set
             {
                 try
                 {
-                    _list[index] = value as StarThrower.XBase.XBaseField;
+                    if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
+                    _list[index] = item;
                 }
                 catch (Exception ex)
                 {
@@ -489,7 +488,8 @@ namespace StarThrower.XBase
         {
             try
             {
-                _list.CopyTo(array as StarThrower.XBase.XBaseField[], index);
+                if (array is not StarThrower.XBase.XBaseField[] typed) throw new ArgumentException("array must be XBaseField[].", nameof(array));
+                _list.CopyTo(typed, index);
             }
             catch (Exception ex)
             {
@@ -511,7 +511,7 @@ namespace StarThrower.XBase
         /// </summary>
         public object SyncRoot
         {
-            get { return null; }
+            get { return this; }
         }
 
         #endregion
@@ -525,7 +525,7 @@ namespace StarThrower.XBase
         /// <param name="obj">The object to compare to this object.</param>
         /// <returns>true if other is an instance of the same class as this object and has reference or value equality with this object; otherwise, false.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (Object.ReferenceEquals(obj, null)) return false;
             if (Object.ReferenceEquals(obj, this)) return true;

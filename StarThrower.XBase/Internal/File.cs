@@ -28,7 +28,7 @@ namespace StarThrower.XBase.Internal
     {
         #region Private Member Variables
 
-        private FileStream _stream;
+        private FileStream? _stream;
         private StarThrower.XBase.Internal.FileHeader _header = new StarThrower.XBase.Internal.FileHeader(); //file header
         private StarThrower.XBase.Internal.RecordCollection _records = new StarThrower.XBase.Internal.RecordCollection(); //records
         private byte _endOfFile = 26; //End of file (Hex 1a)
@@ -461,7 +461,7 @@ namespace StarThrower.XBase.Internal
 
         internal void Read()
         {
-            if (!_stream.CanRead) throw new IOException("Stream is not in a readable mode.");
+            if (_stream == null || !_stream.CanRead) throw new IOException("Stream is not in a readable mode.");
 
             byte[] header = new byte[StarThrower.XBase.Internal.FileHeader.MAXSIZE];
             _stream.Seek(0, SeekOrigin.Begin);
@@ -503,7 +503,7 @@ namespace StarThrower.XBase.Internal
         /// <param name="obj">The object to compare to this object.</param>
         /// <returns>true if other is an instance of the same class as this object and has reference or value equality with this object; otherwise, false.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (Object.ReferenceEquals(obj, null)) return false;
             if (Object.ReferenceEquals(obj, this)) return true;

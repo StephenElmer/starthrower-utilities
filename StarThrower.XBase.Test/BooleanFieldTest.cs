@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.XBase;
 
@@ -59,12 +56,10 @@ namespace StarThrower.XBase.Test
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
             record.SetData("MYBOOL", true);
             file.AddRecord(record);
-            record = null;
 
             record = file.CreateRecord();
             record.SetData("MYBOOL", false);
             file.AddRecord(record);
-            record = null;
 
             Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYBOOL"), typeof(bool));
             Assert.AreEqual(true, file.GetRecord(0).GetData("MYBOOL"));

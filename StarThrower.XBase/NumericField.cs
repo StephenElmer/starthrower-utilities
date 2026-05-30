@@ -58,23 +58,25 @@ namespace StarThrower.XBase
         public override bool IsValidData(object data, out string result)
         {
             if (data == null) throw new ArgumentNullException("data");
+            if (this.Owner is null) throw new InvalidOperationException("Owner is not set.");
 
             if (this.Owner.DecimalCount == 0) //treat this field as if it were a (shortened) Int64
             {
                 if (data is Int16 || data is Int32)
                 {
-                    if (data.ToString().Length > this.Owner.Length) throw new BadDataException("data length exceeds field length");
-                    result = StringUtil.AppendSpaces(data.ToString(), this.Owner.Length);
+                    string dataStr = data.ToString() ?? string.Empty;
+                    if (dataStr.Length > this.Owner.Length) throw new BadDataException("data length exceeds field length");
+                    result = StringUtil.AppendSpaces(dataStr, this.Owner.Length);
                     return true;
                 }
-                if (data is Int64)
+                if (data is Int64 i64)
                 {
-                    if (data.ToString().Length > this.Owner.Length) throw new BadDataException("data length exceeds field length");
+                    string dataStr = i64.ToString() ?? string.Empty;
+                    if (dataStr.Length > this.Owner.Length) throw new BadDataException("data length exceeds field length");
 
-                    Int64 temp = (Int64)data;
-                    if (temp >= -9999999999999999 && temp <= 99999999999999999)
+                    if (i64 >= -9999999999999999 && i64 <= 99999999999999999)
                     {
-                        result = StringUtil.AppendSpaces(data.ToString(), this.Owner.Length);
+                        result = StringUtil.AppendSpaces(dataStr, this.Owner.Length);
                         return true;
                     }
                     else
@@ -115,6 +117,7 @@ namespace StarThrower.XBase
 
         public override object Translate(string data)
         {
+            if (this.Owner is null) throw new InvalidOperationException("Owner is not set.");
             if (this.Owner.DecimalCount == 0) //treat this field as if it were an Int64
             {
                 Int64 result = 0;

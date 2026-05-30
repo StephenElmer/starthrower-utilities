@@ -45,7 +45,9 @@ namespace StarThrower.XBase
 
         public override bool IsValidData(object data, out string result)
         {
-            string temp = data as String;
+            if (this.Owner is null) throw new InvalidOperationException("Owner is not set.");
+
+            string? temp = data as String;
             if (temp == null)
             {
                 result = "Invalid data type";
