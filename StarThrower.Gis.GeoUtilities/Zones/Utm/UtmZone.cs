@@ -1,6 +1,6 @@
-﻿/***********************************************************************************
-    StarThrower Utilities
-    Copyright (C) 2005-2007  Steve Elmer
+/***********************************************************************************
+    StarThrower Utilities / Gis.GeoUtilities
+    Copyright (C) 2005-2026  Stephen Elmer
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -814,18 +814,18 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
                     //return LongitudinalZone.Utm31; 
                     // Allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
                     if (latitude >= 72.0 && latitude <= 84.0)
-                        return LongitudinalZone.Utm31; // 31X spans 0Â°-9Â°
+                        return LongitudinalZone.Utm31; // 31X spans 0°-9°
                     if (latitude >= 56.0 && latitude < 64.0 && longitude >= 3.0)
-                        return LongitudinalZone.Utm32; // 32V starts at 3Â°
+                        return LongitudinalZone.Utm32; // 32V starts at 3°
                     return LongitudinalZone.Utm31;
                 }
                 else if (longitude >= 6.0 && longitude < 12.0)
                 {
                     //return LongitudinalZone.Utm32;
                     if (latitude >= 72.0 && latitude <= 84.0)
-                        return LongitudinalZone.Utm33; // 32X doesn't exist; 33X spans 9Â°-21Â°
+                        return LongitudinalZone.Utm33; // 32X doesn't exist; 33X spans 9°-21°
                     if (latitude >= 56.0 && latitude < 64.0)
-                        return LongitudinalZone.Utm32; // 32V spans 3Â°-12Â°
+                        return LongitudinalZone.Utm32; // 32V spans 3°-12°
                     return LongitudinalZone.Utm32;
                 }
                 else if (longitude >= 12.0 && longitude < 18.0)
@@ -833,14 +833,14 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
                     //return LongitudinalZone.Utm33; 
                     // Allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
                     if (latitude >= 72.0 && latitude <= 84.0)
-                        return LongitudinalZone.Utm33; // 33X spans 9Â°-21Â°
+                        return LongitudinalZone.Utm33; // 33X spans 9°-21°
                     return LongitudinalZone.Utm33;
                 }
                 else if (longitude >= 18.0 && longitude < 24.0)
                 {
                     //return LongitudinalZone.Utm34;
                     if (latitude >= 72.0 && latitude <= 84.0)
-                        return LongitudinalZone.Utm35; // 34X doesn't exist; 35X spans 21Â°-33Â°
+                        return LongitudinalZone.Utm35; // 34X doesn't exist; 35X spans 21°-33°
                     return LongitudinalZone.Utm34;
                 }
                 else if (longitude >= 24.0 && longitude < 30.0)
@@ -848,14 +848,14 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
                     //return LongitudinalZone.Utm35; 
                     // Allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
                     if (latitude >= 72.0 && latitude <= 84.0)
-                        return LongitudinalZone.Utm35; // 35X spans 21Â°-33Â°
+                        return LongitudinalZone.Utm35; // 35X spans 21°-33°
                     return LongitudinalZone.Utm35;
                 }
                 else if (longitude >= 30.0 && longitude < 36.0)
                 {
                     //return LongitudinalZone.Utm36;
                     if (latitude >= 72.0 && latitude <= 84.0)
-                        return LongitudinalZone.Utm37; // 36X doesn't exist; 37X spans 33Â°-42Â°
+                        return LongitudinalZone.Utm37; // 36X doesn't exist; 37X spans 33°-42°
                     return LongitudinalZone.Utm36;
                 }
                 else if (longitude >= 36.0 && longitude < 42.0)
@@ -863,7 +863,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
                     //return LongitudinalZone.Utm37; 
                     // Allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
                     if (latitude >= 72.0 && latitude <= 84.0)
-                        return LongitudinalZone.Utm37; // 37X spans 33Â°-42Â°
+                        return LongitudinalZone.Utm37; // 37X spans 33°-42°
                     return LongitudinalZone.Utm37;
                 }
                 else if (longitude >= 42.0 && longitude < 48.0)
@@ -1300,3 +1300,5 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
         #endregion
     }
 }
+
+

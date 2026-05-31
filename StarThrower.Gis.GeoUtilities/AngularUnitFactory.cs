@@ -1,6 +1,6 @@
-﻿/***********************************************************************************
-    StarThrower Utilities
-    Copyright (C) 2005-2007  Steve Elmer
+/***********************************************************************************
+    StarThrower Utilities / Gis.GeoUtilities
+    Copyright (C) 2005-2026  Stephen Elmer
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -93,3 +93,5 @@ namespace StarThrower.Gis.GeoUtilities
         }
     }
 }
+
+
