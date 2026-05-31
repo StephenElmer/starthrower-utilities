@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup Condition="'$(TargetFramework)' != 'net48'">
+    <AnalysisMode>Recommended</AnalysisMode>
+  </PropertyGroup>
+</Project>
