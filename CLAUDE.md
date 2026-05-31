@@ -135,12 +135,15 @@ Current/
     EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
   - `net48` retained indefinitely — WcfProviders.Contract, WcfProviders, EfProviders,
     Providers.TestWebApp (System.Web blocker; see Step 2b notes)
-- **Language:** C# (modern idioms not yet applied — Step 2c pending)
+- **Language:**
+  - `C# 14` (modern idioms applied) — Groups 1–7 complete (Logging, MathUtilities, Matrices, Collections,
+    ByteUtilities, DataUtilities, FileUtilities, StringUtilities, DateTimeUtilities,
+    EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
 - **Source control:** Git / GitHub (TFS artifacts removed — Step 1 complete)
 - **Test framework:** MSTest (VS Test) — xUnit migration pending (Step 5)
 - **NuGet:** PackageReference (packages.config removed — Step 2a complete)
 - **Code analysis:** FxCopCmd removed — Roslyn analyzers pending (Step 3)
-- **Steps complete:** 1, 2a, 2b (Groups 1–7)
+- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1-7)
 - **All tests passing** on all migrated (net10.0) projects
 
 ---
@@ -320,7 +323,7 @@ requires net6.0+ and cannot be used while the project stays on net48.
 These projects will remain at net48 until a deliberate redesign decision is made for a
 future phase. Exclude them from Steps 2c, 2d, 3, 4, and 5.
 
-***Step 2c — Enable C# 14 and nullable — project by project*** ← CURRENT STEP
+***Step 2c — Enable C# 14 and nullable — project by project***
 
 **Scope: Groups 1–7 (net10.0 projects) only.** Do not apply to WcfProviders,
 EfProviders, or Providers.TestWebApp — these remain on net48 and are excluded from
@@ -352,7 +355,7 @@ For each project:
 - Verify build is clean and tests pass
 - Commit per group
 
-***Step 2d — BCL supersedence audit***
+***Step 2d — BCL supersedence audit*** ← CURRENT STEP
 
 During Steps 2b and 2c, log any types or methods that the BCL now provides natively
 in the **BCL Supersedence Log** section at the bottom of this file. Address them here
