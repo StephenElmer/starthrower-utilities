@@ -597,25 +597,12 @@ namespace StarThrower.ByteUtilities
         /// <param name="value2">The second byte array</param>
         /// <returns>True if the lengths are the same and every element matches.  False if otherwise.</returns>
         /// <exception cref="ArgumentNullException">Thrown if value1 or value2 is null.</exception>
+        [Obsolete("Use SequenceEqual instead: value1.AsSpan().SequenceEqual(value2).")]
         public static bool BytesAreEqual(byte[]? value1, byte[]? value2)
         {
             ArgumentNullException.ThrowIfNull(value1);
             ArgumentNullException.ThrowIfNull(value2);
-
-            try
-            {
-                if (value1.Length != value2.Length) return false;
-                for (int i = 0; i < value1.Length; i++)
-                {
-                    if (!(value1[i].Equals(value2[i]))) return false;
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.BytesAreEqual(byte[], byte[])", ex);
-                throw;
-            }
+            return value1.AsSpan().SequenceEqual(value2);
         }
 
         /// <summary>

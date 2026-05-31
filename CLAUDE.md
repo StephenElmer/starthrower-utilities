@@ -143,7 +143,7 @@ Current/
 - **Test framework:** MSTest (VS Test) — xUnit migration pending (Step 5)
 - **NuGet:** PackageReference (packages.config removed — Step 2a complete)
 - **Code analysis:** FxCopCmd removed — Roslyn analyzers pending (Step 3)
-- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1-7)
+- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1–7), 2d
 - **All tests passing** on all migrated (net10.0) projects
 
 ---
@@ -355,7 +355,7 @@ For each project:
 - Verify build is clean and tests pass
 - Commit per group
 
-***Step 2d — BCL supersedence audit*** ← CURRENT STEP
+***Step 2d — BCL supersedence audit***
 
 During Steps 2b and 2c, log any types or methods that the BCL now provides natively
 in the **BCL Supersedence Log** section at the bottom of this file. Address them here
@@ -371,7 +371,7 @@ For each logged item, choose one of:
 
 Do not remove or deprecate any public API without explicit discussion first.
 
-**Step 3 — Configure Roslyn analyzers** (replaces FxCopCmd):
+**Step 3 — Configure Roslyn analyzers** (replaces FxCopCmd): ← CURRENT STEP
 - Add `<AnalysisMode>Recommended</AnalysisMode>` to shared build props or each csproj
 - `Microsoft.CodeAnalysis.NetAnalyzers` ships with the .NET 10 SDK — no additional
   package needed
@@ -501,9 +501,9 @@ To be addressed in Step 2d. Do not modify these items during Steps 2b or 2c.
 
 | Assembly | Type / Member | BCL Equivalent | Notes |
 |---|---|---|---|
-| `StarThrower.Collections` | `ReadOnlyDictionary<TKey,TValue>` | `System.Collections.ObjectModel.ReadOnlyDictionary<TKey,TValue>` (added .NET 4.5) | Custom impl predates BCL addition; candidate for wrapper + `[Obsolete]` |
-| `StarThrower.ByteUtilities` | `ByteUtil.ReverseBytes` | `Array.Reverse(byte[])` or `Span<T>` in-place reversal | Candidate for wrapper + `[Obsolete]` |
-| `StarThrower.ByteUtilities` | `ByteUtil.BytesAreEqual` | `span.SequenceEqual()` (.NET Core 2.1+) | Candidate for wrapper + `[Obsolete]` |
+| `StarThrower.Collections` | `ReadOnlyDictionary<TKey,TValue>` | `System.Collections.ObjectModel.ReadOnlyDictionary<TKey,TValue>` (added .NET 4.5) | **Done in Step 2d.** Class now inherits from BCL version; marked `[Obsolete]`. |
+| `StarThrower.ByteUtilities` | `ByteUtil.ReverseBytes` | `Array.Reverse(byte[])` or `Span<T>` in-place reversal | **Keep as-is.** BCL equivalents are in-place (destructive); `ReverseBytes` returns a new array (non-destructive). No single-call BCL equivalent. |
+| `StarThrower.ByteUtilities` | `ByteUtil.BytesAreEqual` | `span.SequenceEqual()` (.NET Core 2.1+) | **Done in Step 2d.** Null guards preserved; body replaced with `value1.AsSpan().SequenceEqual(value2)`; marked `[Obsolete]`. Test project intentionally calls the obsolete method; CS0618 warnings left standing (tests verify the wrapper works; suppression would hide that an obsolete API is under test). Migrate tests to BCL API in Step 5. |
 | `StarThrower.DataUtilities` | All `OleDbDataReader` overloads | `DbDataReader` (abstract base in `System.Data.Common`) | **Done in Step 2b.** New `DbDataReader` overloads added as primary API; `OleDbDataReader` overloads marked `[Obsolete]` and delegate to them. Requires `System.Data.OleDb` NuGet package (Windows-only). |
 
 ---
