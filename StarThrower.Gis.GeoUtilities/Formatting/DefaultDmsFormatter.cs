@@ -25,7 +25,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
 {
     public class DefaultDmsFormatter : IDmsFormatter
     {
-        private static DefaultDmsFormatter _formatter = null;
+        private static DefaultDmsFormatter? _formatter = null;
 
 
         #region Construction
@@ -54,7 +54,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             double seconds = 0;
             bool isNeg = false;
 
-            // Set degree to value before "°" of Argument Passed.
+            // Set degree to value before "ï¿½" of Argument Passed.
             string deg = StringUtil.GetToken(dms, " ", 1);
             if (dms[0].Equals('-'))
             {
@@ -68,7 +68,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             }
 
 
-            // Set minutes to the value between the "°" and the "'"
+            // Set minutes to the value between the "ï¿½" and the "'"
             // of the text string for the variable Degree_Deg divided by
             // 60. The Val function converts the text string to a number.
             string min = StringUtil.GetToken(dms, " ", 2);

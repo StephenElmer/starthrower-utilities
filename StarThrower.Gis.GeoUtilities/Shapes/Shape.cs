@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -79,7 +79,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
             try
             {
                 if (value == null) throw new ArgumentNullException("value");
-                Shape other = value as Shape;
+                Shape other = (Shape)value;
                 _shapeType = other.ShapeType;
             }
             catch (Exception ex)

@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -61,7 +61,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         public void UtmWgs84_ZoneAccessibleViaInterface()
         {
             IProjectedCoordinateSystem cs = ProjectedCoordinateSystemFactory.GetInstanceOfProjectedCoordinateSystem(typeof(UtmWgs84));
-            IZone zone = (cs as IZonedCoordinateSystem)?.Zone;
+            IZone? zone = (cs as IZonedCoordinateSystem)?.Zone;
             // Default (no-zone) instance has an UndefinedZone, not null
             Assert.IsNotNull(zone);
         }

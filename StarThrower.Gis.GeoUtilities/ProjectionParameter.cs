@@ -69,7 +69,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region Object Overrides
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null) return false;
             if (obj == this) return true;

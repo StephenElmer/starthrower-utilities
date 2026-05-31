@@ -105,12 +105,12 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
 
         private void InitializeHeightGrid()
         {
-            Stream stream = null;
+            Stream? stream = null;
             try
             {
                 stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StarThrower.Gis.GeoUtilities.Geoids.egm84.grd");
 
-                if (!stream.CanRead) throw new IOException("Stream is not in a readable mode.");
+                if (stream == null || !stream.CanRead) throw new IOException("Stream is not in a readable mode.");
 
                 int pos = 0;
                 byte[] buf = new byte[this.Elevations];

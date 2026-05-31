@@ -24,7 +24,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
 {
     public class Dms2Formatter : IDmsFormatter
     {
-        private static Dms2Formatter _formatter = null;
+        private static Dms2Formatter? _formatter = null;
 
 
         #region Construction
@@ -60,7 +60,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             string deg = dmsNS.Substring(1, dIndex - 1);
             degrees = double.Parse(deg, CultureInfo.InvariantCulture);
 
-            // Set minutes to the value between the "°" and the "'"
+            // Set minutes to the value between the "ï¿½" and the "'"
             // of the text string for the variable Degree_Deg divided by
             // 60. The Val function converts the text string to a number.
             int mIndex = Math.Max(dmsNS.IndexOf('M'), dmsNS.IndexOf('m'));
@@ -99,7 +99,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             string deg = dmsEW.Substring(1, dIndex - 1);
             degrees = double.Parse(deg, CultureInfo.InvariantCulture);
 
-            // Set minutes to the value between the "°" and the "'"
+            // Set minutes to the value between the "ï¿½" and the "'"
             // of the text string for the variable Degree_Deg divided by
             // 60. The Val function converts the text string to a number.
             int mIndex = Math.Max(dmsEW.IndexOf('M'), dmsEW.IndexOf('m'));

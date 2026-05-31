@@ -763,7 +763,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetInstanceOfNewUserDefinedEllipsoidNull()
         {
-            string name = null;
+            string? name = null;
             IEllipsoid e = EllipsoidFactory.GetInstanceOfNewUserDefinedEllipsoid(name, 6378135.0, 1 / 298.0);
             Assert.Fail();
         }
@@ -779,7 +779,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestGetInstanceOfExistingUserDefinedEllipsoidNull()
         {
-            string name = null;
+            string? name = null;
             IEllipsoid e = EllipsoidFactory.GetInstanceOfExistingUserDefinedEllipsoid(name);
             Assert.Fail();
         }

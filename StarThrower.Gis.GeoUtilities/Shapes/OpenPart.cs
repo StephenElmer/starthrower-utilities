@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -58,7 +58,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
             try
             {
                 if (value == null) throw new ArgumentNullException("value");
-                OpenPart other = value as OpenPart;
+                OpenPart other = (OpenPart)value;
 
                 base.ItemCopy(other);
             }

@@ -600,23 +600,27 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
 
 
+        private static string GetAttr(XmlNode? node, string childPath, string attr)
+            => node?.SelectSingleNode(childPath)?.Attributes?.GetNamedItem(attr)?.Value
+               ?? throw new InvalidOperationException($"Test XML missing {childPath}/@{attr}");
+
         private void ConductLLToUTM_WGS84Test(string testName)
         {
             string inputFile = _inputFolder + "\\WGS84TranslationTests.xml";
             XmlDocument doc = new XmlDocument();
             doc.Load(inputFile);
-            XmlNode testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
+            XmlNode? testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
 
-            double lon = double.Parse(testNode.SelectSingleNode("ll").Attributes.GetNamedItem("lon").Value);
-            double lat = double.Parse(testNode.SelectSingleNode("ll").Attributes.GetNamedItem("lat").Value);
+            double lon = double.Parse(GetAttr(testNode, "ll", "lon"));
+            double lat = double.Parse(GetAttr(testNode, "ll", "lat"));
 
             double x = 0.0;
             double y = 0.0;
             string zone = String.Empty;
 
-            double expectedX = MathUtil.RoundTo(double.Parse(testNode.SelectSingleNode("utm").Attributes.GetNamedItem("x").Value), 2);
-            double expectedY = MathUtil.RoundTo(double.Parse(testNode.SelectSingleNode("utm").Attributes.GetNamedItem("y").Value), 2);
-            string expectedZone = testNode.SelectSingleNode("utm").Attributes.GetNamedItem("zone").Value;
+            double expectedX = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utm", "x")), 2);
+            double expectedY = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utm", "y")), 2);
+            string expectedZone = GetAttr(testNode, "utm", "zone");
 
             //GeoUtil.ConvertFromGeographicToProjectedCoordSys(typeof(UsngWgs84), typeof(UtmWgs84), lon, lat, ref x, ref y, ref zone);
             IGeographicCoordinateSystem gcs = GeographicCoordinateSystemFactory.GetInstanceOfGeographicCoordinateSystem("GeodeticWgs84");
@@ -640,17 +644,17 @@ namespace StarThrower.Gis.GeoUtilities.Test
             string inputFile = _inputFolder + "\\WGS84TranslationTests.xml";
             XmlDocument doc = new XmlDocument();
             doc.Load(inputFile);
-            XmlNode testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
+            XmlNode? testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
 
-            double x = double.Parse(testNode.SelectSingleNode("utm").Attributes.GetNamedItem("x").Value);
-            double y = double.Parse(testNode.SelectSingleNode("utm").Attributes.GetNamedItem("y").Value);
-            string zone = testNode.SelectSingleNode("utm").Attributes.GetNamedItem("zone").Value;
+            double x = double.Parse(GetAttr(testNode, "utm", "x"));
+            double y = double.Parse(GetAttr(testNode, "utm", "y"));
+            string zone = GetAttr(testNode, "utm", "zone");
 
             double lon = 0.0;
             double lat = 0.0;
 
-            double expectedLon = double.Parse(testNode.SelectSingleNode("ll").Attributes.GetNamedItem("lon").Value);
-            double expectedLat = double.Parse(testNode.SelectSingleNode("ll").Attributes.GetNamedItem("lat").Value);
+            double expectedLon = double.Parse(GetAttr(testNode, "ll", "lon"));
+            double expectedLat = double.Parse(GetAttr(testNode, "ll", "lat"));
 
             //GeoUtil.ConvertFromProjectedToGeographicCoordSys(typeof(UtmWgs84Ns), typeof(UsngWgs84), x, y, zone, ref lon, ref lat);
             IZone utmZone = new Zones.Utm.UtmZone(zone);
@@ -672,18 +676,18 @@ namespace StarThrower.Gis.GeoUtilities.Test
             string inputFile = _inputFolder + "\\WGS84TranslationTests.xml";
             XmlDocument doc = new XmlDocument();
             doc.Load(inputFile);
-            XmlNode testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
+            XmlNode? testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
 
-            double lon = double.Parse(testNode.SelectSingleNode("ll").Attributes.GetNamedItem("lon").Value);
-            double lat = double.Parse(testNode.SelectSingleNode("ll").Attributes.GetNamedItem("lat").Value);
+            double lon = double.Parse(GetAttr(testNode, "ll", "lon"));
+            double lat = double.Parse(GetAttr(testNode, "ll", "lat"));
 
             double x = 0.0;
             double y = 0.0;
             string zone = String.Empty;
 
-            double expectedX = MathUtil.RoundTo(double.Parse(testNode.SelectSingleNode("utmns").Attributes.GetNamedItem("x").Value), 2);
-            double expectedY = MathUtil.RoundTo(double.Parse(testNode.SelectSingleNode("utmns").Attributes.GetNamedItem("y").Value), 2);
-            string expectedZone = testNode.SelectSingleNode("utmns").Attributes.GetNamedItem("zone").Value;
+            double expectedX = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utmns", "x")), 2);
+            double expectedY = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utmns", "y")), 2);
+            string expectedZone = GetAttr(testNode, "utmns", "zone");
 
             //GeoUtil.ConvertFromGeographicToProjectedCoordSys(typeof(UsngWgs84), typeof(UtmWgs84Ns), lon, lat, ref x, ref y, ref zone);
             IGeographicCoordinateSystem gcs = GeographicCoordinateSystemFactory.GetInstanceOfGeographicCoordinateSystem("GeodeticWgs84");
@@ -706,17 +710,17 @@ namespace StarThrower.Gis.GeoUtilities.Test
             string inputFile = _inputFolder + "\\WGS84TranslationTests.xml";
             XmlDocument doc = new XmlDocument();
             doc.Load(inputFile);
-            XmlNode testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
+            XmlNode? testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
 
-            double x = double.Parse(testNode.SelectSingleNode("utmns").Attributes.GetNamedItem("x").Value);
-            double y = double.Parse(testNode.SelectSingleNode("utmns").Attributes.GetNamedItem("y").Value);
-            string zone = testNode.SelectSingleNode("utmns").Attributes.GetNamedItem("zone").Value;
+            double x = double.Parse(GetAttr(testNode, "utmns", "x"));
+            double y = double.Parse(GetAttr(testNode, "utmns", "y"));
+            string zone = GetAttr(testNode, "utmns", "zone");
 
             double lon = 0.0;
             double lat = 0.0;
 
-            double expectedLon = double.Parse(testNode.SelectSingleNode("ll").Attributes.GetNamedItem("lon").Value);
-            double expectedLat = double.Parse(testNode.SelectSingleNode("ll").Attributes.GetNamedItem("lat").Value);
+            double expectedLon = double.Parse(GetAttr(testNode, "ll", "lon"));
+            double expectedLat = double.Parse(GetAttr(testNode, "ll", "lat"));
 
             //GeoUtil.ConvertFromProjectedToGeographicCoordSys(typeof(UtmWgs84Ns), typeof(UsngWgs84), x, y, zone, ref lon, ref lat);
             IZone utmZone = new Zones.UtmNs.UtmNsZone(zone);

@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -44,11 +44,11 @@ namespace StarThrower.Gis.GeoUtilities
             if (geographicCoordinateSystemType == null) throw new ArgumentNullException("geographicCoordinateSystemType");
             if (geographicCoordinateSystemType.Equals(typeof(CoordinateSystems.Geographic.UserDefined))) throw new Exceptions.AmbiguousCoordinateSystemException();
             if (!GeographicCoordinateSystemTypeExists(geographicCoordinateSystemType.Name)) throw new Exceptions.InvalidCoordinateSystemException();
-            if (!geographicCoordinateSystemType.GetInterface("IGeographicCoordinateSystem").Equals(typeof(IGeographicCoordinateSystem))) throw new Exceptions.InvalidCoordinateSystemException();
+            if (geographicCoordinateSystemType.GetInterface("IGeographicCoordinateSystem") != typeof(IGeographicCoordinateSystem)) throw new Exceptions.InvalidCoordinateSystemException();
 
             if (!_geographicCoordinateSystems.ContainsKey(geographicCoordinateSystemType.Name))
             {
-                IGeographicCoordinateSystem gcs = (IGeographicCoordinateSystem)geographicCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null).Invoke(new object[] { });
+                IGeographicCoordinateSystem gcs = (IGeographicCoordinateSystem)(geographicCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(new object[] { });
                 lock (_geographicCoordinateSystemsLock)
                 {
                     if (!_geographicCoordinateSystems.ContainsKey(gcs.Key))
@@ -75,7 +75,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace.Equals(typeof(CoordinateSystems.Geographic.Undefined).Namespace) && types[i].Name.Equals(geographicCoordinateSystemTypeName))
+                if (types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace && types[i].Name.Equals(geographicCoordinateSystemTypeName))
                 {
                     return true;
                 }

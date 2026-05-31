@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -61,7 +61,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
             try
             {
                 if (value == null) throw new ArgumentNullException("value");
-                PointMShape other = value as PointMShape;
+                PointMShape other = (PointMShape)value;
 
                 base.ItemCopy(other);
             }
@@ -77,7 +77,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region Object Overrides
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null) return false;
             if (obj == this) return true;

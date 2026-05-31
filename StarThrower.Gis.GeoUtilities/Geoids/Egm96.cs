@@ -85,7 +85,7 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
         #region Private Instance Variables
 
         private int _insetAreas = 0;
-        private VariableGrid[] _variableGridTable = null;
+        private VariableGrid[] _variableGridTable = Array.Empty<VariableGrid>();
 
         #endregion
 
@@ -230,12 +230,12 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
 
         private void InitializeHeightGrid()
         {
-            Stream stream = null;
+            Stream? stream = null;
             try
             {
                 stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StarThrower.Gis.GeoUtilities.Geoids.egm96.grd");
 
-                if (!stream.CanRead) throw new IOException("Stream is not in a readable mode.");
+                if (stream == null || !stream.CanRead) throw new IOException("Stream is not in a readable mode.");
 
                 int pos = 0;
                 byte[] buf = new byte[this.Elevations];

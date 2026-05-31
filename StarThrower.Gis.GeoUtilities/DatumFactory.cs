@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -300,11 +300,11 @@ namespace StarThrower.Gis.GeoUtilities
             if (datumType == null) throw new ArgumentNullException("datumType");
             if (datumType.Equals(typeof(Datums.UserDefined))) throw new Exceptions.AmbiguousDatumTypeException();
             if (!DatumTypeExists(datumType.Name)) throw new Exceptions.InvalidDatumTypeException();
-            if (!datumType.GetInterface("IDatum").Equals(typeof(IDatum))) throw new Exceptions.InvalidDatumTypeException();
+            if (datumType.GetInterface("IDatum") != typeof(IDatum)) throw new Exceptions.InvalidDatumTypeException();
 
             if (!_datumList.ContainsKey(datumType.Name))
             {
-                IDatum d = (IDatum)datumType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null).Invoke(new object[] { });
+                IDatum d = (IDatum)(datumType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidDatumTypeException()).Invoke(new object[] { });
                 lock (_datumListLock)
                 {
                     if (!_datumList.ContainsKey(d.Key))
@@ -331,7 +331,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace.Equals(typeof(Datums.Undefined).Namespace) && types[i].Name.Equals(datumTypeName))
+                if (types[i].Namespace == typeof(Datums.Undefined).Namespace && types[i].Name.Equals(datumTypeName))
                 {
                     return true;
                 }

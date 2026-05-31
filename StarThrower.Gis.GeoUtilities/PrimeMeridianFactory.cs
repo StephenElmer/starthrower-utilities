@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -41,11 +41,11 @@ namespace StarThrower.Gis.GeoUtilities
         {
             if (primeMeridianType == null) throw new ArgumentNullException("primeMeridianType");
             if (!PrimeMeridianTypeExists(primeMeridianType.Name)) throw new Exceptions.InvalidPrimeMeridianTypeException();
-            if (!primeMeridianType.GetInterface("IPrimeMeridian").Equals(typeof(IPrimeMeridian))) throw new Exceptions.InvalidPrimeMeridianTypeException();
+            if (primeMeridianType.GetInterface("IPrimeMeridian") != typeof(IPrimeMeridian)) throw new Exceptions.InvalidPrimeMeridianTypeException();
 
             if (!_pmList.ContainsKey(primeMeridianType.Name))
             {
-                IPrimeMeridian pm = (IPrimeMeridian)primeMeridianType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null).Invoke(new object[] { });
+                IPrimeMeridian pm = (IPrimeMeridian)(primeMeridianType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidPrimeMeridianTypeException()).Invoke(new object[] { });
                 lock (_pmListLock)
                 {
                     if (!_pmList.ContainsKey(pm.Name))
@@ -73,7 +73,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace.Equals(typeof(PrimeMeridians.Undefined).Namespace) && types[i].Name.Equals(primeMeridianTypeName))
+                if (types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace && types[i].Name.Equals(primeMeridianTypeName))
                 {
                     return true;
                 }

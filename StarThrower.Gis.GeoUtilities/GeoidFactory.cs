@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -35,11 +35,11 @@ namespace StarThrower.Gis.GeoUtilities
             if (geoidType == null) throw new ArgumentNullException("geoidType");
             if (geoidType.Equals(typeof(Geoids.Undefined))) throw new Exceptions.AmbiguousGeoidTypeException();
             if (!GeoidTypeExists(geoidType.Name)) throw new Exceptions.InvalidGeoidTypeException();
-            if (!geoidType.GetInterface("IGeoid").Equals(typeof(IGeoid))) throw new Exceptions.InvalidGeoidTypeException();
+            if (geoidType.GetInterface("IGeoid") != typeof(IGeoid)) throw new Exceptions.InvalidGeoidTypeException();
 
             if (!_geoidList.ContainsKey(geoidType.Name))
             {
-                IGeoid g = (IGeoid)geoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null).Invoke(new object[] { });
+                IGeoid g = (IGeoid)(geoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidGeoidTypeException()).Invoke(new object[] { });
                 lock (_geoidListLock)
                 {
                     if (!_geoidList.ContainsKey(g.Key))
@@ -66,7 +66,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace.Equals(typeof(Geoids.Undefined).Namespace) && types[i].Name.Equals(geoidTypeName))
+                if (types[i].Namespace == typeof(Geoids.Undefined).Namespace && types[i].Name.Equals(geoidTypeName))
                 {
                     return true;
                 }

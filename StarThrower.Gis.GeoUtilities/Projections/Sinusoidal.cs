@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -127,7 +127,7 @@ namespace StarThrower.Gis.GeoUtilities.Projections
         /// <param name="obj">The object to compare to this object.</param>
         /// <returns>true if other is an instance of the same class as this object and has reference or value equality with this object; otherwise, false.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (Object.ReferenceEquals(obj, null)) return false;
             if (Object.ReferenceEquals(obj, this)) return true;

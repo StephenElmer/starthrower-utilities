@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -96,11 +96,11 @@ namespace StarThrower.Gis.GeoUtilities
             if (ellipsoidType == null) throw new ArgumentNullException("ellipsoidType");
             if (ellipsoidType.Equals(typeof(Ellipsoids.UserDefined))) throw new Exceptions.AmbiguousEllipsoidTypeException();
             if (!EllipsoidTypeExists(ellipsoidType.Name)) throw new Exceptions.InvalidEllipsoidTypeException();
-            if (!ellipsoidType.GetInterface("IEllipsoid").Equals(typeof(IEllipsoid))) throw new Exceptions.InvalidEllipsoidTypeException();
+            if (ellipsoidType.GetInterface("IEllipsoid") != typeof(IEllipsoid)) throw new Exceptions.InvalidEllipsoidTypeException();
 
             if (!_ellipsoidList.ContainsKey(ellipsoidType.Name))
             {
-                IEllipsoid e = (IEllipsoid)ellipsoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null).Invoke(new object[] { });
+                IEllipsoid e = (IEllipsoid)(ellipsoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidEllipsoidTypeException()).Invoke(new object[] { });
                 lock (_ellipsoidListLock)
                 {
                     if (!_ellipsoidList.ContainsKey(e.Key))
@@ -127,7 +127,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace.Equals(typeof(Ellipsoids.Undefined).Namespace) && types[i].Name.Equals(ellipsoidTypeName))
+                if (types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace && types[i].Name.Equals(ellipsoidTypeName))
                 {
                     return true;
                 }
@@ -202,7 +202,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <returns>The instance of the new ellipsoid.</returns>
         /// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
         /// <exception cref="Exceptions.InvalidEllipsoidTypeException">Thrown if the name is incorrectly formatted.</exception>
-        public static IEllipsoid GetInstanceOfNewUserDefinedEllipsoid(string name, double equatorialRadius, double flattening)
+        public static IEllipsoid GetInstanceOfNewUserDefinedEllipsoid(string? name, double equatorialRadius, double flattening)
         {
             if (name == null) throw new ArgumentNullException("name");
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
@@ -243,7 +243,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <returns>The Ellipsoid you are looking for.</returns>
         /// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
         /// <exception cref="Exceptions.InvalidEllipsoidTypeException">Thrown if name is incorrectly formatted OR if the instance could not be found.</exception>
-        public static IEllipsoid GetInstanceOfExistingUserDefinedEllipsoid(string name)
+        public static IEllipsoid GetInstanceOfExistingUserDefinedEllipsoid(string? name)
         {
             if (name == null) throw new ArgumentNullException("name");
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");

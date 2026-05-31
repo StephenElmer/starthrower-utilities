@@ -33,9 +33,9 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
         #region Private Instance Variables
 
         private long _significantDigits;
-        private IDatum _datum;
-        private IPrimeMeridian _primeMeridian;
-        private IAngularUnit _angularUnit;
+        private IDatum _datum = null!; // always set by derived class constructor
+        private IPrimeMeridian _primeMeridian = null!; // always set by derived class constructor
+        private IAngularUnit _angularUnit = null!; // always set by derived class constructor
 
         #endregion
 
@@ -150,7 +150,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
         /// <param name="obj">The object to compare to this object.</param>
         /// <returns>true if other is an instance of the same class as this object and has reference or value equality with this object; otherwise, false.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (Object.ReferenceEquals(obj, null)) return false;
             if (Object.ReferenceEquals(obj, this)) return true;

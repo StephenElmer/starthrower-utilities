@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -48,11 +48,11 @@ namespace StarThrower.Gis.GeoUtilities
             if (projectedCoordinateSystemType == null) throw new ArgumentNullException("projectedCoordinateSystemType");
             if (projectedCoordinateSystemType.Equals(typeof(CoordinateSystems.Projected.UserDefined))) throw new Exceptions.AmbiguousCoordinateSystemException();
             if (!ProjectedCoordinateSystemTypeExists(projectedCoordinateSystemType.Name)) throw new Exceptions.InvalidCoordinateSystemException();
-            if (!projectedCoordinateSystemType.GetInterface("IProjectedCoordinateSystem").Equals(typeof(IProjectedCoordinateSystem))) throw new Exceptions.InvalidCoordinateSystemException();
+            if (projectedCoordinateSystemType.GetInterface("IProjectedCoordinateSystem") != typeof(IProjectedCoordinateSystem)) throw new Exceptions.InvalidCoordinateSystemException();
 
             if (!_projectedCoordinateSystems.ContainsKey(projectedCoordinateSystemType.Name))
             {
-                IProjectedCoordinateSystem pcs = (IProjectedCoordinateSystem)projectedCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null).Invoke(new object[] { });
+                IProjectedCoordinateSystem pcs = (IProjectedCoordinateSystem)(projectedCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(new object[] { });
                 lock (_projectedCoordinateSystemsLock)
                 {
                     if (!_projectedCoordinateSystems.ContainsKey(pcs.Key))
@@ -78,11 +78,11 @@ namespace StarThrower.Gis.GeoUtilities
             if (projectedCoordinateSystemType == null) throw new ArgumentNullException("projectedCoordinateSystemType");
             if (projectedCoordinateSystemType.Equals(typeof(CoordinateSystems.Projected.UserDefined))) throw new Exceptions.AmbiguousCoordinateSystemException();
             if (!ProjectedCoordinateSystemTypeExists(projectedCoordinateSystemType.Name)) throw new Exceptions.InvalidCoordinateSystemException();
-            if (!projectedCoordinateSystemType.GetInterface("IProjectedCoordinateSystem").Equals(typeof(IProjectedCoordinateSystem))) throw new Exceptions.InvalidCoordinateSystemException();
+            if (projectedCoordinateSystemType.GetInterface("IProjectedCoordinateSystem") != typeof(IProjectedCoordinateSystem)) throw new Exceptions.InvalidCoordinateSystemException();
 
             if (!_projectedCoordinateSystems.ContainsKey(projectedCoordinateSystemType.Name + "_" + zone.Name))
             {
-                IProjectedCoordinateSystem pcs = (IProjectedCoordinateSystem)projectedCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(IZone) }, null).Invoke(new object[] { zone });
+                IProjectedCoordinateSystem pcs = (IProjectedCoordinateSystem)(projectedCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(IZone) }, null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(new object[] { zone });
                 lock (_projectedCoordinateSystemsLock)
                 {
                     if (!_projectedCoordinateSystems.ContainsKey(pcs.Key))
@@ -100,7 +100,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace.Equals(typeof(CoordinateSystems.Projected.Undefined).Namespace) && types[i].Name.Equals(projectedCoordinateSystemTypeName))
+                if (types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace && types[i].Name.Equals(projectedCoordinateSystemTypeName))
                 {
                     return true;
                 }

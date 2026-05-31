@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -195,7 +195,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.UtmNs
 
 
             int stub = 0;
-            string latitudinalZone = null;
+            string? latitudinalZone = null;
             if (int.TryParse(zone.Substring(0, 2), out stub))
             {
                 latitudinalZone = zone.Substring(2, zone.Length - 2);

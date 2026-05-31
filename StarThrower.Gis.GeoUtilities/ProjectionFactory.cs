@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -28,9 +28,9 @@ namespace StarThrower.Gis.GeoUtilities
         {
             if (projectionType == null) throw new ArgumentNullException("projectionType");
             if (!ProjectionTypeExists(projectionType.Name)) throw new Exceptions.InvalidProjectionTypeException();
-            if (!projectionType.GetInterface("IProjection").Equals(typeof(IProjection))) throw new Exceptions.InvalidProjectionTypeException();
+            if (projectionType.GetInterface("IProjection") != typeof(IProjection)) throw new Exceptions.InvalidProjectionTypeException();
             
-            IProjection p = (IProjection)projectionType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ProjectionParameter[]) }, null).Invoke(new object[] { parameters });
+            IProjection p = (IProjection)(projectionType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ProjectionParameter[]) }, null) ?? throw new Exceptions.InvalidProjectionTypeException()).Invoke(new object[] { parameters });
             return p;
         }
         public static IProjection GetInstanceOfProjection(string projectionTypeName, ProjectionParameter[] parameters)
@@ -47,7 +47,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace.Equals(typeof(Projections.Undefined).Namespace) && types[i].Name.Equals(projectionTypeName))
+                if (types[i].Namespace == typeof(Projections.Undefined).Namespace && types[i].Name.Equals(projectionTypeName))
                 {
                     return true;
                 }

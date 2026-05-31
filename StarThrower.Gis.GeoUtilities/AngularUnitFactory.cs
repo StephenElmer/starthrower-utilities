@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
     StarThrower Utilities
     Copyright (C) 2005-2007  Steve Elmer
 
@@ -38,11 +38,11 @@ namespace StarThrower.Gis.GeoUtilities
         {
             if (angularUnitType == null) throw new ArgumentNullException("angularUnitType");
             if (!AngularUnitTypeExists(angularUnitType.Name)) throw new Exceptions.InvalidAngularUnitTypeException();
-            if (!angularUnitType.GetInterface("IAngularUnit").Equals(typeof(IAngularUnit))) throw new Exceptions.InvalidAngularUnitTypeException();
+            if (angularUnitType.GetInterface("IAngularUnit") != typeof(IAngularUnit)) throw new Exceptions.InvalidAngularUnitTypeException();
 
             if (!_unitList.ContainsKey(angularUnitType.Name))
             {
-                IAngularUnit au = (IAngularUnit)angularUnitType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null).Invoke(new object[] { });
+                IAngularUnit au = (IAngularUnit)(angularUnitType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidAngularUnitTypeException()).Invoke(new object[] { });
                 lock (_unitListLock)
                 {
                     if (!_unitList.ContainsKey(au.Name))
@@ -70,7 +70,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace.Equals(typeof(AngularUnits.Undefined).Namespace) && types[i].Name.Equals(angularUnitTypeName))
+                if (types[i].Namespace == typeof(AngularUnits.Undefined).Namespace && types[i].Name.Equals(angularUnitTypeName))
                 {
                     return true;
                 }
