@@ -53,7 +53,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     {
         #region Private Member Variables
 
-        private FileStream _stream = null;
+        private FileStream? _stream;
         private StarThrower.Gis.EsriLibrary.Internal.FileHeader _header = new StarThrower.Gis.EsriLibrary.Internal.FileHeader();
         private StarThrower.Gis.EsriLibrary.Internal.IndexFileRecordList _records = new StarThrower.Gis.EsriLibrary.Internal.IndexFileRecordList();
 
@@ -106,6 +106,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         private void Read()
         {
+            if (_stream == null) throw new InvalidOperationException("Stream has not been opened.");
             if (!_stream.CanRead) throw new IOException("Stream is not in a readable mode.");
 
             byte[] header = new byte[StarThrower.Gis.EsriLibrary.Internal.FileHeader.SIZE];
@@ -174,7 +175,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             {
                 Save();
             }
-            _stream.Close();
+            _stream?.Close();
         }
 
         internal void Save()

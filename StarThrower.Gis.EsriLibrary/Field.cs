@@ -27,7 +27,7 @@ namespace StarThrower.Gis.EsriLibrary
         #region Private Member Variables
 
         private string _name = "";
-        private StarThrower.Gis.EsriLibrary.Types.FieldType _type = null;
+        private StarThrower.Gis.EsriLibrary.Types.FieldType? _type;
         private int _length = 0;
         private int _decimalCount = 0;
 
@@ -42,7 +42,7 @@ namespace StarThrower.Gis.EsriLibrary
             set { _name = value; }
         }
 
-        public StarThrower.Gis.EsriLibrary.Types.FieldType Type
+        public StarThrower.Gis.EsriLibrary.Types.FieldType? Type
         {
             get { return _type; }
             set { _type = value; }
@@ -110,14 +110,14 @@ namespace StarThrower.Gis.EsriLibrary
 
         #region Object Overrides
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null) return false;
             if (obj == this) return true;
             if (!(obj is StarThrower.Gis.EsriLibrary.Field)) return false;
             StarThrower.Gis.EsriLibrary.Field other = (StarThrower.Gis.EsriLibrary.Field)obj;
             return _name.Equals(other.Name) &&
-                   _type.Equals(other.Type) &&
+                   object.Equals(_type, other.Type) &&
                    _length.Equals(other.Length) &&
                    _decimalCount.Equals(other.DecimalCount);
         }
@@ -126,7 +126,7 @@ namespace StarThrower.Gis.EsriLibrary
         {
             int result = 17;
             result = 31 * result + _name.GetHashCode();
-            result = 31 * result + _type.GetHashCode();
+            result = 31 * result + (_type?.GetHashCode() ?? 0);
             result = 31 * result + _length.GetHashCode();
             result = 31 * result + _decimalCount.GetHashCode();
             return result;
@@ -134,7 +134,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public override string ToString()
         {
-            return "[" + this.GetType().Name + ":  Name='" + _name + "', Type=" + _type.ToString() + ", Length=" + _length.ToString(CultureInfo.InvariantCulture) + ", DecimalCount=" + _decimalCount.ToString(CultureInfo.InvariantCulture) + "]";
+            return "[" + this.GetType().Name + ":  Name='" + _name + "', Type=" + (_type?.ToString() ?? "null") + ", Length=" + _length.ToString(CultureInfo.InvariantCulture) + ", DecimalCount=" + _decimalCount.ToString(CultureInfo.InvariantCulture) + "]";
         }
 
         #endregion

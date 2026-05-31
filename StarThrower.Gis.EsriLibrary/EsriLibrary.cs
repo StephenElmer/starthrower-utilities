@@ -182,19 +182,19 @@ namespace StarThrower.Gis.EsriLibrary
 
         internal static byte[] ShapeToBytes(StarThrower.Gis.GeoUtilities.Shapes.Shape shape)
         {
-            byte[] result = null;
+            byte[]? result = null;
             int curIdx = 0;
-            byte[] shapeType = null;
-            byte[] x = null;
-            byte[] y = null;
-            byte[] xMin = null;
-            byte[] yMin = null;
-            byte[] xMax = null;
-            byte[] yMax = null;
-            byte[] numParts = null;
-            byte[] numPoints = null;
-            byte[] partBuffer = null;
-            StarThrower.Gis.GeoUtilities.GeoRectangle extent = null;
+            byte[]? shapeType = null;
+            byte[]? x = null;
+            byte[]? y = null;
+            byte[]? xMin = null;
+            byte[]? yMin = null;
+            byte[]? xMax = null;
+            byte[]? yMax = null;
+            byte[]? numParts = null;
+            byte[]? numPoints = null;
+            byte[]? partBuffer = null;
+            StarThrower.Gis.GeoUtilities.GeoRectangle? extent = null;
             int pointIdx = 0;
 
             switch (shape.ShapeType)
@@ -445,62 +445,44 @@ namespace StarThrower.Gis.EsriLibrary
 
         internal static StarThrower.Gis.EsriLibrary.Types.FieldType XBaseFieldTypeToEsriFieldType(StarThrower.XBase.FieldType fieldType)
         {
-            StarThrower.Gis.EsriLibrary.Types.FieldType result = null;
             switch (fieldType.Code)
             {
                 case 'C':
-                    result = new StarThrower.Gis.EsriLibrary.Types.StringField();
-                    break;
+                    return new StarThrower.Gis.EsriLibrary.Types.StringField();
                 case 'F':
-                    result = new StarThrower.Gis.EsriLibrary.Types.FloatField();
-                    break;
+                    return new StarThrower.Gis.EsriLibrary.Types.FloatField();
                 case 'D':
-                    result = new StarThrower.Gis.EsriLibrary.Types.DateField();
-                    break;
+                    return new StarThrower.Gis.EsriLibrary.Types.DateField();
                 case 'N':
-                    result = new StarThrower.Gis.EsriLibrary.Types.NumericField();
-                    break;
+                    return new StarThrower.Gis.EsriLibrary.Types.NumericField();
                 case 'M':
-                    result = new StarThrower.Gis.EsriLibrary.Types.MemoField();
-                    break;
+                    return new StarThrower.Gis.EsriLibrary.Types.MemoField();
                 case 'L':
-                    result = new StarThrower.Gis.EsriLibrary.Types.BooleanField();
-                    break;
+                    return new StarThrower.Gis.EsriLibrary.Types.BooleanField();
                 default:
-                    result = new StarThrower.Gis.EsriLibrary.Types.UndefinedField();
-                    break;
+                    return new StarThrower.Gis.EsriLibrary.Types.UndefinedField();
             }
-            return result;
         }
 
         internal static StarThrower.XBase.FieldType EsriFieldTypeToXBaseFieldType(StarThrower.Gis.EsriLibrary.Types.FieldType fieldType)
         {
-            StarThrower.XBase.FieldType result = null;
             switch (fieldType.Code)
             {
                 case 'C':
-                    result = new StarThrower.XBase.StringField();
-                    break;
+                    return new StarThrower.XBase.StringField();
                 case 'F':
-                    result = new StarThrower.XBase.FloatField();
-                    break;
+                    return new StarThrower.XBase.FloatField();
                 case 'D':
-                    result = new StarThrower.XBase.DateField();
-                    break;
+                    return new StarThrower.XBase.DateField();
                 case 'N':
-                    result = new StarThrower.XBase.NumericField();
-                    break;
+                    return new StarThrower.XBase.NumericField();
                 case 'M':
-                    result = new StarThrower.XBase.MemoField();
-                    break;
+                    return new StarThrower.XBase.MemoField();
                 case 'L':
-                    result = new StarThrower.XBase.BooleanField();
-                    break;
+                    return new StarThrower.XBase.BooleanField();
                 default:
-                    result = new StarThrower.XBase.UndefinedField();
-                    break;
+                    return new StarThrower.XBase.UndefinedField();
             }
-            return result;
         }
 
         internal static StarThrower.Gis.EsriLibrary.Field XBaseFieldToEsriField(StarThrower.XBase.XBaseField field)
@@ -518,7 +500,8 @@ namespace StarThrower.Gis.EsriLibrary
             StarThrower.XBase.XBaseField newField = new StarThrower.XBase.XBaseField();
             newField.Name = field.Name;
             newField.Length = field.Length;
-            newField.FieldType = StarThrower.Gis.EsriLibrary.EsriLibrary.EsriFieldTypeToXBaseFieldType(field.Type);
+            newField.FieldType = StarThrower.Gis.EsriLibrary.EsriLibrary.EsriFieldTypeToXBaseFieldType(
+                field.Type ?? throw new ArgumentException("Field type must not be null.", nameof(field)));
             newField.DecimalCount = field.DecimalCount;
             return newField;
         }

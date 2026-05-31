@@ -27,8 +27,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     {
         #region Private Member Variables
 
-        private StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordHeader _header = null;
-        private StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent _content = null;
+        private StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordHeader _header;
+        private StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent _content;
 
         #endregion
 
@@ -107,6 +107,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
                 case StarThrower.Gis.EsriLibrary.ShapeType.MultiPatch:
                     _content = new StarThrower.Gis.EsriLibrary.Internal.Records.MultiPatchRecord(bytes);
                     break;
+                default:
+                    throw new ArgumentException($"Unsupported shape type: {shapeType}.", nameof(shapeType));
             }
         }
 
@@ -157,6 +159,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
                 case StarThrower.Gis.EsriLibrary.ShapeType.MultiPatch:
                     _content = new StarThrower.Gis.EsriLibrary.Internal.Records.MultiPatchRecord(bytes);
                     break;
+                default:
+                    throw new ArgumentException($"Unsupported shape type: {shapeType}.", nameof(shapeType));
             }
         }
 

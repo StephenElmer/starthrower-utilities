@@ -18,7 +18,6 @@
 ***********************************************************************************/
 
 using System;
-using System.Text;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {

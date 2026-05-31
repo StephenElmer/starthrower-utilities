@@ -27,7 +27,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     {
         #region Private Member Variables
 
-        private FileStream _stream = null;
+        private FileStream? _stream;
         private StarThrower.Gis.EsriLibrary.Internal.FileHeader _header = new StarThrower.Gis.EsriLibrary.Internal.FileHeader();
         private StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordList _records = new StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordList();
         private StarThrower.Gis.EsriLibrary.Internal.IndexFile _indexFile = new StarThrower.Gis.EsriLibrary.Internal.IndexFile();
@@ -98,6 +98,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         private void Read()
         {
+            if (_stream == null) throw new InvalidOperationException("Stream has not been opened.");
             if (!_stream.CanRead) throw new IOException("Stream is not in a readable mode.");
 
             byte[] header = new byte[StarThrower.Gis.EsriLibrary.Internal.FileHeader.SIZE];
@@ -146,7 +147,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         /// <param name="fileAccess"></param>
         internal void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
         {
-            string baseFileName = Path.GetDirectoryName(fileName) + "\\" + Path.GetFileNameWithoutExtension(fileName);
+            string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
             _indexFile.Open(baseFileName + ".shx", fileMode, fileAccess);
             if (File.Exists(baseFileName + ".prj"))
             {
@@ -166,7 +167,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         /// <param name="fileShare"></param>
         internal void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess, System.IO.FileShare fileShare)
         {
-            string baseFileName = Path.GetDirectoryName(fileName) + "\\" + Path.GetFileNameWithoutExtension(fileName);
+            string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
             _indexFile.Open(baseFileName + ".shx", fileMode, fileAccess, fileShare);
             if (File.Exists(baseFileName + ".prj"))
             {
@@ -201,7 +202,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             {
                 Save();
             }
-            _stream.Close();
+            _stream?.Close();
 
             _indexFile.Close(save);
             _projectionFile.Close(save);
@@ -265,7 +266,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
                 _stream.Write(records, 0, records.Length);
             }
 
-            string baseFileName = Path.GetDirectoryName(fileName) + "\\" + Path.GetFileNameWithoutExtension(fileName);
+            string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
             _indexFile.SaveAs(baseFileName + ".shx");
             _projectionFile.SaveAs(baseFileName + ".prj");
         }

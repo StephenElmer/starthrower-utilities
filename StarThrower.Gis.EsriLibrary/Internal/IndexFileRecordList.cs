@@ -27,7 +27,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     {
         #region Private Member Variables
 
-        private StarThrower.Gis.EsriLibrary.Internal.FileHeader _fileHeader = null;
+        private StarThrower.Gis.EsriLibrary.Internal.FileHeader? _fileHeader;
         private List<StarThrower.Gis.EsriLibrary.Internal.IndexFileRecord> _list = new List<StarThrower.Gis.EsriLibrary.Internal.IndexFileRecord>();
 
         #endregion
@@ -35,7 +35,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Internal Properties
 
-        internal StarThrower.Gis.EsriLibrary.Internal.FileHeader FileHeader
+        internal StarThrower.Gis.EsriLibrary.Internal.FileHeader? FileHeader
         {
             get { return _fileHeader; }
             set { _fileHeader = value; }

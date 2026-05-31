@@ -105,14 +105,8 @@ namespace StarThrower.Gis.EsriLibrary
         {
             if (disposing)
             {
-                if (_geoFile != null)
-                {
-                    _geoFile.Dispose();
-                }
-                if (_dataFile != null)
-                {
-                    _dataFile.Dispose();
-                }
+                _geoFile.Dispose();
+                _dataFile.Dispose();
             }
         }
 
@@ -165,7 +159,7 @@ namespace StarThrower.Gis.EsriLibrary
             StarThrower.XBase.XBaseField newField = new StarThrower.XBase.XBaseField();
             newField.Name = field.Name;
             newField.Length = field.Length;
-            newField.FieldType = field.Type;
+            newField.FieldType = field.Type ?? throw new ArgumentException("Field type must not be null.", nameof(field));
             newField.DecimalCount = field.DecimalCount;
             _dataFile.AddField(newField);
         }
@@ -282,7 +276,9 @@ namespace StarThrower.Gis.EsriLibrary
             StarThrower.XBase.XBaseRecord xBaseRecord = _dataFile.CreateRecord();
             foreach (StarThrower.XBase.XBaseField f in record.GetFieldDescriptors())
             {
-                xBaseRecord.SetData(f.Name, record.GetData(f.Name));
+                object? value = record.GetData(f.Name);
+                if (value != null)
+                    xBaseRecord.SetData(f.Name, value);
             }
             _dataFile.AddRecord(xBaseRecord);
 
@@ -351,25 +347,17 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void Clear()
         {
-            if (_geoFile != null)
-            {
-                _geoFile.Close();
-                _geoFile.Dispose();
-                _geoFile = null;
-            }
-            if (_dataFile != null)
-            {
-                _dataFile.Close();
-                _dataFile.Dispose();
-                _dataFile = null;
-            }
+            _geoFile.Close();
+            _geoFile.Dispose();
+            _dataFile.Close();
+            _dataFile.Dispose();
             _geoFile = new StarThrower.Gis.EsriLibrary.Internal.GeographyFile();
             _dataFile = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
         }
 
         public void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
         {
-            string baseFileName = Path.GetDirectoryName(fileName) + "\\" + Path.GetFileNameWithoutExtension(fileName);
+            string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
             _dataFile.Open(baseFileName + ".dbf", fileMode, fileAccess);
             _geoFile.Open(baseFileName + ".shp", fileMode, fileAccess);
             if (!IsValid()) throw new InvalidDataException();
@@ -377,7 +365,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess, System.IO.FileShare fileShare)
         {
-            string baseFileName = Path.GetDirectoryName(fileName) + "\\" + Path.GetFileNameWithoutExtension(fileName);
+            string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
             _dataFile.Open(baseFileName + ".dbf", fileMode, fileAccess, fileShare);
             _geoFile.Open(baseFileName + ".shp", fileMode, fileAccess, fileShare);
             if (!IsValid()) throw new InvalidDataException();
@@ -412,7 +400,7 @@ namespace StarThrower.Gis.EsriLibrary
         public void SaveAs(string fileName)
         {
 
-            string baseFileName = Path.GetDirectoryName(fileName) + "\\" + Path.GetFileNameWithoutExtension(fileName);
+            string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
             _dataFile.SaveAs(baseFileName + ".dbf");
             _geoFile.SaveAs(baseFileName + ".shp");
         }
@@ -435,11 +423,10 @@ namespace StarThrower.Gis.EsriLibrary
                         StarThrower.Gis.EsriLibrary.Field field = this.GetField(i);
                         result.AppendLine("<field " +
                                       "name=\"" + StringUtil.XmlEncode(field.Name) + "\" " +
-                                      "type=\"" + field.Type.ToString() + "\" " +
+                                      "type=\"" + field.Type?.ToString() + "\" " +
                                       "length=\"" + field.Length.ToString(CultureInfo.InvariantCulture) + "\" " +
                                       "decimalCount=\"" + field.DecimalCount.ToString(CultureInfo.InvariantCulture) + "\" " +
                                       "/>");
-                        field = null;
                     }
                     result.AppendLine("</fields>");
 
@@ -458,7 +445,8 @@ namespace StarThrower.Gis.EsriLibrary
                         for (int j = 0; j < this.FieldCount; j++)
                         {
                             string fieldName = this.GetField(j).Name;
-                            result.AppendLine("<" + StringUtil.XmlEncode(fieldName) + " value=\"" + StringUtil.XmlEncode(record.GetData(fieldName).ToString().Trim()) + "\"/>");
+                            string dataStr = record.GetData(fieldName)?.ToString()?.Trim() ?? string.Empty;
+                            result.AppendLine("<" + StringUtil.XmlEncode(fieldName) + " value=\"" + StringUtil.XmlEncode(dataStr) + "\"/>");
                         }
                         result.AppendLine("</data>");
                         result.AppendLine("<geography>");
@@ -506,7 +494,6 @@ namespace StarThrower.Gis.EsriLibrary
                                 break;
                         }
                         result.AppendLine("</geography>");
-                        record = null;
                         result.AppendLine("</record>");
                     }
                     result.AppendLine("</records>");
@@ -538,18 +525,18 @@ namespace StarThrower.Gis.EsriLibrary
             {
                 case StarThrower.Gis.GeoUtilities.Formatting.XmlFormat.LayerWise:
 
-                    XmlNode layerNode = doc.SelectSingleNode("//layer");
-                    string shapeType = layerNode.Attributes.GetNamedItem("shapeType").Value;
+                    XmlNode layerNode = doc.SelectSingleNode("//layer") ?? throw new ArgumentException("Invalid XML: layer element not found.", nameof(doc));
+                    string shapeType = layerNode.Attributes?.GetNamedItem("shapeType")?.Value ?? throw new ArgumentException("Invalid XML: shapeType attribute not found.", nameof(doc));
                     this.ShapeType = EsriLibrary.GetShapeTypeFromString(shapeType);
 
-                    XmlNode projectionNode = layerNode.SelectSingleNode("coordinateSystem");
+                    XmlNode? projectionNode = layerNode.SelectSingleNode("coordinateSystem");
 
-                    XmlNode fieldsNode = layerNode.SelectSingleNode("fields");
-                    foreach (XmlNode fieldNode in fieldsNode.SelectNodes("field"))
+                    XmlNode fieldsNode = layerNode.SelectSingleNode("fields") ?? throw new ArgumentException("Invalid XML: fields element not found.", nameof(doc));
+                    foreach (XmlNode fieldNode in fieldsNode.SelectNodes("field") ?? throw new ArgumentException("Invalid XML: field elements not found.", nameof(doc)))
                     {
                         StarThrower.Gis.EsriLibrary.Field field = new StarThrower.Gis.EsriLibrary.Field();
-                        field.Name = fieldNode.Attributes.GetNamedItem("name").Value;
-                        string fieldtype = fieldNode.Attributes.GetNamedItem("type").Value;
+                        field.Name = fieldNode.Attributes?.GetNamedItem("name")?.Value ?? throw new ArgumentException("Invalid XML: field name attribute not found.", nameof(doc));
+                        string fieldtype = fieldNode.Attributes?.GetNamedItem("type")?.Value ?? throw new ArgumentException("Invalid XML: field type attribute not found.", nameof(doc));
                         switch (fieldtype)
                         {
                             case "StarThrower.Gis.EsriLibrary.Types.BooleanField":
@@ -575,18 +562,18 @@ namespace StarThrower.Gis.EsriLibrary
                                 field.Type = new StarThrower.Gis.EsriLibrary.Types.UndefinedField();
                                 break;
                         }
-                        field.Length = int.Parse(fieldNode.Attributes.GetNamedItem("length").Value, CultureInfo.InvariantCulture);
-                        field.DecimalCount = int.Parse(fieldNode.Attributes.GetNamedItem("decimalCount").Value, CultureInfo.InvariantCulture);
+                        field.Length = int.Parse(fieldNode.Attributes?.GetNamedItem("length")?.Value ?? throw new ArgumentException("Invalid XML: length attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
+                        field.DecimalCount = int.Parse(fieldNode.Attributes?.GetNamedItem("decimalCount")?.Value ?? throw new ArgumentException("Invalid XML: decimalCount attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
                         this.AddField(field);
                     }
 
-                    XmlNode recordsNode = layerNode.SelectSingleNode("records");
+                    XmlNode? recordsNode = layerNode.SelectSingleNode("records");
 
-                    XmlNode extentNode = layerNode.SelectSingleNode("extent");
-                    double top = double.Parse(extentNode.Attributes.GetNamedItem("top").Value, CultureInfo.InvariantCulture);
-                    double left = double.Parse(extentNode.Attributes.GetNamedItem("left").Value, CultureInfo.InvariantCulture);
-                    double bottom = double.Parse(extentNode.Attributes.GetNamedItem("bottom").Value, CultureInfo.InvariantCulture);
-                    double right = double.Parse(extentNode.Attributes.GetNamedItem("right").Value, CultureInfo.InvariantCulture);
+                    XmlNode extentNode = layerNode.SelectSingleNode("extent") ?? throw new ArgumentException("Invalid XML: extent element not found.", nameof(doc));
+                    double top = double.Parse(extentNode.Attributes?.GetNamedItem("top")?.Value ?? throw new ArgumentException("Invalid XML: extent top attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
+                    double left = double.Parse(extentNode.Attributes?.GetNamedItem("left")?.Value ?? throw new ArgumentException("Invalid XML: extent left attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
+                    double bottom = double.Parse(extentNode.Attributes?.GetNamedItem("bottom")?.Value ?? throw new ArgumentException("Invalid XML: extent bottom attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
+                    double right = double.Parse(extentNode.Attributes?.GetNamedItem("right")?.Value ?? throw new ArgumentException("Invalid XML: extent right attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
                     this.Extent = new StarThrower.Gis.GeoUtilities.GeoRectangle(left, top, right, bottom);
 
                     break;

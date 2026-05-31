@@ -29,7 +29,7 @@ namespace StarThrower.Gis.EsriLibrary
         #region Private Member Variables
 
         private XBaseFieldCollection _fields = new XBaseFieldCollection();
-        private Dictionary<string, object> _data = new Dictionary<string, object>();
+        private Dictionary<string, object?> _data = new Dictionary<string, object?>();
         private StarThrower.Gis.GeoUtilities.Shapes.Shape _shape = new StarThrower.Gis.GeoUtilities.Shapes.NullShape();
 
         #endregion
@@ -97,7 +97,7 @@ namespace StarThrower.Gis.EsriLibrary
         {
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
-            string result = StringUtil.AppendSpaces(GetData(fieldName).ToString(), _fields[index].Length);
+            string result = StringUtil.AppendSpaces(GetData(fieldName)?.ToString() ?? string.Empty, _fields[index].Length);
             return result;
         }
 
@@ -105,7 +105,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         #region Public Methods
 
-        public object GetData(string fieldName)
+        public object? GetData(string fieldName)
         {
             if (fieldName == null) throw new ArgumentNullException("fieldName");
 

@@ -32,15 +32,15 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     {
         #region Private Member Variables
 
-        private FileStream _stream = null;
-        private IProjectedCoordinateSystem _cs = null;
+        private FileStream? _stream;
+        private IProjectedCoordinateSystem? _cs;
 
         #endregion
 
 
         #region Internal Properties
 
-        internal ICoordinateSystem CoordinateSystem
+        internal ICoordinateSystem? CoordinateSystem
         {
             get { return _cs; }
         }
@@ -595,23 +595,23 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         private string CreateDataString()
         {
-            string projcs = null;
-            string geogcs = null;
-            string datum = null;
+            string projcs = string.Empty;
+            string geogcs = string.Empty;
+            string datum = string.Empty;
             double equatorialRadius = 0.0;
             double inverseFlattening = 0.0;
-            string spheroid = null;
-            string primeem = null;
+            string spheroid = string.Empty;
+            string primeem = string.Empty;
             double primeemValue = 0.0;
-            string angularUnit = null;
+            string angularUnit = string.Empty;
             double angularUnitValue = 0.0;
-            string linearUnit = null;
+            string linearUnit = string.Empty;
             double linearUnitValue = 0.0;
-            string projection = null;
-            string[] parameters = null;
-            double[] parameterValues = null;
+            string projection = string.Empty;
+            string[] parameters = [];
+            double[] parameterValues = [];
 
-            GetEsriNamesFromCoordinateSystem(_cs, ref projcs, ref geogcs, ref datum, ref equatorialRadius, ref inverseFlattening, ref spheroid, ref primeem, ref primeemValue, ref angularUnit, ref angularUnitValue, ref linearUnit, ref linearUnitValue, ref projection, ref parameters, ref parameterValues);
+            GetEsriNamesFromCoordinateSystem(_cs ?? throw new InvalidOperationException("Coordinate system not set."), ref projcs, ref geogcs, ref datum, ref equatorialRadius, ref inverseFlattening, ref spheroid, ref primeem, ref primeemValue, ref angularUnit, ref angularUnitValue, ref linearUnit, ref linearUnitValue, ref projection, ref parameters, ref parameterValues);
 
             StringBuilder result = new StringBuilder(String.Empty);
             result.Append("PROJCS");
@@ -669,13 +669,14 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         private void Read()
         {
+            if (_stream == null) throw new InvalidOperationException("Stream has not been opened.");
             if (!_stream.CanRead) throw new IOException("Stream is not in a readable mode.");
 
             _stream.Seek(0, SeekOrigin.Begin);
             StringBuilder data = new StringBuilder(String.Empty);
             using (StreamReader sr = new StreamReader(_stream))
             {
-                string buf;
+                string? buf;
                 while ((buf = sr.ReadLine()) != null)
                 {
                     data.Append(buf);
@@ -724,7 +725,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             {
                 Save();
             }
-            _stream.Close();
+            _stream?.Close();
         }
 
         internal void Save()
