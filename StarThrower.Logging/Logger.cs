@@ -38,14 +38,14 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException"></exception>
         public static void RegisterErrorPolicy(string reporterName, string policyName)
         {
-            if (reporterName == null) throw new ArgumentNullException("reporterName");
-            if (policyName == null) throw new ArgumentNullException("policyName");
+            ArgumentNullException.ThrowIfNull(reporterName);
+            ArgumentNullException.ThrowIfNull(policyName);
 
             try
             {
-                if (_errorReporters.ContainsKey(reporterName))
+                if (_errorReporters.TryGetValue(reporterName, out var reporter))
                 {
-                    _errorReporters[reporterName].RegisterPolicy(policyName);
+                    reporter.RegisterPolicy(policyName);
                 }
             }
             catch (Exception ex)
@@ -63,8 +63,8 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException"></exception>
         public static void RegisterErrorReporter(string key, IErrorReporter reporter)
         {
-            if (key == null) throw new ArgumentNullException("key");
-            if (reporter == null) throw new ArgumentNullException("reporter");
+            ArgumentNullException.ThrowIfNull(key);
+            ArgumentNullException.ThrowIfNull(reporter);
 
             try
             {
@@ -84,14 +84,11 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException"></exception>
         public static void UnregisterErrorReporter(string key)
         {
-            if (key == null) throw new ArgumentNullException("key");
+            ArgumentNullException.ThrowIfNull(key);
 
             try
             {
-                if (_errorReporters.ContainsKey(key))
-                {
-                    _errorReporters.Remove(key);
-                }
+                _errorReporters.Remove(key);
             }
             catch (Exception ex)
             {
@@ -107,7 +104,7 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException"></exception>
         public static void ReportError(Exception ex)
         {
-            if (ex == null) throw new ArgumentNullException("ex");
+            ArgumentNullException.ThrowIfNull(ex);
 
             ReportError("Unknown", ex);
         }
@@ -120,8 +117,8 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException"></exception>
         public static void ReportError(string source, Exception ex)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (ex == null) throw new ArgumentNullException("ex");
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(ex);
 
             ReportError(ErrorPolicy.Internal, source, ex);
         }
@@ -135,9 +132,9 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException"></exception>
         public static void ReportError(string policy, string source, Exception ex)
         {
-            if (policy == null) throw new ArgumentNullException("policy");
-            if (source == null) throw new ArgumentNullException("source");
-            if (ex == null) throw new ArgumentNullException("ex");
+            ArgumentNullException.ThrowIfNull(policy);
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(ex);
 
             try
             {

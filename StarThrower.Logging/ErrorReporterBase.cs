@@ -56,7 +56,7 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException">Thrown if policy is null.</exception>
         public void RegisterPolicy(string policy)
         {
-            if (policy == null) throw new ArgumentNullException("policy");
+            ArgumentNullException.ThrowIfNull(policy, nameof(policy));
 
             RegisterPolicy(policy, policy);
         }
@@ -69,15 +69,12 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException">Thrown if policy or description is null.</exception>
         public void RegisterPolicy(string policy, string description)
         {
-            if (policy == null) throw new ArgumentNullException("policy");
-            if (description == null) throw new ArgumentNullException("description");
+            ArgumentNullException.ThrowIfNull(policy);
+            ArgumentNullException.ThrowIfNull(description);
 
             try
             {
-                if (!_policies.ContainsKey(policy))
-                {
-                    _policies.Add(policy, description);
-                }
+                _policies.TryAdd(policy, description);
             }
             catch (Exception ex)
             {
@@ -93,14 +90,11 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException">Thrown if policy is null.</exception>
         public void UnregisterPolicy(string policy)
         {
-            if (policy == null) throw new ArgumentNullException("policy");
+            ArgumentNullException.ThrowIfNull(policy);
 
             try
             {
-                if (_policies.ContainsKey(policy))
-                {
-                    _policies.Remove(policy);
-                }
+                _policies.Remove(policy);
             }
             catch (Exception ex)
             {
@@ -117,11 +111,11 @@ namespace StarThrower.Logging
         /// <exception cref="ArgumentNullException">Thrown if policy is null.</exception>
         public bool SupportsPolicy(string policy)
         {
-            if (policy == null) throw new ArgumentNullException("policy");
+            ArgumentNullException.ThrowIfNull(policy);
 
             try
             {
-                return _policies.ContainsKey(policy);
+                return _policies.ContainsKey(nameof(policy));
             }
             catch (Exception ex)
             {
