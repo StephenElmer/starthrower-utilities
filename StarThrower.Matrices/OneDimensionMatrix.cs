@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace StarThrower.Matrices
 {
-    internal class OneDimensionMatrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue>
+    internal sealed class OneDimensionMatrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue> where TIndex : notnull
     {
         public Dictionary<TIndex, TValue> _values;
 
@@ -34,8 +34,11 @@ namespace StarThrower.Matrices
             {
                 ArgumentNullException.ThrowIfNull(indexes);
                 if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
+
                 if (!_values.ContainsKey(indexes[0])) throw new InvalidOperationException("OneDimensionMatrix does not have an index associated with " + indexes[0].ToString());
                 return _values[indexes[0]];
+                // _values.TryGetValue(indexes[0], out TValue result);
+                // return result;
             }
             set
             {
@@ -50,8 +53,8 @@ namespace StarThrower.Matrices
         {
             ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
-            if (indexes[0] < 0) throw new IndexOutOfRangeException();
-            if (indexes[0] >= _values.Count) throw new IndexOutOfRangeException();
+            ArgumentOutOfRangeException.ThrowIfNegative(indexes[0]);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(indexes[0], _values.Count);
 
             TIndex key = _values.Keys.ElementAt(indexes[0]);
 
@@ -64,8 +67,8 @@ namespace StarThrower.Matrices
         {
             ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
-            if (indexes[0] < 0) throw new IndexOutOfRangeException();
-            if (indexes[0] >= _values.Count) throw new IndexOutOfRangeException();
+            ArgumentOutOfRangeException.ThrowIfNegative(indexes[0]);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(indexes[0], _values.Count);
 
             TIndex key = _values.Keys.ElementAt(indexes[0]);
             return _values[key];
@@ -74,9 +77,8 @@ namespace StarThrower.Matrices
         public override void SetItemAt(TValue value, params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
-            if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
-            if (indexes[0] < 0) throw new IndexOutOfRangeException();
-            if (indexes[0] >= _values.Count) throw new IndexOutOfRangeException();
+            ArgumentOutOfRangeException.ThrowIfNegative(indexes[0]);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(indexes[0], _values.Count);
 
             TIndex key = _values.Keys.ElementAt(indexes[0]);
             _values[key] = value;
@@ -85,7 +87,7 @@ namespace StarThrower.Matrices
         public OneDimensionMatrix(IEnumerable<TIndex> indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
-            if (indexes.Count() < 1) throw new InvalidOperationException("OneDimensionMatrix must contain at least one value in its indices list");
+            if (!indexes.Any()) throw new InvalidOperationException("OneDimensionMatrix must contain at least one value in its indices list");
 
             _values = new Dictionary<TIndex, TValue>();
             foreach (TIndex i in indexes)

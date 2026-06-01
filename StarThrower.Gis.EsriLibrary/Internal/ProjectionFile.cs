@@ -28,7 +28,7 @@ using UtmNsZones = StarThrower.Gis.GeoUtilities.Zones.UtmNs;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
-    internal class ProjectionFile : IDisposable
+    internal sealed class ProjectionFile : IDisposable
     {
         #region Private Member Variables
 
@@ -92,7 +92,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             }
         }
 
-        private IProjectedCoordinateSystem GetCoordinateSystemFromEsriName(string esriName)
+        private static IProjectedCoordinateSystem GetCoordinateSystemFromEsriName(string esriName)
         {
             switch (esriName)
             {
@@ -615,54 +615,54 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
             StringBuilder result = new StringBuilder(String.Empty);
             result.Append("PROJCS");
-            result.Append("[");
+            result.Append('[');
             result.Append("\"" + projcs + "\",");
             result.Append("GEOGCS");
-            result.Append("[");
+            result.Append('[');
             result.Append("\"" + geogcs + "\",");
             result.Append("DATUM");
-            result.Append("[");
+            result.Append('[');
             result.Append("\"" + datum + "\",");
             result.Append("SPHEROID");
-            result.Append("[");
+            result.Append('[');
             result.Append("\"" + datum + "\",");
             result.Append(equatorialRadius.ToString(CultureInfo.InvariantCulture) + ",");
             result.Append(inverseFlattening.ToString(CultureInfo.InvariantCulture) + ",");
-            result.Append("]");
+            result.Append(']');
             result.Append("],");
             result.Append("PRIMEEM");
-            result.Append("[");
+            result.Append('[');
             result.Append("\"" + primeem + "\",");
             result.Append(primeemValue.ToString(CultureInfo.InvariantCulture));
             result.Append("],");
             result.Append("UNIT");
-            result.Append("[");
+            result.Append('[');
             result.Append("\"" + angularUnit + "\",");
             result.Append(angularUnitValue.ToString(CultureInfo.InvariantCulture));
             result.Append("],");
             result.Append("],");
 
             result.Append("PROJECTION");
-            result.Append("[");
+            result.Append('[');
             result.Append("\"" + projection + "\",");
             result.Append("],");
 
             for (int i = 0; i < parameters.Length; i++)
             {
                 result.Append("PARAMETER");
-                result.Append("[");
+                result.Append('[');
                 result.Append("\"" + parameters[i] + "\",");
                 result.Append(parameterValues[i].ToString(CultureInfo.InvariantCulture));
                 result.Append("],");
             }
 
             result.Append("UNIT");
-            result.Append("[");
+            result.Append('[');
             result.Append("\"" + linearUnit + "\",");
             result.Append(linearUnitValue.ToString(CultureInfo.InvariantCulture));
             result.Append("],");
 
-            result.Append("]");
+            result.Append(']');
 
             return result.ToString();
         }

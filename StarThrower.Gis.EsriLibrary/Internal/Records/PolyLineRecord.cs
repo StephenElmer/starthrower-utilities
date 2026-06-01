@@ -26,7 +26,7 @@ using StarThrower.Gis.GeoUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
-    internal class PolyLineRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
+    internal sealed class PolyLineRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Private Member Variables
 

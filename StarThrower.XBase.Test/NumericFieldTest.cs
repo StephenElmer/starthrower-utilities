@@ -26,7 +26,7 @@ namespace StarThrower.XBase.Test
     [TestClass]
     public class NumericFieldTest
     {
-        private void Ignore()
+        private static void Ignore()
         {
 #if FAIL_ON_IGNORE
                 Assert.Fail("This test has been ignored.");

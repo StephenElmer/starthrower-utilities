@@ -23,7 +23,7 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
-    internal class MultiPatchRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
+    internal sealed class MultiPatchRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction
 

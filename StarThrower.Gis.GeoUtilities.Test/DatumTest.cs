@@ -32,7 +32,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
     [TestClass]
     public class DatumTest
     {
-        private void Ignore()
+        private static void Ignore()
         {
             #if FAIL_ON_IGNORE
                 Assert.Fail("This test has been ignored.");
@@ -104,7 +104,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfDatum_D_North_American_1927()
+        public void TestGetInstanceOfDatumDNorthAmerican1927()
         {
             Type datumType = typeof(Datums.Nad1927Conus);
             Type ellipsoidType = typeof(Ellipsoids.Clarke1866);
@@ -162,7 +162,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfDatum_D_North_American_1983()
+        public void TestGetInstanceOfDatumDNorthAmerican1983()
         {
             Type datumType = typeof(Datums.Nad1983Conus);
             Type ellipsoidType = typeof(Ellipsoids.Grs1980);
@@ -220,7 +220,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfDatum_D_OSGB_1936()
+        public void TestGetInstanceOfDatumDOSGBB1936()
         {
             Type datumType = typeof(Datums.Osgb1936);
             Type ellipsoidType = typeof(Ellipsoids.Airy1830);
@@ -278,7 +278,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfDatum_D_WGS_1972()
+        public void TestGetInstanceOfDatumDWGS1972()
         {
             Type datumType = typeof(Datums.Wgs1972);
             Type ellipsoidType = typeof(Ellipsoids.Wgs1972);
@@ -336,7 +336,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfDatum_D_WGS_1984()
+        public void TestGetInstanceOfDatumDWGS1984()
         {
             Type datumType = typeof(Datums.Wgs1984);
             Type ellipsoidType = typeof(Ellipsoids.Wgs1984);
@@ -402,14 +402,14 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(InvalidDatumTypeException))]
-        public void TestGetInstanceOfDatum_Undefined()
+        public void TestGetInstanceOfDatumUndefined()
         {
             IDatum d = DatumFactory.GetInstanceOfDatum(typeof(Ellipsoids.Undefined));
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(AmbiguousDatumTypeException))]
-        public void TestGetInstanceOfDatum_UserDefined()
+        public void TestGetInstanceOfDatumUserDefined()
         {
             IDatum d = DatumFactory.GetInstanceOfDatum(typeof(Datums.UserDefined));
             Assert.Fail();

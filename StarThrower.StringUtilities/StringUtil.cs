@@ -1654,7 +1654,7 @@ namespace StarThrower.StringUtilities
             sb.Append(mm + ":");
             sb.Append(ss + ".");
             sb.Append(s);
-            sb.Append("Z");
+            sb.Append('Z');
 
             return sb.ToString();
         }

@@ -40,7 +40,7 @@ namespace StarThrower.XBase.Test
             set { testContextInstance = value; }
         }
 
-        private void Ignore()
+        private static void Ignore()
         {
 #if FAIL_ON_IGNORE
                 Assert.Fail("This test has been ignored.");
@@ -75,7 +75,7 @@ namespace StarThrower.XBase.Test
         /// The created file should be equal to ROOT001.DBF
         /// </summary>
         /// <returns></returns>
-        private StarThrower.XBase.XBaseFile CreateRoot001XBaseFile()
+        private static StarThrower.XBase.XBaseFile CreateRoot001XBaseFile()
         {
             StarThrower.XBase.XBaseFile f = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
 
@@ -109,7 +109,7 @@ namespace StarThrower.XBase.Test
         /// Adds three records to the file created in CreateRoot001XBaseFile()
         /// </summary>
         /// <param name="xbaseFile"></param>
-        private void AddRecordsToRoot001ToMakeRoot002(StarThrower.XBase.XBaseFile xbaseFile)
+        private static void AddRecordsToRoot001ToMakeRoot002(StarThrower.XBase.XBaseFile xbaseFile)
         {
             StarThrower.XBase.XBaseRecord record1 = xbaseFile.CreateRecord();
             record1.SetData("FIELDONE", "1234567890");

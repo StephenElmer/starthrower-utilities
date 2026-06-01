@@ -31,7 +31,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
     [TestClass]
     public class EllipsoidTest
     {
-        private void Ignore()
+        private static void Ignore()
         {
 #if FAIL_ON_IGNORE
                 Assert.Fail("This test has been ignored.");
@@ -44,7 +44,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         #region Non-UserDefined Instantiation
 
         [TestMethod]
-        public void TestGetInsanceOfEllipsoid_WGS_1984()
+        public void TestGetInsanceOfEllipsoidWGS1984()
         {
             Type ellipsoidType = typeof(Ellipsoids.Wgs1984);
             double equatorialRadius = 6378137.0;
@@ -73,7 +73,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Airy_Modified()
+        public void TestGetInstanceOfEllipsoidAiryModified()
         {
             Type ellipsoidType = typeof(Ellipsoids.AiryModified);
             double equatorialRadius = 6377340.189;
@@ -102,7 +102,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Australian()
+        public void TestGetInstanceOfEllipsoidAustralian()
         {
             Type ellipsoidType = typeof(Ellipsoids.Australian);
             double equatorialRadius = 6378160.0;
@@ -131,7 +131,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Bessel_Namibia()
+        public void TestGetInstanceOfEllipsoidBesselNamibia()
         {
             Type ellipsoidType = typeof(Ellipsoids.BesselNamibia);
             double equatorialRadius = 6377483.865;
@@ -160,7 +160,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Bessel_1841()
+        public void TestGetInstanceOfEllipsoidBessel1841()
         {
             Type ellipsoidType = typeof(Ellipsoids.Bessel1841);
             double equatorialRadius = 6377397.155;
@@ -189,7 +189,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Clarke_1866()
+        public void TestGetInstanceOfEllipsoidClarke1866()
         {
             Type ellipsoidType = typeof(Ellipsoids.Clarke1866);
             double equatorialRadius = 6378206.4;
@@ -218,7 +218,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Clarke_1880_RGS()
+        public void TestGetInstanceOfEllipsoidClarke1880Rgs()
         {
             Type ellipsoidType = typeof(Ellipsoids.Clarke1880Rgs);
             double equatorialRadius = 6378249.145;
@@ -247,7 +247,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Everest_Adjustment_1937()
+        public void TestGetInstanceOfEllipsoidEverestAdjustment1937()
         {
             Type ellipsoidType = typeof(Ellipsoids.EverestAdjustment1937);
             double equatorialRadius = 6377276.345;
@@ -276,7 +276,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Everest_Definition_1967()
+        public void TestGetInstanceOfEllipsoidEverestDefinition1967()
         {
             Type ellipsoidType = typeof(Ellipsoids.EverestDefinition1967);
             double equatorialRadius = 6377298.556;
@@ -305,7 +305,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Everest_1956_India()
+        public void TestGetInstanceOfEllipsoidEverest1956India()
         {
             Type ellipsoidType = typeof(Ellipsoids.Everest1956India);
             double equatorialRadius = 6377301.243;
@@ -334,7 +334,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Everest_Modified_1969()
+        public void TestGetInstanceOfEllipsoidEverestModified1969()
         {
             Type ellipsoidType = typeof(Ellipsoids.EverestModified1969);
             double equatorialRadius = 6377295.664;
@@ -363,7 +363,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Everest_1830_Modified()
+        public void TestGetInstanceOfEllipsoidEverest1830Modified()
         {
             Type ellipsoidType = typeof(Ellipsoids.Everest1830Modified);
             double equatorialRadius = 6377304.063;
@@ -392,7 +392,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Everest_Pakistan()
+        public void TestGetInstanceOfEllipsoidEverestPakistan()
         {
             Type ellipsoidType = typeof(Ellipsoids.EverestPakistan);
             double equatorialRadius = 6377309.613;
@@ -421,7 +421,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Fischer_1960_Modified()
+        public void TestGetInstanceOfEllipsoidFischer1960Modified()
         {
             Type ellipsoidType = typeof(Ellipsoids.Fischer1960Modified);
             double equatorialRadius = 6378155.0;
@@ -450,7 +450,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Helmert_1906()
+        public void TestGetInstanceOfEllipsoidHelmert1906()
         {
             Type ellipsoidType = typeof(Ellipsoids.Helmert1906);
             double equatorialRadius = 6378200.0;
@@ -479,7 +479,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Hough_1960()
+        public void TestGetInstanceOfEllipsoidHough1960()
         {
             Type ellipsoidType = typeof(Ellipsoids.Hough1960);
             double equatorialRadius = 6378270.0;
@@ -508,7 +508,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Indonesian()
+        public void TestGetInstanceOfEllipsoidIndonesian()
         {
             Type ellipsoidType = typeof(Ellipsoids.Indonesian);
             double equatorialRadius = 6378160.0;
@@ -537,7 +537,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_International_1924()
+        public void TestGetInstanceOfEllipsoidInternational1924()
         {
             Type ellipsoidType = typeof(Ellipsoids.International1924);
             double equatorialRadius = 6378388.0;
@@ -566,7 +566,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_Krasovsky_1940()
+        public void TestGetInstanceOfEllipsoidKrasovsky1940()
         {
             Type ellipsoidType = typeof(Ellipsoids.Krasovsky1940);
             double equatorialRadius = 6378245.0;
@@ -595,7 +595,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_GRS_1980()
+        public void TestGetInstanceOfEllipsoidGrs1980()
         {
             Type ellipsoidType = typeof(Ellipsoids.Grs1980);
             double equatorialRadius = 6378137.0;
@@ -624,7 +624,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_South_American_1969()
+        public void TestGetInstanceOfEllipsoidSouthAmerican1969()
         {
             Type ellipsoidType = typeof(Ellipsoids.SouthAmerican1969);
             double equatorialRadius = 6378160.0;
@@ -653,7 +653,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_WGS_1972()
+        public void TestGetInstanceOfEllipsoidWgs1972()
         {
             Type ellipsoidType = typeof(Ellipsoids.Wgs1972);
             double equatorialRadius = 6378135.0;
@@ -682,7 +682,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetInstanceOfEllipsoid_WGS_1984()
+        public void TestGetInstanceOfEllipsoidWgs1984()
         {
             Type ellipsoidType = typeof(Ellipsoids.Wgs1984);
             double equatorialRadius = 6378137.0;
@@ -719,14 +719,14 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(InvalidEllipsoidTypeException))]
-        public void TestGetInstanceOfEllipsoid_Undefined()
+        public void TestGetInstanceOfEllipsoidUndefined()
         {
             IEllipsoid e = EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Undefined));
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(AmbiguousEllipsoidTypeException))]
-        public void TestGetInstanceOfEllipsoid_UserDefined()
+        public void TestGetInstanceOfEllipsoidUserDefined()
         {
             IEllipsoid e = EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.UserDefined));
             Assert.Fail();

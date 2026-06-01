@@ -30,35 +30,35 @@ namespace StarThrower.Gis.GeoUtilities.Test
         // the dynamic duck-typing pattern that was previously used in GeoUtil.cs.
 
         [TestMethod]
-        public void UtmWgs84_ImplementsIZonedCoordinateSystem()
+        public void UtmWgs84ImplementsIZonedCoordinateSystem()
         {
             IProjectedCoordinateSystem cs = ProjectedCoordinateSystemFactory.GetInstanceOfProjectedCoordinateSystem(typeof(UtmWgs84));
-            Assert.IsInstanceOfType(cs, typeof(IZonedCoordinateSystem));
+            Assert.IsInstanceOfType<IZonedCoordinateSystem>(cs);
         }
 
         [TestMethod]
-        public void UtmWgs84Ns_ImplementsIZonedCoordinateSystem()
+        public void UtmWgs84NsImplementsIZonedCoordinateSystem()
         {
             IProjectedCoordinateSystem cs = ProjectedCoordinateSystemFactory.GetInstanceOfProjectedCoordinateSystem(typeof(UtmWgs84Ns));
-            Assert.IsInstanceOfType(cs, typeof(IZonedCoordinateSystem));
+            Assert.IsInstanceOfType<IZonedCoordinateSystem>(cs);
         }
 
         [TestMethod]
-        public void UtmWgs72_ImplementsIZonedCoordinateSystem()
+        public void UtmWgs72ImplementsIZonedCoordinateSystem()
         {
             IProjectedCoordinateSystem cs = ProjectedCoordinateSystemFactory.GetInstanceOfProjectedCoordinateSystem(typeof(UtmWgs72));
-            Assert.IsInstanceOfType(cs, typeof(IZonedCoordinateSystem));
+            Assert.IsInstanceOfType<IZonedCoordinateSystem>(cs);
         }
 
         [TestMethod]
-        public void UtmWgs72Ns_ImplementsIZonedCoordinateSystem()
+        public void UtmWgs72NsImplementsIZonedCoordinateSystem()
         {
             IProjectedCoordinateSystem cs = ProjectedCoordinateSystemFactory.GetInstanceOfProjectedCoordinateSystem(typeof(UtmWgs72Ns));
-            Assert.IsInstanceOfType(cs, typeof(IZonedCoordinateSystem));
+            Assert.IsInstanceOfType<IZonedCoordinateSystem>(cs);
         }
 
         [TestMethod]
-        public void UtmWgs84_ZoneAccessibleViaInterface()
+        public void UtmWgs84ZoneAccessibleViaInterface()
         {
             IProjectedCoordinateSystem cs = ProjectedCoordinateSystemFactory.GetInstanceOfProjectedCoordinateSystem(typeof(UtmWgs84));
             IZone? zone = (cs as IZonedCoordinateSystem)?.Zone;
@@ -67,7 +67,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         }
 
         [TestMethod]
-        public void NonUtmProjectedCoordinateSystem_DoesNotImplementIZonedCoordinateSystem()
+        public void NonUtmProjectedCoordinateSystemDoesNotImplementIZonedCoordinateSystem()
         {
             IProjectedCoordinateSystem cs = ProjectedCoordinateSystemFactory.GetInstanceOfProjectedCoordinateSystem(typeof(MercatorWgs84));
             Assert.IsNull(cs as IZonedCoordinateSystem);

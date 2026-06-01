@@ -96,7 +96,7 @@ namespace StarThrower.Gis.EsriLibrary
         internal string GetXBaseDataString(string fieldName)
         {
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = StringUtil.AppendSpaces(GetData(fieldName)?.ToString() ?? string.Empty, _fields[index].Length);
             return result;
         }
@@ -107,10 +107,10 @@ namespace StarThrower.Gis.EsriLibrary
 
         public object? GetData(string fieldName)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
 
             //int length = _fields[index].Length;
             //int startIndex = CalculateStartIndex(index, length);
@@ -120,10 +120,10 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void SetData(string fieldName, object newValue)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
             _data[fieldName.Replace("\0", "")] = newValue;
@@ -131,10 +131,10 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void SetData(string fieldName, bool newValue)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
             _data[fieldName.Replace("\0", "")] = newValue;
@@ -142,10 +142,10 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void SetData(string fieldName, DateTime newValue)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
             _data[fieldName.Replace("\0", "")] = newValue;
@@ -153,7 +153,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void SetData(string fieldName, string newValue)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
@@ -164,7 +164,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void SetData(string fieldName, float newValue)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
@@ -175,7 +175,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void SetData(string fieldName, double newValue)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
@@ -186,7 +186,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void SetData(string fieldName, long newValue)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();

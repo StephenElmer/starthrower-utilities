@@ -23,7 +23,7 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
-    internal class PointMRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
+    internal sealed class PointMRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction
 

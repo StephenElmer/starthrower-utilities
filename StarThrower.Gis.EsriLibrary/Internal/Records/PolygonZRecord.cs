@@ -23,7 +23,7 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
-    internal class PolygonZRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
+    internal sealed class PolygonZRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction
 

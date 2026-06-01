@@ -52,8 +52,9 @@ namespace StarThrower.ByteUtilities
         public static byte[] ByteSubstring(byte[]? source, long startIndex, long length, bool trimWithNulls)
         {
             ArgumentNullException.ThrowIfNull(source);
-            if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException("startIndex");
-            if ((startIndex + length) > source.Length) throw new ArgumentOutOfRangeException("length");
+            ArgumentOutOfRangeException.ThrowIfNegative(startIndex);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(startIndex, source.Length);
+            if ((startIndex + length) > source.Length) throw new ArgumentOutOfRangeException(nameof(length));
 
             bool isNullTerminated = false;
 
@@ -273,7 +274,7 @@ namespace StarThrower.ByteUtilities
         public static Int16 ByteArrayToInt16(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
             ArgumentNullException.ThrowIfNull(value);
-            if (value.Length < 2) throw new ArgumentOutOfRangeException("value");
+            if (value.Length < 2) throw new ArgumentOutOfRangeException(nameof(value));
 
             try
             {
@@ -518,7 +519,8 @@ namespace StarThrower.ByteUtilities
         /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static byte Int16ToByte(Int16 target, BitEndian bitEndian)
         {
-            if (target < 0 || target > 255) throw new ArgumentOutOfRangeException("target");
+            ArgumentOutOfRangeException.ThrowIfNegative(target);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(target, 255);
 
             try
             {

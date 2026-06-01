@@ -17,7 +17,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
     [TestClass]
     public class WGS84TranslationTest
     {
-        private void Ignore()
+        private static void Ignore()
         {
             #if FAIL_ON_IGNORE
                 Assert.Fail("This test has been ignored.");
@@ -45,13 +45,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test1a()
         {
-            ConductLLToUTM_NS_WGS84Test("test1");
+            ConductLLToUTMNSWGS84Test("test1");
         }
 
         [TestMethod]
         public void Test1b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test1");
+            ConductUTMNSWGS84ToLLTest("test1");
         }
 
         [TestMethod]
@@ -72,13 +72,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test2a()
         {
-            ConductLLToUTM_NS_WGS84Test("test2");
+            ConductLLToUTMNSWGS84Test("test2");
         }
 
         [TestMethod]
         public void Test2b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test2");
+            ConductUTMNSWGS84ToLLTest("test2");
         }
 
         [TestMethod]
@@ -98,13 +98,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test3a()
         {
-            ConductLLToUTM_NS_WGS84Test("test3");
+            ConductLLToUTMNSWGS84Test("test3");
         }
 
         [TestMethod]
         public void Test3b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test3");
+            ConductUTMNSWGS84ToLLTest("test3");
         }
 
         [TestMethod]
@@ -124,13 +124,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test4a()
         {
-            ConductLLToUTM_NS_WGS84Test("test4");
+            ConductLLToUTMNSWGS84Test("test4");
         }
 
         [TestMethod]
         public void Test4b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test4");
+            ConductUTMNSWGS84ToLLTest("test4");
         }
 
         [TestMethod]
@@ -150,13 +150,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test5a()
         {
-            ConductLLToUTM_NS_WGS84Test("test5");
+            ConductLLToUTMNSWGS84Test("test5");
         }
 
         [TestMethod]
         public void Test5b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test5");
+            ConductUTMNSWGS84ToLLTest("test5");
         }
 
         [TestMethod]
@@ -176,13 +176,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test6a()
         {
-            ConductLLToUTM_NS_WGS84Test("test6");
+            ConductLLToUTMNSWGS84Test("test6");
         }
 
         [TestMethod]
         public void Test6b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test6");
+            ConductUTMNSWGS84ToLLTest("test6");
         }
 
         [TestMethod]
@@ -201,13 +201,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test7a()
         {
-            ConductLLToUTM_NS_WGS84Test("test7");
+            ConductLLToUTMNSWGS84Test("test7");
         }
 
         [TestMethod]
         public void Test7b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test7");
+            ConductUTMNSWGS84ToLLTest("test7");
         }
 
         [TestMethod]
@@ -226,13 +226,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test8a()
         {
-            ConductLLToUTM_NS_WGS84Test("test8");
+            ConductLLToUTMNSWGS84Test("test8");
         }
 
         [TestMethod]
         public void Test8b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test8");
+            ConductUTMNSWGS84ToLLTest("test8");
         }
 
         [TestMethod]
@@ -251,13 +251,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test9a()
         {
-            ConductLLToUTM_NS_WGS84Test("test9");
+            ConductLLToUTMNSWGS84Test("test9");
         }
 
         [TestMethod]
         public void Test9b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test9");
+            ConductUTMNSWGS84ToLLTest("test9");
         }
 
         [TestMethod]
@@ -276,13 +276,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test10a()
         {
-            ConductLLToUTM_NS_WGS84Test("test10");
+            ConductLLToUTMNSWGS84Test("test10");
         }
 
         [TestMethod]
         public void Test10b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test10");
+            ConductUTMNSWGS84ToLLTest("test10");
         }
 
         [TestMethod]
@@ -301,13 +301,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test11a()
         {
-            ConductLLToUTM_NS_WGS84Test("test11");
+            ConductLLToUTMNSWGS84Test("test11");
         }
 
         [TestMethod]
         public void Test11b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test11");
+            ConductUTMNSWGS84ToLLTest("test11");
         }
 
         [TestMethod]
@@ -326,13 +326,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test12a()
         {
-            ConductLLToUTM_NS_WGS84Test("test12");
+            ConductLLToUTMNSWGS84Test("test12");
         }
 
         [TestMethod]
         public void Test12b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test12");
+            ConductUTMNSWGS84ToLLTest("test12");
         }
 
         [TestMethod]
@@ -351,13 +351,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test13a()
         {
-            ConductLLToUTM_NS_WGS84Test("test13");
+            ConductLLToUTMNSWGS84Test("test13");
         }
 
         [TestMethod]
         public void Test13b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test13");
+            ConductUTMNSWGS84ToLLTest("test13");
         }
 
         [TestMethod]
@@ -376,13 +376,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test14a()
         {
-            ConductLLToUTM_NS_WGS84Test("test14");
+            ConductLLToUTMNSWGS84Test("test14");
         }
 
         [TestMethod]
         public void Test14b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test14");
+            ConductUTMNSWGS84ToLLTest("test14");
         }
 
         [TestMethod]
@@ -401,13 +401,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test15a()
         {
-            ConductLLToUTM_NS_WGS84Test("test15");
+            ConductLLToUTMNSWGS84Test("test15");
         }
 
         [TestMethod]
         public void Test15b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test15");
+            ConductUTMNSWGS84ToLLTest("test15");
         }
 
         [TestMethod]
@@ -426,13 +426,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test16a()
         {
-            ConductLLToUTM_NS_WGS84Test("test16");
+            ConductLLToUTMNSWGS84Test("test16");
         }
 
         [TestMethod]
         public void Test16b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test16");
+            ConductUTMNSWGS84ToLLTest("test16");
         }
 
         [TestMethod]
@@ -451,13 +451,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test17a()
         {
-            ConductLLToUTM_NS_WGS84Test("test17");
+            ConductLLToUTMNSWGS84Test("test17");
         }
 
         [TestMethod]
         public void Test17b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test17");
+            ConductUTMNSWGS84ToLLTest("test17");
         }
 
         [TestMethod]
@@ -476,13 +476,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test18a()
         {
-            ConductLLToUTM_NS_WGS84Test("test18");
+            ConductLLToUTMNSWGS84Test("test18");
         }
 
         [TestMethod]
         public void Test18b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test18");
+            ConductUTMNSWGS84ToLLTest("test18");
         }
 
         [TestMethod]
@@ -501,13 +501,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test19a()
         {
-            ConductLLToUTM_NS_WGS84Test("test19");
+            ConductLLToUTMNSWGS84Test("test19");
         }
 
         [TestMethod]
         public void Test19b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test19");
+            ConductUTMNSWGS84ToLLTest("test19");
         }
 
         [TestMethod]
@@ -526,13 +526,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test20a()
         {
-            ConductLLToUTM_NS_WGS84Test("test20");
+            ConductLLToUTMNSWGS84Test("test20");
         }
 
         [TestMethod]
         public void Test20b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test20");
+            ConductUTMNSWGS84ToLLTest("test20");
         }
 
         [TestMethod]
@@ -551,13 +551,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test21a()
         {
-            ConductLLToUTM_NS_WGS84Test("test21");
+            ConductLLToUTMNSWGS84Test("test21");
         }
 
         [TestMethod]
         public void Test21b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test21");
+            ConductUTMNSWGS84ToLLTest("test21");
         }
 
         [TestMethod]
@@ -576,13 +576,13 @@ namespace StarThrower.Gis.GeoUtilities.Test
         [TestMethod]
         public void Test22a()
         {
-            ConductLLToUTM_NS_WGS84Test("test22");
+            ConductLLToUTMNSWGS84Test("test22");
         }
 
         [TestMethod]
         public void Test22b()
         {
-            ConductUTM_NS_WGS84ToLLTest("test22");
+            ConductUTMNSWGS84ToLLTest("test22");
         }
 
         [TestMethod]
@@ -671,7 +671,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
 
 
-        private void ConductLLToUTM_NS_WGS84Test(string testName)
+        private void ConductLLToUTMNSWGS84Test(string testName)
         {
             string inputFile = _inputFolder + "\\WGS84TranslationTests.xml";
             XmlDocument doc = new XmlDocument();
@@ -705,7 +705,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(expectedZone, zone, "(zone)");
         }
 
-        private void ConductUTM_NS_WGS84ToLLTest(string testName)
+        private void ConductUTMNSWGS84ToLLTest(string testName)
         {
             string inputFile = _inputFolder + "\\WGS84TranslationTests.xml";
             XmlDocument doc = new XmlDocument();

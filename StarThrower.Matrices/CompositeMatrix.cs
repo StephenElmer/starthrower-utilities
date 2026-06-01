@@ -21,7 +21,7 @@ using System.Collections.ObjectModel;
 
 namespace StarThrower.Matrices
 {
-    public abstract class CompositeMatrix<TIndex, TValue>
+    public abstract class CompositeMatrix<TIndex, TValue> where TIndex : notnull
     {
         public abstract TValue this[params TIndex[] indexes] { get; set; }
         public abstract Collection<TIndex> GetIndexesAt(params int[] indexes);

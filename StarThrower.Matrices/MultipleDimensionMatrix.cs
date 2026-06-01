@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace StarThrower.Matrices
 {
-    internal class MultipleDimensionMatrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue>
+    internal sealed class MultipleDimensionMatrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue> where TIndex : notnull
     {
         public Dictionary<TIndex, CompositeMatrix<TIndex, TValue>> _values;
 

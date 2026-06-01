@@ -196,7 +196,7 @@ namespace StarThrower.DataUtilities
         {
             ArgumentNullException.ThrowIfNull(dr);
             ArgumentNullException.ThrowIfNull(field);
-            if (defaultValue == null) throw new ArgumentNullException("defaultValue");
+            ArgumentNullException.ThrowIfNull(defaultValue);
 
             string result = defaultValue;
             try
@@ -218,7 +218,7 @@ namespace StarThrower.DataUtilities
         {
             ArgumentNullException.ThrowIfNull(dr);
             ArgumentNullException.ThrowIfNull(field);
-            if (defaultValue == null) throw new ArgumentNullException("defaultValue");
+            ArgumentNullException.ThrowIfNull(defaultValue);
 
             string result = defaultValue;
             try

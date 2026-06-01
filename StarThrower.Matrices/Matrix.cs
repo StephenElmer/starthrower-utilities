@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace StarThrower.Matrices
 {
-    public class Matrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue>
+    public class Matrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue> where TIndex : notnull
     {
         private CompositeMatrix<TIndex, TValue> _matrix;
 
@@ -61,7 +61,7 @@ namespace StarThrower.Matrices
         {
             ArgumentNullException.ThrowIfNull(indexes);
 
-            int count = indexes.Count();
+            int count = indexes.Length;
             if (count == 1)
             {
                 _matrix = new OneDimensionMatrix<TIndex, TValue>(indexes[0]);
