@@ -175,7 +175,7 @@ namespace StarThrower.EarleyParser.Test
 
 
         [TestMethod]
-        public void a_times_a_succeeds()
+        public void AtimesAsucceeds()
         {
             string[] aTimesa = new string[3];
             aTimesa[0] = "a";
@@ -188,7 +188,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void a_plus_a_succeeds()
+        public void AplusAsucceeds()
         {
             string[] aTimesa = new string[3];
             aTimesa[0] = "a";
@@ -201,7 +201,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void a_minus_a_fails()
+        public void AminusAfails()
         {
             string[] aTimesa = new string[3];
             aTimesa[0] = "a";
@@ -214,7 +214,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void a_times_a_plus_a_succeeds()
+        public void ATimesAplusASucceeds()
         {
             string[] aTimesa = new string[5];
             aTimesa[0] = "a";

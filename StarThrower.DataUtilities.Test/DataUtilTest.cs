@@ -393,7 +393,7 @@ namespace StarThrower.DataUtilities.Test
         // CheckFieldExists
 
         [TestMethod]
-        public void TestCheckFieldExists_Found()
+        public void TestCheckFieldExistsFound()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
@@ -403,7 +403,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestCheckFieldExists_NotFound()
+        public void TestCheckFieldExistsNotFound()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
@@ -415,7 +415,7 @@ namespace StarThrower.DataUtilities.Test
         // GetBoolField(DbDataReader)
 
         [TestMethod]
-        public void TestGetBoolFieldDbReader_True()
+        public void TestGetBoolFieldDbReaderTrue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
@@ -425,7 +425,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetBoolFieldDbReader_DBNull()
+        public void TestGetBoolFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
@@ -435,7 +435,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetBoolFieldDbReader_CustomDefault()
+        public void TestGetBoolFieldDbReaderCustomDefault()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
@@ -445,13 +445,13 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetBoolFieldDbReader_NullReader()
+        public void TestGetBoolFieldDbReaderNullReader()
         {
             DataUtil.GetBoolField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetBoolFieldDbReader_NullField()
+        public void TestGetBoolFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
@@ -463,7 +463,7 @@ namespace StarThrower.DataUtilities.Test
         // GetStringField(DbDataReader)
 
         [TestMethod]
-        public void TestGetStringFieldDbReader_Value()
+        public void TestGetStringFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
@@ -473,7 +473,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetStringFieldDbReader_DBNull()
+        public void TestGetStringFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
@@ -483,7 +483,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetStringFieldDbReader_CustomDefault()
+        public void TestGetStringFieldDbReaderCustomDefault()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
@@ -493,13 +493,13 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetStringFieldDbReader_NullReader()
+        public void TestGetStringFieldDbReaderNullReader()
         {
             DataUtil.GetStringField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetStringFieldDbReader_NullField()
+        public void TestGetStringFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
@@ -511,7 +511,7 @@ namespace StarThrower.DataUtilities.Test
         // GetDateTimeField(DbDataReader)
 
         [TestMethod]
-        public void TestGetDateTimeFieldDbReader_Value()
+        public void TestGetDateTimeFieldDbReaderValue()
         {
             DateTime expected = new DateTime(2007, 6, 24);
             DataTable t = new DataTable();
@@ -522,7 +522,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetDateTimeFieldDbReader_DBNull()
+        public void TestGetDateTimeFieldDbReaderDBNull()
         {
             DateTime sentinel = new DateTime(1999, 1, 1);
             DataTable t = new DataTable();
@@ -533,13 +533,13 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetDateTimeFieldDbReader_NullReader()
+        public void TestGetDateTimeFieldDbReaderNullReader()
         {
             DataUtil.GetDateTimeField((System.Data.Common.DbDataReader?)null, "F", DateTime.MinValue);
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetDateTimeFieldDbReader_NullField()
+        public void TestGetDateTimeFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(DateTime));
@@ -551,7 +551,7 @@ namespace StarThrower.DataUtilities.Test
         // GetFloatField(DbDataReader)
 
         [TestMethod]
-        public void TestGetFloatFieldDbReader_Value()
+        public void TestGetFloatFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(float));
@@ -561,7 +561,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetFloatFieldDbReader_DBNull()
+        public void TestGetFloatFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(float));
@@ -571,7 +571,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetFloatFieldDbReader_NullReader()
+        public void TestGetFloatFieldDbReaderNullReader()
         {
             DataUtil.GetFloatField((System.Data.Common.DbDataReader?)null, "F");
         }
@@ -579,7 +579,7 @@ namespace StarThrower.DataUtilities.Test
         // GetDoubleField(DbDataReader)
 
         [TestMethod]
-        public void TestGetDoubleFieldDbReader_Value()
+        public void TestGetDoubleFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(double));
@@ -589,7 +589,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetDoubleFieldDbReader_DBNull()
+        public void TestGetDoubleFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(double));
@@ -599,7 +599,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetDoubleFieldDbReader_NullReader()
+        public void TestGetDoubleFieldDbReaderNullReader()
         {
             DataUtil.GetDoubleField((System.Data.Common.DbDataReader?)null, "F");
         }
@@ -607,7 +607,7 @@ namespace StarThrower.DataUtilities.Test
         // GetLongField(DbDataReader)
 
         [TestMethod]
-        public void TestGetLongFieldDbReader_Value()
+        public void TestGetLongFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(long));
@@ -617,7 +617,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetLongFieldDbReader_DBNull()
+        public void TestGetLongFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(long));
@@ -627,7 +627,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetLongFieldDbReader_NullReader()
+        public void TestGetLongFieldDbReaderNullReader()
         {
             DataUtil.GetLongField((System.Data.Common.DbDataReader?)null, "F");
         }
@@ -635,7 +635,7 @@ namespace StarThrower.DataUtilities.Test
         // GetIntField(DbDataReader)
 
         [TestMethod]
-        public void TestGetIntFieldDbReader_Value()
+        public void TestGetIntFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(int));
@@ -645,7 +645,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetIntFieldDbReader_DBNull()
+        public void TestGetIntFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(int));
@@ -655,7 +655,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetIntFieldDbReader_NullReader()
+        public void TestGetIntFieldDbReaderNullReader()
         {
             DataUtil.GetIntField((System.Data.Common.DbDataReader?)null, "F");
         }
@@ -663,7 +663,7 @@ namespace StarThrower.DataUtilities.Test
         // GetShortField(DbDataReader)
 
         [TestMethod]
-        public void TestGetShortFieldDbReader_Value()
+        public void TestGetShortFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(short));
@@ -673,7 +673,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetShortFieldDbReader_DBNull()
+        public void TestGetShortFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(short));
@@ -683,7 +683,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetShortFieldDbReader_NullReader()
+        public void TestGetShortFieldDbReaderNullReader()
         {
             DataUtil.GetShortField((System.Data.Common.DbDataReader?)null, "F");
         }
@@ -691,7 +691,7 @@ namespace StarThrower.DataUtilities.Test
         // GetGuidField(DbDataReader)
 
         [TestMethod]
-        public void TestGetGuidFieldDbReader_Value()
+        public void TestGetGuidFieldDbReaderValue()
         {
             Guid expected = Guid.NewGuid();
             DataTable t = new DataTable();
@@ -702,7 +702,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetGuidFieldDbReader_DBNull()
+        public void TestGetGuidFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(Guid));
@@ -712,13 +712,13 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetGuidFieldDbReader_NullReader()
+        public void TestGetGuidFieldDbReaderNullReader()
         {
             DataUtil.GetGuidField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetGuidFieldDbReader_NullField()
+        public void TestGetGuidFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(Guid));
@@ -730,7 +730,7 @@ namespace StarThrower.DataUtilities.Test
         // GetBinaryField(DbDataReader)
 
         [TestMethod]
-        public void TestGetBinaryFieldDbReader_Value()
+        public void TestGetBinaryFieldDbReaderValue()
         {
             byte[] expected = new byte[] { 1, 2, 3 };
             DataTable t = new DataTable();
@@ -741,7 +741,7 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod]
-        public void TestGetBinaryFieldDbReader_DBNull()
+        public void TestGetBinaryFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(byte[]));
@@ -751,13 +751,13 @@ namespace StarThrower.DataUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetBinaryFieldDbReader_NullReader()
+        public void TestGetBinaryFieldDbReaderNullReader()
         {
             DataUtil.GetBinaryField((System.Data.Common.DbDataReader?)null, "F");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetBinaryFieldDbReader_NullField()
+        public void TestGetBinaryFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(byte[]));

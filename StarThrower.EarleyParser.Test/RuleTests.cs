@@ -95,7 +95,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Ctor_ThrowsOnNullLeft()
+        public void CtorThrowsOnNullLeft()
         {
             Category? left = null;
             List<Category> l = new List<Category>();
@@ -107,7 +107,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Ctor_ThrowsOnNullTerminalLeft()
+        public void CtorThrowsOnNullTerminalLeft()
         {
             Category left = new Category("l", true);
             List<Category> l = new List<Category>();
@@ -119,7 +119,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Ctor_ThrowsOnNullRight()
+        public void CtorThrowsOnNullRight()
         {
             Category left = new Category("L", false);
             ReadOnlyCollection<Category>? right = null;
@@ -129,7 +129,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Ctor_ThrowsOnEmptyRight()
+        public void CtorThrowsOnEmptyRight()
         {
             Category left = new Category("L", false);
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(new List<Category>());
@@ -139,7 +139,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Ctor_ThrowsOnNullItemInRight()
+        public void CtorThrowsOnNullItemInRight()
         {
             Category? left = null;
             Category[] arr = new Category[3];
@@ -151,7 +151,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void IsPreterminal_ReturnsTrueForPreTerm()
+        public void IsPreterminalReturnsTrueForPreTerm()
         {
             Category left = new Category("L", false);
             List<Category> l = new List<Category>();
@@ -163,7 +163,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void IsPreterminal_ReturnsFalseForNonPreTerm()
+        public void IsPreterminalReturnsFalseForNonPreTerm()
         {
             Category left = new Category("L", false);
             List<Category> l = new List<Category>();
@@ -175,7 +175,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void IsSingletonPreterminal_ReturnsTrue()
+        public void IsSingletonPreterminalReturnsTrue()
         {
             Category left = new Category("L", false);
             List<Category> l = new List<Category>();
@@ -186,7 +186,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void IsSingletonPreterminal_ReturnsFalse1()
+        public void IsSingletonPreterminalReturnsFalse1()
         {
             Category left = new Category("L", false);
             List<Category> l = new List<Category>();
@@ -197,7 +197,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void IsSingletonPreterminal_ReturnsFalse2()
+        public void IsSingletonPreterminalReturnsFalse2()
         {
             Category left = new Category("L", false);
             List<Category> l = new List<Category>();
@@ -209,7 +209,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Left_ReturnsLeftReference()
+        public void LeftReturnsLeftReference()
         {
             Category left = new Category("L", false);
             List<Category> l = new List<Category>();
@@ -221,7 +221,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Left_ReturnsLeftReferenceOnly()
+        public void LeftReturnsLeftReferenceOnly()
         {
             Category left = new Category("L", false);
             List<Category> l = new List<Category>();
@@ -235,7 +235,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Right_ReturnsRightReference()
+        public void RightReturnsRightReference()
         {
             Category left = new Category("L", false);
             List<Category> l = new List<Category>();
@@ -247,7 +247,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ToString_1()
+        public void ToString1()
         {
             Category left1 = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -262,7 +262,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ToString_2()
+        public void ToString2()
         {
             Category left2 = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -274,7 +274,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ToString_3()
+        public void ToString3()
         {
             Category left3 = new Category("X", false);
             List<Category> l = new List<Category>();
@@ -287,7 +287,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_1()
+        public void Equals1()
         {
             Category left1 = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -305,7 +305,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalseWhenSame()
+        public void EqualsReturnsFalseWhenSame()
         {
             Category left1 = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -317,7 +317,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalseWhenNull()
+        public void EqualsReturnsFalseWhenNull()
         {
             Category left1 = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -331,7 +331,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalseForOtherType()
+        public void EqualsReturnsFalseForOtherType()
         {
             Category left1 = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -345,7 +345,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalseWhenNotEquivalent()
+        public void EqualsReturnsFalseWhenNotEquivalent()
         {
             Category left1 = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -363,7 +363,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalseWhenNoteEquivalent2()
+        public void EqualsReturnsFalseWhenNotEquivalent2()
         {
             Category left1 = new Category("C", false);
             List<Category> l = new List<Category>();
@@ -381,7 +381,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalseWhenNotEquivalent3()
+        public void EqualsReturnsFalseWhenNotEquivalent3()
         {
             Category left1 = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -400,7 +400,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void GetHashCode_1()
+        public void GetHashCode1()
         {
             Category left = new Category("A", false);
             List<Category> l = new List<Category>();
@@ -463,35 +463,35 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void IsPreterminal_1()
+        public void IsPreterminal1()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(true, f.rule2.IsPreterminal);
         }
 
         [TestMethod]
-        public void IsPreterminal_2()
+        public void IsPreterminal2()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(false, f.rule3.IsPreterminal);
         }
 
         [TestMethod]
-        public void Left_1()
+        public void Left1()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(f.A, f.rule1.Left);
         }
 
         [TestMethod]
-        public void Left_2()
+        public void Left2()
         {
             Fixture f = new Fixture();
             Assert.AreNotEqual(f.B, f.rule2.Left);
         }
 
         [TestMethod]
-        public void Right_1()
+        public void Right1()
         {
             Fixture f = new Fixture();
             Collection<Category> expected = new Collection<Category>();

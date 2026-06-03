@@ -108,7 +108,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void SubChart_1()
+        public void SubChart1()
         {
             Fixture f = new Fixture();
             Chart subChart = f.chart.GetSubChart(0, 1);
@@ -116,7 +116,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void SubChart_2()
+        public void SubChart2()
         {
             Fixture f = new Fixture();
             Chart subChart = f.chart.GetSubChart(0, 1);
@@ -124,7 +124,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void SubChart_3()
+        public void SubChart3()
         {
             Fixture f = new Fixture();
             Chart subChart = f.chart.GetSubChart(0, 1);
@@ -133,7 +133,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void SubChart_4()
+        public void SubChart4()
         {
             Fixture f = new Fixture();
             Chart subChart = f.chart.GetSubChart(1, 0);
@@ -141,49 +141,49 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void IndexOf_1()
+        public void IndexOf1()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(0, f.chart.GetIndexOfEdge(f.edge1));
         }
 
         [TestMethod]
-        public void IndexOf_2()
+        public void IndexOf2()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(0, f.chart.GetIndexOfEdge(f.edge2));
         }
 
         [TestMethod]
-        public void IndexOf_3()
+        public void IndexOf3()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(1, f.chart.GetIndexOfEdge(f.edge3));
         }
 
         [TestMethod]
-        public void Contains_1()
+        public void Contains1()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(true, f.chart.ContainsEdge(f.edge1));
         }
 
         [TestMethod]
-        public void Contains_2()
+        public void Contains2()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(true, f.chart.ContainsEdge(f.edge2));
         }
 
         [TestMethod]
-        public void Contains_3()
+        public void Contains3()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(true, f.chart.ContainsEdge(f.edge3));
         }
 
         [TestMethod]
-        public void Contains_4()
+        public void Contains4()
         {
             Fixture f = new Fixture();
             Assert.AreEqual(false, f.chart.ContainsEdge(new Edge(new DottedRule(f.rule3), 4)));
@@ -199,7 +199,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void GetIndices_2()
+        public void GetIndices2()
         {
             Fixture f = new Fixture();
             SortedDictionary<int, Collection<Edge>>.KeyCollection indices = f.chart.Indexes;
@@ -251,7 +251,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_Returns()
+        public void EqualsReturns()
         {
             Fixture f = new Fixture();
             Chart c = new Chart();

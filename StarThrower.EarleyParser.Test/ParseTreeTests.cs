@@ -179,7 +179,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void NewParseTree_1()
+        public void NewParseTree1()
         {
             Fixture f = new Fixture();
             Edge startEdge = new Edge(DottedRule.CreateStartRule(f.S), 0);
@@ -194,7 +194,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void NewParseTree_2()
+        public void NewParseTree2()
         {
             Fixture f = new Fixture();
 
@@ -225,7 +225,7 @@ namespace StarThrower.EarleyParser.Test
 
 
         [TestMethod]
-        public void ParseTrees_1()
+        public void ParseTrees1()
         {
             Fixture f = GetCustomFixture();
 
@@ -233,7 +233,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ParseTrees_2()
+        public void ParseTrees2()
         {
             Fixture f = GetCustomFixture();
 
@@ -242,7 +242,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ParseTrees_3()
+        public void ParseTrees3()
         {
             Fixture f = GetCustomFixture();
 
@@ -261,7 +261,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ParseTrees_4()
+        public void ParseTrees4()
         {
             Fixture f = GetCustomFixture();
 
@@ -270,7 +270,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ParseTrees_5()
+        public void ParseTrees5()
         {
             Fixture f = GetCustomFixture();
 
@@ -279,7 +279,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ParseTrees_6()
+        public void ParseTrees6()
         {
             Fixture f = GetCustomFixture();
 
@@ -288,7 +288,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ParseTrees_7()
+        public void ParseTrees7()
         {
             Fixture f = GetCustomFixture();
 
@@ -297,7 +297,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ParseTrees_8()
+        public void ParseTrees8()
         {
             Fixture f = GetCustomFixture();
 
@@ -340,7 +340,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void GetChilderen_1()
+        public void GetChildren1()
         {
             Fixture f = GetCustomFixture();
 
@@ -354,7 +354,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void GetChilderen_2()
+        public void GetChildren2()
         {
             Fixture f = GetCustomFixture();
 
@@ -396,7 +396,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_1()
+        public void Equals1()
         {
             Fixture f = GetCustomFixture();
 
@@ -408,7 +408,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ToString_1()
+        public void ToString1()
         {
             Fixture f = GetCustomFixture();
 

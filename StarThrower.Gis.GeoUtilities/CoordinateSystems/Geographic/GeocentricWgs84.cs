@@ -156,7 +156,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
             }
             w2 = xLon * xLon + yLat * yLat;
             w = Math.Sqrt(w2);
-            t0 = zAlt * GeoUtil.AD_C;
+            t0 = zAlt * GeoUtil.ADC;
             s0 = Math.Sqrt(t0 * t0 + w2);
             sin_b0 = t0 / s0;
             cos_b0 = w / s0;

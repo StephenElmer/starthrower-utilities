@@ -101,7 +101,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Root_ReturnsSameObject()
+        public void RootReturnsSameObject()
         {
             Category r1 = Category.Root;
             Category r2 = Category.Root;
@@ -109,49 +109,49 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void IsTerminal_NamePropertyReturnsName()
+        public void IsTerminalNamePropertyReturnsName()
         {
             Category c = new Category("A", true);
             Assert.AreEqual("A", c.Name);
         }
 
         [TestMethod]
-        public void IsTerminal_ReturnsTrue()
+        public void IsTerminalReturnsTrue()
         {
             Category c = new Category("A", true);
             Assert.AreEqual(true, c.IsTerminal);
         }
 
         [TestMethod]
-        public void IsTerminal_ReturnsFalse()
+        public void IsTerminalReturnsFalse()
         {
             Category c = new Category("A", false);
             Assert.AreEqual(false, c.IsTerminal);
         }
 
         [TestMethod]
-        public void ToString_ReturnsName()
+        public void ToStringReturnsName()
         {
             Category c = new Category("A");
             Assert.AreEqual("A", c.ToString());
         }
 
         [TestMethod]
-        public void ToString_ReturnsNameWhenIsTerminal()
+        public void ToStringReturnsNameWhenIsTerminal()
         {
             Category c = new Category("A", true);
             Assert.AreEqual("A", c.ToString());
         }
 
         [TestMethod]
-        public void ToString_ReturnsNameWhenNotTerminal()
+        public void ToStringReturnsNameWhenNotTerminal()
         {
             Category c = new Category("A", false);
             Assert.AreEqual("A", c.ToString());
         }
 
         [TestMethod]
-        public void ToString_ReturnsEmptyForEmptyName()
+        public void ToStringReturnsEmptyForEmptyName()
         {
             Category c = new Category(String.Empty, true);
             Assert.AreEqual("<empty>", c.ToString());
@@ -159,7 +159,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Ctor_ThrowsOnNullName()
+        public void CtorThrowsOnNullName()
         {
             string? nullName = null;
             Category c = new Category(nullName, false);
@@ -168,14 +168,14 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Ctor_ThrowsOnEmptyNameWithNonTerminal()
+        public void CtorThrowsOnEmptyNameWithNonTerminal()
         {
             Category c = new Category("", false);
             Assert.Fail("Expected an exception to be thrown!");
         }
 
         [TestMethod]
-        public void Ctor_AcceptsEmptyNameWithTerminal()
+        public void CtorAcceptsEmptyNameWithTerminal()
         {
             Category c = new Category("", true);
             Assert.AreEqual(String.Empty, c.Name);
@@ -184,14 +184,14 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Ctor_ThrowsOnWhitespaceName()
+        public void CtorThrowsOnWhitespaceName()
         {
             Category c = new Category(" ", false);
             Assert.Fail("Expected an exception to be thrown!");
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrueWhenSame()
+        public void EqualsReturnsTrueWhenSame()
         {
             Category a = new Category("A", false);
             Category b = a;
@@ -199,7 +199,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalseWhenNull()
+        public void EqualsReturnsFalseWhenNull()
         {
             Category a = new Category("A", false);
             Category? b = null;
@@ -207,7 +207,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalseWhenNotCategory()
+        public void EqualsReturnsFalseWhenNotCategory()
         {
             Category a = new Category("A", false);
             String b = "asdf";
@@ -215,7 +215,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrueWhenEquivalent_1()
+        public void EqualsReturnsTrueWhenEquivalent1()
         {
             Category a = new Category("A", false);
             Category b = new Category("A", false);
@@ -223,7 +223,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrueWhenEquivalent_2()
+        public void EqualsReturnsTrueWhenEquivalent2()
         {
             Category a = new Category("A", true);
             Category b = new Category("A", true);
@@ -231,7 +231,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrueWhenNotEquivalent_1()
+        public void EqualsReturnsTrueWhenNotEquivalent1()
         {
             Category a = new Category("A", false);
             Category b = new Category("B", false);
@@ -239,7 +239,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrueWhenNotEquivalent_2()
+        public void EqualsReturnsTrueWhenNotEquivalent2()
         {
             Category a = new Category("A", false);
             Category b = new Category("A", true);
@@ -247,7 +247,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrueWhenNotEquivalent_3()
+        public void EqualsReturnsTrueWhenNotEquivalent3()
         {
             Category a = new Category("A", true);
             Category b = new Category("A", false);
@@ -255,7 +255,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrueWhenNotEquivalent_4()
+        public void EqualsReturnsTrueWhenNotEquivalent4()
         {
             Category a = new Category("A", true);
             Category b = new Category("B", false);
@@ -263,7 +263,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrueWhenNotEquivalent_5()
+        public void EqualsReturnsTrueWhenNotEquivalent5()
         {
             Category a = new Category("A", false);
             Category b = new Category("B", true);
@@ -271,7 +271,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Ctor_SingleArgument()
+        public void CtorSingleArgument()
         {
             Category a = new Category("A");
             Assert.AreEqual("A", a.Name);

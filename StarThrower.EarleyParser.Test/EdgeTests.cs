@@ -95,7 +95,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Ctor_1()
+        public void Ctor1()
         {
             Fixture f = new Fixture();
             Edge e = new Edge(new DottedRule(f.edge1.DottedRule, 0), -1);
@@ -117,7 +117,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Predict_1()
+        public void Predict1()
         {
             Fixture f = new Fixture();
             Edge pe = Edge.PredictFor(f.rule1, 1);
@@ -125,7 +125,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Predict_2()
+        public void Predict2()
         {
             Fixture f = new Fixture();
             Edge pe = Edge.PredictFor(f.rule1, 1);
@@ -133,7 +133,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Predict_3()
+        public void Predict3()
         {
             Fixture f = new Fixture();
             Edge pe = Edge.PredictFor(f.rule1, 1);
@@ -141,7 +141,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Predict_4()
+        public void Predict4()
         {
             Fixture f = new Fixture();
             Edge pe = Edge.PredictFor(f.rule1, 1);
@@ -150,7 +150,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Predict_5()
+        public void Predict5()
         {
             Rule? nullRule = null;
             Edge pe = Edge.PredictFor(nullRule, 0);
@@ -159,7 +159,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Predict_6()
+        public void Predict6()
         {
             Fixture f = new Fixture();
             Edge pe = Edge.PredictFor(f.rule2, -1);
@@ -168,7 +168,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Complete_1()
+        public void Complete1()
         {
             Fixture f = new Fixture();
             Edge? nullEdge = null;
@@ -177,7 +177,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Complete_2()
+        public void Complete2()
         {
             Fixture f = new Fixture();
             List<Category> l = new List<Category>();
@@ -192,7 +192,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Complete_3()
+        public void Complete3()
         {
             Fixture f = new Fixture();
             List<Category> l = new List<Category>();
@@ -214,7 +214,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Complete_4()
+        public void Complete4()
         {
             Fixture f = new Fixture();
             List<Category> l = new List<Category>();
@@ -268,7 +268,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ToString_ReturnsCorrectly()
+        public void ToStringReturnsCorrectly()
         {
             Fixture f = new Fixture();
             Assert.AreEqual("3[A -> B C * D E]", f.edge1.ToString());
@@ -277,7 +277,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsCorrectly()
+        public void EqualsReturnsCorrectly()
         {
             Fixture f = new Fixture();
             Edge e = new Edge(f.edge1.DottedRule, f.edge1.Origin);
@@ -288,7 +288,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsCorrectly_2()
+        public void EqualsReturnsCorrectly2()
         {
             Fixture f = new Fixture();
             List<Edge> l = new List<Edge>();
@@ -302,7 +302,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void GetHashCode_ReturnsCorrectly()
+        public void GetHashCodeReturnsCorrectly()
         {
             Fixture f = new Fixture();
 

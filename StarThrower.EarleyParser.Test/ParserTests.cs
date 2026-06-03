@@ -122,7 +122,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Parse_1()
+        public void Parse1()
         {
 
         }

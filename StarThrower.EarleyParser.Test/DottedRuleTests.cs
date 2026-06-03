@@ -102,7 +102,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void AdvanceDot_Fail()
+        public void AdvanceDotFail()
         {
             Fixture f = new Fixture();
             DottedRule.AdvanceDot(f.edge3.DottedRule);
@@ -111,7 +111,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void CreateStartRule_ThrowsOnNull()
+        public void CreateStartRuleThrowsOnNull()
         {
             Category? nullSeed = null;
             DottedRule.CreateStartRule(nullSeed);
@@ -120,7 +120,7 @@ namespace StarThrower.EarleyParser.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void CreateStartRule_ThrowsOnTerminalSeed()
+        public void CreateStartRuleThrowsOnTerminalSeed()
         {
             Fixture f = new Fixture();
             DottedRule.CreateStartRule(f.a);
@@ -157,7 +157,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void GetHashCode_ReturnsCorrect()
+        public void GetHashCodeReturnsCorrect()
         {
             Fixture f = new Fixture();
 
@@ -173,7 +173,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsTrue()
+        public void EqualsReturnsTrue()
         {
             Fixture f = new Fixture();
             DottedRule dr = new DottedRule(f.rule1, 2);
@@ -181,7 +181,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void Equals_ReturnsFalse()
+        public void EqualsReturnsFalse()
         {
             Fixture f = new Fixture();
             DottedRule dr = new DottedRule(f.rule1, 2);
@@ -189,7 +189,7 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [TestMethod]
-        public void ToString_ReturnsCorrectly()
+        public void ToStringReturnsCorrectly()
         {
             Fixture f = new Fixture();
             Assert.AreEqual("A -> B C * D E", f.dot1.ToString());

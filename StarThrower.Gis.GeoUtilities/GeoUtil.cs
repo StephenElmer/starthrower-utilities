@@ -46,7 +46,7 @@ namespace StarThrower.Gis.GeoUtilities
         public const double DegreesToRadians = (Math.PI / 180.0);
         public const double RadiansToDegrees = (180.0 / Math.PI);
         public const double Cos67P5 = 0.38268343236508977; // cosine of 67.5 degrees
-        public const double AD_C = 1.0026000; // Toms region 1 constant
+        public const double ADC = 1.0026000; // Toms region 1 constant
 
         public const double TwoPi = Math.PI * 2.0;
         public const double PiUnder180 = (180.0 / Math.PI);

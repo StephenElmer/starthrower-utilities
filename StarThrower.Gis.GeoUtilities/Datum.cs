@@ -287,7 +287,7 @@ namespace StarThrower.Gis.GeoUtilities
             }
             W2 = X * X + Y * Y;
             W = Math.Sqrt(W2);
-            T0 = Z * GeoUtil.AD_C;
+            T0 = Z * GeoUtil.ADC;
             S0 = Math.Sqrt(T0 * T0 + W2);
             Sin_B0 = T0 / S0;
             Cos_B0 = W / S0;
