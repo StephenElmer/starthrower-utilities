@@ -26,19 +26,68 @@ namespace StarThrower.EarleyParser.Test
 {
     public class Fixture
     {
-        public Grammar grammar, mixed;
-        public Category A, B, C, D, E, X, Y, Z, a, b;
-        public Category seed, S, NP, VP, Det, N, the, boy, girl, left;
-        public Rule rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8;
-        public Edge edge1, edge2, edge3;
-        public string[] tokens;
-        public DottedRule dot1, dot2, dot3;
-        public Chart chart;
-        public Parse parse = new Parse(new Category("<uninitialized>"), new Chart());
-        public Collection<ParseTree> parseTrees = new Collection<ParseTree>();
-        public Category VI, VT, VS, saw, duck, her, he;
-        public Parser earleyParser;
-        public Grammar emptyGrammar;
+        public Grammar grammar { get; set; }
+        public Grammar mixed { get; set; }
+
+        public Category A { get; set; }
+        public Category B { get; set; }
+        public Category C { get; set; }
+        public Category D { get; set; }
+        public Category E { get; set; }
+        public Category X { get; set; }
+        public Category Y { get; set; }
+        public Category Z { get; set; }
+        public Category a { get; set; }
+        public Category b { get; set; }
+
+        public Category seed { get; set; }
+        public Category S { get; set; }
+        public Category NP { get; set; }
+        public Category VP { get; set; }
+        public Category Det { get; set; }
+        public Category N { get; set; }
+        public Category the { get; set; }
+        public Category boy { get; set; }
+        public Category girl { get; set; }
+        public Category left { get; set; }
+
+        public Rule rule1 { get; set; }
+        public Rule rule2 { get; set; }
+        public Rule rule3 { get; set; }
+        public Rule rule4 { get; set; }
+        public Rule rule5 { get; set; }
+        public Rule rule6 { get; set; }
+        public Rule rule7 { get; set; }
+        public Rule rule8 { get; set; }
+
+        public Edge edge1 { get; set; }
+        public Edge edge2 { get; set; }
+        public Edge edge3 { get; set; }
+
+        public string[] tokens { get; set; }
+
+        public DottedRule dot1 { get; set; }
+        public DottedRule dot2 { get; set; }
+        public DottedRule dot3 { get; set; }
+
+        public Chart chart { get; set; }
+
+        public Parse parse { get; set; } =
+            new Parse(new Category("<uninitialized>"), new Chart());
+
+        public Collection<ParseTree> parseTrees { get; set; } =
+            new Collection<ParseTree>();
+
+        public Category VI { get; set; }
+        public Category VT { get; set; }
+        public Category VS { get; set; }
+        public Category saw { get; set; }
+        public Category duck { get; set; }
+        public Category her { get; set; }
+        public Category he { get; set; }
+    
+        public Parser earleyParser { get; set; }
+        public Grammar emptyGrammar { get; set; }
 
         public Fixture()
         {
