@@ -45,7 +45,7 @@ namespace StarThrower.FileUtilities
             try
             {
                 // Determine if the same file was referenced two times.
-                if (file1.Equals(file2))
+                if (file1.Equals(file2, StringComparison.Ordinal))
                 {
                     // Return true to indicate that the files are the same.
                     return true;

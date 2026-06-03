@@ -45,7 +45,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidCoordinateSystemException">Thrown if projectedCoordinateSystemType cannot be found within this assembly or if it does not implement IProjectedCoordinateSystem.</exception>
         public static IProjectedCoordinateSystem GetInstanceOfProjectedCoordinateSystem(Type projectedCoordinateSystemType)
         {
-            if (projectedCoordinateSystemType == null) throw new ArgumentNullException("projectedCoordinateSystemType");
+            ArgumentNullException.ThrowIfNull(projectedCoordinateSystemType);
             if (projectedCoordinateSystemType.Equals(typeof(CoordinateSystems.Projected.UserDefined))) throw new Exceptions.AmbiguousCoordinateSystemException();
             if (!ProjectedCoordinateSystemTypeExists(projectedCoordinateSystemType.Name)) throw new Exceptions.InvalidCoordinateSystemException();
             if (projectedCoordinateSystemType.GetInterface("IProjectedCoordinateSystem") != typeof(IProjectedCoordinateSystem)) throw new Exceptions.InvalidCoordinateSystemException();
@@ -55,18 +55,15 @@ namespace StarThrower.Gis.GeoUtilities
                 IProjectedCoordinateSystem pcs = (IProjectedCoordinateSystem)(projectedCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(new object[] { });
                 lock (_projectedCoordinateSystemsLock)
                 {
-                    if (!_projectedCoordinateSystems.ContainsKey(pcs.Key))
-                    {
-                        _projectedCoordinateSystems.Add(pcs.Key, pcs);
-                    }
+                    _projectedCoordinateSystems.TryAdd(pcs.Key, pcs);
                 }
             }
             return _projectedCoordinateSystems[projectedCoordinateSystemType.Name];
         }
         public static IProjectedCoordinateSystem GetInstanceOfProjectedCoordinateSystem(string projectedCoordinateSystemTypeName)
         {
-            if (projectedCoordinateSystemTypeName == null) throw new ArgumentNullException("projectedCoordinateSystemTypeName");
-            if (projectedCoordinateSystemTypeName.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name)) throw new Exceptions.AmbiguousCoordinateSystemException();
+            ArgumentNullException.ThrowIfNullOrEmpty(projectedCoordinateSystemTypeName);
+            if (projectedCoordinateSystemTypeName.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name, StringComparison.Ordinal)) throw new Exceptions.AmbiguousCoordinateSystemException();
             if (!ProjectedCoordinateSystemTypeExists(projectedCoordinateSystemTypeName)) throw new Exceptions.InvalidCoordinateSystemException();
 
             Type projectedCoordinateSystemType = GetProjectedCoordinateSystemType(projectedCoordinateSystemTypeName);
@@ -74,8 +71,8 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static IProjectedCoordinateSystem GetInstanceOfProjectedCoordinateSystem(Type projectedCoordinateSystemType, IZone zone)
         {
-            if (zone == null) throw new ArgumentNullException("zone");
-            if (projectedCoordinateSystemType == null) throw new ArgumentNullException("projectedCoordinateSystemType");
+            ArgumentNullException.ThrowIfNull(zone);
+            ArgumentNullException.ThrowIfNull(projectedCoordinateSystemType);
             if (projectedCoordinateSystemType.Equals(typeof(CoordinateSystems.Projected.UserDefined))) throw new Exceptions.AmbiguousCoordinateSystemException();
             if (!ProjectedCoordinateSystemTypeExists(projectedCoordinateSystemType.Name)) throw new Exceptions.InvalidCoordinateSystemException();
             if (projectedCoordinateSystemType.GetInterface("IProjectedCoordinateSystem") != typeof(IProjectedCoordinateSystem)) throw new Exceptions.InvalidCoordinateSystemException();
@@ -85,22 +82,19 @@ namespace StarThrower.Gis.GeoUtilities
                 IProjectedCoordinateSystem pcs = (IProjectedCoordinateSystem)(projectedCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(IZone) }, null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(new object[] { zone });
                 lock (_projectedCoordinateSystemsLock)
                 {
-                    if (!_projectedCoordinateSystems.ContainsKey(pcs.Key))
-                    {
-                        _projectedCoordinateSystems.Add(pcs.Key, pcs);
-                    }
+                    _projectedCoordinateSystems.TryAdd(pcs.Key, pcs);
                 }
             }
             return _projectedCoordinateSystems[projectedCoordinateSystemType.Name + "_" + zone.Name];
         }
         public static bool ProjectedCoordinateSystemTypeExists(string projectedCoordinateSystemTypeName)
         {
-            if (projectedCoordinateSystemTypeName == null) throw new ArgumentNullException("projectedCoordinateSystemTypeName");
-            if (projectedCoordinateSystemTypeName.Equals(typeof(CoordinateSystems.Projected.Undefined).Name)) return false;
+            ArgumentException.ThrowIfNullOrEmpty(projectedCoordinateSystemTypeName);
+            if (projectedCoordinateSystemTypeName.Equals(typeof(CoordinateSystems.Projected.Undefined).Name, StringComparison.Ordinal)) return false;
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace && types[i].Name.Equals(projectedCoordinateSystemTypeName))
+                if (types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace && types[i].Name.Equals(projectedCoordinateSystemTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -109,11 +103,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static Type GetProjectedCoordinateSystemType(string projectedCoordinateSystemTypeName)
         {
-            if (projectedCoordinateSystemTypeName == null) throw new ArgumentNullException("projectedCoordinateSystemTypeName");
+            ArgumentNullException.ThrowIfNullOrEmpty(projectedCoordinateSystemTypeName);
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(projectedCoordinateSystemTypeName))
+                if (types[i].Name.Equals(projectedCoordinateSystemTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }
@@ -123,7 +117,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static bool UserDefinedProjectedCoordinateSystemExists(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.ProjectedCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for projected coordinate system name.");
 
             return _projectedCoordinateSystems.ContainsKey(typeof(CoordinateSystems.Projected.UserDefined).Name + name);
@@ -131,7 +125,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static bool UserDefinedProjectedCoordinateSystemExists(string name, IGeographicCoordinateSystem geographicCoordinateSystem, IProjection projection, ILinearUnit linearUnit)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.ProjectedCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for projected coordinate system name.");
 
             string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
@@ -145,7 +139,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static IProjectedCoordinateSystem GetInstanceOfNewUserDefinedProjectedCoordinateSystem(string name, IGeographicCoordinateSystem geographicCoordinateSystem, IProjection projection, ILinearUnit linearUnit)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.ProjectedCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for projected coordinate system name.");
 
             try
@@ -153,13 +147,10 @@ namespace StarThrower.Gis.GeoUtilities
                 string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
                 if (!_projectedCoordinateSystems.ContainsKey(key))
                 {
-                    IProjectedCoordinateSystem pcs = new CoordinateSystems.Projected.UserDefined(name, geographicCoordinateSystem, projection, linearUnit);
+                    CoordinateSystems.Projected.UserDefined pcs = new CoordinateSystems.Projected.UserDefined(name, geographicCoordinateSystem, projection, linearUnit);
                     lock (_projectedCoordinateSystemsLock)
                     {
-                        if (!_projectedCoordinateSystems.ContainsKey(pcs.Key))
-                        {
-                            _projectedCoordinateSystems.Add(pcs.Key, pcs);
-                        }
+                        _projectedCoordinateSystems.TryAdd(pcs.Key, pcs);
                     }
                     return _projectedCoordinateSystems[pcs.Key];
                 }
@@ -181,7 +172,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static IProjectedCoordinateSystem GetInstanceOfExistingUserDefinedProjectedCoordinateSystem(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.ProjectedCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for projected coordinate system name.");
 
             try

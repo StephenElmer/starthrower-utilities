@@ -134,7 +134,7 @@ namespace StarThrower.StringUtilities
                 StringBuilder ret = new StringBuilder();
                 foreach (byte b in bytes)
                 {
-                    ret.Append(b.ToString("X2"));
+                    ret.Append(b.ToString("X2", CultureInfo.InvariantCulture)); // "X2" formats as hexadecimal with at least 2 digits, padding with zero if necessary
                 }
 
                 return ret.ToString();
@@ -192,7 +192,7 @@ namespace StarThrower.StringUtilities
         {
             try
             {
-                return source.ToString("X");
+                return source.ToString("X", CultureInfo.InvariantCulture); // "X" formats as hexadecimal
             }
             catch (Exception ex)
             {
@@ -433,18 +433,18 @@ namespace StarThrower.StringUtilities
                 if (startIndex == 0) //it is at the front
                 {
                     result.Append(replacement);
-                    result.Append(source.Substring(startIndex + length, source.Length - (startIndex + length)));
+                    result.Append(source.AsSpan(startIndex + length, source.Length - (startIndex + length)));
                 }
                 else if ((startIndex + length) == source.Length) //it is at the end
                 {
-                    result.Append(source.Substring(0, startIndex));
+                    result.Append(source.AsSpan(0, startIndex));
                     result.Append(replacement);
                 }
                 else //it is somewhere in the middle
                 {
-                    result.Append(source.Substring(0, startIndex));
+                    result.Append(source.AsSpan(0, startIndex));
                     result.Append(replacement);
-                    result.Append(source.Substring(startIndex + length, source.Length - (startIndex + length)));
+                    result.Append(source.AsSpan(startIndex + length, source.Length - (startIndex + length)));
                 }
 
                 return result.ToString();
@@ -473,11 +473,11 @@ namespace StarThrower.StringUtilities
             {
                 StringBuilder ret = new StringBuilder(source);
 
-                while (ret[ret.Length - 1].ToString().Equals("\u000A")) //Chr(10), LineFeed, LF
+                while (ret[ret.Length - 1].ToString().Equals("\u000A", StringComparison.Ordinal)) //Chr(10), LineFeed, LF
                 {
                     ret.Remove(ret.Length - 1, 1);
                 }
-                while (ret[ret.Length - 1].ToString().Equals("\u000D")) //Chr(13), CarriageReturn, CR
+                while (ret[ret.Length - 1].ToString().Equals("\u000D", StringComparison.Ordinal)) //Chr(13), CarriageReturn, CR
                 {
                     ret.Remove(ret.Length - 1, 1);
                 }
@@ -891,7 +891,7 @@ namespace StarThrower.StringUtilities
 
                 for (int i = 1; i <= num; i++)
                 {
-                    if (StringUtil.GetToken(source, delimiter, i).Equals(target))
+                    if (StringUtil.GetToken(source, delimiter, i).Equals(target, StringComparison.Ordinal))
                     {
                         return true;
                     }
@@ -953,7 +953,7 @@ namespace StarThrower.StringUtilities
                 string quote = ToChar(34);
                 string firstChar = ret[0].ToString();
                 //while ((!ret.ToString().Equals(String.Empty)) && firstChar.Equals(quote))
-                while ((!(ret.Length == 0)) && firstChar.Equals(quote))
+                while ((!(ret.Length == 0)) && firstChar.Equals(quote, StringComparison.Ordinal))
                 {
                     // strip off the first character
                     ret.Remove(0, 1);
@@ -1402,8 +1402,8 @@ namespace StarThrower.StringUtilities
             try
             {
                 string temp = source.ToUpperInvariant();
-                if (!temp.Contains("E")) return temp;
-                int eIndex = temp.IndexOf("E", StringComparison.Ordinal);
+                if (!temp.Contains('E')) return temp;
+                int eIndex = temp.IndexOf('E', StringComparison.Ordinal);
                 string baseVal = temp.Substring(0, eIndex);
                 string power = temp.Substring(eIndex + 1, temp.Length - (eIndex + 1));
                 int pow = 0;

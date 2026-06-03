@@ -18,6 +18,7 @@
 ***********************************************************************************/
 
 using System;
+using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.MathUtilities;
 
@@ -258,7 +259,7 @@ namespace StarThrower.MathUtilities.Test
         {
             double d = 0.0;
             double x = 123450;
-            string s = x.ToString("E");
+            string s = x.ToString("E", CultureInfo.InvariantCulture); // "E" formats as scientific notation
             bool result = double.TryParse(s, out d);
             Assert.AreEqual(true, result);
         }
@@ -354,13 +355,13 @@ namespace StarThrower.MathUtilities.Test
         [TestMethod]
         public void TestIsInteger4()
         {
-            Assert.AreEqual(MathUtil.IsInteger(int.MaxValue.ToString()), true);
+            Assert.AreEqual(MathUtil.IsInteger(int.MaxValue.ToString(CultureInfo.InvariantCulture)), true);
         }
 
         [TestMethod]
         public void TestIsInteger5()
         {
-            Assert.AreEqual(MathUtil.IsInteger(int.MinValue.ToString()), true);
+            Assert.AreEqual(MathUtil.IsInteger(int.MinValue.ToString(CultureInfo.InvariantCulture)), true);
         }
 
         [TestMethod]
@@ -384,7 +385,7 @@ namespace StarThrower.MathUtilities.Test
         [TestMethod]
         public void TestIsInteger9()
         {
-            Assert.AreEqual(MathUtil.IsInteger("+" + int.MaxValue.ToString()), true);
+            Assert.AreEqual(MathUtil.IsInteger("+" + int.MaxValue.ToString(CultureInfo.InvariantCulture)), true);
         }
 
         [TestMethod]
@@ -396,7 +397,7 @@ namespace StarThrower.MathUtilities.Test
 
             //After examining how int.TryParse() works, it is clear that only one sign character is allowed.
             //Therefore "+" + int.MinValue.ToString() should be invalid.
-            Assert.AreEqual(MathUtil.IsInteger("+" + int.MinValue.ToString()), false);
+            Assert.AreEqual(MathUtil.IsInteger("+" + int.MinValue.ToString(CultureInfo.InvariantCulture)), false);
         }
 
         [TestMethod]
@@ -481,7 +482,7 @@ namespace StarThrower.MathUtilities.Test
         public void TestIsInteger24()
         {
             double x = 123.0;
-            Assert.AreEqual(false, MathUtil.IsInteger(x.ToString("Scientific")));
+            Assert.AreEqual(false, MathUtil.IsInteger(x.ToString("E", CultureInfo.InvariantCulture))); // "E" formats as scientific notation
         }
 
         [TestMethod]
@@ -508,8 +509,8 @@ namespace StarThrower.MathUtilities.Test
         public void TestIsInteger26()
         {
             long one = 1;
-            Assert.AreEqual(MathUtil.IsInteger((int.MaxValue + one).ToString()), false);
-            Assert.AreEqual(MathUtil.IsInteger((int.MinValue - one).ToString()), false);
+            Assert.AreEqual(MathUtil.IsInteger((int.MaxValue + one).ToString(CultureInfo.InvariantCulture)), false);
+            Assert.AreEqual(MathUtil.IsInteger((int.MinValue - one).ToString(CultureInfo.InvariantCulture)), false);
         }
 
         [TestMethod]
@@ -584,25 +585,25 @@ namespace StarThrower.MathUtilities.Test
         [TestMethod]
         public void TestRoundTo4()
         {
-            Assert.AreEqual("0.12", MathUtil.RoundTo(0.12345, 2).ToString());
+            Assert.AreEqual("0.12", MathUtil.RoundTo(0.12345, 2).ToString(CultureInfo.InvariantCulture));
         }
 
         [TestMethod]
         public void TestRoundTo5()
         {
-            Assert.AreEqual("0.12345", MathUtil.RoundTo(0.12345, 10).ToString());
+            Assert.AreEqual("0.12345", MathUtil.RoundTo(0.12345, 10).ToString(CultureInfo.InvariantCulture));
         }
 
         [TestMethod]
         public void TestRoundTo6()
         {
-            Assert.AreNotEqual("0.13", MathUtil.RoundTo(0.12345, 2).ToString());
+            Assert.AreNotEqual("0.13", MathUtil.RoundTo(0.12345, 2).ToString(CultureInfo.InvariantCulture));
         }
 
         [TestMethod]
         public void TestRoundTo7()
         {
-            Assert.AreEqual("0.003367003", MathUtil.RoundTo(1 / 297.0, 9).ToString());
+            Assert.AreEqual("0.003367003", MathUtil.RoundTo(1 / 297.0, 9).ToString(CultureInfo.InvariantCulture));
         }
 
         [TestMethod]
@@ -1024,13 +1025,13 @@ namespace StarThrower.MathUtilities.Test
         [TestMethod]
         public void TestIsLong4()
         {
-            Assert.AreEqual(MathUtil.IsLong(long.MaxValue.ToString()), true);
+            Assert.AreEqual(MathUtil.IsLong(long.MaxValue.ToString(CultureInfo.InvariantCulture)), true);
         }
 
         [TestMethod]
         public void TestIsLong5()
         {
-            Assert.AreEqual(MathUtil.IsLong(long.MinValue.ToString()), true);
+            Assert.AreEqual(MathUtil.IsLong(long.MinValue.ToString(CultureInfo.InvariantCulture)), true);
         }
 
         [TestMethod]
@@ -1054,14 +1055,14 @@ namespace StarThrower.MathUtilities.Test
         [TestMethod]
         public void TestIsLong9()
         {
-            Assert.AreEqual(MathUtil.IsLong("+" + long.MaxValue.ToString()), true);
+            Assert.AreEqual(MathUtil.IsLong("+" + long.MaxValue.ToString(CultureInfo.InvariantCulture)), true);
         }
 
         [TestMethod]
         public void TestIsLong10()
         {
             // Only one sign character is allowed, so "+" + long.MinValue is invalid
-            Assert.AreEqual(MathUtil.IsLong("+" + long.MinValue.ToString()), false);
+            Assert.AreEqual(MathUtil.IsLong("+" + long.MinValue.ToString(CultureInfo.InvariantCulture)), false);
         }
 
         [TestMethod]
@@ -1147,7 +1148,7 @@ namespace StarThrower.MathUtilities.Test
         {
             // Scientific notation should not be valid for IsLong
             double x = 123.0;
-            Assert.AreEqual(false, MathUtil.IsLong(x.ToString("Scientific")));
+            Assert.AreEqual(false, MathUtil.IsLong(x.ToString("E", CultureInfo.InvariantCulture))); // "E" formats as scientific notation
         }
 
         [TestMethod]
@@ -1164,8 +1165,8 @@ namespace StarThrower.MathUtilities.Test
         {
             // Large numbers beyond int but within long range
             long one = 1;
-            Assert.AreEqual(MathUtil.IsLong((int.MaxValue + one).ToString()), true);
-            Assert.AreEqual(MathUtil.IsLong((int.MinValue - one).ToString()), true);
+            Assert.AreEqual(MathUtil.IsLong((int.MaxValue + one).ToString(CultureInfo.InvariantCulture)), true);
+            Assert.AreEqual(MathUtil.IsLong((int.MinValue - one).ToString(CultureInfo.InvariantCulture)), true);
         }
 
         [TestMethod]

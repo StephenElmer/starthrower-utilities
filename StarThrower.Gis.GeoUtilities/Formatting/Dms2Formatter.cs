@@ -72,7 +72,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             string sec = dmsNS.Substring(mIndex + 1, (dmsNS.Length - 1) - (mIndex + 1));
             seconds = double.Parse(sec, CultureInfo.InvariantCulture) / 3600;
 
-            if (dir.Equals("S") || dir.Equals("s"))
+            if (dir.Equals("S", StringComparison.Ordinal) || dir.Equals("s", StringComparison.Ordinal))
             {
                 return -1 * (degrees + minutes + seconds);
             }
@@ -84,7 +84,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
 
         public double DmsToDdEw(string dmsEW)
         {
-            if (dmsEW == null) throw new ArgumentNullException("dmsEW");
+            ArgumentException.ThrowIfNullOrEmpty(dmsEW);
             //TODO: consider other invalid formatting problems
             
 
@@ -111,7 +111,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             string sec = dmsEW.Substring(mIndex + 1, (dmsEW.Length - 1) - (mIndex + 1));
             seconds = double.Parse(sec, CultureInfo.InvariantCulture) / 3600;
 
-            if (dir.Equals("W") || dir.Equals("w"))
+            if (dir.Equals("W", StringComparison.Ordinal) || dir.Equals("w", StringComparison.Ordinal))
             {
                 return -1 * (degrees + minutes + seconds);
             }

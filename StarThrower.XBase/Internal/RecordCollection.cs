@@ -579,7 +579,8 @@ namespace StarThrower.XBase.Internal
         /// <exception cref="ArgumentNullException"></exception>
         internal RecordCollectionEnumerator(StarThrower.XBase.Internal.RecordCollection list)
         {
-            if (list == null) throw new ArgumentNullException("list");
+            ArgumentNullException.ThrowIfNull(list);
+
             _list = list;
             _cursor = -1;
         }

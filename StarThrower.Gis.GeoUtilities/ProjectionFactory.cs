@@ -35,7 +35,7 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static IProjection GetInstanceOfProjection(string projectionTypeName, ProjectionParameter[] parameters)
         {
-            if (projectionTypeName == null) throw new ArgumentNullException("projectionTypeName");
+            ArgumentException.ThrowIfNullOrEmpty(projectionTypeName);
             if (!ProjectionTypeExists(projectionTypeName)) throw new Exceptions.InvalidProjectionTypeException();
 
             Type projectionType = GetProjectionType(projectionTypeName);
@@ -43,11 +43,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static bool ProjectionTypeExists(string projectionTypeName)
         {
-            if (projectionTypeName == null) throw new ArgumentNullException("projectionTypeName");
+            ArgumentException.ThrowIfNullOrEmpty(projectionTypeName);
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(Projections.Undefined).Namespace && types[i].Name.Equals(projectionTypeName))
+                if (types[i].Namespace == typeof(Projections.Undefined).Namespace && types[i].Name.Equals(projectionTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -56,11 +56,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static Type GetProjectionType(string projectionTypeName)
         {
-            if (projectionTypeName == null) throw new ArgumentNullException("projectionTypeName");
+            ArgumentException.ThrowIfNullOrEmpty(projectionTypeName);
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(projectionTypeName))
+                if (types[i].Name.Equals(projectionTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }

@@ -129,7 +129,7 @@ namespace StarThrower.Gis.GeoUtilities.Datums
                    this.RotationZ.Equals(other.RotationZ) &&
                    this.RotationScaleFactor.Equals(other.RotationScaleFactor) &&
                    this.Domain.Equals(other.Domain) &&
-                   _name.Equals(other._name);
+                   _name.Equals(other._name, StringComparison.Ordinal);
         }
 
         /// <summary>

@@ -192,7 +192,7 @@ namespace StarThrower.XBase
             if (Object.ReferenceEquals(obj, this)) return true;
             if (!(obj is StarThrower.XBase.XBaseRecord)) return false;
             StarThrower.XBase.XBaseRecord other = (StarThrower.XBase.XBaseRecord)obj;
-            return _data.Equals(other._data) &&
+            return _data.Equals(other._data, StringComparison.Ordinal) &&
                    _isDeleted.Equals(other._isDeleted) &&
                    _fields.Equals(other._fields);
         }
@@ -207,7 +207,7 @@ namespace StarThrower.XBase
         {
             if (Object.ReferenceEquals(other, null)) return false;
             if (Object.ReferenceEquals(other, this)) return true;
-            return _data.Equals(other._data) &&
+            return _data.Equals(other._data, StringComparison.Ordinal) &&
                    _isDeleted.Equals(other._isDeleted) &&
                    _fields.Equals(other._fields);
         }

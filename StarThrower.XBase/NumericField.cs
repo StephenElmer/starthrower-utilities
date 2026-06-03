@@ -18,6 +18,7 @@
 ***********************************************************************************/
 
 using System;
+using System.Globalization;
 using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase
@@ -90,7 +91,7 @@ namespace StarThrower.XBase
                 }
                 if (data is Int64 i64)
                 {
-                    string dataStr = i64.ToString() ?? string.Empty;
+                    string dataStr = i64.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
                     if (dataStr.Length > this.Owner.Length) throw new BadDataException("data length exceeds field length");
 
                     if (i64 >= -9999999999999999 && i64 <= 99999999999999999)

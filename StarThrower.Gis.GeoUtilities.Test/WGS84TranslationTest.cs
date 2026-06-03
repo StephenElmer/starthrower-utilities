@@ -11,6 +11,7 @@ using StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic;
 using StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected;
 using StarThrower.MathUtilities;
 using StarThrower.Gis.GeoUtilities.Translations;
+using System.Globalization;
 
 namespace StarThrower.Gis.GeoUtilities.Test
 {
@@ -611,15 +612,15 @@ namespace StarThrower.Gis.GeoUtilities.Test
             doc.Load(inputFile);
             XmlNode? testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
 
-            double lon = double.Parse(GetAttr(testNode, "ll", "lon"));
-            double lat = double.Parse(GetAttr(testNode, "ll", "lat"));
+            double lon = double.Parse(GetAttr(testNode, "ll", "lon"), CultureInfo.InvariantCulture);
+            double lat = double.Parse(GetAttr(testNode, "ll", "lat"), CultureInfo.InvariantCulture);
 
             double x = 0.0;
             double y = 0.0;
             string zone = String.Empty;
 
-            double expectedX = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utm", "x")), 2);
-            double expectedY = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utm", "y")), 2);
+            double expectedX = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utm", "x"), CultureInfo.InvariantCulture), 2);
+            double expectedY = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utm", "y"), CultureInfo.InvariantCulture), 2);
             string expectedZone = GetAttr(testNode, "utm", "zone");
 
             //GeoUtil.ConvertFromGeographicToProjectedCoordSys(typeof(UsngWgs84), typeof(UtmWgs84), lon, lat, ref x, ref y, ref zone);
@@ -646,15 +647,15 @@ namespace StarThrower.Gis.GeoUtilities.Test
             doc.Load(inputFile);
             XmlNode? testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
 
-            double x = double.Parse(GetAttr(testNode, "utm", "x"));
-            double y = double.Parse(GetAttr(testNode, "utm", "y"));
+            double x = double.Parse(GetAttr(testNode, "utm", "x"), CultureInfo.InvariantCulture);
+            double y = double.Parse(GetAttr(testNode, "utm", "y"), CultureInfo.InvariantCulture);
             string zone = GetAttr(testNode, "utm", "zone");
 
             double lon = 0.0;
             double lat = 0.0;
 
-            double expectedLon = double.Parse(GetAttr(testNode, "ll", "lon"));
-            double expectedLat = double.Parse(GetAttr(testNode, "ll", "lat"));
+            double expectedLon = double.Parse(GetAttr(testNode, "ll", "lon"), CultureInfo.InvariantCulture);
+            double expectedLat = double.Parse(GetAttr(testNode, "ll", "lat"), CultureInfo.InvariantCulture);
 
             //GeoUtil.ConvertFromProjectedToGeographicCoordSys(typeof(UtmWgs84Ns), typeof(UsngWgs84), x, y, zone, ref lon, ref lat);
             IZone utmZone = new Zones.Utm.UtmZone(zone);
@@ -678,15 +679,15 @@ namespace StarThrower.Gis.GeoUtilities.Test
             doc.Load(inputFile);
             XmlNode? testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
 
-            double lon = double.Parse(GetAttr(testNode, "ll", "lon"));
-            double lat = double.Parse(GetAttr(testNode, "ll", "lat"));
+            double lon = double.Parse(GetAttr(testNode, "ll", "lon"), CultureInfo.InvariantCulture);
+            double lat = double.Parse(GetAttr(testNode, "ll", "lat"), CultureInfo.InvariantCulture);
 
             double x = 0.0;
             double y = 0.0;
             string zone = String.Empty;
 
-            double expectedX = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utmns", "x")), 2);
-            double expectedY = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utmns", "y")), 2);
+            double expectedX = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utmns", "x"), CultureInfo.InvariantCulture), 2);
+            double expectedY = MathUtil.RoundTo(double.Parse(GetAttr(testNode, "utmns", "y"), CultureInfo.InvariantCulture), 2);
             string expectedZone = GetAttr(testNode, "utmns", "zone");
 
             //GeoUtil.ConvertFromGeographicToProjectedCoordSys(typeof(UsngWgs84), typeof(UtmWgs84Ns), lon, lat, ref x, ref y, ref zone);
@@ -712,15 +713,15 @@ namespace StarThrower.Gis.GeoUtilities.Test
             doc.Load(inputFile);
             XmlNode? testNode = doc.SelectSingleNode("//tests/test[@name='" + testName + "']");
 
-            double x = double.Parse(GetAttr(testNode, "utmns", "x"));
-            double y = double.Parse(GetAttr(testNode, "utmns", "y"));
+            double x = double.Parse(GetAttr(testNode, "utmns", "x"), CultureInfo.InvariantCulture);
+            double y = double.Parse(GetAttr(testNode, "utmns", "y"), CultureInfo.InvariantCulture);
             string zone = GetAttr(testNode, "utmns", "zone");
 
             double lon = 0.0;
             double lat = 0.0;
 
-            double expectedLon = double.Parse(GetAttr(testNode, "ll", "lon"));
-            double expectedLat = double.Parse(GetAttr(testNode, "ll", "lat"));
+            double expectedLon = double.Parse(GetAttr(testNode, "ll", "lon"), CultureInfo.InvariantCulture);
+            double expectedLat = double.Parse(GetAttr(testNode, "ll", "lat"), CultureInfo.InvariantCulture);
 
             //GeoUtil.ConvertFromProjectedToGeographicCoordSys(typeof(UtmWgs84Ns), typeof(UsngWgs84), x, y, zone, ref lon, ref lat);
             IZone utmZone = new Zones.UtmNs.UtmNsZone(zone);

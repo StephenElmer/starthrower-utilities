@@ -75,7 +75,7 @@ namespace StarThrower.Gis.GeoUtilities
             if (obj == this) return true;
             if (!(obj is ProjectionParameter)) return false;
             ProjectionParameter other = (ProjectionParameter)obj;
-            return _name.Equals(other.Name) &&
+            return _name.Equals(other.Name, StringComparison.Ordinal) &&
                    _value.Equals(other.Value);
         }
 

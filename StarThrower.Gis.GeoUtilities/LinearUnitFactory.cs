@@ -39,7 +39,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidLinearUnitTypeException">Thrown if linearUnitType cannot be found within this assembly or if it does not implement ILinearUnit.</exception>
         public static ILinearUnit GetInstanceOfLinearUnit(Type linearUnitType)
         {
-            if (linearUnitType == null) throw new ArgumentNullException("linearUnitType");
+            ArgumentNullException.ThrowIfNull(linearUnitType);
             if (!LinearUnitTypeExists(linearUnitType.Name)) throw new Exceptions.InvalidLinearUnitTypeException();
             if (linearUnitType.GetInterface("ILinearUnit") != typeof(ILinearUnit)) throw new Exceptions.InvalidLinearUnitTypeException();
 
@@ -48,17 +48,14 @@ namespace StarThrower.Gis.GeoUtilities
                 ILinearUnit au = (ILinearUnit)(linearUnitType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidLinearUnitTypeException()).Invoke(new object[] { });
                 lock (_unitListLock)
                 {
-                    if (!_unitList.ContainsKey(au.Name))
-                    {
-                        _unitList.Add(au.Name, au);
-                    }
+                    _unitList.TryAdd(au.Name, au);
                 }
             }
             return _unitList[linearUnitType.Name];
         }
         public static ILinearUnit GetInstanceOfLinearUnit(string linearUnitTypeName)
         {
-            if (linearUnitTypeName == null) throw new ArgumentNullException("linearUnitTypeName");
+            ArgumentNullException.ThrowIfNullOrEmpty(linearUnitTypeName);
             if (!LinearUnitTypeExists(linearUnitTypeName)) throw new Exceptions.InvalidLinearUnitTypeException();
 
             Type linearUnitType = GetLinearUnitType(linearUnitTypeName);
@@ -66,12 +63,12 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static bool LinearUnitTypeExists(string linearUnitTypeName)
         {
-            if (linearUnitTypeName == null) throw new ArgumentNullException("linearUnitTypeName");
-            if (linearUnitTypeName.Equals(typeof(LinearUnits.Undefined).Name)) return false;
+            ArgumentNullException.ThrowIfNullOrEmpty(linearUnitTypeName);
+            if (linearUnitTypeName.Equals(typeof(LinearUnits.Undefined).Name, StringComparison.Ordinal)) return false;
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(LinearUnits.Undefined).Namespace && types[i].Name.Equals(linearUnitTypeName))
+                if (types[i].Namespace == typeof(LinearUnits.Undefined).Namespace && types[i].Name.Equals(linearUnitTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -80,11 +77,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static Type GetLinearUnitType(string linearUnitTypeName)
         {
-            if (linearUnitTypeName == null) throw new ArgumentNullException("linearUnitTypeName");
+            ArgumentNullException.ThrowIfNullOrEmpty(linearUnitTypeName);
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(linearUnitTypeName))
+                if (types[i].Name.Equals(linearUnitTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }

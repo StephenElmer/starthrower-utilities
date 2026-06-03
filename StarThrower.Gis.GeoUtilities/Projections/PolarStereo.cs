@@ -29,10 +29,10 @@ namespace StarThrower.Gis.GeoUtilities.Projections
         {
             if (parameters == null) return false;
             if (parameters.Length != 4) return false;
-            if (!parameters[0].Name.Equals("False_Easting")) return false;
-            if (!parameters[1].Name.Equals("False_Northing")) return false;
-            if (!parameters[2].Name.Equals("Latitude_of_True_Scale")) return false;
-            if (!parameters[3].Name.Equals("Longitude_Down_From_Pole")) return false;
+            if (!parameters[0].Name.Equals("False_Easting", StringComparison.Ordinal)) return false;
+            if (!parameters[1].Name.Equals("False_Northing", StringComparison.Ordinal)) return false;
+            if (!parameters[2].Name.Equals("Latitude_of_True_Scale", StringComparison.Ordinal)) return false;
+            if (!parameters[3].Name.Equals("Longitude_Down_From_Pole", StringComparison.Ordinal)) return false;
             return true;
         }
 

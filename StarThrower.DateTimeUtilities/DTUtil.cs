@@ -249,14 +249,14 @@ namespace StarThrower.DateTimeUtilities
                 string time = split1[1];
                 string newTime;
                 string[] split2;
-                if (time.Contains("+"))
+                if (time.Contains('+'))
                 {
                     strDelim2 = "+";
                     chrDelim2 = strDelim2.ToCharArray();
                     split2 = time.Split(chrDelim2);
                     newTime = split2[0];
                 }
-                else if (time.Contains("-"))
+                else if (time.Contains('-'))
                 {
                     strDelim2 = "-";
                     chrDelim2 = strDelim2.ToCharArray();

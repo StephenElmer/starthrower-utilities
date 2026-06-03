@@ -29,9 +29,9 @@ namespace StarThrower.Gis.GeoUtilities.Projections
         {
             if (parameters == null) return false;
             if (parameters.Length != 3) return false;
-            if (!parameters[0].Name.Equals("False_Easting")) return false;
-            if (!parameters[1].Name.Equals("False_Northing")) return false;
-            if (!parameters[2].Name.Equals("Central_Meridian")) return false;
+            if (!parameters[0].Name.Equals("False_Easting", StringComparison.Ordinal)) return false;
+            if (!parameters[1].Name.Equals("False_Northing", StringComparison.Ordinal)) return false;
+            if (!parameters[2].Name.Equals("Central_Meridian", StringComparison.Ordinal)) return false;
             return true;
         }
 

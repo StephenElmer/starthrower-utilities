@@ -297,7 +297,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.AmbiguousDatumTypeException">Thrown on DatumType.UserDefined.</exception>
         public static IDatum GetInstanceOfDatum(Type datumType)
         {
-            if (datumType == null) throw new ArgumentNullException("datumType");
+            ArgumentNullException.ThrowIfNull(datumType);
             if (datumType.Equals(typeof(Datums.UserDefined))) throw new Exceptions.AmbiguousDatumTypeException();
             if (!DatumTypeExists(datumType.Name)) throw new Exceptions.InvalidDatumTypeException();
             if (datumType.GetInterface("IDatum") != typeof(IDatum)) throw new Exceptions.InvalidDatumTypeException();
@@ -307,18 +307,16 @@ namespace StarThrower.Gis.GeoUtilities
                 IDatum d = (IDatum)(datumType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidDatumTypeException()).Invoke(new object[] { });
                 lock (_datumListLock)
                 {
-                    if (!_datumList.ContainsKey(d.Key))
-                    {
-                        _datumList.Add(d.Key, d);
-                    }
+                    _datumList.TryAdd(d.Key, d);
                 }
             }
             return _datumList[datumType.Name];
         }
         public static IDatum GetInstanceOfDatum(string datumTypeName)
         {
-            if (datumTypeName == null) throw new ArgumentNullException("datumTypeName");
-            if (datumTypeName.Equals(typeof(Datums.UserDefined).Name)) throw new Exceptions.AmbiguousDatumTypeException();
+            ArgumentNullException.ThrowIfNull(datumTypeName);
+
+            if (datumTypeName.Equals(typeof(Datums.UserDefined).Name, StringComparison.Ordinal)) throw new Exceptions.AmbiguousDatumTypeException();
             if (!DatumTypeExists(datumTypeName)) throw new Exceptions.InvalidDatumTypeException();
 
             Type datumType = GetDatumType(datumTypeName);
@@ -326,12 +324,12 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static bool DatumTypeExists(string datumTypeName)
         {
-            if (datumTypeName == null) throw new ArgumentNullException("datumTypeName");
-            if (datumTypeName.Equals(typeof(Datums.Undefined).Name)) return false;
+            ArgumentException.ThrowIfNullOrEmpty(datumTypeName);
+            if (datumTypeName.Equals(typeof(Datums.Undefined).Name, StringComparison.Ordinal)) return false;
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(Datums.Undefined).Namespace && types[i].Name.Equals(datumTypeName))
+                if (types[i].Namespace == typeof(Datums.Undefined).Namespace && types[i].Name.Equals(datumTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -344,7 +342,7 @@ namespace StarThrower.Gis.GeoUtilities
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(datumTypeName))
+                if (types[i].Name.Equals(datumTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }
@@ -452,7 +450,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="ArgumentOutOfRangeException">Thrown if west is not less than east or if south is not less than north.</exception>
         public static IDatum GetInstanceOfNewUserDefinedDatum(string name, IEllipsoid ellipsoid, double deltaX, double sigmaX, double deltaY, double sigmaY, double deltaZ, double sigmaZ, double rotationX, double rotationY, double rotationZ, double rotationScaleFactor, double north, double south, double east, double west)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Datum.ValidNamePattern)) throw new Exceptions.InvalidDatumTypeException("Invalid format for datum name.");
             if (south >= north) throw new ArgumentOutOfRangeException("south");
             if (west >= east) throw new ArgumentOutOfRangeException("west");
@@ -462,7 +460,7 @@ namespace StarThrower.Gis.GeoUtilities
                 string key = typeof(Datums.UserDefined).Name + name;
                 if (!_datumList.ContainsKey(key))
                 {
-                    IDatum d = new Datums.UserDefined(name, ellipsoid, deltaX, sigmaX, deltaY, sigmaY, deltaZ, sigmaZ, rotationX, rotationY, rotationZ, rotationScaleFactor, north, south, east, west);
+                    Datums.UserDefined d = new Datums.UserDefined(name, ellipsoid, deltaX, sigmaX, deltaY, sigmaY, deltaZ, sigmaZ, rotationX, rotationY, rotationZ, rotationScaleFactor, north, south, east, west);
                     lock (_datumListLock)
                     {
                         if (!_datumList.ContainsKey(d.Key))
@@ -474,7 +472,7 @@ namespace StarThrower.Gis.GeoUtilities
                 }
                 else
                 {
-                    IDatum d = _datumList[key];
+                    Datums.UserDefined d = (Datums.UserDefined)_datumList[key];
                     if (!((d.Ellipsoid.Equals(ellipsoid)) &&
                            d.DeltaX.Equals(deltaX) &&
                            d.SigmaX.Equals(sigmaX) &&

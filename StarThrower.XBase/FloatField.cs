@@ -36,7 +36,7 @@ namespace StarThrower.XBase
             get { return base.Owner; }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
 
                 base.Owner = value;
                 value.Length = 20;

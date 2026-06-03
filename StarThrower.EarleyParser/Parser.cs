@@ -180,9 +180,10 @@ namespace StarThrower.EarleyParser
                     Complete(chart, index); //complete for next index
                     Predict(chart, index); //finish filling chart by predicting for final index
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    //TODO: log this
+                    throw;
                 }
             }
             return parse;

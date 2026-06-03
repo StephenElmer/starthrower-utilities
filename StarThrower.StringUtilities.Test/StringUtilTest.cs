@@ -20,6 +20,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.StringUtilities;
@@ -90,105 +91,105 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestCharToHex9_EmptyString()
+        public void TestCharToHex9EmptyString()
         {
             // Empty string should return empty hex string
             Assert.AreEqual("", StringUtil.ToHex(""));
         }
 
         [TestMethod]
-        public void TestCharToHex10_SingleDigit()
+        public void TestCharToHex10SingleDigit()
         {
             // Test numeric character
             Assert.AreEqual("30", StringUtil.ToHex("0"));
         }
 
         [TestMethod]
-        public void TestCharToHex11_Numbers()
+        public void TestCharToHex11Numbers()
         {
             // Test numeric string
             Assert.AreEqual("3031323334", StringUtil.ToHex("01234"));
         }
 
         [TestMethod]
-        public void TestCharToHex12_SpecialCharacters()
+        public void TestCharToHex12SpecialCharacters()
         {
             // Test special characters (!, @, #, $)
             Assert.AreEqual("21402324", StringUtil.ToHex("!@#$"));
         }
 
         [TestMethod]
-        public void TestCharToHex13_Punctuation()
+        public void TestCharToHex13Punctuation()
         {
             // Test various punctuation marks
             Assert.AreEqual("2C2E3B", StringUtil.ToHex(",.;"));
         }
 
         [TestMethod]
-        public void TestCharToHex14_MixedCase()
+        public void TestCharToHex14MixedCase()
         {
             // Test mixed case (HoLLo - two capital L's)
             Assert.AreEqual("486F4C4C6F", StringUtil.ToHex("HoLLo"));
         }
 
         [TestMethod]
-        public void TestCharToHex15_Tab()
+        public void TestCharToHex15Tab()
         {
             // Test tab character
             Assert.AreEqual("09", StringUtil.ToHex("\t"));
         }
 
         [TestMethod]
-        public void TestCharToHex16_Newline()
+        public void TestCharToHex16Newline()
         {
             // Test newline character
             Assert.AreEqual("0A", StringUtil.ToHex("\n"));
         }
 
         [TestMethod]
-        public void TestCharToHex17_CarriageReturn()
+        public void TestCharToHex17CarriageReturn()
         {
             // Test carriage return character
             Assert.AreEqual("0D", StringUtil.ToHex("\r"));
         }
 
         [TestMethod]
-        public void TestCharToHex18_LongString()
+        public void TestCharToHex18LongString()
         {
             // Test a longer string
             Assert.AreEqual("54686520717569636B2062726F776E20666F78", StringUtil.ToHex("The quick brown fox"));
         }
 
         [TestMethod]
-        public void TestCharToHex19_AllExtendedAsciiRange()
+        public void TestCharToHex19AllExtendedAsciiRange()
         {
             // Test boundary between ASCII and extended ASCII (char 126 and 127)
             Assert.AreEqual("7E", StringUtil.ToHex("~"));
         }
 
         [TestMethod]
-        public void TestCharToHex20_ExtendedAsciiLow()
+        public void TestCharToHex20ExtendedAsciiLow()
         {
             // Test extended ASCII lower range
             Assert.AreEqual("80", StringUtil.ToHex(Microsoft.VisualBasic.Strings.Chr(128).ToString()));
         }
 
         [TestMethod]
-        public void TestCharToHex21_ExtendedAsciiMid()
+        public void TestCharToHex21ExtendedAsciiMid()
         {
             // Test extended ASCII middle range (example: 192)
             Assert.AreEqual("C0", StringUtil.ToHex(Microsoft.VisualBasic.Strings.Chr(192).ToString()));
         }
 
         [TestMethod]
-        public void TestCharToHex22_ConsecutiveSpecialChars()
+        public void TestCharToHex22ConsecutiveSpecialChars()
         {
             // Test consecutive special characters
             Assert.AreEqual("2829", StringUtil.ToHex("()"));
         }
 
         [TestMethod]
-        public void TestCharToHex23_AllSpaces()
+        public void TestCharToHex23AllSpaces()
         {
             // Test multiple spaces
             Assert.AreEqual("202020", StringUtil.ToHex("   "));
@@ -196,49 +197,49 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestCharToHex24_NullString()
+        public void TestCharToHex24NullString()
         {
             // Test null string throws exception
             StringUtil.ToHex(null);
         }
 
         [TestMethod]
-        public void TestCharToHex25_QuotationMarks()
+        public void TestCharToHex25QuotationMarks()
         {
             // Test quotation marks
             Assert.AreEqual("22", StringUtil.ToHex("\""));
         }
 
         [TestMethod]
-        public void TestCharToHex26_SingleQuote()
+        public void TestCharToHex26SingleQuote()
         {
             // Test single quote
             Assert.AreEqual("27", StringUtil.ToHex("'"));
         }
 
         [TestMethod]
-        public void TestCharToHex27_Backslash()
+        public void TestCharToHex27Backslash()
         {
             // Test backslash
             Assert.AreEqual("5C", StringUtil.ToHex("\\"));
         }
 
         [TestMethod]
-        public void TestCharToHex28_ForwardSlash()
+        public void TestCharToHex28ForwardSlash()
         {
             // Test forward slash
             Assert.AreEqual("2F", StringUtil.ToHex("/"));
         }
 
         [TestMethod]
-        public void TestCharToHex29_Equals()
+        public void TestCharToHex29Equals()
         {
             // Test equals sign
             Assert.AreEqual("3D", StringUtil.ToHex("="));
         }
 
         [TestMethod]
-        public void TestCharToHex30_Underscore()
+        public void TestCharToHex30Underscore()
         {
             // Test underscore
             Assert.AreEqual("5F", StringUtil.ToHex("_"));
@@ -488,7 +489,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString3_NoDelimiterFound()
+        public void TestParseString3NoDelimiterFound()
         {
             // Test when delimiter is not found - should return entire string and clear it
             string s = "hello";
@@ -498,7 +499,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString4_SingleCharDelimiter()
+        public void TestParseString4SingleCharDelimiter()
         {
             // Test with a single character delimiter
             string s = "one:two:three";
@@ -508,7 +509,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString5_MultiCharDelimiter()
+        public void TestParseString5MultiCharDelimiter()
         {
             // Note: ParseString only removes pos+1 chars, so multi-char delimiters will leave extra chars
             // This test documents the actual behavior
@@ -520,7 +521,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString6_SpaceDelimiter()
+        public void TestParseString6SpaceDelimiter()
         {
             // Test with space as delimiter
             string s = "hello world test";
@@ -530,7 +531,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString7_CommaDelimiter()
+        public void TestParseString7CommaDelimiter()
         {
             // Test with comma delimiter
             string s = "item1,item2,item3";
@@ -540,7 +541,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString8_SingleToken()
+        public void TestParseString8SingleToken()
         {
             // Test string with single token and delimiter
             string s = "token|";
@@ -550,7 +551,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString9_EmptyTokenAtEnd()
+        public void TestParseString9EmptyTokenAtEnd()
         {
             // Test parsing to get empty token at end
             string s = "a|b|";
@@ -568,7 +569,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString10_NumericStrings()
+        public void TestParseString10NumericStrings()
         {
             // Test with numeric strings
             string s = "123|456|789";
@@ -578,7 +579,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString11_SpecialCharactersInTokens()
+        public void TestParseString11SpecialCharactersInTokens()
         {
             // Test with special characters in tokens
             string s = "test@email|another#tag|final$";
@@ -588,7 +589,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString12_DelimiterAtStart()
+        public void TestParseString12DelimiterAtStart()
         {
             // Test with delimiter at very start
             string s = "|token";
@@ -598,7 +599,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString13_DelimiterOnly()
+        public void TestParseString13DelimiterOnly()
         {
             // Test with only the delimiter
             string s = "|";
@@ -608,7 +609,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString14_LongDelimiter()
+        public void TestParseString14LongDelimiter()
         {
             // Test with longer delimiter sequence
             // Note: ParseString only removes pos+1 chars, so multi-char delimiters will leave extra chars
@@ -620,7 +621,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString15_ConsecutiveDelimiters()
+        public void TestParseString15ConsecutiveDelimiters()
         {
             // Test with consecutive delimiters
             // Note: ParseString only removes pos+1 chars, so multi-char delimiters will leave extra chars
@@ -632,7 +633,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString16_MixedContent()
+        public void TestParseString16MixedContent()
         {
             // Test with mixed alphanumeric and special characters
             string s = "User123|Pass@456!|Email#789";
@@ -642,7 +643,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString17_CaseSensitiveDelimiter()
+        public void TestParseString17CaseSensitiveDelimiter()
         {
             // Test that delimiter is case-sensitive
             string s = "A|B|C";
@@ -652,7 +653,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString18_TabDelimiter()
+        public void TestParseString18TabDelimiter()
         {
             // Test with tab as delimiter
             string s = "col1\tcol2\tcol3";
@@ -662,7 +663,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString19_NewlineDelimiter()
+        public void TestParseString19NewlineDelimiter()
         {
             // Test with newline as delimiter
             string s = "line1\nline2\nline3";
@@ -672,7 +673,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString20_NullSource()
+        public void TestParseString20NullSource()
         {
             // Null source is now a compile-time error (ref string is non-nullable);
             // enforcement moved from runtime guard to type system.
@@ -681,7 +682,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestParseString21_NullDelimiter()
+        public void TestParseString21NullDelimiter()
         {
             // Test null delimiter throws exception
             string s = "test";
@@ -689,7 +690,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString22_WhitespaceTokens()
+        public void TestParseString22WhitespaceTokens()
         {
             // Test parsing tokens that are whitespace
             string s = "  | \t | ";
@@ -699,7 +700,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString23_VeryLongToken()
+        public void TestParseString23VeryLongToken()
         {
             // Test with very long tokens
             string s = new string('a', 1000) + "|" + new string('b', 1000);
@@ -709,7 +710,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString24_DelimiterLongerThanContent()
+        public void TestParseString24DelimiterLongerThanContent()
         {
             // Test with delimiter longer than content
             string s = "ab";
@@ -719,7 +720,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseString25_DelimiterEqualsContent()
+        public void TestParseString25DelimiterEqualsContent()
         {
             // Test where delimiter equals entire content
             string s = "|";
@@ -873,7 +874,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight3_NoDelimiterFound()
+        public void TestParseStringFromRight3NoDelimiterFound()
         {
             // Test when delimiter is not found - should return entire string and clear it
             string s = "hello";
@@ -883,7 +884,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight4_SingleCharDelimiter()
+        public void TestParseStringFromRight4SingleCharDelimiter()
         {
             // Test with a single character delimiter
             string s = "one:two:three";
@@ -893,7 +894,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight5_MultiCharDelimiter()
+        public void TestParseStringFromRight5MultiCharDelimiter()
         {
             // Note: ParseStringFromRight has similar behavior to ParseString with multi-char delimiters
             // It removes pos + ret.Length + 1, which may not be the full delimiter length
@@ -905,7 +906,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight6_SpaceDelimiter()
+        public void TestParseStringFromRight6SpaceDelimiter()
         {
             // Test with space as delimiter
             string s = "hello world test";
@@ -915,7 +916,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight7_CommaDelimiter()
+        public void TestParseStringFromRight7CommaDelimiter()
         {
             // Test with comma delimiter
             string s = "item1,item2,item3";
@@ -925,7 +926,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight8_SingleToken()
+        public void TestParseStringFromRight8SingleToken()
         {
             // Test string with single token and delimiter at end
             string s = "token|";
@@ -935,7 +936,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight9_EmptyTokenAtStart()
+        public void TestParseStringFromRight9EmptyTokenAtStart()
         {
             // Test parsing to get empty token at start
             string s = "|a|b";
@@ -953,7 +954,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight10_NumericStrings()
+        public void TestParseStringFromRight10NumericStrings()
         {
             // Test with numeric strings
             string s = "123|456|789";
@@ -963,7 +964,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight11_SpecialCharactersInTokens()
+        public void TestParseStringFromRight11SpecialCharactersInTokens()
         {
             // Test with special characters in tokens
             string s = "test@email|another#tag|final$";
@@ -973,7 +974,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight12_DelimiterAtEnd()
+        public void TestParseStringFromRight12DelimiterAtEnd()
         {
             // Test with delimiter at very end
             string s = "token|";
@@ -983,7 +984,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight13_DelimiterOnly()
+        public void TestParseStringFromRight13DelimiterOnly()
         {
             // Test with only the delimiter
             string s = "|";
@@ -993,7 +994,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight14_LongDelimiter()
+        public void TestParseStringFromRight14LongDelimiter()
         {
             // Test with longer delimiter sequence
             // Note: similar limitation with multi-char delimiters
@@ -1005,7 +1006,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight15_ConsecutiveDelimiters()
+        public void TestParseStringFromRight15ConsecutiveDelimiters()
         {
             // Test with consecutive delimiters
             // Note: similar limitation with multi-char delimiters
@@ -1017,7 +1018,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight16_MixedContent()
+        public void TestParseStringFromRight16MixedContent()
         {
             // Test with mixed alphanumeric and special characters
             string s = "User123|Pass@456!|Email#789";
@@ -1027,7 +1028,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight17_CaseSensitiveDelimiter()
+        public void TestParseStringFromRight17CaseSensitiveDelimiter()
         {
             // Test that delimiter is case-sensitive
             string s = "A|B|C";
@@ -1037,7 +1038,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight18_TabDelimiter()
+        public void TestParseStringFromRight18TabDelimiter()
         {
             // Test with tab as delimiter
             string s = "col1\tcol2\tcol3";
@@ -1047,7 +1048,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight19_NewlineDelimiter()
+        public void TestParseStringFromRight19NewlineDelimiter()
         {
             // Test with newline as delimiter
             string s = "line1\nline2\nline3";
@@ -1057,7 +1058,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight20_NullSource()
+        public void TestParseStringFromRight20NullSource()
         {
             // Null source is now a compile-time error (ref string is non-nullable);
             // enforcement moved from runtime guard to type system.
@@ -1066,7 +1067,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestParseStringFromRight21_NullDelimiter()
+        public void TestParseStringFromRight21NullDelimiter()
         {
             // Test null delimiter throws exception
             string s = "test";
@@ -1074,7 +1075,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight22_WhitespaceTokens()
+        public void TestParseStringFromRight22WhitespaceTokens()
         {
             // Test parsing tokens that are whitespace
             string s = "  | \t | ";
@@ -1084,7 +1085,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight23_VeryLongToken()
+        public void TestParseStringFromRight23VeryLongToken()
         {
             // Test with very long tokens
             string s = new string('a', 1000) + "|" + new string('b', 1000);
@@ -1094,7 +1095,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight24_DelimiterLongerThanContent()
+        public void TestParseStringFromRight24DelimiterLongerThanContent()
         {
             // Test with delimiter longer than content
             string s = "ab";
@@ -1104,7 +1105,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight25_DelimiterEqualsContent()
+        public void TestParseStringFromRight25DelimiterEqualsContent()
         {
             // Test where delimiter equals entire content
             string s = "|";
@@ -1114,7 +1115,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight26_MultipleDelimitersInLastToken()
+        public void TestParseStringFromRight26MultipleDelimitersInLastToken()
         {
             // Test when the last token contains the delimiter character
             string s = "a|b:c|d:e";
@@ -1124,7 +1125,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight27_DelimiterAtBothEnds()
+        public void TestParseStringFromRight27DelimiterAtBothEnds()
         {
             // Test with delimiter at both start and end
             string s = "|content|";
@@ -1138,7 +1139,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight28_SymmetricalWithParseString()
+        public void TestParseStringFromRight28SymmetricalWithParseString()
         {
             // Test that ParseStringFromRight is symmetrical with ParseString
             // when parsing all tokens from a string
@@ -1161,7 +1162,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight29_DelimiterNotInString()
+        public void TestParseStringFromRight29DelimiterNotInString()
         {
             // Test when delimiter is not found anywhere in string
             string s = "no delimiter here";
@@ -1171,7 +1172,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight30_SingleCharString()
+        public void TestParseStringFromRight30SingleCharString()
         {
             // Test with single character string
             string s = "a";
@@ -1181,7 +1182,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestParseStringFromRight31_AlternatingDelimiterAndContent()
+        public void TestParseStringFromRight31AlternatingDelimiterAndContent()
         {
             // Test with alternating delimiter and content
             string s = "a|b|c|d|e";
@@ -1270,21 +1271,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstitute49_SingleCharacterString()
+        public void TestSubstitute49SingleCharacterString()
         {
             // Test single character string
             Assert.AreEqual("X", StringUtil.Substitute("a", "a", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute50_EmptySourceString()
+        public void TestSubstitute50EmptySourceString()
         {
             // Test empty source string
             Assert.AreEqual("", StringUtil.Substitute("", "a", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute51_RepeatedReplacements()
+        public void TestSubstitute51RepeatedReplacements()
         {
             // Test multiple replacements in sequence
             string result = StringUtil.Substitute("aaaa", "a", "X");
@@ -1292,119 +1293,119 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstitute52_TargetWithSpecialCharacters()
+        public void TestSubstitute52TargetWithSpecialCharacters()
         {
             // Test target containing special characters
             Assert.AreEqual("aXf", StringUtil.Substitute("a@#f", "@#", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute53_WhitespaceTarget()
+        public void TestSubstitute53WhitespaceTarget()
         {
             // Test whitespace as target
             Assert.AreEqual("aXbXc", StringUtil.Substitute("a b c", " ", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute54_TabCharacterInSource()
+        public void TestSubstitute54TabCharacterInSource()
         {
             // Test tab character in source
             Assert.AreEqual("aXb", StringUtil.Substitute("a\tb", "\t", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute55_NewlineCharacterInSource()
+        public void TestSubstitute55NewlineCharacterInSource()
         {
             // Test newline character in source
             Assert.AreEqual("aXb", StringUtil.Substitute("a\nb", "\n", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute56_LongestMatchFirst()
+        public void TestSubstitute56LongestMatchFirst()
         {
             // Test that it uses IndexOf behavior (first occurrence)
             Assert.AreEqual("XBabc", StringUtil.Substitute("ABabc", "A", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute57_NumericInSource()
+        public void TestSubstitute57NumericInSource()
         {
             // Test numeric content in source
             Assert.AreEqual("a123f", StringUtil.Substitute("a456f", "456", "123"));
         }
 
         [TestMethod]
-        public void TestSubstitute58_TargetLongerThanSource()
+        public void TestSubstitute58TargetLongerThanSource()
         {
             // Test target longer than source (no match)
             Assert.AreEqual("abc", StringUtil.Substitute("abc", "abcdef", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute59_ReplacementShorterThanTarget()
+        public void TestSubstitute59ReplacementShorterThanTarget()
         {
             // Test replacement shorter than target (deletion effect)
             Assert.AreEqual("aXf", StringUtil.Substitute("asdf", "sd", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute23_SingleCharacterReplacement()
+        public void TestSubstitute23SingleCharacterReplacement()
         {
             // Test replacing with single character
             Assert.AreEqual("aXf", StringUtil.Substitute("asdf", "sd", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute24_EmptyReplacement()
+        public void TestSubstitute24EmptyReplacement()
         {
             // Test replacing with empty string (deletion)
             Assert.AreEqual("af", StringUtil.Substitute("asdf", "sd", ""));
         }
 
         [TestMethod]
-        public void TestSubstitute25_LongerReplacement()
+        public void TestSubstitute25LongerReplacement()
         {
             // Test replacing with longer string
             Assert.AreEqual("aLONGERf", StringUtil.Substitute("asdf", "sd", "LONGER"));
         }
 
         [TestMethod]
-        public void TestSubstitute26_TargetNotFound()
+        public void TestSubstitute26TargetNotFound()
         {
             // Test when target is not in source
             Assert.AreEqual("asdf", StringUtil.Substitute("asdf", "xyz", "XY"));
         }
 
         [TestMethod]
-        public void TestSubstitute27_EntireStringAsTarget()
+        public void TestSubstitute27EntireStringAsTarget()
         {
             // Test replacing the entire string
             Assert.AreEqual("REPLACEMENT", StringUtil.Substitute("entire", "entire", "REPLACEMENT"));
         }
 
         [TestMethod]
-        public void TestSubstitute28_TargetAtStart()
+        public void TestSubstitute28TargetAtStart()
         {
             // Test target at start of string
             Assert.AreEqual("REPLACEDsdf", StringUtil.Substitute("asdf", "a", "REPLACED"));
         }
 
         [TestMethod]
-        public void TestSubstitute29_TargetAtEnd()
+        public void TestSubstitute29TargetAtEnd()
         {
             // Test target at end of string
             Assert.AreEqual("asdREPLACED", StringUtil.Substitute("asdf", "f", "REPLACED"));
         }
 
         [TestMethod]
-        public void TestSubstitute30_MultipleNonConsecutiveTargets()
+        public void TestSubstitute30MultipleNonConsecutiveTargets()
         {
             // Test multiple non-consecutive targets
             Assert.AreEqual("XaXaX", StringUtil.Substitute("XaYaY", "Y", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute31_OverlappingPattern()
+        public void TestSubstitute31OverlappingPattern()
         {
             // Test with pattern that could overlap
             // Algorithm replaces first match then continues from after replacement
@@ -1413,28 +1414,28 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstitute32_NumericStringReplacement()
+        public void TestSubstitute32NumericStringReplacement()
         {
             // Test replacing numeric strings
             Assert.AreEqual("a123f", StringUtil.Substitute("asdf", "sd", "123"));
         }
 
         [TestMethod]
-        public void TestSubstitute33_SpecialCharactersInReplacement()
+        public void TestSubstitute33SpecialCharactersInReplacement()
         {
             // Test special characters in replacement
             Assert.AreEqual("a@#$f", StringUtil.Substitute("asdf", "sd", "@#$"));
         }
 
         [TestMethod]
-        public void TestSubstitute34_SpaceInReplacement()
+        public void TestSubstitute34SpaceInReplacement()
         {
             // Test space in replacement
             Assert.AreEqual("a  f", StringUtil.Substitute("asdf", "sd", "  "));
         }
 
         [TestMethod]
-        public void TestSubstitute35_VeryLongTarget()
+        public void TestSubstitute35VeryLongTarget()
         {
             // Test with very long target string
             string target = new string('a', 100);
@@ -1444,7 +1445,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstitute36_VeryLongReplacement()
+        public void TestSubstitute36VeryLongReplacement()
         {
             // Test with very long replacement string
             string replacement = new string('x', 1000);
@@ -1453,21 +1454,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstitute37_SelfReplacingTarget()
+        public void TestSubstitute37SelfReplacingTarget()
         {
             // Test replacing target with itself (should return same)
             Assert.AreEqual("asdf", StringUtil.Substitute("asdf", "sd", "sd"));
         }
 
         [TestMethod]
-        public void TestSubstitute38_ConsecutiveIdenticalTargets()
+        public void TestSubstitute38ConsecutiveIdenticalTargets()
         {
             // Test multiple consecutive identical targets
             Assert.AreEqual("XYXYXY", StringUtil.Substitute("ababab", "ab", "XY"));
         }
 
         [TestMethod]
-        public void TestSubstitute39_SingleCharacterTarget()
+        public void TestSubstitute39SingleCharacterTarget()
         {
             // Test single character target with case-sensitive matching
             // Only lowercase 'x' should be replaced, not uppercase 'X'
@@ -1475,21 +1476,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstitute40_AllCharactersSame()
+        public void TestSubstitute40AllCharactersSame()
         {
             // Test string where all characters are the same
             Assert.AreEqual("XXXX", StringUtil.Substitute("aaaa", "a", "X"));
         }
 
         [TestMethod]
-        public void TestSubstitute41_ReplacementContainsTarget()
+        public void TestSubstitute41ReplacementContainsTarget()
         {
             // Test when replacement contains the target
             Assert.AreEqual("abcabc", StringUtil.Substitute("abc", "abc", "abcabc"));
         }
 
         [TestMethod]
-        public void TestSubstitute42_AlternatingPattern()
+        public void TestSubstitute42AlternatingPattern()
         {
             // Test alternating pattern
             Assert.AreEqual("XbXb", StringUtil.Substitute("abab", "a", "X"));
@@ -1497,7 +1498,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstitute43_NullSource()
+        public void TestSubstitute43NullSource()
         {
             // Test null source throws exception
             StringUtil.Substitute(null, "a", "X");
@@ -1505,7 +1506,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstitute44_NullTarget()
+        public void TestSubstitute44NullTarget()
         {
             // Test null target throws exception
             StringUtil.Substitute("asdf", null, "X");
@@ -1513,7 +1514,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstitute45_NullReplacement()
+        public void TestSubstitute45NullReplacement()
         {
             // Test null replacement throws exception
             StringUtil.Substitute("asdf", "a", null);
@@ -1657,21 +1658,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstitute46_CaseInsensitiveSimple()
+        public void TestSubstitute46CaseInsensitiveSimple()
         {
             // Test case-insensitive replacement
             Assert.AreEqual("XbXd", StringUtil.Substitute("AbAd", "a", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstitute47_CaseInsensitiveNoMatch()
+        public void TestSubstitute47CaseInsensitiveNoMatch()
         {
             // Test case-insensitive with no match (case matters in target itself)
             Assert.AreEqual("XBXd", StringUtil.Substitute("ABad", "a", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstitute48_MixedCaseTarget()
+        public void TestSubstitute48MixedCaseTarget()
         {
             // Test mixed case target with case-insensitive
             // "asdf" with target "SD" case-insensitive
@@ -1682,133 +1683,133 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstituteExtended23_EmptyTargetCaseSensitive()
+        public void TestSubstituteExtended23EmptyTargetCaseSensitive()
         {
             // Test empty target with case-sensitive (should return source unchanged)
             Assert.AreEqual("hello", StringUtil.Substitute("hello", "", "world", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended24_EmptyTargetCaseInsensitive()
+        public void TestSubstituteExtended24EmptyTargetCaseInsensitive()
         {
             // Test empty target with case-insensitive (should return source unchanged)
             Assert.AreEqual("hello", StringUtil.Substitute("hello", "", "world", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended25_AllUppercaseCaseSensitive()
+        public void TestSubstituteExtended25AllUppercaseCaseSensitive()
         {
             // Test all uppercase - should not match lowercase with case-sensitive
             Assert.AreEqual("HELLO", StringUtil.Substitute("HELLO", "hello", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended26_AllUppercaseCaseInsensitive()
+        public void TestSubstituteExtended26AllUppercaseCaseInsensitive()
         {
             // Test all uppercase - should match with case-insensitive
             Assert.AreEqual("X", StringUtil.Substitute("HELLO", "hello", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended27_MixedCaseCaseSensitive()
+        public void TestSubstituteExtended27MixedCaseCaseSensitive()
         {
             // Test mixed case with case-sensitive - partial case match should not substitute
             Assert.AreEqual("HeLLo", StringUtil.Substitute("HeLLo", "hello", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended28_MixedCaseCaseInsensitive()
+        public void TestSubstituteExtended28MixedCaseCaseInsensitive()
         {
             // Test mixed case with case-insensitive - should match and replace
             Assert.AreEqual("X", StringUtil.Substitute("HeLLo", "hello", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended29_PartialCaseMatchCaseSensitive()
+        public void TestSubstituteExtended29PartialCaseMatchCaseSensitive()
         {
             // Test partial case match with case-sensitive
             Assert.AreEqual("aBCD", StringUtil.Substitute("aBCD", "ABCD", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended30_PartialCaseMatchCaseInsensitive()
+        public void TestSubstituteExtended30PartialCaseMatchCaseInsensitive()
         {
             // Test partial case match with case-insensitive - should match
             Assert.AreEqual("X", StringUtil.Substitute("aBCD", "ABCD", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended31_NumericTargetCaseSensitive()
+        public void TestSubstituteExtended31NumericTargetCaseSensitive()
         {
             // Test numeric target with case-sensitive
             Assert.AreEqual("X456X", StringUtil.Substitute("123456123", "123", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended32_NumericTargetCaseInsensitive()
+        public void TestSubstituteExtended32NumericTargetCaseInsensitive()
         {
             // Test numeric target with case-insensitive (should work same as case-sensitive for numbers)
             Assert.AreEqual("X456X", StringUtil.Substitute("123456123", "123", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended33_SpecialCharactersCaseSensitive()
+        public void TestSubstituteExtended33SpecialCharactersCaseSensitive()
         {
             // Test special characters with case-sensitive
             Assert.AreEqual("aX", StringUtil.Substitute("a@#$b", "@#$b", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended34_SpecialCharactersCaseInsensitive()
+        public void TestSubstituteExtended34SpecialCharactersCaseInsensitive()
         {
             // Test special characters with case-insensitive
             Assert.AreEqual("aX", StringUtil.Substitute("a@#$b", "@#$b", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended35_WhitespaceCaseSensitive()
+        public void TestSubstituteExtended35WhitespaceCaseSensitive()
         {
             // Test whitespace with case-sensitive
             Assert.AreEqual("aXb", StringUtil.Substitute("a b", " ", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended36_WhitespaceCaseInsensitive()
+        public void TestSubstituteExtended36WhitespaceCaseInsensitive()
         {
             // Test whitespace with case-insensitive (should work same as case-sensitive)
             Assert.AreEqual("aXb", StringUtil.Substitute("a b", " ", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended37_TabCaseSensitive()
+        public void TestSubstituteExtended37TabCaseSensitive()
         {
             // Test tab character with case-sensitive
             Assert.AreEqual("aXb", StringUtil.Substitute("a\tb", "\t", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended38_TabCaseInsensitive()
+        public void TestSubstituteExtended38TabCaseInsensitive()
         {
             // Test tab character with case-insensitive
             Assert.AreEqual("aXb", StringUtil.Substitute("a\tb", "\t", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended39_NewlineCaseSensitive()
+        public void TestSubstituteExtended39NewlineCaseSensitive()
         {
             // Test newline character with case-sensitive
             Assert.AreEqual("aXb", StringUtil.Substitute("a\nb", "\n", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended40_NewlineCaseInsensitive()
+        public void TestSubstituteExtended40NewlineCaseInsensitive()
         {
             // Test newline character with case-insensitive
             Assert.AreEqual("aXb", StringUtil.Substitute("a\nb", "\n", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended41_VeryLongStringCaseSensitive()
+        public void TestSubstituteExtended41VeryLongStringCaseSensitive()
         {
             // Test very long string with case-sensitive
             string longStr = new string('a', 1000);
@@ -1816,7 +1817,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstituteExtended42_VeryLongStringCaseInsensitive()
+        public void TestSubstituteExtended42VeryLongStringCaseInsensitive()
         {
             // Test very long string with case-insensitive
             string longStr = new string('a', 1000);
@@ -1824,42 +1825,42 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstituteExtended43_ReplacementLongerThanTargetCaseSensitive()
+        public void TestSubstituteExtended43ReplacementLongerThanTargetCaseSensitive()
         {
             // Test replacement longer than target with case-sensitive
             Assert.AreEqual("aLONGERf", StringUtil.Substitute("asdf", "sd", "LONGER", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended44_ReplacementLongerThanTargetCaseInsensitive()
+        public void TestSubstituteExtended44ReplacementLongerThanTargetCaseInsensitive()
         {
             // Test replacement longer than target with case-insensitive
             Assert.AreEqual("aLONGERf", StringUtil.Substitute("asdf", "SD", "LONGER", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended45_EmptyReplacementCaseSensitive()
+        public void TestSubstituteExtended45EmptyReplacementCaseSensitive()
         {
             // Test empty replacement (deletion) with case-sensitive
             Assert.AreEqual("af", StringUtil.Substitute("asdf", "sd", "", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended46_EmptyReplacementCaseInsensitive()
+        public void TestSubstituteExtended46EmptyReplacementCaseInsensitive()
         {
             // Test empty replacement (deletion) with case-insensitive
             Assert.AreEqual("af", StringUtil.Substitute("asdf", "SD", "", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended47_SelfReplacingCaseSensitive()
+        public void TestSubstituteExtended47SelfReplacingCaseSensitive()
         {
             // Test replacing target with itself (case-sensitive)
             Assert.AreEqual("asdf", StringUtil.Substitute("asdf", "sd", "sd", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended48_SelfReplacingCaseInsensitive()
+        public void TestSubstituteExtended48SelfReplacingCaseInsensitive()
         {
             // Test replacing target with itself (case-insensitive)
             // Note: original case is preserved since we're replacing with the exact same string
@@ -1867,140 +1868,140 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSubstituteExtended49_ConsecutiveTargetsCaseSensitive()
+        public void TestSubstituteExtended49ConsecutiveTargetsCaseSensitive()
         {
             // Test consecutive targets with case-sensitive
             Assert.AreEqual("XYXYXY", StringUtil.Substitute("ababab", "ab", "XY", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended50_ConsecutiveTargetsCaseInsensitive()
+        public void TestSubstituteExtended50ConsecutiveTargetsCaseInsensitive()
         {
             // Test consecutive targets with case-insensitive
             Assert.AreEqual("XYXYXY", StringUtil.Substitute("ababab", "AB", "XY", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended51_AlternatingCaseSensitive()
+        public void TestSubstituteExtended51AlternatingCaseSensitive()
         {
             // Test alternating pattern with case-sensitive
             Assert.AreEqual("XbXb", StringUtil.Substitute("abab", "a", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended52_AlternatingCaseInsensitive()
+        public void TestSubstituteExtended52AlternatingCaseInsensitive()
         {
             // Test alternating pattern with case-insensitive
             Assert.AreEqual("XbXb", StringUtil.Substitute("abab", "A", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended53_NoMatchCaseSensitive()
+        public void TestSubstituteExtended53NoMatchCaseSensitive()
         {
             // Test when target doesn't match (case-sensitive)
             Assert.AreEqual("asdf", StringUtil.Substitute("asdf", "ASDF", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended54_NoMatchCaseInsensitive()
+        public void TestSubstituteExtended54NoMatchCaseInsensitive()
         {
             // Test when target doesn't match (case-insensitive) - but it should match here
             Assert.AreEqual("X", StringUtil.Substitute("asdf", "ASDF", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended55_TargetLongerThanSourceCaseSensitive()
+        public void TestSubstituteExtended55TargetLongerThanSourceCaseSensitive()
         {
             // Test target longer than source with case-sensitive
             Assert.AreEqual("abc", StringUtil.Substitute("abc", "abcdef", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended56_TargetLongerThanSourceCaseInsensitive()
+        public void TestSubstituteExtended56TargetLongerThanSourceCaseInsensitive()
         {
             // Test target longer than source with case-insensitive
             Assert.AreEqual("abc", StringUtil.Substitute("abc", "ABCDEF", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended57_SingleCharacterSourceCaseSensitive()
+        public void TestSubstituteExtended57SingleCharacterSourceCaseSensitive()
         {
             // Test single character source with case-sensitive
             Assert.AreEqual("X", StringUtil.Substitute("a", "a", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended58_SingleCharacterSourceCaseInsensitive()
+        public void TestSubstituteExtended58SingleCharacterSourceCaseInsensitive()
         {
             // Test single character source with case-insensitive
             Assert.AreEqual("X", StringUtil.Substitute("A", "a", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended59_EmptySourceCaseSensitive()
+        public void TestSubstituteExtended59EmptySourceCaseSensitive()
         {
             // Test empty source with case-sensitive
             Assert.AreEqual("", StringUtil.Substitute("", "a", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended60_EmptySourceCaseInsensitive()
+        public void TestSubstituteExtended60EmptySourceCaseInsensitive()
         {
             // Test empty source with case-insensitive
             Assert.AreEqual("", StringUtil.Substitute("", "a", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended61_TargetAtStartCaseSensitive()
+        public void TestSubstituteExtended61TargetAtStartCaseSensitive()
         {
             // Test target at start with case-sensitive
             Assert.AreEqual("REPLACEDsdf", StringUtil.Substitute("asdf", "a", "REPLACED", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended62_TargetAtStartCaseInsensitive()
+        public void TestSubstituteExtended62TargetAtStartCaseInsensitive()
         {
             // Test target at start with case-insensitive
             Assert.AreEqual("REPLACEDsdf", StringUtil.Substitute("Asdf", "a", "REPLACED", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended63_TargetAtEndCaseSensitive()
+        public void TestSubstituteExtended63TargetAtEndCaseSensitive()
         {
             // Test target at end with case-sensitive
             Assert.AreEqual("asdREPLACED", StringUtil.Substitute("asdf", "f", "REPLACED", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended64_TargetAtEndCaseInsensitive()
+        public void TestSubstituteExtended64TargetAtEndCaseInsensitive()
         {
             // Test target at end with case-insensitive
             Assert.AreEqual("asdREPLACED", StringUtil.Substitute("asdF", "f", "REPLACED", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended65_MultiCharacterTargetCaseSensitive()
+        public void TestSubstituteExtended65MultiCharacterTargetCaseSensitive()
         {
             // Test multi-character target with case-sensitive
             Assert.AreEqual("aXf", StringUtil.Substitute("asdf", "sd", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended66_MultiCharacterTargetCaseInsensitive()
+        public void TestSubstituteExtended66MultiCharacterTargetCaseInsensitive()
         {
             // Test multi-character target with case-insensitive
             Assert.AreEqual("aXf", StringUtil.Substitute("aSDf", "sd", "X", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended67_OverlappingPatternCaseSensitive()
+        public void TestSubstituteExtended67OverlappingPatternCaseSensitive()
         {
             // Test overlapping pattern with case-sensitive
             Assert.AreEqual("XX", StringUtil.Substitute("AAAA", "AA", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended68_OverlappingPatternCaseInsensitive()
+        public void TestSubstituteExtended68OverlappingPatternCaseInsensitive()
         {
             // Test overlapping pattern with case-insensitive
             Assert.AreEqual("XX", StringUtil.Substitute("aaaa", "AA", "X", ComparisonType.CaseInsensitive));
@@ -2008,7 +2009,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstituteExtended69_NullSourceCaseSensitive()
+        public void TestSubstituteExtended69NullSourceCaseSensitive()
         {
             // Test null source throws exception with case-sensitive
             StringUtil.Substitute(null, "a", "X", ComparisonType.CaseSensitive);
@@ -2016,7 +2017,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstituteExtended70_NullSourceCaseInsensitive()
+        public void TestSubstituteExtended70NullSourceCaseInsensitive()
         {
             // Test null source throws exception with case-insensitive
             StringUtil.Substitute(null, "a", "X", ComparisonType.CaseInsensitive);
@@ -2024,7 +2025,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstituteExtended71_NullTargetCaseSensitive()
+        public void TestSubstituteExtended71NullTargetCaseSensitive()
         {
             // Test null target throws exception with case-sensitive
             StringUtil.Substitute("test", null, "X", ComparisonType.CaseSensitive);
@@ -2032,7 +2033,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstituteExtended72_NullTargetCaseInsensitive()
+        public void TestSubstituteExtended72NullTargetCaseInsensitive()
         {
             // Test null target throws exception with case-insensitive
             StringUtil.Substitute("test", null, "X", ComparisonType.CaseInsensitive);
@@ -2040,7 +2041,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstituteExtended73_NullReplacementCaseSensitive()
+        public void TestSubstituteExtended73NullReplacementCaseSensitive()
         {
             // Test null replacement throws exception with case-sensitive
             StringUtil.Substitute("test", "e", null, ComparisonType.CaseSensitive);
@@ -2048,49 +2049,49 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubstituteExtended74_NullReplacementCaseInsensitive()
+        public void TestSubstituteExtended74NullReplacementCaseInsensitive()
         {
             // Test null replacement throws exception with case-insensitive
             StringUtil.Substitute("test", "e", null, ComparisonType.CaseInsensitive);
         }
 
         [TestMethod]
-        public void TestSubstituteExtended75_ReplacementContainsTargetCaseSensitive()
+        public void TestSubstituteExtended75ReplacementContainsTargetCaseSensitive()
         {
             // Test replacement containing target with case-sensitive
             Assert.AreEqual("abcabc", StringUtil.Substitute("abc", "abc", "abcabc", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended76_ReplacementContainsTargetCaseInsensitive()
+        public void TestSubstituteExtended76ReplacementContainsTargetCaseInsensitive()
         {
             // Test replacement containing target with case-insensitive
             Assert.AreEqual("abcabc", StringUtil.Substitute("ABC", "abc", "abcabc", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended77_EntireStringMatchCaseSensitive()
+        public void TestSubstituteExtended77EntireStringMatchCaseSensitive()
         {
             // Test entire string matches target with case-sensitive
             Assert.AreEqual("REPLACEMENT", StringUtil.Substitute("entire", "entire", "REPLACEMENT", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended78_EntireStringMatchCaseInsensitive()
+        public void TestSubstituteExtended78EntireStringMatchCaseInsensitive()
         {
             // Test entire string matches target with case-insensitive
             Assert.AreEqual("REPLACEMENT", StringUtil.Substitute("ENTIRE", "entire", "REPLACEMENT", ComparisonType.CaseInsensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended79_MultipleNonConsecutiveTargetsCaseSensitive()
+        public void TestSubstituteExtended79MultipleNonConsecutiveTargetsCaseSensitive()
         {
             // Test multiple non-consecutive targets with case-sensitive
             Assert.AreEqual("XaXaX", StringUtil.Substitute("XaYaY", "Y", "X", ComparisonType.CaseSensitive));
         }
 
         [TestMethod]
-        public void TestSubstituteExtended80_MultipleNonConsecutiveTargetsCaseInsensitive()
+        public void TestSubstituteExtended80MultipleNonConsecutiveTargetsCaseInsensitive()
         {
             // Test multiple non-consecutive targets with case-insensitive
             Assert.AreEqual("XaXaX", StringUtil.Substitute("XaYaY", "y", "X", ComparisonType.CaseInsensitive));
@@ -2102,7 +2103,7 @@ namespace StarThrower.StringUtilities.Test
         #region ConvertComparisonType(ComparisonType) tests
 
         [TestMethod]
-        public void TestConvertComparisonType1_CaseSensitive()
+        public void TestConvertComparisonType1CaseSensitive()
         {
             // Test converting CaseSensitive to StringComparison.Ordinal
             StringComparison result = StringUtil.ConvertComparisonType(ComparisonType.CaseSensitive);
@@ -2110,7 +2111,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType2_CaseInsensitive()
+        public void TestConvertComparisonType2CaseInsensitive()
         {
             // Test converting CaseInsensitive to StringComparison.OrdinalIgnoreCase
             StringComparison result = StringUtil.ConvertComparisonType(ComparisonType.CaseInsensitive);
@@ -2119,7 +2120,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestConvertComparisonType3_InvalidValue()
+        public void TestConvertComparisonType3InvalidValue()
         {
             // Test converting invalid ComparisonType value throws ArgumentOutOfRangeException
             // Database = 2 is not supported
@@ -2127,7 +2128,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType4_CaseSensitiveConsistency()
+        public void TestConvertComparisonType4CaseSensitiveConsistency()
         {
             // Test that CaseSensitive always converts to Ordinal
             for (int i = 0; i < 5; i++)
@@ -2137,7 +2138,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType5_CaseInsensitiveConsistency()
+        public void TestConvertComparisonType5CaseInsensitiveConsistency()
         {
             // Test that CaseInsensitive always converts to OrdinalIgnoreCase
             for (int i = 0; i < 5; i++)
@@ -2147,7 +2148,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType6_CaseSensitiveUsedInIndexOf()
+        public void TestConvertComparisonType6CaseSensitiveUsedInIndexOf()
         {
             // Test that CaseSensitive conversion works correctly with string operations
             string source = "Hello World";
@@ -2157,7 +2158,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType7_CaseInsensitiveUsedInIndexOf()
+        public void TestConvertComparisonType7CaseInsensitiveUsedInIndexOf()
         {
             // Test that CaseInsensitive conversion works correctly with string operations
             string source = "Hello World";
@@ -2167,7 +2168,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType8_CaseSensitiveEqualsCheck()
+        public void TestConvertComparisonType8CaseSensitiveEqualsCheck()
         {
             // Test that CaseSensitive conversion works with Equals
             string str1 = "Test";
@@ -2178,7 +2179,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType9_CaseInsensitiveEqualsCheck()
+        public void TestConvertComparisonType9CaseInsensitiveEqualsCheck()
         {
             // Test that CaseInsensitive conversion works with Equals
             string str1 = "Test";
@@ -2189,7 +2190,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType10_CaseSensitiveCompare()
+        public void TestConvertComparisonType10CaseSensitiveCompare()
         {
             // Test that CaseSensitive conversion produces Ordinal for string comparison
             StringComparison result = StringUtil.ConvertComparisonType(ComparisonType.CaseSensitive);
@@ -2197,7 +2198,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType11_CaseInsensitiveCompare()
+        public void TestConvertComparisonType11CaseInsensitiveCompare()
         {
             // Test that CaseInsensitive conversion produces OrdinalIgnoreCase
             StringComparison result = StringUtil.ConvertComparisonType(ComparisonType.CaseInsensitive);
@@ -2205,7 +2206,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType12_CaseSensitiveNotOrdinalIgnoreCase()
+        public void TestConvertComparisonType12CaseSensitiveNotOrdinalIgnoreCase()
         {
             // Test that CaseSensitive does NOT return OrdinalIgnoreCase
             StringComparison result = StringUtil.ConvertComparisonType(ComparisonType.CaseSensitive);
@@ -2213,7 +2214,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType13_CaseInsensitiveNotOrdinal()
+        public void TestConvertComparisonType13CaseInsensitiveNotOrdinal()
         {
             // Test that CaseInsensitive does NOT return Ordinal
             StringComparison result = StringUtil.ConvertComparisonType(ComparisonType.CaseInsensitive);
@@ -2221,7 +2222,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType14_CaseSensitiveWithMixedCase()
+        public void TestConvertComparisonType14CaseSensitiveWithMixedCase()
         {
             // Test CaseSensitive with mixed case strings
             string str1 = "TeSt";
@@ -2232,7 +2233,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType15_CaseInsensitiveWithMixedCase()
+        public void TestConvertComparisonType15CaseInsensitiveWithMixedCase()
         {
             // Test CaseInsensitive with mixed case strings
             string str1 = "TeSt";
@@ -2243,7 +2244,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType16_CaseSensitiveNumericStrings()
+        public void TestConvertComparisonType16CaseSensitiveNumericStrings()
         {
             // Test CaseSensitive with numeric strings
             StringComparison comparison = StringUtil.ConvertComparisonType(ComparisonType.CaseSensitive);
@@ -2252,7 +2253,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType17_CaseInsensitiveNumericStrings()
+        public void TestConvertComparisonType17CaseInsensitiveNumericStrings()
         {
             // Test CaseInsensitive with numeric strings
             StringComparison comparison = StringUtil.ConvertComparisonType(ComparisonType.CaseInsensitive);
@@ -2261,7 +2262,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType18_CaseSensitiveWithSpecialCharacters()
+        public void TestConvertComparisonType18CaseSensitiveWithSpecialCharacters()
         {
             // Test CaseSensitive with special characters
             StringComparison comparison = StringUtil.ConvertComparisonType(ComparisonType.CaseSensitive);
@@ -2270,7 +2271,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType19_CaseInsensitiveWithSpecialCharacters()
+        public void TestConvertComparisonType19CaseInsensitiveWithSpecialCharacters()
         {
             // Test CaseInsensitive with special characters
             StringComparison comparison = StringUtil.ConvertComparisonType(ComparisonType.CaseInsensitive);
@@ -2279,7 +2280,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType20_CaseSensitiveEmptyStrings()
+        public void TestConvertComparisonType20CaseSensitiveEmptyStrings()
         {
             // Test CaseSensitive with empty strings
             StringComparison comparison = StringUtil.ConvertComparisonType(ComparisonType.CaseSensitive);
@@ -2287,7 +2288,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestConvertComparisonType21_CaseInsensitiveEmptyStrings()
+        public void TestConvertComparisonType21CaseInsensitiveEmptyStrings()
         {
             // Test CaseInsensitive with empty strings
             StringComparison comparison = StringUtil.ConvertComparisonType(ComparisonType.CaseInsensitive);
@@ -2296,7 +2297,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestConvertComparisonType22_DatabaseThrowsException()
+        public void TestConvertComparisonType22DatabaseThrowsException()
         {
             // Test that Database comparison type throws exception (not supported)
             StringUtil.ConvertComparisonType(ComparisonType.Database);
@@ -2308,168 +2309,168 @@ namespace StarThrower.StringUtilities.Test
         #region Replace(string, string, int, int) tests
 
         [TestMethod]
-        public void TestReplace1_ReplaceAtStart()
+        public void TestReplace1ReplaceAtStart()
         {
             // Test replacing at the start of the string (startIndex = 0)
             Assert.AreEqual("XYZdef", StringUtil.Replace("abcdef", "XYZ", 0, 3));
         }
 
         [TestMethod]
-        public void TestReplace2_ReplaceAtEnd()
+        public void TestReplace2ReplaceAtEnd()
         {
             // Test replacing at the end of the string
             Assert.AreEqual("abcXYZ", StringUtil.Replace("abcdef", "XYZ", 3, 3));
         }
 
         [TestMethod]
-        public void TestReplace3_ReplaceInMiddle()
+        public void TestReplace3ReplaceInMiddle()
         {
             // Test replacing in the middle of the string
             Assert.AreEqual("abXYZdef", StringUtil.Replace("abcdef", "XYZ", 2, 1));
         }
 
         [TestMethod]
-        public void TestReplace4_ReplaceEntireString()
+        public void TestReplace4ReplaceEntireString()
         {
             // Test replacing the entire string
             Assert.AreEqual("REPLACED", StringUtil.Replace("original", "REPLACED", 0, 8));
         }
 
         [TestMethod]
-        public void TestReplace5_ReplacementLongerThanOriginal()
+        public void TestReplace5ReplacementLongerThanOriginal()
         {
             // Test replacement that is longer than what it replaces
             Assert.AreEqual("aVERYLONGREPLACEMENTd", StringUtil.Replace("abcd", "VERYLONGREPLACEMENT", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace6_ReplacementShorterThanOriginal()
+        public void TestReplace6ReplacementShorterThanOriginal()
         {
             // Test replacement that is shorter than what it replaces
             Assert.AreEqual("aXd", StringUtil.Replace("abcd", "X", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace7_EmptyReplacement()
+        public void TestReplace7EmptyReplacement()
         {
             // Test replacing with empty string (deletion)
             Assert.AreEqual("ad", StringUtil.Replace("abcd", "", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace8_ReplaceWithSameLength()
+        public void TestReplace8ReplaceWithSameLength()
         {
             // Test replacement at end of string (startIndex + length == source.Length)
             Assert.AreEqual("aXYZ", StringUtil.Replace("abcd", "XYZ", 1, 3));
         }
 
         [TestMethod]
-        public void TestReplace9_ReplaceFirstCharacter()
+        public void TestReplace9ReplaceFirstCharacter()
         {
             // Test replacing only the first character
             Assert.AreEqual("Xbcdef", StringUtil.Replace("abcdef", "X", 0, 1));
         }
 
         [TestMethod]
-        public void TestReplace10_ReplaceLastCharacter()
+        public void TestReplace10ReplaceLastCharacter()
         {
             // Test replacing only the last character
             Assert.AreEqual("abcdeX", StringUtil.Replace("abcdef", "X", 5, 1));
         }
 
         [TestMethod]
-        public void TestReplace11_ReplaceSingleCharacter()
+        public void TestReplace11ReplaceSingleCharacter()
         {
             // Test replacing a single character at various positions
             Assert.AreEqual("aXcdef", StringUtil.Replace("abcdef", "X", 1, 1));
         }
 
         [TestMethod]
-        public void TestReplace12_ReplaceMultipleCharactersAtStart()
+        public void TestReplace12ReplaceMultipleCharactersAtStart()
         {
             // Test replacing multiple characters at the start
             Assert.AreEqual("REPLACEDdef", StringUtil.Replace("abcdef", "REPLACED", 0, 3));
         }
 
         [TestMethod]
-        public void TestReplace13_ReplaceMultipleCharactersInMiddle()
+        public void TestReplace13ReplaceMultipleCharactersInMiddle()
         {
             // Test replacing multiple characters in the middle
             Assert.AreEqual("abREPLACEDef", StringUtil.Replace("abcdef", "REPLACED", 2, 2));
         }
 
         [TestMethod]
-        public void TestReplace14_ReplaceMultipleCharactersAtEnd()
+        public void TestReplace14ReplaceMultipleCharactersAtEnd()
         {
             // Test replacing multiple characters at the end
             Assert.AreEqual("abcREPLACED", StringUtil.Replace("abcdef", "REPLACED", 3, 3));
         }
 
         [TestMethod]
-        public void TestReplace15_LengthZero()
+        public void TestReplace15LengthZero()
         {
             // Test with length = 0 (insert without replacement)
             Assert.AreEqual("aINSERTbcd", StringUtil.Replace("abcd", "INSERT", 1, 0));
         }
 
         [TestMethod]
-        public void TestReplace16_LengthZeroAtStart()
+        public void TestReplace16LengthZeroAtStart()
         {
             // Test with length = 0 at start (prepend)
             Assert.AreEqual("PREFIXabcd", StringUtil.Replace("abcd", "PREFIX", 0, 0));
         }
 
         [TestMethod]
-        public void TestReplace17_LengthZeroAtEnd()
+        public void TestReplace17LengthZeroAtEnd()
         {
             // Test with length = 0 at end (append)
             Assert.AreEqual("abcdSUFFIX", StringUtil.Replace("abcd", "SUFFIX", 4, 0));
         }
 
         [TestMethod]
-        public void TestReplace18_StartIndexZeroLengthZero()
+        public void TestReplace18StartIndexZeroLengthZero()
         {
             // Test with both startIndex and length = 0 (insert at start)
             Assert.AreEqual("INSERToriginal", StringUtil.Replace("original", "INSERT", 0, 0));
         }
 
         [TestMethod]
-        public void TestReplace19_NumericReplacement()
+        public void TestReplace19NumericReplacement()
         {
             // Test numeric replacement
             Assert.AreEqual("a123d", StringUtil.Replace("abcd", "123", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace20_SpecialCharactersInReplacement()
+        public void TestReplace20SpecialCharactersInReplacement()
         {
             // Test special characters in replacement
             Assert.AreEqual("a@#$d", StringUtil.Replace("abcd", "@#$", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace21_SpaceInReplacement()
+        public void TestReplace21SpaceInReplacement()
         {
             // Test space in replacement
             Assert.AreEqual("a   d", StringUtil.Replace("abcd", "   ", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace22_TabInReplacement()
+        public void TestReplace22TabInReplacement()
         {
             // Test tab character in replacement
             Assert.AreEqual("a\td", StringUtil.Replace("abcd", "\t", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace23_NewlineInReplacement()
+        public void TestReplace23NewlineInReplacement()
         {
             // Test newline character in replacement
             Assert.AreEqual("a\nd", StringUtil.Replace("abcd", "\n", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace24_VeryLongString()
+        public void TestReplace24VeryLongString()
         {
             // Test with very long string
             string longStr = new string('a', 1000);
@@ -2479,7 +2480,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestReplace25_VeryLongReplacement()
+        public void TestReplace25VeryLongReplacement()
         {
             // Test with very long replacement
             string longReplacement = new string('x', 1000);
@@ -2490,42 +2491,42 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestReplace26_SingleCharacterSource()
+        public void TestReplace26SingleCharacterSource()
         {
             // Test with single character source
             Assert.AreEqual("X", StringUtil.Replace("a", "X", 0, 1));
         }
 
         [TestMethod]
-        public void TestReplace27_TwoCharacterSource()
+        public void TestReplace27TwoCharacterSource()
         {
             // Test with two character source
             Assert.AreEqual("XY", StringUtil.Replace("ab", "XY", 0, 2));
         }
 
         [TestMethod]
-        public void TestReplace28_ReplaceMiddleOfTwoCharacters()
+        public void TestReplace28ReplaceMiddleOfTwoCharacters()
         {
             // Test replacing one character in two character string
             Assert.AreEqual("aX", StringUtil.Replace("ab", "X", 1, 1));
         }
 
         [TestMethod]
-        public void TestReplace29_SelfReplacement()
+        public void TestReplace29SelfReplacement()
         {
             // Test replacing with the same content
             Assert.AreEqual("abcd", StringUtil.Replace("abcd", "bc", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace30_StartIndexLarge()
+        public void TestReplace30StartIndexLarge()
         {
             // Test with large start index near end
             Assert.AreEqual("abcdefX", StringUtil.Replace("abcdefgh", "X", 6, 2));
         }
 
         [TestMethod]
-        public void TestReplace31_AllCharactersReplaced()
+        public void TestReplace31AllCharactersReplaced()
         {
             // Test replacing all characters one by one
             string original = "abcd";
@@ -2538,7 +2539,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestReplace32_ConsecutiveReplacements()
+        public void TestReplace32ConsecutiveReplacements()
         {
             // Test multiple consecutive replacements
             string result = StringUtil.Replace("abcdef", "XY", 0, 2);
@@ -2549,7 +2550,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestReplace33_ReplaceWithNumbers()
+        public void TestReplace33ReplaceWithNumbers()
         {
             // Test replacing with numeric content
             // Replace indices 0-3 with "1234", leaving "efgh"
@@ -2557,7 +2558,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestReplace34_MixedCaseReplacement()
+        public void TestReplace34MixedCaseReplacement()
         {
             // Test with mixed case replacement
             // Replace indices 3-4 ("de") with "De", leaving "fgH"
@@ -2565,42 +2566,42 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestReplace35_UnicodeCharactersInReplacement()
+        public void TestReplace35UnicodeCharactersInReplacement()
         {
             // Test with unicode characters in replacement
             Assert.AreEqual("a★d", StringUtil.Replace("abcd", "★", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace36_ReplaceWithMultipleSpaces()
+        public void TestReplace36ReplaceWithMultipleSpaces()
         {
             // Test replacing with multiple spaces
             Assert.AreEqual("a     d", StringUtil.Replace("abcd", "     ", 1, 2));
         }
 
         [TestMethod]
-        public void TestReplace37_EmptyStringToSingleChar()
+        public void TestReplace37EmptyStringToSingleChar()
         {
             // Test replacing nothing with a character (length = 0)
             Assert.AreEqual("aXbcd", StringUtil.Replace("abcd", "X", 1, 0));
         }
 
         [TestMethod]
-        public void TestReplace38_ReplaceAllButFirst()
+        public void TestReplace38ReplaceAllButFirst()
         {
             // Test replacing all but the first character
             Assert.AreEqual("aX", StringUtil.Replace("abcdefg", "X", 1, 6));
         }
 
         [TestMethod]
-        public void TestReplace39_ReplaceAllButLast()
+        public void TestReplace39ReplaceAllButLast()
         {
             // Test replacing all but the last character
             Assert.AreEqual("Xg", StringUtil.Replace("abcdefg", "X", 0, 6));
         }
 
         [TestMethod]
-        public void TestReplace40_MultipleConsecutiveReplacements()
+        public void TestReplace40MultipleConsecutiveReplacements()
         {
             // Test chain of replacements
             string result = "abcdefgh";
@@ -2615,7 +2616,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestReplace41_NullSource()
+        public void TestReplace41NullSource()
         {
             // Test null source throws exception
             StringUtil.Replace(null, "replacement", 0, 1);
@@ -2623,49 +2624,49 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestReplace42_NullReplacement()
+        public void TestReplace42NullReplacement()
         {
             // Test null replacement throws exception
             StringUtil.Replace("source", null, 0, 1);
         }
 
         [TestMethod]
-        public void TestReplace43_EmptySourceEmptyReplacement()
+        public void TestReplace43EmptySourceEmptyReplacement()
         {
             // Test empty source with empty replacement
             Assert.AreEqual("", StringUtil.Replace("", "", 0, 0));
         }
 
         [TestMethod]
-        public void TestReplace44_EmptySourceNonEmptyReplacement()
+        public void TestReplace44EmptySourceNonEmptyReplacement()
         {
             // Test empty source with non-empty replacement
             Assert.AreEqual("X", StringUtil.Replace("", "X", 0, 0));
         }
 
         [TestMethod]
-        public void TestReplace45_ReplaceFirstThreeCharacters()
+        public void TestReplace45ReplaceFirstThreeCharacters()
         {
             // Test replacing first three characters
             Assert.AreEqual("XYZdefgh", StringUtil.Replace("abcdefgh", "XYZ", 0, 3));
         }
 
         [TestMethod]
-        public void TestReplace46_ReplaceLastThreeCharacters()
+        public void TestReplace46ReplaceLastThreeCharacters()
         {
             // Test replacing last three characters
             Assert.AreEqual("abcdeXYZ", StringUtil.Replace("abcdefgh", "XYZ", 5, 3));
         }
 
         [TestMethod]
-        public void TestReplace47_ReplaceMiddleThreeCharacters()
+        public void TestReplace47ReplaceMiddleThreeCharacters()
         {
             // Test replacing middle three characters
             Assert.AreEqual("abXYZfgh", StringUtil.Replace("abcdefgh", "XYZ", 2, 3));
         }
 
         [TestMethod]
-        public void TestReplace48_ReplaceWithReplacementContainingOriginalContent()
+        public void TestReplace48ReplaceWithReplacementContainingOriginalContent()
         {
             // Test replacement containing part of original content
             // Replace indices 1-2 ("bc") with "abc", leaving "d"
@@ -2673,7 +2674,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestReplace49_ReplaceWithMuchLongerString()
+        public void TestReplace49ReplaceWithMuchLongerString()
         {
             // Test replacing a small section with much longer string
             string longReplacement = "VERYLONGREPLACEMENTSTRING";
@@ -2681,7 +2682,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestReplace50_ReplaceWithMuchShorterString()
+        public void TestReplace50ReplaceWithMuchShorterString()
         {
             // Test replacing a long section with much shorter string
             string longSource = "abcdefghijklmnopqrst";
@@ -2712,56 +2713,56 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf4_OnlyCarriageReturn()
+        public void TestTrimCrLf4OnlyCarriageReturn()
         {
             // Test with only carriage return
             Assert.AreEqual("asdf", StringUtil.TrimCrLf("asdf\r"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf5_OnlyLineFeed()
+        public void TestTrimCrLf5OnlyLineFeed()
         {
             // Test with only line feed
             Assert.AreEqual("asdf", StringUtil.TrimCrLf("asdf\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf6_MultipleLineFeeds()
+        public void TestTrimCrLf6MultipleLineFeeds()
         {
             // Test with multiple line feeds (only LF, not CR)
             Assert.AreEqual("asdf", StringUtil.TrimCrLf("asdf\n\n\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf7_MultipleLineFeeds()
+        public void TestTrimCrLf7MultipleLineFeeds()
         {
             // Test with multiple line feeds at end
             Assert.AreEqual("asdf", StringUtil.TrimCrLf("asdf\n\n\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf8_MultipleCarriageReturns()
+        public void TestTrimCrLf8MultipleCarriageReturns()
         {
             // Test with multiple carriage returns at end
             Assert.AreEqual("asdf", StringUtil.TrimCrLf("asdf\r\r\r"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf9_OnlyLineFeeds()
+        public void TestTrimCrLf9OnlyLineFeeds()
         {
             // Test with only line feeds (no CR)
             Assert.AreEqual("asdf", StringUtil.TrimCrLf("asdf\n\n\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf10_NoLineEndings()
+        public void TestTrimCrLf10NoLineEndings()
         {
             // Test with no line endings
             Assert.AreEqual("asdf", StringUtil.TrimCrLf("asdf"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf11_EmptyString()
+        public void TestTrimCrLf11EmptyString()
         {
             // Test with empty string (edge case - may throw if length check fails)
             // Actually this will likely throw because ret[ret.Length - 1] on empty StringBuilder
@@ -2777,7 +2778,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf12_SingleLineFeed()
+        public void TestTrimCrLf12SingleLineFeed()
         {
             // Test with just a single line feed character
             // This will throw IndexOutOfRangeException because after removing LF,
@@ -2794,7 +2795,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf13_SingleCarriageReturn()
+        public void TestTrimCrLf13SingleCarriageReturn()
         {
             // Test with just a single carriage return character
             try
@@ -2809,7 +2810,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf14_SingleCRLF()
+        public void TestTrimCrLf14SingleCRLF()
         {
             // Test with just CRLF
             try
@@ -2824,21 +2825,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf15_LineEndingsInMiddle()
+        public void TestTrimCrLf15LineEndingsInMiddle()
         {
             // Test with line endings in the middle (should only trim end)
             Assert.AreEqual("asdf\r\nqwer", StringUtil.TrimCrLf("asdf\r\nqwer\r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf16_LineEndingsAtStart()
+        public void TestTrimCrLf16LineEndingsAtStart()
         {
             // Test with line endings at start (should not be trimmed)
             Assert.AreEqual("\r\nasdf", StringUtil.TrimCrLf("\r\nasdf"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf17_LongStringWithLineEndings()
+        public void TestTrimCrLf17LongStringWithLineEndings()
         {
             // Test with long string
             string longStr = new string('a', 1000);
@@ -2846,84 +2847,84 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf18_SingleCharacterWithLineFeed()
+        public void TestTrimCrLf18SingleCharacterWithLineFeed()
         {
             // Test single character with line feed
             Assert.AreEqual("a", StringUtil.TrimCrLf("a\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf19_SingleCharacterWithCarriageReturn()
+        public void TestTrimCrLf19SingleCharacterWithCarriageReturn()
         {
             // Test single character with carriage return
             Assert.AreEqual("a", StringUtil.TrimCrLf("a\r"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf20_TwoCharactersWithCRLF()
+        public void TestTrimCrLf20TwoCharactersWithCRLF()
         {
             // Test two characters with CRLF
             Assert.AreEqual("ab", StringUtil.TrimCrLf("ab\r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf21_SpecialCharactersBeforeLineEndings()
+        public void TestTrimCrLf21SpecialCharactersBeforeLineEndings()
         {
             // Test special characters before line endings
             Assert.AreEqual("@#$%", StringUtil.TrimCrLf("@#$%\r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf22_SpacesBeforeLineEndings()
+        public void TestTrimCrLf22SpacesBeforeLineEndings()
         {
             // Test spaces before line endings
             Assert.AreEqual("asdf   ", StringUtil.TrimCrLf("asdf   \r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf23_TabsBeforeLineEndings()
+        public void TestTrimCrLf23TabsBeforeLineEndings()
         {
             // Test tabs before line endings (tabs should NOT be trimmed)
             Assert.AreEqual("asdf\t\t", StringUtil.TrimCrLf("asdf\t\t\r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf24_UnicodeCharactersBeforeLineEndings()
+        public void TestTrimCrLf24UnicodeCharactersBeforeLineEndings()
         {
             // Test unicode characters before line endings
             Assert.AreEqual("★★★", StringUtil.TrimCrLf("★★★\r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf25_NumericStringWithLineEndings()
+        public void TestTrimCrLf25NumericStringWithLineEndings()
         {
             // Test numeric string with line endings
             Assert.AreEqual("12345", StringUtil.TrimCrLf("12345\r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf26_MixedCaseWithLineEndings()
+        public void TestTrimCrLf26MixedCaseWithLineEndings()
         {
             // Test mixed case with line endings
             Assert.AreEqual("AsDf", StringUtil.TrimCrLf("AsDf\r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf27_OnlyLineFeeds_Multiple()
+        public void TestTrimCrLf27OnlyLineFeedsMultiple()
         {
             // Test multiple line feeds in sequence
             Assert.AreEqual("test", StringUtil.TrimCrLf("test\n\n\n\n\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf28_OnlyCarriageReturns_Multiple()
+        public void TestTrimCrLf28OnlyCarriageReturnsMultiple()
         {
             // Test multiple carriage returns in sequence
             Assert.AreEqual("test", StringUtil.TrimCrLf("test\r\r\r\r\r"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf29_CRFollowedByLF()
+        public void TestTrimCrLf29CRFollowedByLF()
         {
             // Test CR followed by LF (proper Windows line ending)
             // Note: This is the standard case that works correctly
@@ -2931,28 +2932,28 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf30_OnlyCarriageReturns()
+        public void TestTrimCrLf30OnlyCarriageReturns()
         {
             // Test with only carriage returns (no LF)
             Assert.AreEqual("test", StringUtil.TrimCrLf("test\r\r\r"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf31_CRBeforeLFOnly()
+        public void TestTrimCrLf31CRBeforeLFOnly()
         {
             // Test CR before LF (the expected Windows line ending order)
             Assert.AreEqual("test", StringUtil.TrimCrLf("test\r\n"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf32_OnlyCarriageReturnsMultiple()
+        public void TestTrimCrLf32OnlyCarriageReturnsMultiple()
         {
             // Test multiple carriage returns without LF
             Assert.AreEqual("test", StringUtil.TrimCrLf("test\r\r\r"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf33_LongStringWithSimpleLineEndings()
+        public void TestTrimCrLf33LongStringWithSimpleLineEndings()
         {
             // Test with long string and simple line endings
             string source = new string('a', 100) + "\r\n";
@@ -2960,7 +2961,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf34_ContentWithInternalNewlines()
+        public void TestTrimCrLf34ContentWithInternalNewlines()
         {
             // Test content with internal newlines (only end should be trimmed)
             string source = "line1\nline2\nline3\n";
@@ -2968,7 +2969,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf35_ContentWithInternalCarriageReturns()
+        public void TestTrimCrLf35ContentWithInternalCarriageReturns()
         {
             // Test content with internal carriage returns (only end should be trimmed)
             string source = "line1\rline2\rline3\r";
@@ -2976,7 +2977,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestTrimCrLf36_MultipleConsecutiveTrimmer()
+        public void TestTrimCrLf36MultipleConsecutiveTrimmer()
         {
             // Test applying trim multiple times (should be idempotent after first call)
             string source = "test\r\n";
@@ -2988,28 +2989,28 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestTrimCrLf37_NullSource()
+        public void TestTrimCrLf37NullSource()
         {
             // Test null source throws exception
             StringUtil.TrimCrLf(null);
         }
 
         [TestMethod]
-        public void TestTrimCrLf38_OnlySpaceNoLineEndings()
+        public void TestTrimCrLf38OnlySpaceNoLineEndings()
         {
             // Test string with only spaces (no line endings)
             Assert.AreEqual("     ", StringUtil.TrimCrLf("     "));
         }
 
         [TestMethod]
-        public void TestTrimCrLf39_OnlyTabsNoLineEndings()
+        public void TestTrimCrLf39OnlyTabsNoLineEndings()
         {
             // Test string with only tabs (no line endings)
             Assert.AreEqual("\t\t\t", StringUtil.TrimCrLf("\t\t\t"));
         }
 
         [TestMethod]
-        public void TestTrimCrLf40_WhitespaceBeforeLineEndings()
+        public void TestTrimCrLf40WhitespaceBeforeLineEndings()
         {
             // Test various whitespace before line endings (should be preserved)
             Assert.AreEqual("  \t  ", StringUtil.TrimCrLf("  \t  \r\n"));
@@ -3051,7 +3052,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRight6_LengthGreaterThanString()
+        public void TestRight6LengthGreaterThanString()
         {
             // Test when length exceeds string length (throws ArgumentOutOfRangeException)
             try
@@ -3066,7 +3067,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRight7_NegativeLength()
+        public void TestRight7NegativeLength()
         {
             // Test with negative length (throws ArgumentOutOfRangeException)
             try
@@ -3082,35 +3083,35 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestRight8_NullSource()
+        public void TestRight8NullSource()
         {
             // Test null source throws exception
             StringUtil.Right(null, 2);
         }
 
         [TestMethod]
-        public void TestRight9_SingleCharacter()
+        public void TestRight9SingleCharacter()
         {
             // Test with single character string
             Assert.AreEqual("a", StringUtil.Right("a", 1));
         }
 
         [TestMethod]
-        public void TestRight10_SingleCharacterZeroLength()
+        public void TestRight10SingleCharacterZeroLength()
         {
             // Test with single character and length 0
             Assert.AreEqual("", StringUtil.Right("a", 0));
         }
 
         [TestMethod]
-        public void TestRight11_EmptyString()
+        public void TestRight11EmptyString()
         {
             // Test with empty string and length 0
             Assert.AreEqual("", StringUtil.Right("", 0));
         }
 
         [TestMethod]
-        public void TestRight12_EmptyStringNonZeroLength()
+        public void TestRight12EmptyStringNonZeroLength()
         {
             // Test with empty string and non-zero length (throws ArgumentOutOfRangeException)
             try
@@ -3125,7 +3126,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRight13_LongString()
+        public void TestRight13LongString()
         {
             // Test with long string
             string source = new string('a', 1000);
@@ -3133,7 +3134,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRight14_LongStringFullLength()
+        public void TestRight14LongStringFullLength()
         {
             // Test extracting entire long string
             string source = new string('a', 100);
@@ -3141,77 +3142,77 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRight15_NumericString()
+        public void TestRight15NumericString()
         {
             // Test with numeric string
             Assert.AreEqual("456", StringUtil.Right("123456", 3));
         }
 
         [TestMethod]
-        public void TestRight16_SpecialCharacters()
+        public void TestRight16SpecialCharacters()
         {
             // Test with special characters
             Assert.AreEqual("@#$", StringUtil.Right("abc@#$", 3));
         }
 
         [TestMethod]
-        public void TestRight17_Spaces()
+        public void TestRight17Spaces()
         {
             // Test with spaces at the end
             Assert.AreEqual("   ", StringUtil.Right("abc   ", 3));
         }
 
         [TestMethod]
-        public void TestRight18_Tabs()
+        public void TestRight18Tabs()
         {
             // Test with tabs at the end
             Assert.AreEqual("\t\t", StringUtil.Right("abc\t\t", 2));
         }
 
         [TestMethod]
-        public void TestRight19_MixedCase()
+        public void TestRight19MixedCase()
         {
             // Test with mixed case
             Assert.AreEqual("DeF", StringUtil.Right("AbCDeF", 3));
         }
 
         [TestMethod]
-        public void TestRight20_UnicodeCharacters()
+        public void TestRight20UnicodeCharacters()
         {
             // Test with unicode characters
             Assert.AreEqual("★★", StringUtil.Right("abc★★", 2));
         }
 
         [TestMethod]
-        public void TestRight21_StringWithNewlines()
+        public void TestRight21StringWithNewlines()
         {
             // Test string containing newlines
             Assert.AreEqual("ef\n", StringUtil.Right("abcd\nef\n", 3));
         }
 
         [TestMethod]
-        public void TestRight22_AllCharactersTheSame()
+        public void TestRight22AllCharactersTheSame()
         {
             // Test string where all characters are identical
             Assert.AreEqual("aaaa", StringUtil.Right("aaaaaaaa", 4));
         }
 
         [TestMethod]
-        public void TestRight23_TwoCharacterString()
+        public void TestRight23TwoCharacterString()
         {
             // Test with two character string
             Assert.AreEqual("f", StringUtil.Right("ef", 1));
         }
 
         [TestMethod]
-        public void TestRight24_TwoCharacterStringFullLength()
+        public void TestRight24TwoCharacterStringFullLength()
         {
             // Test extracting both characters
             Assert.AreEqual("ef", StringUtil.Right("ef", 2));
         }
 
         [TestMethod]
-        public void TestRight25_WhitespaceCharacters()
+        public void TestRight25WhitespaceCharacters()
         {
             // Test various whitespace at end
             Assert.AreEqual(" \t ", StringUtil.Right("abc \t ", 3));
@@ -3253,7 +3254,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestLeft6_LengthGreaterThanString()
+        public void TestLeft6LengthGreaterThanString()
         {
             // Test when length exceeds string length (throws ArgumentOutOfRangeException)
             try
@@ -3268,7 +3269,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestLeft7_NegativeLength()
+        public void TestLeft7NegativeLength()
         {
             // Test with negative length (throws ArgumentOutOfRangeException)
             try
@@ -3284,35 +3285,35 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestLeft8_NullSource()
+        public void TestLeft8NullSource()
         {
             // Test null source throws exception
             StringUtil.Left(null, 2);
         }
 
         [TestMethod]
-        public void TestLeft9_SingleCharacter()
+        public void TestLeft9SingleCharacter()
         {
             // Test with single character string
             Assert.AreEqual("a", StringUtil.Left("a", 1));
         }
 
         [TestMethod]
-        public void TestLeft10_SingleCharacterZeroLength()
+        public void TestLeft10SingleCharacterZeroLength()
         {
             // Test with single character and length 0
             Assert.AreEqual("", StringUtil.Left("a", 0));
         }
 
         [TestMethod]
-        public void TestLeft11_EmptyString()
+        public void TestLeft11EmptyString()
         {
             // Test with empty string and length 0
             Assert.AreEqual("", StringUtil.Left("", 0));
         }
 
         [TestMethod]
-        public void TestLeft12_EmptyStringNonZeroLength()
+        public void TestLeft12EmptyStringNonZeroLength()
         {
             // Test with empty string and non-zero length (throws ArgumentOutOfRangeException)
             try
@@ -3327,7 +3328,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestLeft13_LongString()
+        public void TestLeft13LongString()
         {
             // Test with long string
             string source = new string('a', 1000);
@@ -3335,7 +3336,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestLeft14_LongStringFullLength()
+        public void TestLeft14LongStringFullLength()
         {
             // Test extracting entire long string
             string source = new string('a', 100);
@@ -3343,77 +3344,77 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestLeft15_NumericString()
+        public void TestLeft15NumericString()
         {
             // Test with numeric string
             Assert.AreEqual("123", StringUtil.Left("123456", 3));
         }
 
         [TestMethod]
-        public void TestLeft16_SpecialCharacters()
+        public void TestLeft16SpecialCharacters()
         {
             // Test with special characters
             Assert.AreEqual("abc", StringUtil.Left("abc@#$", 3));
         }
 
         [TestMethod]
-        public void TestLeft17_Spaces()
+        public void TestLeft17Spaces()
         {
             // Test with leading spaces
             Assert.AreEqual("   ", StringUtil.Left("   abc", 3));
         }
 
         [TestMethod]
-        public void TestLeft18_Tabs()
+        public void TestLeft18Tabs()
         {
             // Test with leading tabs
             Assert.AreEqual("\t\t", StringUtil.Left("\t\tabc", 2));
         }
 
         [TestMethod]
-        public void TestLeft19_MixedCase()
+        public void TestLeft19MixedCase()
         {
             // Test with mixed case
             Assert.AreEqual("AbC", StringUtil.Left("AbCDeF", 3));
         }
 
         [TestMethod]
-        public void TestLeft20_UnicodeCharacters()
+        public void TestLeft20UnicodeCharacters()
         {
             // Test with unicode characters
             Assert.AreEqual("★★", StringUtil.Left("★★abc", 2));
         }
 
         [TestMethod]
-        public void TestLeft21_StringWithNewlines()
+        public void TestLeft21StringWithNewlines()
         {
             // Test string containing newlines
             Assert.AreEqual("ab\n", StringUtil.Left("ab\ncd\nef", 3));
         }
 
         [TestMethod]
-        public void TestLeft22_AllCharactersTheSame()
+        public void TestLeft22AllCharactersTheSame()
         {
             // Test string where all characters are identical
             Assert.AreEqual("aaaa", StringUtil.Left("aaaaaaaa", 4));
         }
 
         [TestMethod]
-        public void TestLeft23_TwoCharacterString()
+        public void TestLeft23TwoCharacterString()
         {
             // Test with two character string
             Assert.AreEqual("e", StringUtil.Left("ef", 1));
         }
 
         [TestMethod]
-        public void TestLeft24_TwoCharacterStringFullLength()
+        public void TestLeft24TwoCharacterStringFullLength()
         {
             // Test extracting both characters
             Assert.AreEqual("ef", StringUtil.Left("ef", 2));
         }
 
         [TestMethod]
-        public void TestLeft25_WhitespaceCharacters()
+        public void TestLeft25WhitespaceCharacters()
         {
             // Test various whitespace at start
             Assert.AreEqual(" \t ", StringUtil.Left(" \t abc", 3));
@@ -3456,14 +3457,14 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void RemoveDoubleQuoteWrapper6_NullInput()
+        public void RemoveDoubleQuoteWrapper6NullInput()
         {
             // Test null input throws ArgumentNullException
             StringUtil.RemoveDoubleQuoteWrapper(null);
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper7_EmptyString()
+        public void RemoveDoubleQuoteWrapper7EmptyString()
         {
             // Empty string throws IndexOutOfRangeException when trying to access first character
             try
@@ -3478,14 +3479,14 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper8_SingleCharacterNonQuote()
+        public void RemoveDoubleQuoteWrapper8SingleCharacterNonQuote()
         {
             // Single character that's not a quote should return unchanged
             Assert.AreEqual("a", StringUtil.RemoveDoubleQuoteWrapper("a"));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper9_SingleQuoteCharacter()
+        public void RemoveDoubleQuoteWrapper9SingleQuoteCharacter()
         {
             // Single quote character will throw because ToString(1, -1) is invalid
             try
@@ -3500,105 +3501,105 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper10_TwoQuotes()
+        public void RemoveDoubleQuoteWrapper10TwoQuotes()
         {
             // Two quotes should remove both, returning empty string
             Assert.AreEqual("", StringUtil.RemoveDoubleQuoteWrapper("\"\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper11_SingleCharWithQuotes()
+        public void RemoveDoubleQuoteWrapper11SingleCharWithQuotes()
         {
             // Single character wrapped in quotes
             Assert.AreEqual("a", StringUtil.RemoveDoubleQuoteWrapper("\"a\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper12_OpeningQuoteOnly()
+        public void RemoveDoubleQuoteWrapper12OpeningQuoteOnly()
         {
             // Only opening quote - should return unchanged
             Assert.AreEqual("\"test", StringUtil.RemoveDoubleQuoteWrapper("\"test"));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper13_ClosingQuoteOnly()
+        public void RemoveDoubleQuoteWrapper13ClosingQuoteOnly()
         {
             // Only closing quote - should return unchanged
             Assert.AreEqual("test\"", StringUtil.RemoveDoubleQuoteWrapper("test\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper14_TripleQuotes()
+        public void RemoveDoubleQuoteWrapper14TripleQuotes()
         {
             // Three quotes - outer two removed, middle one remains
             Assert.AreEqual("\"", StringUtil.RemoveDoubleQuoteWrapper("\"\"\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper15_FourQuotes()
+        public void RemoveDoubleQuoteWrapper15FourQuotes()
         {
             // Four quotes - outer two removed, inner two remain
             Assert.AreEqual("\"\"", StringUtil.RemoveDoubleQuoteWrapper("\"\"\"\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper16_FiveQuotes()
+        public void RemoveDoubleQuoteWrapper16FiveQuotes()
         {
             // Five quotes - outer two removed, three remain
             Assert.AreEqual("\"\"\"", StringUtil.RemoveDoubleQuoteWrapper("\"\"\"\"\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper17_WhitespaceOnly()
+        public void RemoveDoubleQuoteWrapper17WhitespaceOnly()
         {
             // Whitespace only - no quotes, return unchanged
             Assert.AreEqual("   ", StringUtil.RemoveDoubleQuoteWrapper("   "));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper18_WhitespaceWithQuotes()
+        public void RemoveDoubleQuoteWrapper18WhitespaceWithQuotes()
         {
             // Whitespace wrapped in quotes
             Assert.AreEqual("   ", StringUtil.RemoveDoubleQuoteWrapper("\"   \""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper19_TabWithQuotes()
+        public void RemoveDoubleQuoteWrapper19TabWithQuotes()
         {
             // Tab wrapped in quotes
             Assert.AreEqual("\t", StringUtil.RemoveDoubleQuoteWrapper("\"\t\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper20_NewlineWithQuotes()
+        public void RemoveDoubleQuoteWrapper20NewlineWithQuotes()
         {
             // Newline wrapped in quotes
             Assert.AreEqual("\n", StringUtil.RemoveDoubleQuoteWrapper("\"\n\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper21_SpecialCharactersWithQuotes()
+        public void RemoveDoubleQuoteWrapper21SpecialCharactersWithQuotes()
         {
             // Special characters wrapped in quotes
             Assert.AreEqual("!@#$%", StringUtil.RemoveDoubleQuoteWrapper("\"!@#$%\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper22_UnicodeWithQuotes()
+        public void RemoveDoubleQuoteWrapper22UnicodeWithQuotes()
         {
             // Unicode characters wrapped in quotes
             Assert.AreEqual("★★★", StringUtil.RemoveDoubleQuoteWrapper("\"★★★\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper23_MixedContentWithQuotes()
+        public void RemoveDoubleQuoteWrapper23MixedContentWithQuotes()
         {
             // Mixed content with numbers, letters, special chars
             Assert.AreEqual("abc123!@#", StringUtil.RemoveDoubleQuoteWrapper("\"abc123!@#\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper24_LongStringWithQuotes()
+        public void RemoveDoubleQuoteWrapper24LongStringWithQuotes()
         {
             // Very long string wrapped in quotes
             string longContent = new string('a', 1000);
@@ -3606,42 +3607,42 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper25_StringWithLeadingAndTrailingSpaces()
+        public void RemoveDoubleQuoteWrapper25StringWithLeadingAndTrailingSpaces()
         {
             // String with leading and trailing spaces wrapped in quotes
             Assert.AreEqual("  test  ", StringUtil.RemoveDoubleQuoteWrapper("\"  test  \""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper26_StringWithInternalQuotesAndSpaces()
+        public void RemoveDoubleQuoteWrapper26StringWithInternalQuotesAndSpaces()
         {
             // String with internal quotes and spaces
             Assert.AreEqual("test \" with \" quotes", StringUtil.RemoveDoubleQuoteWrapper("\"test \" with \" quotes\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper27_StringWithBackslashes()
+        public void RemoveDoubleQuoteWrapper27StringWithBackslashes()
         {
             // String with backslashes wrapped in quotes
             Assert.AreEqual("path\\to\\file", StringUtil.RemoveDoubleQuoteWrapper("\"path\\to\\file\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper28_StringWithForwardSlashes()
+        public void RemoveDoubleQuoteWrapper28StringWithForwardSlashes()
         {
             // String with forward slashes wrapped in quotes
             Assert.AreEqual("path/to/file", StringUtil.RemoveDoubleQuoteWrapper("\"path/to/file\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper29_StringWithEqualSign()
+        public void RemoveDoubleQuoteWrapper29StringWithEqualSign()
         {
             // String with equals sign wrapped in quotes
             Assert.AreEqual("key=value", StringUtil.RemoveDoubleQuoteWrapper("\"key=value\""));
         }
 
         [TestMethod]
-        public void RemoveDoubleQuoteWrapper30_StringWithColons()
+        public void RemoveDoubleQuoteWrapper30StringWithColons()
         {
             // String with colons (like URLs) wrapped in quotes
             Assert.AreEqual("http://example.com", StringUtil.RemoveDoubleQuoteWrapper("\"http://example.com\""));
@@ -3660,105 +3661,105 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestWrapWithDoubleQuotes2_NullInput()
+        public void TestWrapWithDoubleQuotes2NullInput()
         {
             // Test null input throws ArgumentNullException
             StringUtil.WrapWithDoubleQuotes(null);
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes3_EmptyString()
+        public void TestWrapWithDoubleQuotes3EmptyString()
         {
             // Empty string should be wrapped in quotes
             Assert.AreEqual("\"\"", StringUtil.WrapWithDoubleQuotes(""));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes4_SingleCharacter()
+        public void TestWrapWithDoubleQuotes4SingleCharacter()
         {
             // Single character string
             Assert.AreEqual("\"a\"", StringUtil.WrapWithDoubleQuotes("a"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes5_StringWithLeadingSpaces()
+        public void TestWrapWithDoubleQuotes5StringWithLeadingSpaces()
         {
             // String with leading spaces
             Assert.AreEqual("\"   text\"", StringUtil.WrapWithDoubleQuotes("   text"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes6_StringWithTrailingSpaces()
+        public void TestWrapWithDoubleQuotes6StringWithTrailingSpaces()
         {
             // String with trailing spaces
             Assert.AreEqual("\"text   \"", StringUtil.WrapWithDoubleQuotes("text   "));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes7_StringWithLeadingAndTrailingSpaces()
+        public void TestWrapWithDoubleQuotes7StringWithLeadingAndTrailingSpaces()
         {
             // String with both leading and trailing spaces
             Assert.AreEqual("\"   text   \"", StringUtil.WrapWithDoubleQuotes("   text   "));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes8_StringWithInternalQuotes()
+        public void TestWrapWithDoubleQuotes8StringWithInternalQuotes()
         {
             // String with internal double quotes
             Assert.AreEqual("\"text \" with \" quotes\"", StringUtil.WrapWithDoubleQuotes("text \" with \" quotes"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes9_StringWithSingleQuotes()
+        public void TestWrapWithDoubleQuotes9StringWithSingleQuotes()
         {
             // String with single quotes
             Assert.AreEqual("\"text 'with' quotes\"", StringUtil.WrapWithDoubleQuotes("text 'with' quotes"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes10_StringWithTab()
+        public void TestWrapWithDoubleQuotes10StringWithTab()
         {
             // String with tab character
             Assert.AreEqual("\"text\twith\ttabs\"", StringUtil.WrapWithDoubleQuotes("text\twith\ttabs"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes11_StringWithNewline()
+        public void TestWrapWithDoubleQuotes11StringWithNewline()
         {
             // String with newline character
             Assert.AreEqual("\"text\nwith\nnewlines\"", StringUtil.WrapWithDoubleQuotes("text\nwith\nnewlines"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes12_StringWithSpecialCharacters()
+        public void TestWrapWithDoubleQuotes12StringWithSpecialCharacters()
         {
             // String with special characters
             Assert.AreEqual("\"!@#$%^&*()\"", StringUtil.WrapWithDoubleQuotes("!@#$%^&*()"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes13_StringWithBackslash()
+        public void TestWrapWithDoubleQuotes13StringWithBackslash()
         {
             // String with backslashes
             Assert.AreEqual("\"path\\to\\file\"", StringUtil.WrapWithDoubleQuotes("path\\to\\file"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes14_StringWithForwardSlash()
+        public void TestWrapWithDoubleQuotes14StringWithForwardSlash()
         {
             // String with forward slashes
             Assert.AreEqual("\"path/to/file\"", StringUtil.WrapWithDoubleQuotes("path/to/file"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes15_UnicodeCharacters()
+        public void TestWrapWithDoubleQuotes15UnicodeCharacters()
         {
             // String with unicode characters
             Assert.AreEqual("\"★★★\"", StringUtil.WrapWithDoubleQuotes("★★★"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes16_LongString()
+        public void TestWrapWithDoubleQuotes16LongString()
         {
             // Very long string
             string longText = new string('a', 1000);
@@ -3766,72 +3767,72 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes17_IntegerValue()
+        public void TestWrapWithDoubleQuotes17IntegerValue()
         {
             // Integer wrapped in quotes
             Assert.AreEqual("\"42\"", StringUtil.WrapWithDoubleQuotes(42));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes18_NegativeInteger()
+        public void TestWrapWithDoubleQuotes18NegativeInteger()
         {
             // Negative integer
             Assert.AreEqual("\"-42\"", StringUtil.WrapWithDoubleQuotes(-42));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes19_ZeroInteger()
+        public void TestWrapWithDoubleQuotes19ZeroInteger()
         {
             // Zero integer
             Assert.AreEqual("\"0\"", StringUtil.WrapWithDoubleQuotes(0));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes20_LongValue()
+        public void TestWrapWithDoubleQuotes20LongValue()
         {
             // Long integer value
             Assert.AreEqual("\"1234567890123\"", StringUtil.WrapWithDoubleQuotes(1234567890123L));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes21_DoubleValue()
+        public void TestWrapWithDoubleQuotes21DoubleValue()
         {
             // Double value
             Assert.AreEqual("\"3.14\"", StringUtil.WrapWithDoubleQuotes(3.14));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes22_DecimalValue()
+        public void TestWrapWithDoubleQuotes22DecimalValue()
         {
             // Decimal value
             Assert.AreEqual("\"99.99\"", StringUtil.WrapWithDoubleQuotes(99.99m));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes23_BooleanTrue()
+        public void TestWrapWithDoubleQuotes23BooleanTrue()
         {
             // Boolean true value
             Assert.AreEqual("\"True\"", StringUtil.WrapWithDoubleQuotes(true));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes24_BooleanFalse()
+        public void TestWrapWithDoubleQuotes24BooleanFalse()
         {
             // Boolean false value
             Assert.AreEqual("\"False\"", StringUtil.WrapWithDoubleQuotes(false));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes25_DateTime()
+        public void TestWrapWithDoubleQuotes25DateTime()
         {
             // DateTime object
             DateTime dt = new DateTime(2023, 12, 25, 10, 30, 45);
-            string expected = "\"" + dt.ToString() + "\"";
+            string expected = "\"" + dt.ToString("MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) + "\"";
             Assert.AreEqual(expected, StringUtil.WrapWithDoubleQuotes(dt));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes26_TimeSpan()
+        public void TestWrapWithDoubleQuotes26TimeSpan()
         {
             // TimeSpan object
             TimeSpan ts = new TimeSpan(1, 2, 3, 4);
@@ -3840,7 +3841,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes27_Guid()
+        public void TestWrapWithDoubleQuotes27Guid()
         {
             // GUID object
             Guid g = new Guid("12345678-1234-1234-1234-123456789abc");
@@ -3849,21 +3850,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes28_CharValue()
+        public void TestWrapWithDoubleQuotes28CharValue()
         {
             // Character value
             Assert.AreEqual("\"A\"", StringUtil.WrapWithDoubleQuotes('A'));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes29_FloatValue()
+        public void TestWrapWithDoubleQuotes29FloatValue()
         {
             // Float value
             Assert.AreEqual("\"2.5\"", StringUtil.WrapWithDoubleQuotes(2.5f));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes30_ByteValue()
+        public void TestWrapWithDoubleQuotes30ByteValue()
         {
             // Byte value
             byte b = 255;
@@ -3871,7 +3872,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes31_StringBuilder()
+        public void TestWrapWithDoubleQuotes31StringBuilder()
         {
             // StringBuilder object (calls ToString on it)
             StringBuilder sb = new StringBuilder("Hello World");
@@ -3879,7 +3880,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes32_List()
+        public void TestWrapWithDoubleQuotes32List()
         {
             // List object (default ToString representation)
             List<string> list = new List<string> { "a", "b", "c" };
@@ -3888,7 +3889,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes33_Dictionary()
+        public void TestWrapWithDoubleQuotes33Dictionary()
         {
             // Dictionary object (default ToString representation)
             Dictionary<string, int> dict = new Dictionary<string, int> { { "key", 42 } };
@@ -3897,7 +3898,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes34_Array()
+        public void TestWrapWithDoubleQuotes34Array()
         {
             // Array object (default ToString representation)
             string[] arr = { "a", "b", "c" };
@@ -3906,42 +3907,42 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes35_EqualsSign()
+        public void TestWrapWithDoubleQuotes35EqualsSign()
         {
             // String with equals sign (key=value pattern)
             Assert.AreEqual("\"key=value\"", StringUtil.WrapWithDoubleQuotes("key=value"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes36_Colon()
+        public void TestWrapWithDoubleQuotes36Colon()
         {
             // String with colon (URL pattern)
             Assert.AreEqual("\"http://example.com\"", StringUtil.WrapWithDoubleQuotes("http://example.com"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes37_Comma()
+        public void TestWrapWithDoubleQuotes37Comma()
         {
             // String with comma (CSV pattern)
             Assert.AreEqual("\"value1,value2,value3\"", StringUtil.WrapWithDoubleQuotes("value1,value2,value3"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes38_Semicolon()
+        public void TestWrapWithDoubleQuotes38Semicolon()
         {
             // String with semicolon
             Assert.AreEqual("\"item1;item2;item3\"", StringUtil.WrapWithDoubleQuotes("item1;item2;item3"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes39_CarriageReturn()
+        public void TestWrapWithDoubleQuotes39CarriageReturn()
         {
             // String with carriage return
             Assert.AreEqual("\"line1\rline2\"", StringUtil.WrapWithDoubleQuotes("line1\rline2"));
         }
 
         [TestMethod]
-        public void TestWrapWithDoubleQuotes40_FormFeed()
+        public void TestWrapWithDoubleQuotes40FormFeed()
         {
             // String with form feed
             Assert.AreEqual("\"page1\fpage2\"", StringUtil.WrapWithDoubleQuotes("page1\fpage2"));
@@ -3960,105 +3961,105 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestWrapWithSingleQuotes2_NullInput()
+        public void TestWrapWithSingleQuotes2NullInput()
         {
             // Test null input throws ArgumentNullException
             StringUtil.WrapWithSingleQuotes(null);
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes3_EmptyString()
+        public void TestWrapWithSingleQuotes3EmptyString()
         {
             // Empty string should be wrapped in quotes
             Assert.AreEqual("''", StringUtil.WrapWithSingleQuotes(""));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes4_SingleCharacter()
+        public void TestWrapWithSingleQuotes4SingleCharacter()
         {
             // Single character string
             Assert.AreEqual("'a'", StringUtil.WrapWithSingleQuotes("a"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes5_StringWithLeadingSpaces()
+        public void TestWrapWithSingleQuotes5StringWithLeadingSpaces()
         {
             // String with leading spaces
             Assert.AreEqual("'   text'", StringUtil.WrapWithSingleQuotes("   text"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes6_StringWithTrailingSpaces()
+        public void TestWrapWithSingleQuotes6StringWithTrailingSpaces()
         {
             // String with trailing spaces
             Assert.AreEqual("'text   '", StringUtil.WrapWithSingleQuotes("text   "));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes7_StringWithLeadingAndTrailingSpaces()
+        public void TestWrapWithSingleQuotes7StringWithLeadingAndTrailingSpaces()
         {
             // String with both leading and trailing spaces
             Assert.AreEqual("'   text   '", StringUtil.WrapWithSingleQuotes("   text   "));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes8_StringWithInternalSingleQuotes()
+        public void TestWrapWithSingleQuotes8StringWithInternalSingleQuotes()
         {
             // String with internal single quotes
             Assert.AreEqual("'text ' with ' quotes'", StringUtil.WrapWithSingleQuotes("text ' with ' quotes"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes9_StringWithDoubleQuotes()
+        public void TestWrapWithSingleQuotes9StringWithDoubleQuotes()
         {
             // String with double quotes
             Assert.AreEqual("'text \"with\" quotes'", StringUtil.WrapWithSingleQuotes("text \"with\" quotes"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes10_StringWithTab()
+        public void TestWrapWithSingleQuotes10StringWithTab()
         {
             // String with tab character
             Assert.AreEqual("'text\twith\ttabs'", StringUtil.WrapWithSingleQuotes("text\twith\ttabs"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes11_StringWithNewline()
+        public void TestWrapWithSingleQuotes11StringWithNewline()
         {
             // String with newline character
             Assert.AreEqual("'text\nwith\nnewlines'", StringUtil.WrapWithSingleQuotes("text\nwith\nnewlines"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes12_StringWithSpecialCharacters()
+        public void TestWrapWithSingleQuotes12StringWithSpecialCharacters()
         {
             // String with special characters
             Assert.AreEqual("'!@#$%^&*()'", StringUtil.WrapWithSingleQuotes("!@#$%^&*()"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes13_StringWithBackslash()
+        public void TestWrapWithSingleQuotes13StringWithBackslash()
         {
             // String with backslashes
             Assert.AreEqual("'path\\to\\file'", StringUtil.WrapWithSingleQuotes("path\\to\\file"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes14_StringWithForwardSlash()
+        public void TestWrapWithSingleQuotes14StringWithForwardSlash()
         {
             // String with forward slashes
             Assert.AreEqual("'path/to/file'", StringUtil.WrapWithSingleQuotes("path/to/file"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes15_UnicodeCharacters()
+        public void TestWrapWithSingleQuotes15UnicodeCharacters()
         {
             // String with unicode characters
             Assert.AreEqual("'★★★'", StringUtil.WrapWithSingleQuotes("★★★"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes16_LongString()
+        public void TestWrapWithSingleQuotes16LongString()
         {
             // Very long string
             string longText = new string('a', 1000);
@@ -4066,72 +4067,72 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes17_IntegerValue()
+        public void TestWrapWithSingleQuotes17IntegerValue()
         {
             // Integer wrapped in quotes
             Assert.AreEqual("'42'", StringUtil.WrapWithSingleQuotes(42));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes18_NegativeInteger()
+        public void TestWrapWithSingleQuotes18NegativeInteger()
         {
             // Negative integer
             Assert.AreEqual("'-42'", StringUtil.WrapWithSingleQuotes(-42));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes19_ZeroInteger()
+        public void TestWrapWithSingleQuotes19ZeroInteger()
         {
             // Zero integer
             Assert.AreEqual("'0'", StringUtil.WrapWithSingleQuotes(0));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes20_LongValue()
+        public void TestWrapWithSingleQuotes20LongValue()
         {
             // Long integer value
             Assert.AreEqual("'1234567890123'", StringUtil.WrapWithSingleQuotes(1234567890123L));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes21_DoubleValue()
+        public void TestWrapWithSingleQuotes21DoubleValue()
         {
             // Double value
             Assert.AreEqual("'3.14'", StringUtil.WrapWithSingleQuotes(3.14));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes22_DecimalValue()
+        public void TestWrapWithSingleQuotes22DecimalValue()
         {
             // Decimal value
             Assert.AreEqual("'99.99'", StringUtil.WrapWithSingleQuotes(99.99m));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes23_BooleanTrue()
+        public void TestWrapWithSingleQuotes23BooleanTrue()
         {
             // Boolean true value
             Assert.AreEqual("'True'", StringUtil.WrapWithSingleQuotes(true));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes24_BooleanFalse()
+        public void TestWrapWithSingleQuotes24BooleanFalse()
         {
             // Boolean false value
             Assert.AreEqual("'False'", StringUtil.WrapWithSingleQuotes(false));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes25_DateTime()
+        public void TestWrapWithSingleQuotes25DateTime()
         {
             // DateTime object
             DateTime dt = new DateTime(2023, 12, 25, 10, 30, 45);
-            string expected = "'" + dt.ToString() + "'";
+            string expected = "'" + dt.ToString("MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) + "'";
             Assert.AreEqual(expected, StringUtil.WrapWithSingleQuotes(dt));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes26_TimeSpan()
+        public void TestWrapWithSingleQuotes26TimeSpan()
         {
             // TimeSpan object
             TimeSpan ts = new TimeSpan(1, 2, 3, 4);
@@ -4140,7 +4141,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes27_Guid()
+        public void TestWrapWithSingleQuotes27Guid()
         {
             // GUID object
             Guid g = new Guid("12345678-1234-1234-1234-123456789abc");
@@ -4149,21 +4150,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes28_CharValue()
+        public void TestWrapWithSingleQuotes28CharValue()
         {
             // Character value
             Assert.AreEqual("'A'", StringUtil.WrapWithSingleQuotes('A'));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes29_FloatValue()
+        public void TestWrapWithSingleQuotes29FloatValue()
         {
             // Float value
             Assert.AreEqual("'2.5'", StringUtil.WrapWithSingleQuotes(2.5f));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes30_ByteValue()
+        public void TestWrapWithSingleQuotes30ByteValue()
         {
             // Byte value
             byte b = 255;
@@ -4171,7 +4172,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes31_StringBuilder()
+        public void TestWrapWithSingleQuotes31StringBuilder()
         {
             // StringBuilder object (calls ToString on it)
             StringBuilder sb = new StringBuilder("Hello World");
@@ -4179,7 +4180,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes32_List()
+        public void TestWrapWithSingleQuotes32List()
         {
             // List object (default ToString representation)
             List<string> list = new List<string> { "a", "b", "c" };
@@ -4188,7 +4189,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes33_Dictionary()
+        public void TestWrapWithSingleQuotes33Dictionary()
         {
             // Dictionary object (default ToString representation)
             Dictionary<string, int> dict = new Dictionary<string, int> { { "key", 42 } };
@@ -4197,7 +4198,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes34_Array()
+        public void TestWrapWithSingleQuotes34Array()
         {
             // Array object (default ToString representation)
             string[] arr = { "a", "b", "c" };
@@ -4206,42 +4207,42 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes35_EqualsSign()
+        public void TestWrapWithSingleQuotes35EqualsSign()
         {
             // String with equals sign (key=value pattern)
             Assert.AreEqual("'key=value'", StringUtil.WrapWithSingleQuotes("key=value"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes36_Colon()
+        public void TestWrapWithSingleQuotes36Colon()
         {
             // String with colon (URL pattern)
             Assert.AreEqual("'http://example.com'", StringUtil.WrapWithSingleQuotes("http://example.com"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes37_Comma()
+        public void TestWrapWithSingleQuotes37Comma()
         {
             // String with comma (CSV pattern)
             Assert.AreEqual("'value1,value2,value3'", StringUtil.WrapWithSingleQuotes("value1,value2,value3"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes38_Semicolon()
+        public void TestWrapWithSingleQuotes38Semicolon()
         {
             // String with semicolon
             Assert.AreEqual("'item1;item2;item3'", StringUtil.WrapWithSingleQuotes("item1;item2;item3"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes39_CarriageReturn()
+        public void TestWrapWithSingleQuotes39CarriageReturn()
         {
             // String with carriage return
             Assert.AreEqual("'line1\rline2'", StringUtil.WrapWithSingleQuotes("line1\rline2"));
         }
 
         [TestMethod]
-        public void TestWrapWithSingleQuotes40_FormFeed()
+        public void TestWrapWithSingleQuotes40FormFeed()
         {
             // String with form feed
             Assert.AreEqual("'page1\fpage2'", StringUtil.WrapWithSingleQuotes("page1\fpage2"));
@@ -4283,14 +4284,14 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSplitStringIntoArray2_NullInput()
+        public void TestSplitStringIntoArray2NullInput()
         {
             // Test null input throws ArgumentNullException
             StringUtil.SplitStringIntoArray(null);
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray3_UppercaseLetters()
+        public void TestSplitStringIntoArray3UppercaseLetters()
         {
             // Test with uppercase letters
             string[] expected = { "A", "B", "C", "D" };
@@ -4303,7 +4304,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray4_MixedCase()
+        public void TestSplitStringIntoArray4MixedCase()
         {
             // Test with mixed case letters
             string[] expected = { "A", "b", "C", "d" };
@@ -4316,7 +4317,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray5_Digits()
+        public void TestSplitStringIntoArray5Digits()
         {
             // Test with digits
             string[] expected = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -4329,7 +4330,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray6_AlphanumericMixed()
+        public void TestSplitStringIntoArray6AlphanumericMixed()
         {
             // Test with alphanumeric mix
             string[] expected = { "a", "1", "b", "2", "c", "3" };
@@ -4342,7 +4343,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray7_ExclamationMark()
+        public void TestSplitStringIntoArray7ExclamationMark()
         {
             // Test with exclamation mark
             string[] expected = { "!", "!" };
@@ -4355,7 +4356,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray8_AtSymbol()
+        public void TestSplitStringIntoArray8AtSymbol()
         {
             // Test with at symbol
             string[] expected = { "@", "@" };
@@ -4368,7 +4369,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray9_SpecialCharacters()
+        public void TestSplitStringIntoArray9SpecialCharacters()
         {
             // Test with various special characters
             string[] expected = { "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" };
@@ -4381,7 +4382,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray10_Backslash()
+        public void TestSplitStringIntoArray10Backslash()
         {
             // Test with backslash
             string[] expected = { "\\", "\\", "\\" };
@@ -4394,7 +4395,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray11_ForwardSlash()
+        public void TestSplitStringIntoArray11ForwardSlash()
         {
             // Test with forward slash
             string[] expected = { "/", "/", "/" };
@@ -4407,7 +4408,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray12_Punctuation()
+        public void TestSplitStringIntoArray12Punctuation()
         {
             // Test with punctuation marks
             string[] expected = { ".", ",", ";", ":", "?", "!" };
@@ -4420,7 +4421,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray13_Quotes()
+        public void TestSplitStringIntoArray13Quotes()
         {
             // Test with single and double quotes
             string[] expected = { "\"", "'", "\"", "'" };
@@ -4433,7 +4434,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray14_Space()
+        public void TestSplitStringIntoArray14Space()
         {
             // Test with space character
             string[] expected = { " ", " ", " " };
@@ -4446,7 +4447,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray15_Tab()
+        public void TestSplitStringIntoArray15Tab()
         {
             // Test with tab character
             string[] expected = { "\t", "\t" };
@@ -4459,7 +4460,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray16_Newline()
+        public void TestSplitStringIntoArray16Newline()
         {
             // Test with newline character
             string[] expected = { "\n", "\n" };
@@ -4472,7 +4473,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray17_CarriageReturn()
+        public void TestSplitStringIntoArray17CarriageReturn()
         {
             // Test with carriage return character
             string[] expected = { "\r", "\r" };
@@ -4485,7 +4486,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray18_FormFeed()
+        public void TestSplitStringIntoArray18FormFeed()
         {
             // Test with form feed character
             string[] expected = { "\f", "\f" };
@@ -4498,7 +4499,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray19_Unicode()
+        public void TestSplitStringIntoArray19Unicode()
         {
             // Test with unicode characters
             string[] expected = { "★", "☆", "✓" };
@@ -4511,7 +4512,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray20_RepeatingCharacters()
+        public void TestSplitStringIntoArray20RepeatingCharacters()
         {
             // Test with repeating characters
             string[] expected = { "a", "a", "a", "a", "a" };
@@ -4524,7 +4525,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray21_LongString()
+        public void TestSplitStringIntoArray21LongString()
         {
             // Test with a long string
             string longString = new string('x', 100);
@@ -4537,7 +4538,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray22_StringWithWhitespace()
+        public void TestSplitStringIntoArray22StringWithWhitespace()
         {
             // Test with mixed text and whitespace
             string[] expected = { "h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d" };
@@ -4550,7 +4551,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray23_StringWithPunctuation()
+        public void TestSplitStringIntoArray23StringWithPunctuation()
         {
             // Test with text and punctuation
             string[] expected = { "h", "e", "l", "l", "o", ",", " ", "w", "o", "r", "l", "d", "!" };
@@ -4563,7 +4564,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray24_Hyphen()
+        public void TestSplitStringIntoArray24Hyphen()
         {
             // Test with hyphen
             string[] expected = { "-", "-" };
@@ -4576,7 +4577,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray25_Underscore()
+        public void TestSplitStringIntoArray25Underscore()
         {
             // Test with underscore
             string[] expected = { "_", "_" };
@@ -4589,7 +4590,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray26_Equals()
+        public void TestSplitStringIntoArray26Equals()
         {
             // Test with equals sign
             string[] expected = { "=", "=" };
@@ -4602,7 +4603,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray27_Plus()
+        public void TestSplitStringIntoArray27Plus()
         {
             // Test with plus sign
             string[] expected = { "+", "+" };
@@ -4615,7 +4616,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray28_Minus()
+        public void TestSplitStringIntoArray28Minus()
         {
             // Test with minus sign
             string[] expected = { "-", "-" };
@@ -4628,7 +4629,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray29_Multiplication()
+        public void TestSplitStringIntoArray29Multiplication()
         {
             // Test with asterisk (multiplication)
             string[] expected = { "*", "*" };
@@ -4641,7 +4642,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray30_Division()
+        public void TestSplitStringIntoArray30Division()
         {
             // Test with slash (division)
             string[] expected = { "/", "/" };
@@ -4654,7 +4655,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray31_Brackets()
+        public void TestSplitStringIntoArray31Brackets()
         {
             // Test with brackets
             string[] expected = { "[", "]", "{", "}" };
@@ -4667,7 +4668,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray32_Pipe()
+        public void TestSplitStringIntoArray32Pipe()
         {
             // Test with pipe character
             string[] expected = { "|", "|" };
@@ -4680,7 +4681,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray33_Ampersand()
+        public void TestSplitStringIntoArray33Ampersand()
         {
             // Test with ampersand
             string[] expected = { "&", "&" };
@@ -4693,7 +4694,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray34_Tilde()
+        public void TestSplitStringIntoArray34Tilde()
         {
             // Test with tilde
             string[] expected = { "~", "~" };
@@ -4706,7 +4707,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray35_Caret()
+        public void TestSplitStringIntoArray35Caret()
         {
             // Test with caret
             string[] expected = { "^", "^" };
@@ -4719,7 +4720,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray36_Question()
+        public void TestSplitStringIntoArray36Question()
         {
             // Test with question mark
             string[] expected = { "?", "?" };
@@ -4732,7 +4733,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray37_Colon()
+        public void TestSplitStringIntoArray37Colon()
         {
             // Test with colon
             string[] expected = { ":", ":" };
@@ -4745,7 +4746,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray38_Semicolon()
+        public void TestSplitStringIntoArray38Semicolon()
         {
             // Test with semicolon
             string[] expected = { ";", ";" };
@@ -4758,7 +4759,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray39_Comma()
+        public void TestSplitStringIntoArray39Comma()
         {
             // Test with comma
             string[] expected = { ",", "," };
@@ -4771,7 +4772,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestSplitStringIntoArray40_Period()
+        public void TestSplitStringIntoArray40Period()
         {
             // Test with period
             string[] expected = { ".", "." };
@@ -4799,7 +4800,7 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestIsValidString2_NullTest()
+        public void TestIsValidString2NullTest()
         {
             // Test null test string throws ArgumentNullException
             StringUtil.IsValidString(null, "abcdef_12345");
@@ -4807,203 +4808,203 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestIsValidString3_NullValidChars()
+        public void TestIsValidString3NullValidChars()
         {
             // Test null validChars throws ArgumentNullException
             StringUtil.IsValidString("test", null);
         }
 
         [TestMethod]
-        public void TestIsValidString4_EmptyTestString()
+        public void TestIsValidString4EmptyTestString()
         {
             // Empty test string should return true (vacuously true)
             Assert.AreEqual(true, StringUtil.IsValidString("", "abc"));
         }
 
         [TestMethod]
-        public void TestIsValidString5_EmptyValidChars()
+        public void TestIsValidString5EmptyValidChars()
         {
             // Empty validChars with non-empty test should return false
             Assert.AreEqual(false, StringUtil.IsValidString("a", ""));
         }
 
         [TestMethod]
-        public void TestIsValidString6_BothEmpty()
+        public void TestIsValidString6BothEmpty()
         {
             // Both empty strings should return true
             Assert.AreEqual(true, StringUtil.IsValidString("", ""));
         }
 
         [TestMethod]
-        public void TestIsValidString7_SingleLetterValid()
+        public void TestIsValidString7SingleLetterValid()
         {
             // Single lowercase letter that is valid
             Assert.AreEqual(true, StringUtil.IsValidString("a", "abcdefghijklmnopqrstuvwxyz"));
         }
 
         [TestMethod]
-        public void TestIsValidString8_SingleLetterInvalid()
+        public void TestIsValidString8SingleLetterInvalid()
         {
             // Single lowercase letter that is invalid (uppercase not in valid list)
             Assert.AreEqual(false, StringUtil.IsValidString("A", "abcdefghijklmnopqrstuvwxyz"));
         }
 
         [TestMethod]
-        public void TestIsValidString9_SingleDigitValid()
+        public void TestIsValidString9SingleDigitValid()
         {
             // Single digit that is valid
             Assert.AreEqual(true, StringUtil.IsValidString("5", "0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidString10_SingleDigitInvalid()
+        public void TestIsValidString10SingleDigitInvalid()
         {
             // Single digit that is invalid (2 is not in the list)
             Assert.AreEqual(false, StringUtil.IsValidString("2", "013579"));
         }
 
         [TestMethod]
-        public void TestIsValidString11_SingleSymbolValid()
+        public void TestIsValidString11SingleSymbolValid()
         {
             // Single symbol that is valid
             Assert.AreEqual(true, StringUtil.IsValidString("!", "!@#$%"));
         }
 
         [TestMethod]
-        public void TestIsValidString12_SingleSymbolInvalid()
+        public void TestIsValidString12SingleSymbolInvalid()
         {
             // Single symbol that is invalid
             Assert.AreEqual(false, StringUtil.IsValidString("!", "abcdef"));
         }
 
         [TestMethod]
-        public void TestIsValidString13_AllDigitsValid()
+        public void TestIsValidString13AllDigitsValid()
         {
             // All digits and all are valid
             Assert.AreEqual(true, StringUtil.IsValidString("12345", "0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidString14_AllDigitsInvalid()
+        public void TestIsValidString14AllDigitsInvalid()
         {
             // All digits but some are invalid
             Assert.AreEqual(false, StringUtil.IsValidString("12345", "13579"));
         }
 
         [TestMethod]
-        public void TestIsValidString15_AllLettersLowercaseValid()
+        public void TestIsValidString15AllLettersLowercaseValid()
         {
             // All lowercase letters and all are valid
             Assert.AreEqual(true, StringUtil.IsValidString("abc", "abcdefghijklmnopqrstuvwxyz"));
         }
 
         [TestMethod]
-        public void TestIsValidString16_MixedCaseInvalid()
+        public void TestIsValidString16MixedCaseInvalid()
         {
             // Mixed case with uppercase not in valid list
             Assert.AreEqual(false, StringUtil.IsValidString("aBc", "abcdefghijklmnopqrstuvwxyz"));
         }
 
         [TestMethod]
-        public void TestIsValidString17_Alphanumeric()
+        public void TestIsValidString17Alphanumeric()
         {
             // Alphanumeric string that is valid
             Assert.AreEqual(true, StringUtil.IsValidString("abc123", "abcdefghijklmnopqrstuvwxyz0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidString18_AlphanumericPartialInvalid()
+        public void TestIsValidString18AlphanumericPartialInvalid()
         {
             // Alphanumeric with one invalid character
             Assert.AreEqual(false, StringUtil.IsValidString("abc!23", "abcdefghijklmnopqrstuvwxyz0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidString19_RepeatingCharacters()
+        public void TestIsValidString19RepeatingCharacters()
         {
             // String with repeating valid characters
             Assert.AreEqual(true, StringUtil.IsValidString("aaaa", "a"));
         }
 
         [TestMethod]
-        public void TestIsValidString20_RepeatingCharactersInvalid()
+        public void TestIsValidString20RepeatingCharactersInvalid()
         {
             // String with repeating characters where one is invalid
             Assert.AreEqual(false, StringUtil.IsValidString("aaab", "a"));
         }
 
         [TestMethod]
-        public void TestIsValidString21_SpaceValid()
+        public void TestIsValidString21SpaceValid()
         {
             // String with space that is valid
             Assert.AreEqual(true, StringUtil.IsValidString("a b", "ab "));
         }
 
         [TestMethod]
-        public void TestIsValidString22_SpaceInvalid()
+        public void TestIsValidString22SpaceInvalid()
         {
             // String with space that is not in valid list
             Assert.AreEqual(false, StringUtil.IsValidString("a b", "ab"));
         }
 
         [TestMethod]
-        public void TestIsValidString23_TabValid()
+        public void TestIsValidString23TabValid()
         {
             // String with tab character that is valid
             Assert.AreEqual(true, StringUtil.IsValidString("a\tb", "ab\t"));
         }
 
         [TestMethod]
-        public void TestIsValidString24_TabInvalid()
+        public void TestIsValidString24TabInvalid()
         {
             // String with tab character not in valid list
             Assert.AreEqual(false, StringUtil.IsValidString("a\tb", "ab"));
         }
 
         [TestMethod]
-        public void TestIsValidString25_NewlineValid()
+        public void TestIsValidString25NewlineValid()
         {
             // String with newline that is valid
             Assert.AreEqual(true, StringUtil.IsValidString("a\nb", "ab\n"));
         }
 
         [TestMethod]
-        public void TestIsValidString26_NewlineInvalid()
+        public void TestIsValidString26NewlineInvalid()
         {
             // String with newline not in valid list
             Assert.AreEqual(false, StringUtil.IsValidString("a\nb", "ab"));
         }
 
         [TestMethod]
-        public void TestIsValidString27_SpecialCharactersValid()
+        public void TestIsValidString27SpecialCharactersValid()
         {
             // String with special characters all valid
             Assert.AreEqual(true, StringUtil.IsValidString("!@#$%", "!@#$%^&*()"));
         }
 
         [TestMethod]
-        public void TestIsValidString28_SpecialCharactersInvalid()
+        public void TestIsValidString28SpecialCharactersInvalid()
         {
             // String with special characters, some invalid
             Assert.AreEqual(false, StringUtil.IsValidString("!@#$%", "!@#"));
         }
 
         [TestMethod]
-        public void TestIsValidString29_UnicodeValid()
+        public void TestIsValidString29UnicodeValid()
         {
             // String with unicode characters all valid
             Assert.AreEqual(true, StringUtil.IsValidString("★☆✓", "★☆✓"));
         }
 
         [TestMethod]
-        public void TestIsValidString30_UnicodeInvalid()
+        public void TestIsValidString30UnicodeInvalid()
         {
             // String with unicode character not in valid list
             Assert.AreEqual(false, StringUtil.IsValidString("★☆✓", "★☆"));
         }
 
         [TestMethod]
-        public void TestIsValidString31_LongStringValid()
+        public void TestIsValidString31LongStringValid()
         {
             // Long string with all valid characters
             string test = new string('a', 100);
@@ -5011,7 +5012,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValidString32_LongStringInvalid()
+        public void TestIsValidString32LongStringInvalid()
         {
             // Long string with one invalid character at the end
             string test = new string('a', 99) + "b";
@@ -5019,49 +5020,49 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValidString33_NumericStringValid()
+        public void TestIsValidString33NumericStringValid()
         {
             // All digits string that is valid
             Assert.AreEqual(true, StringUtil.IsValidString("123456789", "0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidString34_NumericStringInvalid()
+        public void TestIsValidString34NumericStringInvalid()
         {
             // Numeric string with invalid character
             Assert.AreEqual(false, StringUtil.IsValidString("12345a789", "0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidString35_OnlySymbols()
+        public void TestIsValidString35OnlySymbols()
         {
             // String with only symbols all valid
             Assert.AreEqual(true, StringUtil.IsValidString("!@#$%", "!@#$%^&*()_+-=[]{}|;':\",./<>?"));
         }
 
         [TestMethod]
-        public void TestIsValidString36_OnlySymbolsPartialInvalid()
+        public void TestIsValidString36OnlySymbolsPartialInvalid()
         {
             // String with only symbols, some invalid
             Assert.AreEqual(false, StringUtil.IsValidString("!@#$%", "!@#$"));
         }
 
         [TestMethod]
-        public void TestIsValidString37_UppercaseLettersValid()
+        public void TestIsValidString37UppercaseLettersValid()
         {
             // All uppercase letters valid
             Assert.AreEqual(true, StringUtil.IsValidString("ABC", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
         }
 
         [TestMethod]
-        public void TestIsValidString38_UppercaseLettersInvalid()
+        public void TestIsValidString38UppercaseLettersInvalid()
         {
             // Uppercase letters but not in valid list
             Assert.AreEqual(false, StringUtil.IsValidString("ABC", "abcdefghijklmnopqrstuvwxyz"));
         }
 
         [TestMethod]
-        public void TestIsValidString39_CaseSensitiveValidation()
+        public void TestIsValidString39CaseSensitiveValidation()
         {
             // Verify case sensitivity - 'a' is not same as 'A'
             Assert.AreEqual(true, StringUtil.IsValidString("a", "aA"));
@@ -5069,7 +5070,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValidString40_ValidCharsWithRepeats()
+        public void TestIsValidString40ValidCharsWithRepeats()
         {
             // Valid chars string can have repeated characters (should still work)
             Assert.AreEqual(true, StringUtil.IsValidString("abc", "aabbccdd"));
@@ -5106,21 +5107,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid4_EmptyTestString()
+        public void TestIsValid4EmptyTestString()
         {
             // Empty test string matches empty pattern
             Assert.AreEqual(true, StringUtil.IsValid("", ""));
         }
 
         [TestMethod]
-        public void TestIsValid5_EmptyPatternNonEmptyTest()
+        public void TestIsValid5EmptyPatternNonEmptyTest()
         {
             // Empty pattern matches any string (zero or more of anything)
             Assert.AreEqual(true, StringUtil.IsValid("abc", ""));
         }
 
         [TestMethod]
-        public void TestIsValid6_OnlyDigits()
+        public void TestIsValid6OnlyDigits()
         {
             // Test digit-only pattern
             Assert.AreEqual(true, StringUtil.IsValid("12345", @"^[0-9]+$"));
@@ -5128,7 +5129,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid7_OnlyLetters()
+        public void TestIsValid7OnlyLetters()
         {
             // Test letter-only pattern
             Assert.AreEqual(true, StringUtil.IsValid("abcde", @"^[a-zA-Z]+$"));
@@ -5136,7 +5137,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid8_OnlyUppercase()
+        public void TestIsValid8OnlyUppercase()
         {
             // Test uppercase-only pattern
             Assert.AreEqual(true, StringUtil.IsValid("ABCDE", @"^[A-Z]+$"));
@@ -5144,7 +5145,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid9_OnlyLowercase()
+        public void TestIsValid9OnlyLowercase()
         {
             // Test lowercase-only pattern
             Assert.AreEqual(true, StringUtil.IsValid("abcde", @"^[a-z]+$"));
@@ -5152,7 +5153,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid10_Whitespace()
+        public void TestIsValid10Whitespace()
         {
             // Test whitespace pattern
             Assert.AreEqual(true, StringUtil.IsValid("a b", @".*\s.*"));
@@ -5160,7 +5161,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid11_WordCharacters()
+        public void TestIsValid11WordCharacters()
         {
             // Test word character pattern (letters, digits, underscore)
             Assert.AreEqual(true, StringUtil.IsValid("abc_123", @"^\w+$"));
@@ -5168,7 +5169,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid12_AnchorStart()
+        public void TestIsValid12AnchorStart()
         {
             // Test anchor ^ (start of string)
             Assert.AreEqual(true, StringUtil.IsValid("abc", @"^abc"));
@@ -5176,7 +5177,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid13_AnchorEnd()
+        public void TestIsValid13AnchorEnd()
         {
             // Test anchor $ (end of string)
             Assert.AreEqual(true, StringUtil.IsValid("abc", @"abc$"));
@@ -5184,7 +5185,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid14_AnchorBoth()
+        public void TestIsValid14AnchorBoth()
         {
             // Test both anchors (exact match)
             Assert.AreEqual(true, StringUtil.IsValid("abc", @"^abc$"));
@@ -5192,7 +5193,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid15_QuantifierZeroOrMore()
+        public void TestIsValid15QuantifierZeroOrMore()
         {
             // Test * quantifier (zero or more)
             Assert.AreEqual(true, StringUtil.IsValid("", @"^[a-z]*$"));
@@ -5201,7 +5202,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid16_QuantifierOneOrMore()
+        public void TestIsValid16QuantifierOneOrMore()
         {
             // Test + quantifier (one or more)
             Assert.AreEqual(false, StringUtil.IsValid("", @"^[a-z]+$"));
@@ -5210,7 +5211,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid17_QuantifierOptional()
+        public void TestIsValid17QuantifierOptional()
         {
             // Test ? quantifier (zero or one)
             Assert.AreEqual(true, StringUtil.IsValid("ac", @"^ab?c$"));
@@ -5219,7 +5220,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid18_QuantifierExact()
+        public void TestIsValid18QuantifierExact()
         {
             // Test {n} quantifier (exactly n)
             Assert.AreEqual(true, StringUtil.IsValid("aaa", @"^a{3}$"));
@@ -5228,7 +5229,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid19_QuantifierRange()
+        public void TestIsValid19QuantifierRange()
         {
             // Test {n,m} quantifier (between n and m)
             Assert.AreEqual(true, StringUtil.IsValid("aa", @"^a{2,4}$"));
@@ -5238,7 +5239,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid20_Alternation()
+        public void TestIsValid20Alternation()
         {
             // Test alternation |
             Assert.AreEqual(true, StringUtil.IsValid("abc", @"^(abc|def)$"));
@@ -5247,7 +5248,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid21_Group()
+        public void TestIsValid21Group()
         {
             // Test grouping ()
             Assert.AreEqual(true, StringUtil.IsValid("abab", @"^(ab)+$"));
@@ -5255,7 +5256,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid22_NegatedCharacterClass()
+        public void TestIsValid22NegatedCharacterClass()
         {
             // Test negated character class [^...]
             Assert.AreEqual(true, StringUtil.IsValid("abc", @"^[^0-9]+$"));
@@ -5263,7 +5264,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid23_EmailPattern()
+        public void TestIsValid23EmailPattern()
         {
             // Basic email pattern
             string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
@@ -5273,7 +5274,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid24_URLPattern()
+        public void TestIsValid24URLPattern()
         {
             // Basic URL pattern
             string urlPattern = @"^https?://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}";
@@ -5283,7 +5284,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid25_PhonePattern()
+        public void TestIsValid25PhonePattern()
         {
             // Phone number pattern (simple: digits and hyphens)
             string phonePattern = @"^[\d\-\(\)]+$";
@@ -5293,7 +5294,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid26_USZipCode()
+        public void TestIsValid26USZipCode()
         {
             // US Zip code pattern
             string zipPattern = @"^\d{5}(-\d{4})?$";
@@ -5303,7 +5304,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid27_DatePattern()
+        public void TestIsValid27DatePattern()
         {
             // Date pattern (YYYY-MM-DD)
             string datePattern = @"^\d{4}-\d{2}-\d{2}$";
@@ -5312,7 +5313,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid28_TimePattern()
+        public void TestIsValid28TimePattern()
         {
             // Time pattern (HH:MM:SS)
             string timePattern = @"^\d{2}:\d{2}:\d{2}$";
@@ -5321,7 +5322,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid29_HexadecimalPattern()
+        public void TestIsValid29HexadecimalPattern()
         {
             // Hexadecimal pattern
             string hexPattern = @"^[0-9A-Fa-f]+$";
@@ -5330,7 +5331,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid30_IPAddressPattern()
+        public void TestIsValid30IPAddressPattern()
         {
             // Simple IP address pattern
             string ipPattern = @"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$";
@@ -5340,7 +5341,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid31_CreditCardPattern()
+        public void TestIsValid31CreditCardPattern()
         {
             // Credit card pattern (simplified, just digits)
             string ccPattern = @"^\d{13,19}$";
@@ -5349,7 +5350,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid32_SpecialCharactersLiteral()
+        public void TestIsValid32SpecialCharactersLiteral()
         {
             // Matching literal special characters
             Assert.AreEqual(true, StringUtil.IsValid("a.b", @"^a\.b$"));
@@ -5357,7 +5358,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid33_DotAnyCharacter()
+        public void TestIsValid33DotAnyCharacter()
         {
             // . matches any character
             Assert.AreEqual(true, StringUtil.IsValid("abc", @"^a.c$"));
@@ -5366,7 +5367,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid34_CaseSensitivity()
+        public void TestIsValid34CaseSensitivity()
         {
             // Regex is case-sensitive by default
             Assert.AreEqual(true, StringUtil.IsValid("ABC", @"^ABC$"));
@@ -5374,7 +5375,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid35_PartialMatch()
+        public void TestIsValid35PartialMatch()
         {
             // Without anchors, matches anywhere in string
             Assert.AreEqual(true, StringUtil.IsValid("xabcy", @"abc"));
@@ -5382,7 +5383,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid36_MultilineText()
+        public void TestIsValid36MultilineText()
         {
             // Pattern matching with multiple lines - . doesn't match newlines by default
             Assert.AreEqual(false, StringUtil.IsValid("abc\ndef", @"abc.*def"));
@@ -5390,7 +5391,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid37_EscapedBackslash()
+        public void TestIsValid37EscapedBackslash()
         {
             // Escaped backslash
             Assert.AreEqual(true, StringUtil.IsValid(@"a\b", @"^a\\b$"));
@@ -5398,7 +5399,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid38_CharacterRanges()
+        public void TestIsValid38CharacterRanges()
         {
             // Character ranges
             Assert.AreEqual(true, StringUtil.IsValid("m", @"^[a-z]$"));
@@ -5407,7 +5408,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid39_MultipleCharacterRanges()
+        public void TestIsValid39MultipleCharacterRanges()
         {
             // Multiple character ranges in one class
             Assert.AreEqual(true, StringUtil.IsValid("a", @"^[a-zA-Z0-9_]$"));
@@ -5417,7 +5418,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValid40_Asterisk()
+        public void TestIsValid40Asterisk()
         {
             // * matches zero or more occurrences
             Assert.AreEqual(true, StringUtil.IsValid("", @"^a*$"));
@@ -5440,21 +5441,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValidCharacter2_EmptyTestString()
+        public void TestIsValidCharacter2EmptyTestString()
         {
             // Empty test string should return false
             Assert.AreEqual(false, StringUtil.IsValidCharacter("", "abc"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter3_MultiCharTestString()
+        public void TestIsValidCharacter3MultiCharTestString()
         {
             // Multi-character test string should return false
             Assert.AreEqual(false, StringUtil.IsValidCharacter("ab", "abcdef"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter4_MultiCharTestString2()
+        public void TestIsValidCharacter4MultiCharTestString2()
         {
             // Multi-character test string should return false even if chars are in validChars
             Assert.AreEqual(false, StringUtil.IsValidCharacter("abc", "abcdef"));
@@ -5462,173 +5463,173 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestIsValidCharacter5_NullTestString()
+        public void TestIsValidCharacter5NullTestString()
         {
             StringUtil.IsValidCharacter(null, "abc");
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestIsValidCharacter6_NullValidChars()
+        public void TestIsValidCharacter6NullValidChars()
         {
             StringUtil.IsValidCharacter("a", null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestIsValidCharacter7_BothNull()
+        public void TestIsValidCharacter7BothNull()
         {
             StringUtil.IsValidCharacter(null, null);
         }
 
         [TestMethod]
-        public void TestIsValidCharacter8_Digit0()
+        public void TestIsValidCharacter8Digit0()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("0", "0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter9_Digit5()
+        public void TestIsValidCharacter9Digit5()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("5", "0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter10_Digit9()
+        public void TestIsValidCharacter10Digit9()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("9", "0123456789"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter11_DigitNotInSet()
+        public void TestIsValidCharacter11DigitNotInSet()
         {
             Assert.AreEqual(false, StringUtil.IsValidCharacter("5", "abcdef"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter12_ExclamationMark()
+        public void TestIsValidCharacter12ExclamationMark()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("!", "!@#$%"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter13_DollarSign()
+        public void TestIsValidCharacter13DollarSign()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("$", "!@#$%"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter14_SpecialCharNotInSet()
+        public void TestIsValidCharacter14SpecialCharNotInSet()
         {
             Assert.AreEqual(false, StringUtil.IsValidCharacter("&", "!@#$%"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter15_OpenParen()
+        public void TestIsValidCharacter15OpenParen()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("(", "()[]{}"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter16_CloseBracket()
+        public void TestIsValidCharacter16CloseBracket()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("]", "()[]{}"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter17_OpenBrace()
+        public void TestIsValidCharacter17OpenBrace()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("{", "()[]{}"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter18_Tab()
+        public void TestIsValidCharacter18Tab()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("\t", "a\tb\tc"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter19_TabNotInSet()
+        public void TestIsValidCharacter19TabNotInSet()
         {
             Assert.AreEqual(false, StringUtil.IsValidCharacter("\t", "abc"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter20_Newline()
+        public void TestIsValidCharacter20Newline()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("\n", "a\nb\nc"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter21_NewlineNotInSet()
+        public void TestIsValidCharacter21NewlineNotInSet()
         {
             Assert.AreEqual(false, StringUtil.IsValidCharacter("\n", "abc"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter22_CarriageReturn()
+        public void TestIsValidCharacter22CarriageReturn()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("\r", "a\rb\rc"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter23_CaseSensitiveUppercase()
+        public void TestIsValidCharacter23CaseSensitiveUppercase()
         {
             // Uppercase A not in lowercase-only set
             Assert.AreEqual(false, StringUtil.IsValidCharacter("A", "abcdef"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter24_CaseSensitiveLowercase()
+        public void TestIsValidCharacter24CaseSensitiveLowercase()
         {
             // Lowercase a not in uppercase-only set
             Assert.AreEqual(false, StringUtil.IsValidCharacter("a", "ABCDEF"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter25_CaseSensitiveMixed()
+        public void TestIsValidCharacter25CaseSensitiveMixed()
         {
             // Lowercase a in mixed case set
             Assert.AreEqual(true, StringUtil.IsValidCharacter("a", "AaBbCc"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter26_CharAtStart()
+        public void TestIsValidCharacter26CharAtStart()
         {
             // Character at start of validChars
             Assert.AreEqual(true, StringUtil.IsValidCharacter("a", "abcdef"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter27_CharAtMiddle()
+        public void TestIsValidCharacter27CharAtMiddle()
         {
             // Character in middle of validChars
             Assert.AreEqual(true, StringUtil.IsValidCharacter("c", "abcdef"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter28_CharAtEnd()
+        public void TestIsValidCharacter28CharAtEnd()
         {
             // Character at end of validChars
             Assert.AreEqual(true, StringUtil.IsValidCharacter("f", "abcdef"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter29_SingleCharValidChars()
+        public void TestIsValidCharacter29SingleCharValidChars()
         {
             // Single character in validChars
             Assert.AreEqual(true, StringUtil.IsValidCharacter("x", "x"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter30_SingleCharValidCharsNotMatching()
+        public void TestIsValidCharacter30SingleCharValidCharsNotMatching()
         {
             // Single character in validChars but doesn't match
             Assert.AreEqual(false, StringUtil.IsValidCharacter("y", "x"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter31_LongValidCharsSet()
+        public void TestIsValidCharacter31LongValidCharsSet()
         {
             // Long set of valid characters
             string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':\",./<>?";
@@ -5636,7 +5637,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValidCharacter32_LongValidCharsSetChar()
+        public void TestIsValidCharacter32LongValidCharsSetChar()
         {
             // Long set of valid characters
             string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':\",./<>?";
@@ -5644,7 +5645,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValidCharacter33_LongValidCharsSetNotFound()
+        public void TestIsValidCharacter33LongValidCharsSetNotFound()
         {
             // Long set of valid characters, but character not found
             string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':\",./<>?";
@@ -5652,166 +5653,166 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsValidCharacter34_SpaceAtStart()
+        public void TestIsValidCharacter34SpaceAtStart()
         {
             // Space at start of validChars
             Assert.AreEqual(true, StringUtil.IsValidCharacter(" ", " abc"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter35_SpaceAtEnd()
+        public void TestIsValidCharacter35SpaceAtEnd()
         {
             // Space at end of validChars
             Assert.AreEqual(true, StringUtil.IsValidCharacter(" ", "abc "));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter36_SpaceInMiddle()
+        public void TestIsValidCharacter36SpaceInMiddle()
         {
             // Space in middle of validChars
             Assert.AreEqual(true, StringUtil.IsValidCharacter(" ", "ab c"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter37_Plus()
+        public void TestIsValidCharacter37Plus()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("+", "+-*/"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter38_Minus()
+        public void TestIsValidCharacter38Minus()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("-", "+-*/"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter39_Asterisk()
+        public void TestIsValidCharacter39Asterisk()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("*", "+-*/"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter40_Slash()
+        public void TestIsValidCharacter40Slash()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("/", "+-*/"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter41_Dot()
+        public void TestIsValidCharacter41Dot()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter(".", "0123456789."));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter42_Underscore()
+        public void TestIsValidCharacter42Underscore()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("_", "abcdef_12345"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter43_Hyphen()
+        public void TestIsValidCharacter43Hyphen()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("-", "a-b-c"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter44_Comma()
+        public void TestIsValidCharacter44Comma()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter(",", "a,b,c"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter45_Semicolon()
+        public void TestIsValidCharacter45Semicolon()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter(";", "a;b;c"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter46_Colon()
+        public void TestIsValidCharacter46Colon()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter(":", "a:b:c"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter47_DoubleQuote()
+        public void TestIsValidCharacter47DoubleQuote()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("\"", "\"'`"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter48_SingleQuote()
+        public void TestIsValidCharacter48SingleQuote()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("'", "\"'`"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter49_Backtick()
+        public void TestIsValidCharacter49Backtick()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("`", "\"'`"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter50_LessThan()
+        public void TestIsValidCharacter50LessThan()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("<", "<>"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter51_GreaterThan()
+        public void TestIsValidCharacter51GreaterThan()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter(">", "<>"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter52_Equals()
+        public void TestIsValidCharacter52Equals()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("=", "=!<>"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter53_At()
+        public void TestIsValidCharacter53At()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("@", "@#$%^"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter54_Hash()
+        public void TestIsValidCharacter54Hash()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("#", "@#$%^"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter55_Percent()
+        public void TestIsValidCharacter55Percent()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("%", "@#$%^"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter56_Caret()
+        public void TestIsValidCharacter56Caret()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("^", "@#$%^"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter57_Ampersand()
+        public void TestIsValidCharacter57Ampersand()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("&", "&*()"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter58_Pipe()
+        public void TestIsValidCharacter58Pipe()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("|", "||"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter59_Backslash()
+        public void TestIsValidCharacter59Backslash()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("\\", "\\|/"));
         }
 
         [TestMethod]
-        public void TestIsValidCharacter60_Question()
+        public void TestIsValidCharacter60Question()
         {
             Assert.AreEqual(true, StringUtil.IsValidCharacter("?", "?!."));
         }
@@ -5871,324 +5872,324 @@ namespace StarThrower.StringUtilities.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestCountTokens9_NullSource()
+        public void TestCountTokens9NullSource()
         {
             StringUtil.CountTokens(null, "|");
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestCountTokens10_NullDelimiter()
+        public void TestCountTokens10NullDelimiter()
         {
             StringUtil.CountTokens("a|b|c", null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestCountTokens11_BothNull()
+        public void TestCountTokens11BothNull()
         {
             StringUtil.CountTokens(null, null);
         }
 
         [TestMethod]
-        public void TestCountTokens12_MultiCharDelimiter()
+        public void TestCountTokens12MultiCharDelimiter()
         {
             Assert.AreEqual(2, StringUtil.CountTokens("a||b", "||"));
         }
 
         [TestMethod]
-        public void TestCountTokens13_MultiCharDelimiter2()
+        public void TestCountTokens13MultiCharDelimiter2()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a||b||c", "||"));
         }
 
         [TestMethod]
-        public void TestCountTokens14_MultiCharDelimiterArrow()
+        public void TestCountTokens14MultiCharDelimiterArrow()
         {
             Assert.AreEqual(2, StringUtil.CountTokens("a->b", "->"));
         }
 
         [TestMethod]
-        public void TestCountTokens15_MultiCharDelimiterArrow2()
+        public void TestCountTokens15MultiCharDelimiterArrow2()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a->b->c", "->"));
         }
 
         [TestMethod]
-        public void TestCountTokens16_ConsecutiveDelimiters3Times()
+        public void TestCountTokens16ConsecutiveDelimiters3Times()
         {
             Assert.AreEqual(4, StringUtil.CountTokens("a|||b", "|"));
         }
 
         [TestMethod]
-        public void TestCountTokens17_ConsecutiveDelimiters4Times()
+        public void TestCountTokens17ConsecutiveDelimiters4Times()
         {
             Assert.AreEqual(5, StringUtil.CountTokens("a||||b", "|"));
         }
 
         [TestMethod]
-        public void TestCountTokens18_OnlyConsecutiveDelimiters()
+        public void TestCountTokens18OnlyConsecutiveDelimiters()
         {
             Assert.AreEqual(4, StringUtil.CountTokens("|||", "|"));
         }
 
         [TestMethod]
-        public void TestCountTokens19_CommaDelimiter()
+        public void TestCountTokens19CommaDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a,b,c", ","));
         }
 
         [TestMethod]
-        public void TestCountTokens20_SemicolonDelimiter()
+        public void TestCountTokens20SemicolonDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a;b;c", ";"));
         }
 
         [TestMethod]
-        public void TestCountTokens21_ColonDelimiter()
+        public void TestCountTokens21ColonDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a:b:c", ":"));
         }
 
         [TestMethod]
-        public void TestCountTokens22_SpaceDelimiter()
+        public void TestCountTokens22SpaceDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a b c", " "));
         }
 
         [TestMethod]
-        public void TestCountTokens23_TabDelimiter()
+        public void TestCountTokens23TabDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a\tb\tc", "\t"));
         }
 
         [TestMethod]
-        public void TestCountTokens24_NewlineDelimiter()
+        public void TestCountTokens24NewlineDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a\nb\nc", "\n"));
         }
 
         [TestMethod]
-        public void TestCountTokens25_SlashDelimiter()
+        public void TestCountTokens25SlashDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a/b/c", "/"));
         }
 
         [TestMethod]
-        public void TestCountTokens26_BackslashDelimiter()
+        public void TestCountTokens26BackslashDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a\\b\\c", "\\"));
         }
 
         [TestMethod]
-        public void TestCountTokens27_DotDelimiter()
+        public void TestCountTokens27DotDelimiter()
         {
             Assert.AreEqual(4, StringUtil.CountTokens("192.168.0.1", "."));
         }
 
         [TestMethod]
-        public void TestCountTokens28_HyphenDelimiter()
+        public void TestCountTokens28HyphenDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a-b-c", "-"));
         }
 
         [TestMethod]
-        public void TestCountTokens29_UnderscoreDelimiter()
+        public void TestCountTokens29UnderscoreDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a_b_c", "_"));
         }
 
         [TestMethod]
-        public void TestCountTokens30_PlusDelimiter()
+        public void TestCountTokens30PlusDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a+b+c", "+"));
         }
 
         [TestMethod]
-        public void TestCountTokens31_AsteriskDelimiter()
+        public void TestCountTokens31AsteriskDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a*b*c", "*"));
         }
 
         [TestMethod]
-        public void TestCountTokens32_AtDelimiter()
+        public void TestCountTokens32AtDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a@b@c", "@"));
         }
 
         [TestMethod]
-        public void TestCountTokens33_HashDelimiter()
+        public void TestCountTokens33HashDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a#b#c", "#"));
         }
 
         [TestMethod]
-        public void TestCountTokens34_DollarDelimiter()
+        public void TestCountTokens34DollarDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a$b$c", "$"));
         }
 
         [TestMethod]
-        public void TestCountTokens35_AmpersandDelimiter()
+        public void TestCountTokens35AmpersandDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a&b&c", "&"));
         }
 
         [TestMethod]
-        public void TestCountTokens36_PipeDelimiter()
+        public void TestCountTokens36PipeDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a|b|c", "|"));
         }
 
         [TestMethod]
-        public void TestCountTokens37_SourceEqualsDelimiter()
+        public void TestCountTokens37SourceEqualsDelimiter()
         {
             Assert.AreEqual(2, StringUtil.CountTokens("|", "|"));
         }
 
         [TestMethod]
-        public void TestCountTokens38_DelimiterLongerThanSource()
+        public void TestCountTokens38DelimiterLongerThanSource()
         {
             // Delimiter "||" not found in "a" = 1 token
             Assert.AreEqual(1, StringUtil.CountTokens("a", "||"));
         }
 
         [TestMethod]
-        public void TestCountTokens39_SingleLetter()
+        public void TestCountTokens39SingleLetter()
         {
             Assert.AreEqual(1, StringUtil.CountTokens("a", ","));
         }
 
         [TestMethod]
-        public void TestCountTokens40_LongString()
+        public void TestCountTokens40LongString()
         {
             // Test with a string containing many delimiters
             Assert.AreEqual(11, StringUtil.CountTokens("1,2,3,4,5,6,7,8,9,10,11", ","));
         }
 
         [TestMethod]
-        public void TestCountTokens41_LeadingDelimiters()
+        public void TestCountTokens41LeadingDelimiters()
         {
             Assert.AreEqual(4, StringUtil.CountTokens("||a|b", "|"));
         }
 
         [TestMethod]
-        public void TestCountTokens42_TrailingDelimiters()
+        public void TestCountTokens42TrailingDelimiters()
         {
             Assert.AreEqual(4, StringUtil.CountTokens("a|b||", "|"));
         }
 
         [TestMethod]
-        public void TestCountTokens43_MiddleDelimiters()
+        public void TestCountTokens43MiddleDelimiters()
         {
             Assert.AreEqual(4, StringUtil.CountTokens("a||b|c", "|"));
         }
 
         [TestMethod]
-        public void TestCountTokens44_MultiCharDelimiterLeading()
+        public void TestCountTokens44MultiCharDelimiterLeading()
         {
             Assert.AreEqual(2, StringUtil.CountTokens("::a", "::"));
         }
 
         [TestMethod]
-        public void TestCountTokens45_MultiCharDelimiterTrailing()
+        public void TestCountTokens45MultiCharDelimiterTrailing()
         {
             Assert.AreEqual(2, StringUtil.CountTokens("a::", "::"));
         }
 
         [TestMethod]
-        public void TestCountTokens46_MultiCharDelimiterConsecutive()
+        public void TestCountTokens46MultiCharDelimiterConsecutive()
         {
             // "a::::b" split by "::" should give ["a", "", "b"] = 3 tokens
             Assert.AreEqual(3, StringUtil.CountTokens("a::::b", "::"));
         }
 
         [TestMethod]
-        public void TestCountTokens47_WordDelimiter()
+        public void TestCountTokens47WordDelimiter()
         {
             // "-OR-" appears once, so 2 tokens
             Assert.AreEqual(2, StringUtil.CountTokens("apple-OR-orange", "-OR-"));
         }
 
         [TestMethod]
-        public void TestCountTokens48_WordDelimiter2()
+        public void TestCountTokens48WordDelimiter2()
         {
             // "-OR-" appears twice, so 3 tokens
             Assert.AreEqual(3, StringUtil.CountTokens("apple-OR-orange-OR-banana", "-OR-"));
         }
 
         [TestMethod]
-        public void TestCountTokens49_CaseSensitiveDelimiter()
+        public void TestCountTokens49CaseSensitiveDelimiter()
         {
             // "A" (uppercase) appears twice in "aAbAc", so 3 tokens
             Assert.AreEqual(3, StringUtil.CountTokens("aAbAc", "A"));
         }
 
         [TestMethod]
-        public void TestCountTokens50_CaseSensitiveDelimiter2()
+        public void TestCountTokens50CaseSensitiveDelimiter2()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("aAaAa", "A"));
         }
 
         [TestMethod]
-        public void TestCountTokens51_DoubleCharDelimiterNoMatch()
+        public void TestCountTokens51DoubleCharDelimiterNoMatch()
         {
             // ">>" not found in "a>b>c" = 1 token
             Assert.AreEqual(1, StringUtil.CountTokens("a>b>c", ">>"));
         }
 
         [TestMethod]
-        public void TestCountTokens52_SpecialRegexChars()
+        public void TestCountTokens52SpecialRegexChars()
         {
             // Test with characters that are special in regex
             Assert.AreEqual(3, StringUtil.CountTokens("a.b.c", "."));
         }
 
         [TestMethod]
-        public void TestCountTokens53_SpecialRegexChars2()
+        public void TestCountTokens53SpecialRegexChars2()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a*b*c", "*"));
         }
 
         [TestMethod]
-        public void TestCountTokens54_SpecialRegexChars3()
+        public void TestCountTokens54SpecialRegexChars3()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a+b+c", "+"));
         }
 
         [TestMethod]
-        public void TestCountTokens55_SpecialRegexChars4()
+        public void TestCountTokens55SpecialRegexChars4()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a?b?c", "?"));
         }
 
         [TestMethod]
-        public void TestCountTokens56_SingleSpaceDelimiter()
+        public void TestCountTokens56SingleSpaceDelimiter()
         {
             Assert.AreEqual(4, StringUtil.CountTokens("one two three four", " "));
         }
 
         [TestMethod]
-        public void TestCountTokens57_MultipleSpaces()
+        public void TestCountTokens57MultipleSpaces()
         {
             // Each space is a delimiter, so multiple spaces = multiple tokens with empty strings between
             Assert.AreEqual(5, StringUtil.CountTokens("a  b  c", " "));
         }
 
         [TestMethod]
-        public void TestCountTokens58_ThreeCharDelimiter()
+        public void TestCountTokens58ThreeCharDelimiter()
         {
             Assert.AreEqual(3, StringUtil.CountTokens("a***b***c", "***"));
         }
 
         [TestMethod]
-        public void TestCountTokens59_VeryLongDelimiter()
+        public void TestCountTokens59VeryLongDelimiter()
         {
             Assert.AreEqual(2, StringUtil.CountTokens("a---b", "---"));
         }
 
         [TestMethod]
-        public void TestCountTokens60_DelimiterWithNumbers()
+        public void TestCountTokens60DelimiterWithNumbers()
         {
             // "|2" appears once in "item1|2item2|3item3", so 2 tokens
             Assert.AreEqual(2, StringUtil.CountTokens("item1|2item2|3item3", "|2"));
@@ -6442,316 +6443,316 @@ namespace StarThrower.StringUtilities.Test
 
         // Multi-character delimiter tests
         [TestMethod]
-        public void TestGetToken34_MultiCharDelimiterBasic()
+        public void TestGetToken34MultiCharDelimiterBasic()
         {
             Assert.AreEqual("a", StringUtil.GetToken("a::b::c", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken35_MultiCharDelimiterSecondToken()
+        public void TestGetToken35MultiCharDelimiterSecondToken()
         {
             Assert.AreEqual("b", StringUtil.GetToken("a::b::c", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken36_MultiCharDelimiterThirdToken()
+        public void TestGetToken36MultiCharDelimiterThirdToken()
         {
             Assert.AreEqual("c", StringUtil.GetToken("a::b::c", "::", 3));
         }
 
         [TestMethod]
-        public void TestGetToken37_MultiCharDelimiterConsecutive()
+        public void TestGetToken37MultiCharDelimiterConsecutive()
         {
             // "a::::b" split by "::" should give ["a", "", "b"]
             Assert.AreEqual("a", StringUtil.GetToken("a::::b", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken38_MultiCharDelimiterConsecutiveEmptyToken()
+        public void TestGetToken38MultiCharDelimiterConsecutiveEmptyToken()
         {
             // "a::::b" split by "::" should give ["a", "", "b"]
             Assert.AreEqual("", StringUtil.GetToken("a::::b", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken39_MultiCharDelimiterConsecutiveThirdToken()
+        public void TestGetToken39MultiCharDelimiterConsecutiveThirdToken()
         {
             // "a::::b" split by "::" should give ["a", "", "b"]
             Assert.AreEqual("b", StringUtil.GetToken("a::::b", "::", 3));
         }
 
         [TestMethod]
-        public void TestGetToken40_MultiCharDelimiterDashDelimiter()
+        public void TestGetToken40MultiCharDelimiterDashDelimiter()
         {
             Assert.AreEqual("hello", StringUtil.GetToken("hello--world--test", "--", 1));
         }
 
         [TestMethod]
-        public void TestGetToken41_MultiCharDelimiterDashDelimiterSecond()
+        public void TestGetToken41MultiCharDelimiterDashDelimiterSecond()
         {
             Assert.AreEqual("world", StringUtil.GetToken("hello--world--test", "--", 2));
         }
 
         [TestMethod]
-        public void TestGetToken42_MultiCharDelimiterDashDelimiterThird()
+        public void TestGetToken42MultiCharDelimiterDashDelimiterThird()
         {
             Assert.AreEqual("test", StringUtil.GetToken("hello--world--test", "--", 3));
         }
 
         [TestMethod]
-        public void TestGetToken43_MultiCharDelimiterAngleBrackets()
+        public void TestGetToken43MultiCharDelimiterAngleBrackets()
         {
             Assert.AreEqual("one", StringUtil.GetToken("one<<two<<three", "<<", 1));
         }
 
         [TestMethod]
-        public void TestGetToken44_MultiCharDelimiterGreaterThan()
+        public void TestGetToken44MultiCharDelimiterGreaterThan()
         {
             Assert.AreEqual("a", StringUtil.GetToken("a>>b>>c>>d", ">>", 1));
         }
 
         [TestMethod]
-        public void TestGetToken45_MultiCharDelimiterGreaterThanSecond()
+        public void TestGetToken45MultiCharDelimiterGreaterThanSecond()
         {
             Assert.AreEqual("b", StringUtil.GetToken("a>>b>>c>>d", ">>", 2));
         }
 
         [TestMethod]
-        public void TestGetToken46_MultiCharDelimiterGreaterThanThird()
+        public void TestGetToken46MultiCharDelimiterGreaterThanThird()
         {
             Assert.AreEqual("c", StringUtil.GetToken("a>>b>>c>>d", ">>", 3));
         }
 
         [TestMethod]
-        public void TestGetToken47_MultiCharDelimiterGreaterThanFourth()
+        public void TestGetToken47MultiCharDelimiterGreaterThanFourth()
         {
             Assert.AreEqual("d", StringUtil.GetToken("a>>b>>c>>d", ">>", 4));
         }
 
         [TestMethod]
-        public void TestGetToken48_MultiCharDelimiterAtStart()
+        public void TestGetToken48MultiCharDelimiterAtStart()
         {
             Assert.AreEqual("", StringUtil.GetToken("::a::b", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken49_MultiCharDelimiterAtStartSecond()
+        public void TestGetToken49MultiCharDelimiterAtStartSecond()
         {
             Assert.AreEqual("a", StringUtil.GetToken("::a::b", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken50_MultiCharDelimiterAtEnd()
+        public void TestGetToken50MultiCharDelimiterAtEnd()
         {
             // "a::b::" split by "::" should give ["a", "b", ""]
             Assert.AreEqual("b", StringUtil.GetToken("a::b::", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken51_MultiCharDelimiterAtEndEmpty()
+        public void TestGetToken51MultiCharDelimiterAtEndEmpty()
         {
             Assert.AreEqual("", StringUtil.GetToken("a::b::", "::", 3));
         }
 
         [TestMethod]
-        public void TestGetToken52_MultiCharDelimiterThreeChars()
+        public void TestGetToken52MultiCharDelimiterThreeChars()
         {
             Assert.AreEqual("x", StringUtil.GetToken("x:::y:::z", ":::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken53_MultiCharDelimiterThreeCharsSecond()
+        public void TestGetToken53MultiCharDelimiterThreeCharsSecond()
         {
             Assert.AreEqual("y", StringUtil.GetToken("x:::y:::z", ":::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken54_MultiCharDelimiterThreeCharsThird()
+        public void TestGetToken54MultiCharDelimiterThreeCharsThird()
         {
             Assert.AreEqual("z", StringUtil.GetToken("x:::y:::z", ":::", 3));
         }
 
         [TestMethod]
-        public void TestGetToken55_MultiCharDelimiterLongString()
+        public void TestGetToken55MultiCharDelimiterLongString()
         {
             Assert.AreEqual("firstname", StringUtil.GetToken("firstname::lastname::email", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken56_MultiCharDelimiterLongStringSecond()
+        public void TestGetToken56MultiCharDelimiterLongStringSecond()
         {
             Assert.AreEqual("lastname", StringUtil.GetToken("firstname::lastname::email", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken57_MultiCharDelimiterLongStringThird()
+        public void TestGetToken57MultiCharDelimiterLongStringThird()
         {
             Assert.AreEqual("email", StringUtil.GetToken("firstname::lastname::email", "::", 3));
         }
 
         [TestMethod]
-        public void TestGetToken58_WhitespaceDelimiter()
+        public void TestGetToken58WhitespaceDelimiter()
         {
             Assert.AreEqual("hello", StringUtil.GetToken("hello  world", "  ", 1));
         }
 
         [TestMethod]
-        public void TestGetToken59_WhitespaceDelimiterSecond()
+        public void TestGetToken59WhitespaceDelimiterSecond()
         {
             Assert.AreEqual("world", StringUtil.GetToken("hello  world", "  ", 2));
         }
 
         [TestMethod]
-        public void TestGetToken60_TabDelimiter()
+        public void TestGetToken60TabDelimiter()
         {
             Assert.AreEqual("a", StringUtil.GetToken("a\t\tb", "\t\t", 1));
         }
 
         [TestMethod]
-        public void TestGetToken61_TabDelimiterSecond()
+        public void TestGetToken61TabDelimiterSecond()
         {
             Assert.AreEqual("b", StringUtil.GetToken("a\t\tb", "\t\t", 2));
         }
 
         [TestMethod]
-        public void TestGetToken62_SpecialCharDelimiter()
+        public void TestGetToken62SpecialCharDelimiter()
         {
             Assert.AreEqual("test", StringUtil.GetToken("test##value", "##", 1));
         }
 
         [TestMethod]
-        public void TestGetToken63_SpecialCharDelimiterSecond()
+        public void TestGetToken63SpecialCharDelimiterSecond()
         {
             Assert.AreEqual("value", StringUtil.GetToken("test##value", "##", 2));
         }
 
         [TestMethod]
-        public void TestGetToken64_CaseSensitivity1()
+        public void TestGetToken64CaseSensitivity1()
         {
             Assert.AreEqual("abc", StringUtil.GetToken("abc::ABC::def", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken65_CaseSensitivity2()
+        public void TestGetToken65CaseSensitivity2()
         {
             Assert.AreEqual("ABC", StringUtil.GetToken("abc::ABC::def", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken66_CaseSensitivity3()
+        public void TestGetToken66CaseSensitivity3()
         {
             Assert.AreEqual("def", StringUtil.GetToken("abc::ABC::def", "::", 3));
         }
 
         [TestMethod]
-        public void TestGetToken67_NumericTokens()
+        public void TestGetToken67NumericTokens()
         {
             Assert.AreEqual("123", StringUtil.GetToken("123::456::789", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken68_NumericTokensSecond()
+        public void TestGetToken68NumericTokensSecond()
         {
             Assert.AreEqual("456", StringUtil.GetToken("123::456::789", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken69_NumericTokensThird()
+        public void TestGetToken69NumericTokensThird()
         {
             Assert.AreEqual("789", StringUtil.GetToken("123::456::789", "::", 3));
         }
 
         [TestMethod]
-        public void TestGetToken70_MultiCharDelimiterWithNumbers()
+        public void TestGetToken70MultiCharDelimiterWithNumbers()
         {
             Assert.AreEqual("a1", StringUtil.GetToken("a1@@b2@@c3", "@@", 1));
         }
 
         [TestMethod]
-        public void TestGetToken71_MultiCharDelimiterWithNumbersSecond()
+        public void TestGetToken71MultiCharDelimiterWithNumbersSecond()
         {
             Assert.AreEqual("b2", StringUtil.GetToken("a1@@b2@@c3", "@@", 2));
         }
 
         [TestMethod]
-        public void TestGetToken72_MultiCharDelimiterWithNumbersThird()
+        public void TestGetToken72MultiCharDelimiterWithNumbersThird()
         {
             Assert.AreEqual("c3", StringUtil.GetToken("a1@@b2@@c3", "@@", 3));
         }
 
         [TestMethod]
-        public void TestGetToken73_LongMultiCharDelimiter()
+        public void TestGetToken73LongMultiCharDelimiter()
         {
             Assert.AreEqual("start", StringUtil.GetToken("start----middle----end", "----", 1));
         }
 
         [TestMethod]
-        public void TestGetToken74_LongMultiCharDelimiterSecond()
+        public void TestGetToken74LongMultiCharDelimiterSecond()
         {
             Assert.AreEqual("middle", StringUtil.GetToken("start----middle----end", "----", 2));
         }
 
         [TestMethod]
-        public void TestGetToken75_LongMultiCharDelimiterThird()
+        public void TestGetToken75LongMultiCharDelimiterThird()
         {
             Assert.AreEqual("end", StringUtil.GetToken("start----middle----end", "----", 3));
         }
 
         [TestMethod]
-        public void TestGetToken76_MultiCharDelimiterMultipleConsecutive()
+        public void TestGetToken76MultiCharDelimiterMultipleConsecutive()
         {
             // "a::::::b" split by "::" should give ["a", "", "", "b"]
             Assert.AreEqual("a", StringUtil.GetToken("a::::::b", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken77_MultiCharDelimiterMultipleConsecutiveEmpty1()
+        public void TestGetToken77MultiCharDelimiterMultipleConsecutiveEmpty1()
         {
             // "a::::::b" split by "::" should give ["a", "", "", "b"]
             Assert.AreEqual("", StringUtil.GetToken("a::::::b", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken78_MultiCharDelimiterMultipleConsecutiveEmpty2()
+        public void TestGetToken78MultiCharDelimiterMultipleConsecutiveEmpty2()
         {
             // "a::::::b" split by "::" should give ["a", "", "", "b"]
             Assert.AreEqual("", StringUtil.GetToken("a::::::b", "::", 3));
         }
 
         [TestMethod]
-        public void TestGetToken79_MultiCharDelimiterMultipleConsecutiveLastToken()
+        public void TestGetToken79MultiCharDelimiterMultipleConsecutiveLastToken()
         {
             // "a::::::b" split by "::" should give ["a", "", "", "b"]
             Assert.AreEqual("b", StringUtil.GetToken("a::::::b", "::", 4));
         }
 
         [TestMethod]
-        public void TestGetToken80_SingleCharInSourceMultiCharDelimiter()
+        public void TestGetToken80SingleCharInSourceMultiCharDelimiter()
         {
             Assert.AreEqual("x", StringUtil.GetToken("x", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken81_DelimiterLongerThanSourceBasic()
+        public void TestGetToken81DelimiterLongerThanSourceBasic()
         {
             // When delimiter is longer than source, source has no delimiters
             Assert.AreEqual("short", StringUtil.GetToken("short", "verylongdelimiter", 1));
         }
 
         [TestMethod]
-        public void TestGetToken82_MultiTokenLongValues()
+        public void TestGetToken82MultiTokenLongValues()
         {
             Assert.AreEqual("verylongfirsttoken", StringUtil.GetToken("verylongfirsttoken::verylongsecondtoken::verylongthirdtoken", "::", 1));
         }
 
         [TestMethod]
-        public void TestGetToken83_MultiTokenLongValuesSecond()
+        public void TestGetToken83MultiTokenLongValuesSecond()
         {
             Assert.AreEqual("verylongsecondtoken", StringUtil.GetToken("verylongfirsttoken::verylongsecondtoken::verylongthirdtoken", "::", 2));
         }
 
         [TestMethod]
-        public void TestGetToken84_MultiTokenLongValuesThird()
+        public void TestGetToken84MultiTokenLongValuesThird()
         {
             Assert.AreEqual("verylongthirdtoken", StringUtil.GetToken("verylongfirsttoken::verylongsecondtoken::verylongthirdtoken", "::", 3));
         }
@@ -6823,128 +6824,128 @@ namespace StarThrower.StringUtilities.Test
 
         // Multi-character delimiter tests
         [TestMethod]
-        public void TestIsToken11_MultiCharDelimiterBasic()
+        public void TestIsToken11MultiCharDelimiterBasic()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a::b::c", "a", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken12_MultiCharDelimiterSecondToken()
+        public void TestIsToken12MultiCharDelimiterSecondToken()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a::b::c", "b", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken13_MultiCharDelimiterThirdToken()
+        public void TestIsToken13MultiCharDelimiterThirdToken()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a::b::c", "c", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken14_MultiCharDelimiterNotFound()
+        public void TestIsToken14MultiCharDelimiterNotFound()
         {
             Assert.AreEqual(false, StringUtil.IsToken("a::b::c", "d", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken15_MultiCharDelimiterConsecutiveEmptyToken()
+        public void TestIsToken15MultiCharDelimiterConsecutiveEmptyToken()
         {
             // "a::::b" split by "::" should give ["a", "", "b"]
             Assert.AreEqual(true, StringUtil.IsToken("a::::b", "", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken16_MultiCharDelimiterDashDelimiter()
+        public void TestIsToken16MultiCharDelimiterDashDelimiter()
         {
             Assert.AreEqual(true, StringUtil.IsToken("hello--world--test", "hello", "--"));
         }
 
         [TestMethod]
-        public void TestIsToken17_MultiCharDelimiterDashDelimiterSecond()
+        public void TestIsToken17MultiCharDelimiterDashDelimiterSecond()
         {
             Assert.AreEqual(true, StringUtil.IsToken("hello--world--test", "world", "--"));
         }
 
         [TestMethod]
-        public void TestIsToken18_MultiCharDelimiterDashDelimiterThird()
+        public void TestIsToken18MultiCharDelimiterDashDelimiterThird()
         {
             Assert.AreEqual(true, StringUtil.IsToken("hello--world--test", "test", "--"));
         }
 
         [TestMethod]
-        public void TestIsToken19_MultiCharDelimiterAngleBrackets()
+        public void TestIsToken19MultiCharDelimiterAngleBrackets()
         {
             Assert.AreEqual(true, StringUtil.IsToken("one<<two<<three", "one", "<<"));
         }
 
         [TestMethod]
-        public void TestIsToken20_MultiCharDelimiterGreaterThan()
+        public void TestIsToken20MultiCharDelimiterGreaterThan()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a>>b>>c>>d", "a", ">>"));
         }
 
         [TestMethod]
-        public void TestIsToken21_MultiCharDelimiterGreaterThanNotFound()
+        public void TestIsToken21MultiCharDelimiterGreaterThanNotFound()
         {
             Assert.AreEqual(false, StringUtil.IsToken("a>>b>>c>>d", "x", ">>"));
         }
 
         [TestMethod]
-        public void TestIsToken22_MultiCharDelimiterAtStart()
+        public void TestIsToken22MultiCharDelimiterAtStart()
         {
             Assert.AreEqual(true, StringUtil.IsToken("::a::b", "", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken23_MultiCharDelimiterAtEnd()
+        public void TestIsToken23MultiCharDelimiterAtEnd()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a::b::", "b", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken24_MultiCharDelimiterAtEndEmpty()
+        public void TestIsToken24MultiCharDelimiterAtEndEmpty()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a::b::", "", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken25_MultiCharDelimiterThreeChars()
+        public void TestIsToken25MultiCharDelimiterThreeChars()
         {
             Assert.AreEqual(true, StringUtil.IsToken("x:::y:::z", "x", ":::"));
         }
 
         [TestMethod]
-        public void TestIsToken26_MultiCharDelimiterThreeCharsSecond()
+        public void TestIsToken26MultiCharDelimiterThreeCharsSecond()
         {
             Assert.AreEqual(true, StringUtil.IsToken("x:::y:::z", "y", ":::"));
         }
 
         [TestMethod]
-        public void TestIsToken27_MultiCharDelimiterThreeCharsThird()
+        public void TestIsToken27MultiCharDelimiterThreeCharsThird()
         {
             Assert.AreEqual(true, StringUtil.IsToken("x:::y:::z", "z", ":::"));
         }
 
         [TestMethod]
-        public void TestIsToken28_MultiCharDelimiterLongString()
+        public void TestIsToken28MultiCharDelimiterLongString()
         {
             Assert.AreEqual(true, StringUtil.IsToken("firstname::lastname::email", "firstname", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken29_MultiCharDelimiterLongStringSecond()
+        public void TestIsToken29MultiCharDelimiterLongStringSecond()
         {
             Assert.AreEqual(true, StringUtil.IsToken("firstname::lastname::email", "lastname", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken30_MultiCharDelimiterLongStringThird()
+        public void TestIsToken30MultiCharDelimiterLongStringThird()
         {
             Assert.AreEqual(true, StringUtil.IsToken("firstname::lastname::email", "email", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken31_CaseSensitivity1()
+        public void TestIsToken31CaseSensitivity1()
         {
             // "abc::ABC::def" split by "::" gives ["abc", "ABC", "def"]
             // Token "abc" exists, so IsToken returns true
@@ -6952,7 +6953,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsToken32_CaseSensitivity2()
+        public void TestIsToken32CaseSensitivity2()
         {
             // "abc::ABC::def" split by "::" gives ["abc", "ABC", "def"]
             // Token "ABC" exists, so IsToken returns true
@@ -6960,7 +6961,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsToken33_CaseSensitivity3()
+        public void TestIsToken33CaseSensitivity3()
         {
             // "abc::ABC::def" split by "::" gives ["abc", "ABC", "def"]
             // Token "Abc" does not exist, so IsToken returns false
@@ -6968,104 +6969,104 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsToken34_NumericTokens()
+        public void TestIsToken34NumericTokens()
         {
             Assert.AreEqual(true, StringUtil.IsToken("123::456::789", "123", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken35_NumericTokensSecond()
+        public void TestIsToken35NumericTokensSecond()
         {
             Assert.AreEqual(true, StringUtil.IsToken("123::456::789", "456", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken36_NumericTokensThird()
+        public void TestIsToken36NumericTokensThird()
         {
             Assert.AreEqual(true, StringUtil.IsToken("123::456::789", "789", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken37_PartialMatch()
+        public void TestIsToken37PartialMatch()
         {
             // "hello" is not a token; "helloworld" is
             Assert.AreEqual(false, StringUtil.IsToken("helloworld::test", "hello", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken38_PartialMatchSecond()
+        public void TestIsToken38PartialMatchSecond()
         {
             Assert.AreEqual(false, StringUtil.IsToken("helloworld::test", "world", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken39_ExactMatch()
+        public void TestIsToken39ExactMatch()
         {
             Assert.AreEqual(true, StringUtil.IsToken("helloworld::test", "helloworld", "::"));
         }
 
         [TestMethod]
-        public void TestIsToken40_WhitespaceDelimiter()
+        public void TestIsToken40WhitespaceDelimiter()
         {
             Assert.AreEqual(true, StringUtil.IsToken("hello  world", "hello", "  "));
         }
 
         [TestMethod]
-        public void TestIsToken41_WhitespaceDelimiterSecond()
+        public void TestIsToken41WhitespaceDelimiterSecond()
         {
             Assert.AreEqual(true, StringUtil.IsToken("hello  world", "world", "  "));
         }
 
         [TestMethod]
-        public void TestIsToken42_SpecialCharDelimiter()
+        public void TestIsToken42SpecialCharDelimiter()
         {
             Assert.AreEqual(true, StringUtil.IsToken("test@@value", "test", "@@"));
         }
 
         [TestMethod]
-        public void TestIsToken43_SpecialCharDelimiterSecond()
+        public void TestIsToken43SpecialCharDelimiterSecond()
         {
             Assert.AreEqual(true, StringUtil.IsToken("test@@value", "value", "@@"));
         }
 
         [TestMethod]
-        public void TestIsToken44_MultiCharDelimiterWithNumbers()
+        public void TestIsToken44MultiCharDelimiterWithNumbers()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a1@@b2@@c3", "a1", "@@"));
         }
 
         [TestMethod]
-        public void TestIsToken45_MultiCharDelimiterWithNumbersSecond()
+        public void TestIsToken45MultiCharDelimiterWithNumbersSecond()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a1@@b2@@c3", "b2", "@@"));
         }
 
         [TestMethod]
-        public void TestIsToken46_MultiCharDelimiterWithNumbersThird()
+        public void TestIsToken46MultiCharDelimiterWithNumbersThird()
         {
             Assert.AreEqual(true, StringUtil.IsToken("a1@@b2@@c3", "c3", "@@"));
         }
 
         [TestMethod]
-        public void TestIsToken47_LongMultiCharDelimiter()
+        public void TestIsToken47LongMultiCharDelimiter()
         {
             Assert.AreEqual(true, StringUtil.IsToken("start----middle----end", "start", "----"));
         }
 
         [TestMethod]
-        public void TestIsToken48_LongMultiCharDelimiterSecond()
+        public void TestIsToken48LongMultiCharDelimiterSecond()
         {
             Assert.AreEqual(true, StringUtil.IsToken("start----middle----end", "middle", "----"));
         }
 
         [TestMethod]
-        public void TestIsToken49_LongMultiCharDelimiterThird()
+        public void TestIsToken49LongMultiCharDelimiterThird()
         {
             Assert.AreEqual(true, StringUtil.IsToken("start----middle----end", "end", "----"));
         }
 
         [TestMethod]
-        public void TestIsToken50_MultiCharDelimiterMultipleConsecutive()
+        public void TestIsToken50MultiCharDelimiterMultipleConsecutive()
         {
             // "a::::::b" split by "::" should give ["a", "", "", "b"]
             // Check for "a"
@@ -7073,7 +7074,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsToken51_MultiCharDelimiterMultipleConsecutiveEmpty()
+        public void TestIsToken51MultiCharDelimiterMultipleConsecutiveEmpty()
         {
             // "a::::::b" split by "::" should give ["a", "", "", "b"]
             // Check for empty token
@@ -7081,7 +7082,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestIsToken52_MultiCharDelimiterMultipleConsecutiveLastToken()
+        public void TestIsToken52MultiCharDelimiterMultipleConsecutiveLastToken()
         {
             // "a::::::b" split by "::" should give ["a", "", "", "b"]
             Assert.AreEqual(true, StringUtil.IsToken("a::::::b", "b", "::"));
@@ -7118,13 +7119,13 @@ namespace StarThrower.StringUtilities.Test
 
         // Empty and null tests
         [TestMethod]
-        public void TestSqlText5_EmptyString()
+        public void TestSqlText5EmptyString()
         {
             Assert.AreEqual("", StringUtil.SqlText(""));
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestSqlText6_NullString()
+        public void TestSqlText6NullString()
         {
             StringUtil.SqlText(null);
             Assert.Fail();
@@ -7132,191 +7133,191 @@ namespace StarThrower.StringUtilities.Test
 
         // No quotes tests
         [TestMethod]
-        public void TestSqlText7_NoQuotes()
+        public void TestSqlText7NoQuotes()
         {
             Assert.AreEqual("asdf", StringUtil.SqlText("asdf"));
         }
 
         [TestMethod]
-        public void TestSqlText8_NoQuotesWithSpecialChars()
+        public void TestSqlText8NoQuotesWithSpecialChars()
         {
             Assert.AreEqual("hello world!", StringUtil.SqlText("hello world!"));
         }
 
         [TestMethod]
-        public void TestSqlText9_NoQuotesNumericOnly()
+        public void TestSqlText9NoQuotesNumericOnly()
         {
             Assert.AreEqual("12345", StringUtil.SqlText("12345"));
         }
 
         // Single character tests
         [TestMethod]
-        public void TestSqlText10_SingleQuote()
+        public void TestSqlText10SingleQuote()
         {
             Assert.AreEqual("\"\"", StringUtil.SqlText("\""));
         }
 
         [TestMethod]
-        public void TestSqlText11_SingleCharNoQuote()
+        public void TestSqlText11SingleCharNoQuote()
         {
             Assert.AreEqual("a", StringUtil.SqlText("a"));
         }
 
         // Quote in middle tests
         [TestMethod]
-        public void TestSqlText12_QuoteInMiddle()
+        public void TestSqlText12QuoteInMiddle()
         {
             Assert.AreEqual("a\"\"b", StringUtil.SqlText("a\"b"));
         }
 
         [TestMethod]
-        public void TestSqlText13_QuoteInMiddleWithSpaces()
+        public void TestSqlText13QuoteInMiddleWithSpaces()
         {
             Assert.AreEqual("hello \"\"world", StringUtil.SqlText("hello \"world"));
         }
 
         [TestMethod]
-        public void TestSqlText14_MultipleQuotesInMiddle()
+        public void TestSqlText14MultipleQuotesInMiddle()
         {
             Assert.AreEqual("a\"\"b\"\"c", StringUtil.SqlText("a\"b\"c"));
         }
 
         // Consecutive quotes tests
         [TestMethod]
-        public void TestSqlText15_ThreeConsecutiveQuotes()
+        public void TestSqlText15ThreeConsecutiveQuotes()
         {
             Assert.AreEqual("\"\"\"\"\"\"", StringUtil.SqlText("\"\"\""));
         }
 
         [TestMethod]
-        public void TestSqlText16_FourConsecutiveQuotes()
+        public void TestSqlText16FourConsecutiveQuotes()
         {
             Assert.AreEqual("\"\"\"\"\"\"\"\"", StringUtil.SqlText("\"\"\"\""));
         }
 
         [TestMethod]
-        public void TestSqlText17_FiveConsecutiveQuotes()
+        public void TestSqlText17FiveConsecutiveQuotes()
         {
             Assert.AreEqual("\"\"\"\"\"\"\"\"\"\"", StringUtil.SqlText("\"\"\"\"\""));
         }
 
         [TestMethod]
-        public void TestSqlText18_ConsecutiveQuotesWithText()
+        public void TestSqlText18ConsecutiveQuotesWithText()
         {
             Assert.AreEqual("start\"\"\"\"end", StringUtil.SqlText("start\"\"end"));
         }
 
         // Special characters with quotes
         [TestMethod]
-        public void TestSqlText19_QuoteWithBackslash()
+        public void TestSqlText19QuoteWithBackslash()
         {
             Assert.AreEqual("a\\\"\"b", StringUtil.SqlText("a\\\"b"));
         }
 
         [TestMethod]
-        public void TestSqlText20_QuoteWithNewline()
+        public void TestSqlText20QuoteWithNewline()
         {
             Assert.AreEqual("a\n\"\"b", StringUtil.SqlText("a\n\"b"));
         }
 
         [TestMethod]
-        public void TestSqlText21_QuoteWithTab()
+        public void TestSqlText21QuoteWithTab()
         {
             Assert.AreEqual("a\t\"\"b", StringUtil.SqlText("a\t\"b"));
         }
 
         [TestMethod]
-        public void TestSqlText22_QuoteWithCarriageReturn()
+        public void TestSqlText22QuoteWithCarriageReturn()
         {
             Assert.AreEqual("a\r\"\"b", StringUtil.SqlText("a\r\"b"));
         }
 
         // Long strings with quotes
         [TestMethod]
-        public void TestSqlText23_LongStringWithQuotes()
+        public void TestSqlText23LongStringWithQuotes()
         {
             Assert.AreEqual("verylongstringwithouquote\"\"inside", StringUtil.SqlText("verylongstringwithouquote\"inside"));
         }
 
         [TestMethod]
-        public void TestSqlText24_LongStringWithMultipleQuotes()
+        public void TestSqlText24LongStringWithMultipleQuotes()
         {
             Assert.AreEqual("start\"\"middle\"\"end\"\"more", StringUtil.SqlText("start\"middle\"end\"more"));
         }
 
         // Only quotes tests
         [TestMethod]
-        public void TestSqlText25_OnlyTwoQuotes()
+        public void TestSqlText25OnlyTwoQuotes()
         {
             Assert.AreEqual("\"\"\"\"", StringUtil.SqlText("\"\""));
         }
 
         [TestMethod]
-        public void TestSqlText26_OnlyThreeQuotes()
+        public void TestSqlText26OnlyThreeQuotes()
         {
             Assert.AreEqual("\"\"\"\"\"\"", StringUtil.SqlText("\"\"\""));
         }
 
         // Whitespace and quotes
         [TestMethod]
-        public void TestSqlText27_QuoteWithLeadingSpace()
+        public void TestSqlText27QuoteWithLeadingSpace()
         {
             Assert.AreEqual(" \"\"", StringUtil.SqlText(" \""));
         }
 
         [TestMethod]
-        public void TestSqlText28_QuoteWithTrailingSpace()
+        public void TestSqlText28QuoteWithTrailingSpace()
         {
             Assert.AreEqual("\"\" ", StringUtil.SqlText("\" "));
         }
 
         [TestMethod]
-        public void TestSqlText29_SpacesBetweenQuotes()
+        public void TestSqlText29SpacesBetweenQuotes()
         {
             Assert.AreEqual("\"\" \"\"", StringUtil.SqlText("\" \""));
         }
 
         // Numeric and alphanumeric with quotes
         [TestMethod]
-        public void TestSqlText30_NumericWithQuote()
+        public void TestSqlText30NumericWithQuote()
         {
             Assert.AreEqual("12\"\"34", StringUtil.SqlText("12\"34"));
         }
 
         [TestMethod]
-        public void TestSqlText31_AlphanumericWithQuotes()
+        public void TestSqlText31AlphanumericWithQuotes()
         {
             Assert.AreEqual("a1\"\"b2\"\"c3", StringUtil.SqlText("a1\"b2\"c3"));
         }
 
         // Mixed content tests
         [TestMethod]
-        public void TestSqlText32_MixedContentQuoteEverywhere()
+        public void TestSqlText32MixedContentQuoteEverywhere()
         {
             Assert.AreEqual("\"\"hello\"\"world\"\"test\"\"", StringUtil.SqlText("\"hello\"world\"test\""));
         }
 
         [TestMethod]
-        public void TestSqlText33_SQLStatementLike()
+        public void TestSqlText33SQLStatementLike()
         {
             // Simulating: INSERT INTO table VALUES ("value")
             Assert.AreEqual("INSERT INTO table VALUES (\"\"value\"\")", StringUtil.SqlText("INSERT INTO table VALUES (\"value\")"));
         }
 
         [TestMethod]
-        public void TestSqlText34_QuotedString()
+        public void TestSqlText34QuotedString()
         {
             Assert.AreEqual("\"\"\"\"This is a test\"\"\"\"", StringUtil.SqlText("\"\"This is a test\"\""));
         }
 
         [TestMethod]
-        public void TestSqlText35_ManyScatteredQuotes()
+        public void TestSqlText35ManyScatteredQuotes()
         {
             Assert.AreEqual("a\"\"b\"\"c\"\"d\"\"e\"\"f", StringUtil.SqlText("a\"b\"c\"d\"e\"f"));
         }
 
         [TestMethod]
-        public void TestSqlText36_PathWithQuotes()
+        public void TestSqlText36PathWithQuotes()
         {
             Assert.AreEqual("C:\\path\\to\\file\"\"name.txt", StringUtil.SqlText("C:\\path\\to\\file\"name.txt"));
         }
@@ -7370,7 +7371,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Null input test
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestStripLeadingDoubleQuotes8_NullInput()
+        public void TestStripLeadingDoubleQuotes8NullInput()
         {
             StringUtil.StripLeadingDoubleQuotes(null);
             Assert.Fail();
@@ -7378,232 +7379,232 @@ namespace StarThrower.StringUtilities.Test
 
         // No quotes tests
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes9_SingleCharNoQuote()
+        public void TestStripLeadingDoubleQuotes9SingleCharNoQuote()
         {
             Assert.AreEqual("a", StringUtil.StripLeadingDoubleQuotes("a"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes10_NoQuotesWithText()
+        public void TestStripLeadingDoubleQuotes10NoQuotesWithText()
         {
             Assert.AreEqual("hello world", StringUtil.StripLeadingDoubleQuotes("hello world"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes11_NoQuotesNumeric()
+        public void TestStripLeadingDoubleQuotes11NoQuotesNumeric()
         {
             Assert.AreEqual("12345", StringUtil.StripLeadingDoubleQuotes("12345"));
         }
 
         // Multiple leading quotes tests
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes12_FourLeadingQuotes()
+        public void TestStripLeadingDoubleQuotes12FourLeadingQuotes()
         {
             Assert.AreEqual("text", StringUtil.StripLeadingDoubleQuotes("\"\"\"\"text"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes13_FiveLeadingQuotes()
+        public void TestStripLeadingDoubleQuotes13FiveLeadingQuotes()
         {
             Assert.AreEqual("content", StringUtil.StripLeadingDoubleQuotes("\"\"\"\"\"content"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes14_SixLeadingQuotes()
+        public void TestStripLeadingDoubleQuotes14SixLeadingQuotes()
         {
             Assert.AreEqual("data", StringUtil.StripLeadingDoubleQuotes("\"\"\"\"\"\"data"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes15_TenLeadingQuotes()
+        public void TestStripLeadingDoubleQuotes15TenLeadingQuotes()
         {
             Assert.AreEqual("result", StringUtil.StripLeadingDoubleQuotes("\"\"\"\"\"\"\"\"\"\"result"));
         }
 
         // Quotes with different content types
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes16_QuotesWithSymbols()
+        public void TestStripLeadingDoubleQuotes16QuotesWithSymbols()
         {
             Assert.AreEqual("!@#$%", StringUtil.StripLeadingDoubleQuotes("\"!@#$%"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes17_QuotesWithAlphanumeric()
+        public void TestStripLeadingDoubleQuotes17QuotesWithAlphanumeric()
         {
             Assert.AreEqual("abc123def456", StringUtil.StripLeadingDoubleQuotes("\"abc123def456"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes18_MultipleQuotesWithAlphanumeric()
+        public void TestStripLeadingDoubleQuotes18MultipleQuotesWithAlphanumeric()
         {
             Assert.AreEqual("test123", StringUtil.StripLeadingDoubleQuotes("\"\"\"test123"));
         }
 
         // Only quotes strings
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes19_ThreeQuotesOnly()
+        public void TestStripLeadingDoubleQuotes19ThreeQuotesOnly()
         {
             Assert.AreEqual("", StringUtil.StripLeadingDoubleQuotes("\"\"\""));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes20_FourQuotesOnly()
+        public void TestStripLeadingDoubleQuotes20FourQuotesOnly()
         {
             Assert.AreEqual("", StringUtil.StripLeadingDoubleQuotes("\"\"\"\""));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes21_FiveQuotesOnly()
+        public void TestStripLeadingDoubleQuotes21FiveQuotesOnly()
         {
             Assert.AreEqual("", StringUtil.StripLeadingDoubleQuotes("\"\"\"\"\""));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes22_ManyQuotesOnly()
+        public void TestStripLeadingDoubleQuotes22ManyQuotesOnly()
         {
             Assert.AreEqual("", StringUtil.StripLeadingDoubleQuotes("\"\"\"\"\"\"\"\"\"\""));
         }
 
         // Quotes followed by special characters
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes23_QuoteWithLeadingSpace()
+        public void TestStripLeadingDoubleQuotes23QuoteWithLeadingSpace()
         {
             Assert.AreEqual(" text", StringUtil.StripLeadingDoubleQuotes("\" text"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes24_QuoteWithNewline()
+        public void TestStripLeadingDoubleQuotes24QuoteWithNewline()
         {
             Assert.AreEqual("\ntext", StringUtil.StripLeadingDoubleQuotes("\"\ntext"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes25_QuoteWithTab()
+        public void TestStripLeadingDoubleQuotes25QuoteWithTab()
         {
             Assert.AreEqual("\ttext", StringUtil.StripLeadingDoubleQuotes("\"\ttext"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes26_QuoteWithBackslash()
+        public void TestStripLeadingDoubleQuotes26QuoteWithBackslash()
         {
             Assert.AreEqual("\\path\\to\\file", StringUtil.StripLeadingDoubleQuotes("\"\\path\\to\\file"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes27_MultipleQuotesWithSpace()
+        public void TestStripLeadingDoubleQuotes27MultipleQuotesWithSpace()
         {
             Assert.AreEqual(" ", StringUtil.StripLeadingDoubleQuotes("\" "));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes28_QuoteWithSingleQuoteChar()
+        public void TestStripLeadingDoubleQuotes28QuoteWithSingleQuoteChar()
         {
             Assert.AreEqual("'", StringUtil.StripLeadingDoubleQuotes("\"'"));
         }
 
         // Quotes with numeric content
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes29_QuoteWithNumberOnly()
+        public void TestStripLeadingDoubleQuotes29QuoteWithNumberOnly()
         {
             Assert.AreEqual("123", StringUtil.StripLeadingDoubleQuotes("\"123"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes30_QuoteWithDecimal()
+        public void TestStripLeadingDoubleQuotes30QuoteWithDecimal()
         {
             Assert.AreEqual("3.14159", StringUtil.StripLeadingDoubleQuotes("\"3.14159"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes31_MultipleQuotesWithNumeric()
+        public void TestStripLeadingDoubleQuotes31MultipleQuotesWithNumeric()
         {
             Assert.AreEqual("999", StringUtil.StripLeadingDoubleQuotes("\"\"\"999"));
         }
 
         // Quotes with punctuation
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes32_QuoteWithComma()
+        public void TestStripLeadingDoubleQuotes32QuoteWithComma()
         {
             Assert.AreEqual(",test", StringUtil.StripLeadingDoubleQuotes("\",test"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes33_QuoteWithPeriod()
+        public void TestStripLeadingDoubleQuotes33QuoteWithPeriod()
         {
             Assert.AreEqual(".file", StringUtil.StripLeadingDoubleQuotes("\".file"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes34_QuoteWithParens()
+        public void TestStripLeadingDoubleQuotes34QuoteWithParens()
         {
             Assert.AreEqual("(test)", StringUtil.StripLeadingDoubleQuotes("\"(test)"));
         }
 
         // Quotes with path-like content
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes35_QuoteWithPathWindows()
+        public void TestStripLeadingDoubleQuotes35QuoteWithPathWindows()
         {
             Assert.AreEqual("C:\\Users\\file.txt", StringUtil.StripLeadingDoubleQuotes("\"C:\\Users\\file.txt"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes36_QuoteWithPathUnix()
+        public void TestStripLeadingDoubleQuotes36QuoteWithPathUnix()
         {
             Assert.AreEqual("/home/user/file.txt", StringUtil.StripLeadingDoubleQuotes("\"/home/user/file.txt"));
         }
 
         // Mixed content with quotes
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes37_QuoteWithMixedContent()
+        public void TestStripLeadingDoubleQuotes37QuoteWithMixedContent()
         {
             Assert.AreEqual("hello123world!\"test", StringUtil.StripLeadingDoubleQuotes("\"hello123world!\"test"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes38_MultipleQuotesWithMixedContent()
+        public void TestStripLeadingDoubleQuotes38MultipleQuotesWithMixedContent()
         {
             Assert.AreEqual("test\"data\"value", StringUtil.StripLeadingDoubleQuotes("\"\"\"test\"data\"value"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes39_QuoteWithEmbeddedQuotes()
+        public void TestStripLeadingDoubleQuotes39QuoteWithEmbeddedQuotes()
         {
             // Strips all leading quotes: "\"hello\" -> hello\"
             Assert.AreEqual("hello\"", StringUtil.StripLeadingDoubleQuotes("\"\"hello\""));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes40_QuoteFollowedByNonQuoteSymbol()
+        public void TestStripLeadingDoubleQuotes40QuoteFollowedByNonQuoteSymbol()
         {
             Assert.AreEqual("@user", StringUtil.StripLeadingDoubleQuotes("\"@user"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes41_LongStringWithLeadingQuotes()
+        public void TestStripLeadingDoubleQuotes41LongStringWithLeadingQuotes()
         {
             Assert.AreEqual("verylongstringwithouquotes", StringUtil.StripLeadingDoubleQuotes("\"verylongstringwithouquotes"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes42_QuoteWithURLContent()
+        public void TestStripLeadingDoubleQuotes42QuoteWithURLContent()
         {
             Assert.AreEqual("https://example.com/path", StringUtil.StripLeadingDoubleQuotes("\"https://example.com/path"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes43_QuoteWithJSONLike()
+        public void TestStripLeadingDoubleQuotes43QuoteWithJSONLike()
         {
             Assert.AreEqual("{\"key\": \"value\"}", StringUtil.StripLeadingDoubleQuotes("\"{\"key\": \"value\"}"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes44_QuoteWithSQLLike()
+        public void TestStripLeadingDoubleQuotes44QuoteWithSQLLike()
         {
             Assert.AreEqual("SELECT * FROM table", StringUtil.StripLeadingDoubleQuotes("\"SELECT * FROM table"));
         }
 
         [TestMethod]
-        public void TestStripLeadingDoubleQuotes45_QuoteWithWhitespaceOnly()
+        public void TestStripLeadingDoubleQuotes45QuoteWithWhitespaceOnly()
         {
             Assert.AreEqual("   ", StringUtil.StripLeadingDoubleQuotes("\"   "));
         }
@@ -7640,33 +7641,33 @@ namespace StarThrower.StringUtilities.Test
                 for (int j = 0; j <= 15; j++)
                 {
                     StringBuilder target = new StringBuilder("00");
-                    target.Append(i.ToString());
+                    target.Append(i.ToString(CultureInfo.InvariantCulture));
                     switch (j)
                     {
                         case 10:
-                            target.Append("A");
+                            target.Append('A');
                             break;
                         case 11:
-                            target.Append("B");
+                            target.Append('B');
                             break;
                         case 12:
-                            target.Append("C");
+                            target.Append('C');
                             break;
                         case 13:
-                            target.Append("D");
+                            target.Append('D');
                             break;
                         case 14:
-                            target.Append("E");
+                            target.Append('E');
                             break;
                         case 15:
-                            target.Append("F");
+                            target.Append('F');
                             break;
                         default:
-                            target.Append(j.ToString());
+                            target.Append(j.ToString(CultureInfo.InvariantCulture));
                             break;
                     }
 
-                    char c = (char)ushort.Parse(target.ToString(), System.Globalization.NumberStyles.HexNumber);
+                    char c = (char)ushort.Parse(target.ToString(), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture);
                     string s = new String(new char[] { c });
 
                     Assert.AreEqual(s, StringUtil.ToChar(characterCode));
@@ -7897,50 +7898,50 @@ namespace StarThrower.StringUtilities.Test
                     switch (i)
                     {
                         case 10:
-                            target.Append("A");
+                            target.Append('A');
                             break;
                         case 11:
-                            target.Append("B");
+                            target.Append('B');
                             break;
                         case 12:
-                            target.Append("C");
+                            target.Append('C');
                             break;
                         case 13:
-                            target.Append("D");
+                            target.Append('D');
                             break;
                         case 14:
-                            target.Append("E");
+                            target.Append('E');
                             break;
                         case 15:
-                            target.Append("F");
+                            target.Append('F');
                             break;
                         default:
-                            target.Append(i.ToString());
+                            target.Append(i.ToString(CultureInfo.InvariantCulture));
                             break;
                     }
 
                     switch (j)
                     {
                         case 10:
-                            target.Append("A");
+                            target.Append('A');
                             break;
                         case 11:
-                            target.Append("B");
+                            target.Append('B');
                             break;
                         case 12:
-                            target.Append("C");
+                            target.Append('C');
                             break;
                         case 13:
-                            target.Append("D");
+                            target.Append('D');
                             break;
                         case 14:
-                            target.Append("E");
+                            target.Append('E');
                             break;
                         case 15:
-                            target.Append("F");
+                            target.Append('F');
                             break;
                         default:
-                            target.Append(j.ToString());
+                            target.Append(j.ToString(CultureInfo.InvariantCulture));
                             break;
                     }
 
@@ -7979,9 +7980,9 @@ namespace StarThrower.StringUtilities.Test
                             //than the Chr() method.
                             break;
                         default:
-                            char c = (char)ushort.Parse(target.ToString(), System.Globalization.NumberStyles.HexNumber);
+                            char c = (char)ushort.Parse(target.ToString(), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture);
                             string s = new String(new char[] { c });
-                            Assert.AreEqual(s, StringUtil.ToChar(characterCode), "characterCode=" + characterCode.ToString());
+                            Assert.AreEqual(s, StringUtil.ToChar(characterCode), "characterCode=" + characterCode.ToString(CultureInfo.InvariantCulture));
                             break;
                     }
 
@@ -8051,332 +8052,332 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToAscii7_LowercaseA()
+        public void TestToAscii7LowercaseA()
         {
             Assert.AreEqual(97, StringUtil.ToAscii("a"));
         }
 
         [TestMethod]
-        public void TestToAscii8_LowercaseZ()
+        public void TestToAscii8LowercaseZ()
         {
             Assert.AreEqual(122, StringUtil.ToAscii("z"));
         }
 
         [TestMethod]
-        public void TestToAscii9_UppercaseZ()
+        public void TestToAscii9UppercaseZ()
         {
             Assert.AreEqual(90, StringUtil.ToAscii("Z"));
         }
 
         [TestMethod]
-        public void TestToAscii10_Digit0()
+        public void TestToAscii10Digit0()
         {
             Assert.AreEqual(48, StringUtil.ToAscii("0"));
         }
 
         [TestMethod]
-        public void TestToAscii11_Digit5()
+        public void TestToAscii11Digit5()
         {
             Assert.AreEqual(53, StringUtil.ToAscii("5"));
         }
 
         [TestMethod]
-        public void TestToAscii12_Digit9()
+        public void TestToAscii12Digit9()
         {
             Assert.AreEqual(57, StringUtil.ToAscii("9"));
         }
 
         [TestMethod]
-        public void TestToAscii13_Space()
+        public void TestToAscii13Space()
         {
             Assert.AreEqual(32, StringUtil.ToAscii(" "));
         }
 
         [TestMethod]
-        public void TestToAscii14_Tab()
+        public void TestToAscii14Tab()
         {
             Assert.AreEqual(9, StringUtil.ToAscii("\t"));
         }
 
         [TestMethod]
-        public void TestToAscii15_Newline()
+        public void TestToAscii15Newline()
         {
             Assert.AreEqual(10, StringUtil.ToAscii("\n"));
         }
 
         [TestMethod]
-        public void TestToAscii16_CarriageReturn()
+        public void TestToAscii16CarriageReturn()
         {
             Assert.AreEqual(13, StringUtil.ToAscii("\r"));
         }
 
         [TestMethod]
-        public void TestToAscii17_ExclamationMark()
+        public void TestToAscii17ExclamationMark()
         {
             Assert.AreEqual(33, StringUtil.ToAscii("!"));
         }
 
         [TestMethod]
-        public void TestToAscii18_DoubleQuote()
+        public void TestToAscii18DoubleQuote()
         {
             Assert.AreEqual(34, StringUtil.ToAscii("\""));
         }
 
         [TestMethod]
-        public void TestToAscii19_Hash()
+        public void TestToAscii19Hash()
         {
             Assert.AreEqual(35, StringUtil.ToAscii("#"));
         }
 
         [TestMethod]
-        public void TestToAscii20_Dollar()
+        public void TestToAscii20Dollar()
         {
             Assert.AreEqual(36, StringUtil.ToAscii("$"));
         }
 
         [TestMethod]
-        public void TestToAscii21_Percent()
+        public void TestToAscii21Percent()
         {
             Assert.AreEqual(37, StringUtil.ToAscii("%"));
         }
 
         [TestMethod]
-        public void TestToAscii22_Ampersand()
+        public void TestToAscii22Ampersand()
         {
             Assert.AreEqual(38, StringUtil.ToAscii("&"));
         }
 
         [TestMethod]
-        public void TestToAscii23_SingleQuote()
+        public void TestToAscii23SingleQuote()
         {
             Assert.AreEqual(39, StringUtil.ToAscii("'"));
         }
 
         [TestMethod]
-        public void TestToAscii24_OpenParen()
+        public void TestToAscii24OpenParen()
         {
             Assert.AreEqual(40, StringUtil.ToAscii("("));
         }
 
         [TestMethod]
-        public void TestToAscii25_CloseParen()
+        public void TestToAscii25CloseParen()
         {
             Assert.AreEqual(41, StringUtil.ToAscii(")"));
         }
 
         [TestMethod]
-        public void TestToAscii26_Asterisk()
+        public void TestToAscii26Asterisk()
         {
             Assert.AreEqual(42, StringUtil.ToAscii("*"));
         }
 
         [TestMethod]
-        public void TestToAscii27_Plus()
+        public void TestToAscii27Plus()
         {
             Assert.AreEqual(43, StringUtil.ToAscii("+"));
         }
 
         [TestMethod]
-        public void TestToAscii28_Comma()
+        public void TestToAscii28Comma()
         {
             Assert.AreEqual(44, StringUtil.ToAscii(","));
         }
 
         [TestMethod]
-        public void TestToAscii29_Hyphen()
+        public void TestToAscii29Hyphen()
         {
             Assert.AreEqual(45, StringUtil.ToAscii("-"));
         }
 
         [TestMethod]
-        public void TestToAscii30_Period()
+        public void TestToAscii30Period()
         {
             Assert.AreEqual(46, StringUtil.ToAscii("."));
         }
 
         [TestMethod]
-        public void TestToAscii31_ForwardSlash()
+        public void TestToAscii31ForwardSlash()
         {
             Assert.AreEqual(47, StringUtil.ToAscii("/"));
         }
 
         [TestMethod]
-        public void TestToAscii32_Colon()
+        public void TestToAscii32Colon()
         {
             Assert.AreEqual(58, StringUtil.ToAscii(":"));
         }
 
         [TestMethod]
-        public void TestToAscii33_Semicolon()
+        public void TestToAscii33Semicolon()
         {
             Assert.AreEqual(59, StringUtil.ToAscii(";"));
         }
 
         [TestMethod]
-        public void TestToAscii34_LessThan()
+        public void TestToAscii34LessThan()
         {
             Assert.AreEqual(60, StringUtil.ToAscii("<"));
         }
 
         [TestMethod]
-        public void TestToAscii35_Equals()
+        public void TestToAscii35Equals()
         {
             Assert.AreEqual(61, StringUtil.ToAscii("="));
         }
 
         [TestMethod]
-        public void TestToAscii36_GreaterThan()
+        public void TestToAscii36GreaterThan()
         {
             Assert.AreEqual(62, StringUtil.ToAscii(">"));
         }
 
         [TestMethod]
-        public void TestToAscii37_Question()
+        public void TestToAscii37Question()
         {
             Assert.AreEqual(63, StringUtil.ToAscii("?"));
         }
 
         [TestMethod]
-        public void TestToAscii38_At()
+        public void TestToAscii38At()
         {
             Assert.AreEqual(64, StringUtil.ToAscii("@"));
         }
 
         [TestMethod]
-        public void TestToAscii39_OpenBracket()
+        public void TestToAscii39OpenBracket()
         {
             Assert.AreEqual(91, StringUtil.ToAscii("["));
         }
 
         [TestMethod]
-        public void TestToAscii40_Backslash()
+        public void TestToAscii40Backslash()
         {
             Assert.AreEqual(92, StringUtil.ToAscii("\\"));
         }
 
         [TestMethod]
-        public void TestToAscii41_CloseBracket()
+        public void TestToAscii41CloseBracket()
         {
             Assert.AreEqual(93, StringUtil.ToAscii("]"));
         }
 
         [TestMethod]
-        public void TestToAscii42_Caret()
+        public void TestToAscii42Caret()
         {
             Assert.AreEqual(94, StringUtil.ToAscii("^"));
         }
 
         [TestMethod]
-        public void TestToAscii43_Underscore()
+        public void TestToAscii43Underscore()
         {
             Assert.AreEqual(95, StringUtil.ToAscii("_"));
         }
 
         [TestMethod]
-        public void TestToAscii44_Backtick()
+        public void TestToAscii44Backtick()
         {
             Assert.AreEqual(96, StringUtil.ToAscii("`"));
         }
 
         [TestMethod]
-        public void TestToAscii45_OpenBrace()
+        public void TestToAscii45OpenBrace()
         {
             Assert.AreEqual(123, StringUtil.ToAscii("{"));
         }
 
         [TestMethod]
-        public void TestToAscii46_Pipe()
+        public void TestToAscii46Pipe()
         {
             Assert.AreEqual(124, StringUtil.ToAscii("|"));
         }
 
         [TestMethod]
-        public void TestToAscii47_CloseBrace()
+        public void TestToAscii47CloseBrace()
         {
             Assert.AreEqual(125, StringUtil.ToAscii("}"));
         }
 
         [TestMethod]
-        public void TestToAscii48_Tilde()
+        public void TestToAscii48Tilde()
         {
             Assert.AreEqual(126, StringUtil.ToAscii("~"));
         }
 
         [TestMethod]
-        public void TestToAscii49_MultiCharStringFirstCharOnly()
+        public void TestToAscii49MultiCharStringFirstCharOnly()
         {
             // Test that only the first character is converted
             Assert.AreEqual(65, StringUtil.ToAscii("ABC"));
         }
 
         [TestMethod]
-        public void TestToAscii50_MultiCharStringFirstCharOnly2()
+        public void TestToAscii50MultiCharStringFirstCharOnly2()
         {
             // Test that only the first character is converted
             Assert.AreEqual(97, StringUtil.ToAscii("apple"));
         }
 
         [TestMethod]
-        public void TestToAscii51_ControlCharacter_BEL()
+        public void TestToAscii51ControlCharacterBEL()
         {
             Assert.AreEqual(7, StringUtil.ToAscii("\u0007"));
         }
 
         [TestMethod]
-        public void TestToAscii52_ControlCharacter_BS()
+        public void TestToAscii52ControlCharacterBS()
         {
             Assert.AreEqual(8, StringUtil.ToAscii("\u0008"));
         }
 
         [TestMethod]
-        public void TestToAscii53_ControlCharacter_FF()
+        public void TestToAscii53ControlCharacterFF()
         {
             Assert.AreEqual(12, StringUtil.ToAscii("\u000C"));
         }
 
         [TestMethod]
-        public void TestToAscii54_ControlCharacter_VT()
+        public void TestToAscii54ControlCharacterVT()
         {
             Assert.AreEqual(11, StringUtil.ToAscii("\u000B"));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestToAscii55_NullString()
+        public void TestToAscii55NullString()
         {
             StringUtil.ToAscii(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToAscii56_EmptyString()
+        public void TestToAscii56EmptyString()
         {
             StringUtil.ToAscii("");
         }
 
         [TestMethod]
-        public void TestToAscii57_ExtendedASCII_A0()
+        public void TestToAscii57ExtendedASCIIA0()
         {
             // Non-breaking space in Windows-1252
             Assert.AreEqual(160, StringUtil.ToAscii("\u00A0"));
         }
 
         [TestMethod]
-        public void TestToAscii58_ExtendedASCII_A9()
+        public void TestToAscii58ExtendedASCIIA9()
         {
             // Copyright symbol in Windows-1252
             Assert.AreEqual(169, StringUtil.ToAscii("©"));
         }
 
         [TestMethod]
-        public void TestToAscii59_ExtendedASCII_AE()
+        public void TestToAscii59ExtendedASCIIAE()
         {
             // Registered trademark in Windows-1252
             Assert.AreEqual(174, StringUtil.ToAscii("®"));
         }
 
         [TestMethod]
-        public void TestToAscii60_ExtendedASCII_BE()
+        public void TestToAscii60ExtendedASCIIBE()
         {
             // One-half in Windows-1252
             Assert.AreEqual(190, StringUtil.ToAscii("¾"));
@@ -8389,258 +8390,258 @@ namespace StarThrower.StringUtilities.Test
 
         // Null and empty tests
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestXmlEncode1_NullInput()
+        public void TestXmlEncode1NullInput()
         {
             StringUtil.XmlEncode(null);
             Assert.Fail();
         }
 
         [TestMethod]
-        public void TestXmlEncode2_EmptyString()
+        public void TestXmlEncode2EmptyString()
         {
             Assert.AreEqual("", StringUtil.XmlEncode(""));
         }
 
         // No special characters tests
         [TestMethod]
-        public void TestXmlEncode3_NoSpecialChars()
+        public void TestXmlEncode3NoSpecialChars()
         {
             Assert.AreEqual("hello", StringUtil.XmlEncode("hello"));
         }
 
         [TestMethod]
-        public void TestXmlEncode4_NoSpecialCharsWithNumbers()
+        public void TestXmlEncode4NoSpecialCharsWithNumbers()
         {
             Assert.AreEqual("test123", StringUtil.XmlEncode("test123"));
         }
 
         [TestMethod]
-        public void TestXmlEncode5_NoSpecialCharsWithSpaces()
+        public void TestXmlEncode5NoSpecialCharsWithSpaces()
         {
             Assert.AreEqual("hello world test", StringUtil.XmlEncode("hello world test"));
         }
 
         // Ampersand tests
         [TestMethod]
-        public void TestXmlEncode6_SingleAmpersand()
+        public void TestXmlEncode6SingleAmpersand()
         {
             Assert.AreEqual("&#38;", StringUtil.XmlEncode("&"));
         }
 
         [TestMethod]
-        public void TestXmlEncode7_AmpersandAtStart()
+        public void TestXmlEncode7AmpersandAtStart()
         {
             Assert.AreEqual("&#38;test", StringUtil.XmlEncode("&test"));
         }
 
         [TestMethod]
-        public void TestXmlEncode8_AmpersandAtEnd()
+        public void TestXmlEncode8AmpersandAtEnd()
         {
             Assert.AreEqual("test&#38;", StringUtil.XmlEncode("test&"));
         }
 
         [TestMethod]
-        public void TestXmlEncode9_AmpersandInMiddle()
+        public void TestXmlEncode9AmpersandInMiddle()
         {
             Assert.AreEqual("hello&#38;world", StringUtil.XmlEncode("hello&world"));
         }
 
         [TestMethod]
-        public void TestXmlEncode10_MultipleAmpersands()
+        public void TestXmlEncode10MultipleAmpersands()
         {
             Assert.AreEqual("&#38;&#38;&#38;", StringUtil.XmlEncode("&&&"));
         }
 
         // Less-than tests
         [TestMethod]
-        public void TestXmlEncode11_SingleLessThan()
+        public void TestXmlEncode11SingleLessThan()
         {
             Assert.AreEqual("&#60;", StringUtil.XmlEncode("<"));
         }
 
         [TestMethod]
-        public void TestXmlEncode12_LessThanAtStart()
+        public void TestXmlEncode12LessThanAtStart()
         {
             Assert.AreEqual("&#60;test", StringUtil.XmlEncode("<test"));
         }
 
         [TestMethod]
-        public void TestXmlEncode13_LessThanInMiddle()
+        public void TestXmlEncode13LessThanInMiddle()
         {
             Assert.AreEqual("a&#60;b", StringUtil.XmlEncode("a<b"));
         }
 
         [TestMethod]
-        public void TestXmlEncode14_MultipleLessThan()
+        public void TestXmlEncode14MultipleLessThan()
         {
             Assert.AreEqual("&#60;&#60;&#60;", StringUtil.XmlEncode("<<<"));
         }
 
         // Greater-than tests
         [TestMethod]
-        public void TestXmlEncode15_SingleGreaterThan()
+        public void TestXmlEncode15SingleGreaterThan()
         {
             Assert.AreEqual("&#62;", StringUtil.XmlEncode(">"));
         }
 
         [TestMethod]
-        public void TestXmlEncode16_GreaterThanAtStart()
+        public void TestXmlEncode16GreaterThanAtStart()
         {
             Assert.AreEqual("&#62;test", StringUtil.XmlEncode(">test"));
         }
 
         [TestMethod]
-        public void TestXmlEncode17_GreaterThanInMiddle()
+        public void TestXmlEncode17GreaterThanInMiddle()
         {
             Assert.AreEqual("a&#62;b", StringUtil.XmlEncode("a>b"));
         }
 
         [TestMethod]
-        public void TestXmlEncode18_MultipleGreaterThan()
+        public void TestXmlEncode18MultipleGreaterThan()
         {
             Assert.AreEqual("&#62;&#62;&#62;", StringUtil.XmlEncode(">>>"));
         }
 
         // Double quote tests
         [TestMethod]
-        public void TestXmlEncode19_SingleDoubleQuote()
+        public void TestXmlEncode19SingleDoubleQuote()
         {
             Assert.AreEqual("&#34;", StringUtil.XmlEncode("\""));
         }
 
         [TestMethod]
-        public void TestXmlEncode20_DoubleQuoteAtStart()
+        public void TestXmlEncode20DoubleQuoteAtStart()
         {
             Assert.AreEqual("&#34;test", StringUtil.XmlEncode("\"test"));
         }
 
         [TestMethod]
-        public void TestXmlEncode21_DoubleQuoteInMiddle()
+        public void TestXmlEncode21DoubleQuoteInMiddle()
         {
             Assert.AreEqual("hello&#34;world", StringUtil.XmlEncode("hello\"world"));
         }
 
         [TestMethod]
-        public void TestXmlEncode22_MultipleDoubleQuotes()
+        public void TestXmlEncode22MultipleDoubleQuotes()
         {
             Assert.AreEqual("&#34;&#34;&#34;", StringUtil.XmlEncode("\"\"\""));
         }
 
         // Equals sign tests
         [TestMethod]
-        public void TestXmlEncode23_SingleEquals()
+        public void TestXmlEncode23SingleEquals()
         {
             Assert.AreEqual("&#61;", StringUtil.XmlEncode("="));
         }
 
         [TestMethod]
-        public void TestXmlEncode24_EqualsAtStart()
+        public void TestXmlEncode24EqualsAtStart()
         {
             Assert.AreEqual("&#61;test", StringUtil.XmlEncode("=test"));
         }
 
         [TestMethod]
-        public void TestXmlEncode25_EqualsInMiddle()
+        public void TestXmlEncode25EqualsInMiddle()
         {
             Assert.AreEqual("a&#61;b", StringUtil.XmlEncode("a=b"));
         }
 
         // Single quote tests
         [TestMethod]
-        public void TestXmlEncode26_SingleSingleQuote()
+        public void TestXmlEncode26SingleSingleQuote()
         {
             Assert.AreEqual("&#39;", StringUtil.XmlEncode("'"));
         }
 
         [TestMethod]
-        public void TestXmlEncode27_SingleQuoteAtStart()
+        public void TestXmlEncode27SingleQuoteAtStart()
         {
             Assert.AreEqual("&#39;test", StringUtil.XmlEncode("'test"));
         }
 
         [TestMethod]
-        public void TestXmlEncode28_SingleQuoteInMiddle()
+        public void TestXmlEncode28SingleQuoteInMiddle()
         {
             Assert.AreEqual("don&#39;t", StringUtil.XmlEncode("don't"));
         }
 
         [TestMethod]
-        public void TestXmlEncode29_MultipleSingleQuotes()
+        public void TestXmlEncode29MultipleSingleQuotes()
         {
             Assert.AreEqual("&#39;&#39;&#39;", StringUtil.XmlEncode("'''"));
         }
 
         // Newline tests
         [TestMethod]
-        public void TestXmlEncode30_SingleNewline()
+        public void TestXmlEncode30SingleNewline()
         {
             Assert.AreEqual(" ", StringUtil.XmlEncode("\n"));
         }
 
         [TestMethod]
-        public void TestXmlEncode31_NewlineAtStart()
+        public void TestXmlEncode31NewlineAtStart()
         {
             Assert.AreEqual(" test", StringUtil.XmlEncode("\ntest"));
         }
 
         [TestMethod]
-        public void TestXmlEncode32_NewlineInMiddle()
+        public void TestXmlEncode32NewlineInMiddle()
         {
             Assert.AreEqual("hello world", StringUtil.XmlEncode("hello\nworld"));
         }
 
         [TestMethod]
-        public void TestXmlEncode33_MultipleNewlines()
+        public void TestXmlEncode33MultipleNewlines()
         {
             Assert.AreEqual("   ", StringUtil.XmlEncode("\n\n\n"));
         }
 
         // Tab tests
         [TestMethod]
-        public void TestXmlEncode34_SingleTab()
+        public void TestXmlEncode34SingleTab()
         {
             Assert.AreEqual(" ", StringUtil.XmlEncode("\t"));
         }
 
         [TestMethod]
-        public void TestXmlEncode35_TabAtStart()
+        public void TestXmlEncode35TabAtStart()
         {
             Assert.AreEqual(" test", StringUtil.XmlEncode("\ttest"));
         }
 
         [TestMethod]
-        public void TestXmlEncode36_TabInMiddle()
+        public void TestXmlEncode36TabInMiddle()
         {
             Assert.AreEqual("hello world", StringUtil.XmlEncode("hello\tworld"));
         }
 
         [TestMethod]
-        public void TestXmlEncode37_MultipleTabs()
+        public void TestXmlEncode37MultipleTabs()
         {
             Assert.AreEqual("   ", StringUtil.XmlEncode("\t\t\t"));
         }
 
         // Multiple different special characters
         [TestMethod]
-        public void TestXmlEncode38_AmpersandAndLessThan()
+        public void TestXmlEncode38AmpersandAndLessThan()
         {
             Assert.AreEqual("&#38;&#60;", StringUtil.XmlEncode("&<"));
         }
 
         [TestMethod]
-        public void TestXmlEncode39_AllSpecialChars()
+        public void TestXmlEncode39AllSpecialChars()
         {
             Assert.AreEqual("&#38;&#60;&#62;&#34;&#61;&#39;", StringUtil.XmlEncode("&<>\"='"));
         }
 
         [TestMethod]
-        public void TestXmlEncode40_MixedSpecialCharsAndNewline()
+        public void TestXmlEncode40MixedSpecialCharsAndNewline()
         {
             Assert.AreEqual("test&#38;data world", StringUtil.XmlEncode("test&data\nworld"));
         }
 
         [TestMethod]
-        public void TestXmlEncode41_MixedSpecialCharsAndTab()
+        public void TestXmlEncode41MixedSpecialCharsAndTab()
         {
             // Tab is replaced with space, then < is encoded
             Assert.AreEqual("hello&#60; world", StringUtil.XmlEncode("hello<\tworld"));
@@ -8648,44 +8649,44 @@ namespace StarThrower.StringUtilities.Test
 
         // Real-world XML scenarios
         [TestMethod]
-        public void TestXmlEncode42_XMLTag()
+        public void TestXmlEncode42XMLTag()
         {
             Assert.AreEqual("&#60;tag&#62;", StringUtil.XmlEncode("<tag>"));
         }
 
         [TestMethod]
-        public void TestXmlEncode43_XMLAttribute()
+        public void TestXmlEncode43XMLAttribute()
         {
             Assert.AreEqual("attr&#61;&#34;value&#34;", StringUtil.XmlEncode("attr=\"value\""));
         }
 
         [TestMethod]
-        public void TestXmlEncode44_XMLWithAmpersand()
+        public void TestXmlEncode44XMLWithAmpersand()
         {
             Assert.AreEqual("A &#38; B", StringUtil.XmlEncode("A & B"));
         }
 
         [TestMethod]
-        public void TestXmlEncode45_XMLComplexContent()
+        public void TestXmlEncode45XMLComplexContent()
         {
             Assert.AreEqual("&#60;element attr&#61;&#34;val&#34;&#62;content&#60;/element&#62;", StringUtil.XmlEncode("<element attr=\"val\">content</element>"));
         }
 
         // Mixed content with numbers and special characters
         [TestMethod]
-        public void TestXmlEncode46_NumbersWithAmpersand()
+        public void TestXmlEncode46NumbersWithAmpersand()
         {
             Assert.AreEqual("123&#38;456", StringUtil.XmlEncode("123&456"));
         }
 
         [TestMethod]
-        public void TestXmlEncode47_URLWithSpecialChars()
+        public void TestXmlEncode47URLWithSpecialChars()
         {
             Assert.AreEqual("http://example.com?a&#61;1&#38;b&#61;2", StringUtil.XmlEncode("http://example.com?a=1&b=2"));
         }
 
         [TestMethod]
-        public void TestXmlEncode48_JSONLikeWithSpecialChars()
+        public void TestXmlEncode48JSONLikeWithSpecialChars()
         {
             Assert.AreEqual("{&#34;key&#34;:&#34;value&#34;}", StringUtil.XmlEncode("{\"key\":\"value\"}"));
         }
@@ -8697,14 +8698,14 @@ namespace StarThrower.StringUtilities.Test
 
         // Null and empty tests
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestToByteArray1_NullInput()
+        public void TestToByteArray1NullInput()
         {
             StringUtil.ToByteArray(null);
             Assert.Fail();
         }
 
         [TestMethod]
-        public void TestToByteArray2_EmptyString()
+        public void TestToByteArray2EmptyString()
         {
             byte[] result = StringUtil.ToByteArray("");
             Assert.AreEqual(0, result.Length);
@@ -8712,7 +8713,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Single character tests
         [TestMethod]
-        public void TestToByteArray3_SingleLowerCaseLetter()
+        public void TestToByteArray3SingleLowerCaseLetter()
         {
             byte[] result = StringUtil.ToByteArray("a");
             Assert.AreEqual(1, result.Length);
@@ -8720,7 +8721,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray4_SingleUpperCaseLetter()
+        public void TestToByteArray4SingleUpperCaseLetter()
         {
             byte[] result = StringUtil.ToByteArray("A");
             Assert.AreEqual(1, result.Length);
@@ -8728,7 +8729,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray5_SingleDigit()
+        public void TestToByteArray5SingleDigit()
         {
             byte[] result = StringUtil.ToByteArray("5");
             Assert.AreEqual(1, result.Length);
@@ -8736,7 +8737,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray6_SingleSpace()
+        public void TestToByteArray6SingleSpace()
         {
             byte[] result = StringUtil.ToByteArray(" ");
             Assert.AreEqual(1, result.Length);
@@ -8744,7 +8745,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray7_SingleSymbol()
+        public void TestToByteArray7SingleSymbol()
         {
             byte[] result = StringUtil.ToByteArray("!");
             Assert.AreEqual(1, result.Length);
@@ -8753,7 +8754,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Multiple character tests with length verification
         [TestMethod]
-        public void TestToByteArray8_TwoCharacters()
+        public void TestToByteArray8TwoCharacters()
         {
             byte[] result = StringUtil.ToByteArray("ab");
             Assert.AreEqual(2, result.Length);
@@ -8762,7 +8763,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray9_ThreeCharacters()
+        public void TestToByteArray9ThreeCharacters()
         {
             byte[] result = StringUtil.ToByteArray("abc");
             Assert.AreEqual(3, result.Length);
@@ -8772,21 +8773,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray10_AlphabetLowerCase()
+        public void TestToByteArray10AlphabetLowerCase()
         {
             byte[] result = StringUtil.ToByteArray("abcdefghijklmnopqrstuvwxyz");
             Assert.AreEqual(26, result.Length);
         }
 
         [TestMethod]
-        public void TestToByteArray11_AlphabetUpperCase()
+        public void TestToByteArray11AlphabetUpperCase()
         {
             byte[] result = StringUtil.ToByteArray("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
             Assert.AreEqual(26, result.Length);
         }
 
         [TestMethod]
-        public void TestToByteArray12_Digits()
+        public void TestToByteArray12Digits()
         {
             byte[] result = StringUtil.ToByteArray("0123456789");
             Assert.AreEqual(10, result.Length);
@@ -8796,21 +8797,21 @@ namespace StarThrower.StringUtilities.Test
 
         // Case sensitivity tests
         [TestMethod]
-        public void TestToByteArray13_LowercaseA()
+        public void TestToByteArray13LowercaseA()
         {
             byte[] result = StringUtil.ToByteArray("a");
             Assert.AreEqual(97, result[0]);
         }
 
         [TestMethod]
-        public void TestToByteArray14_UppercaseA()
+        public void TestToByteArray14UppercaseA()
         {
             byte[] result = StringUtil.ToByteArray("A");
             Assert.AreEqual(65, result[0]);
         }
 
         [TestMethod]
-        public void TestToByteArray15_MixedCase()
+        public void TestToByteArray15MixedCase()
         {
             byte[] result = StringUtil.ToByteArray("AaBbCc");
             Assert.AreEqual(6, result.Length);
@@ -8820,21 +8821,21 @@ namespace StarThrower.StringUtilities.Test
 
         // Special characters tests
         [TestMethod]
-        public void TestToByteArray16_PunctuationMarks()
+        public void TestToByteArray16PunctuationMarks()
         {
             byte[] result = StringUtil.ToByteArray(".,!?;:");
             Assert.AreEqual(6, result.Length);
         }
 
         [TestMethod]
-        public void TestToByteArray17_Symbols()
+        public void TestToByteArray17Symbols()
         {
             byte[] result = StringUtil.ToByteArray("@#$%^&*()");
             Assert.AreEqual(9, result.Length);
         }
 
         [TestMethod]
-        public void TestToByteArray18_BracketsAndParens()
+        public void TestToByteArray18BracketsAndParens()
         {
             byte[] result = StringUtil.ToByteArray("[]{}()<>");
             Assert.AreEqual(8, result.Length);
@@ -8842,7 +8843,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Whitespace tests
         [TestMethod]
-        public void TestToByteArray19_SpaceCharacter()
+        public void TestToByteArray19SpaceCharacter()
         {
             byte[] result = StringUtil.ToByteArray(" ");
             Assert.AreEqual(1, result.Length);
@@ -8850,7 +8851,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray20_MultipleSpaces()
+        public void TestToByteArray20MultipleSpaces()
         {
             byte[] result = StringUtil.ToByteArray("   ");
             Assert.AreEqual(3, result.Length);
@@ -8860,7 +8861,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray21_TabCharacter()
+        public void TestToByteArray21TabCharacter()
         {
             byte[] result = StringUtil.ToByteArray("\t");
             Assert.AreEqual(1, result.Length);
@@ -8868,7 +8869,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray22_NewlineCharacter()
+        public void TestToByteArray22NewlineCharacter()
         {
             byte[] result = StringUtil.ToByteArray("\n");
             Assert.AreEqual(1, result.Length);
@@ -8876,7 +8877,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray23_CarriageReturnCharacter()
+        public void TestToByteArray23CarriageReturnCharacter()
         {
             byte[] result = StringUtil.ToByteArray("\r");
             Assert.AreEqual(1, result.Length);
@@ -8885,7 +8886,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Repeated characters
         [TestMethod]
-        public void TestToByteArray24_RepeatedCharacter()
+        public void TestToByteArray24RepeatedCharacter()
         {
             byte[] result = StringUtil.ToByteArray("aaaa");
             Assert.AreEqual(4, result.Length);
@@ -8896,7 +8897,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray25_RepeatedDigit()
+        public void TestToByteArray25RepeatedDigit()
         {
             byte[] result = StringUtil.ToByteArray("1111");
             Assert.AreEqual(4, result.Length);
@@ -8905,14 +8906,14 @@ namespace StarThrower.StringUtilities.Test
 
         // Mixed content
         [TestMethod]
-        public void TestToByteArray26_AlphanumericMixed()
+        public void TestToByteArray26AlphanumericMixed()
         {
             byte[] result = StringUtil.ToByteArray("a1b2c3");
             Assert.AreEqual(6, result.Length);
         }
 
         [TestMethod]
-        public void TestToByteArray27_WordWithSpaces()
+        public void TestToByteArray27WordWithSpaces()
         {
             byte[] result = StringUtil.ToByteArray("hello world");
             Assert.AreEqual(11, result.Length);
@@ -8922,7 +8923,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray28_SentenceWithPunctuation()
+        public void TestToByteArray28SentenceWithPunctuation()
         {
             byte[] result = StringUtil.ToByteArray("Hello, World!");
             Assert.AreEqual(13, result.Length);
@@ -8930,7 +8931,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Longer strings
         [TestMethod]
-        public void TestToByteArray29_LongAlphabeticalString()
+        public void TestToByteArray29LongAlphabeticalString()
         {
             string longString = "abcdefghijklmnopqrstuvwxyz";
             byte[] result = StringUtil.ToByteArray(longString);
@@ -8938,7 +8939,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray30_VeryLongString()
+        public void TestToByteArray30VeryLongString()
         {
             string longString = new string('a', 1000);
             byte[] result = StringUtil.ToByteArray(longString);
@@ -8952,7 +8953,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Numeric strings
         [TestMethod]
-        public void TestToByteArray31_NumericString()
+        public void TestToByteArray31NumericString()
         {
             byte[] result = StringUtil.ToByteArray("12345");
             Assert.AreEqual(5, result.Length);
@@ -8964,7 +8965,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray32_NumericWithDecimal()
+        public void TestToByteArray32NumericWithDecimal()
         {
             byte[] result = StringUtil.ToByteArray("3.14159");
             Assert.AreEqual(7, result.Length);
@@ -8972,7 +8973,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Special sequences
         [TestMethod]
-        public void TestToByteArray33_QuotedString()
+        public void TestToByteArray33QuotedString()
         {
             byte[] result = StringUtil.ToByteArray("\"hello\"");
             Assert.AreEqual(7, result.Length);
@@ -8980,14 +8981,14 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray34_URLLike()
+        public void TestToByteArray34URLLike()
         {
             byte[] result = StringUtil.ToByteArray("http://example.com");
             Assert.AreEqual(18, result.Length);
         }
 
         [TestMethod]
-        public void TestToByteArray35_EmailLike()
+        public void TestToByteArray35EmailLike()
         {
             byte[] result = StringUtil.ToByteArray("user@example.com");
             Assert.AreEqual(16, result.Length);
@@ -8995,7 +8996,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Array content verification
         [TestMethod]
-        public void TestToByteArray36_VerifyArrayContent()
+        public void TestToByteArray36VerifyArrayContent()
         {
             byte[] result = StringUtil.ToByteArray("ABC");
             Assert.AreEqual(3, result.Length);
@@ -9005,7 +9006,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray37_VerifyNumericContent()
+        public void TestToByteArray37VerifyNumericContent()
         {
             byte[] result = StringUtil.ToByteArray("789");
             Assert.AreEqual(3, result.Length);
@@ -9015,21 +9016,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray38_JSONLikeString()
+        public void TestToByteArray38JSONLikeString()
         {
             byte[] result = StringUtil.ToByteArray("{\"key\":\"value\"}");
             Assert.AreEqual(15, result.Length);
         }
 
         [TestMethod]
-        public void TestToByteArray39_XMLLikeString()
+        public void TestToByteArray39XMLLikeString()
         {
             byte[] result = StringUtil.ToByteArray("<tag>content</tag>");
             Assert.AreEqual(18, result.Length);
         }
 
         [TestMethod]
-        public void TestToByteArray40_SpecialSymbolCombination()
+        public void TestToByteArray40SpecialSymbolCombination()
         {
             byte[] result = StringUtil.ToByteArray("+-*/=");
             Assert.AreEqual(5, result.Length);
@@ -9038,7 +9039,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray41_MixedWhitespace()
+        public void TestToByteArray41MixedWhitespace()
         {
             byte[] result = StringUtil.ToByteArray("a b\tc");
             Assert.AreEqual(5, result.Length);
@@ -9050,7 +9051,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToByteArray42_UnderscoresAndDashes()
+        public void TestToByteArray42UnderscoresAndDashes()
         {
             byte[] result = StringUtil.ToByteArray("test_name-value");
             Assert.AreEqual(15, result.Length);
@@ -9065,14 +9066,14 @@ namespace StarThrower.StringUtilities.Test
 
         // Null and empty tests
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestFromByteArray1_NullInput()
+        public void TestFromByteArray1NullInput()
         {
             StringUtil.FromByteArray(null);
             Assert.Fail();
         }
 
         [TestMethod]
-        public void TestFromByteArray2_EmptyArray()
+        public void TestFromByteArray2EmptyArray()
         {
             string result = StringUtil.FromByteArray(new byte[0]);
             Assert.AreEqual("", result);
@@ -9081,7 +9082,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Single byte tests
         [TestMethod]
-        public void TestFromByteArray3_SingleByteLowercaseA()
+        public void TestFromByteArray3SingleByteLowercaseA()
         {
             byte[] bytes = new byte[] { 97 }; // ASCII 'a'
             string result = StringUtil.FromByteArray(bytes);
@@ -9090,7 +9091,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray4_SingleByteUppercaseA()
+        public void TestFromByteArray4SingleByteUppercaseA()
         {
             byte[] bytes = new byte[] { 65 }; // ASCII 'A'
             string result = StringUtil.FromByteArray(bytes);
@@ -9098,7 +9099,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray5_SingleByteDigit()
+        public void TestFromByteArray5SingleByteDigit()
         {
             byte[] bytes = new byte[] { 53 }; // ASCII '5'
             string result = StringUtil.FromByteArray(bytes);
@@ -9106,7 +9107,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray6_SingleByteSpace()
+        public void TestFromByteArray6SingleByteSpace()
         {
             byte[] bytes = new byte[] { 32 }; // ASCII space
             string result = StringUtil.FromByteArray(bytes);
@@ -9114,7 +9115,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray7_SingleByteExclamation()
+        public void TestFromByteArray7SingleByteExclamation()
         {
             byte[] bytes = new byte[] { 33 }; // ASCII '!'
             string result = StringUtil.FromByteArray(bytes);
@@ -9123,7 +9124,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Multiple byte tests
         [TestMethod]
-        public void TestFromByteArray8_TwoBytes()
+        public void TestFromByteArray8TwoBytes()
         {
             byte[] bytes = new byte[] { 97, 98 }; // 'a', 'b'
             string result = StringUtil.FromByteArray(bytes);
@@ -9132,7 +9133,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray9_ThreeBytes()
+        public void TestFromByteArray9ThreeBytes()
         {
             byte[] bytes = new byte[] { 97, 98, 99 }; // 'a', 'b', 'c'
             string result = StringUtil.FromByteArray(bytes);
@@ -9141,7 +9142,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray10_LowercaseAlphabet()
+        public void TestFromByteArray10LowercaseAlphabet()
         {
             byte[] bytes = new byte[] { 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 };
             string result = StringUtil.FromByteArray(bytes);
@@ -9150,7 +9151,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray11_UppercaseAlphabet()
+        public void TestFromByteArray11UppercaseAlphabet()
         {
             byte[] bytes = new byte[] { 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90 };
             string result = StringUtil.FromByteArray(bytes);
@@ -9159,7 +9160,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray12_Digits()
+        public void TestFromByteArray12Digits()
         {
             byte[] bytes = new byte[] { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57 }; // '0' through '9'
             string result = StringUtil.FromByteArray(bytes);
@@ -9169,7 +9170,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Case sensitivity tests
         [TestMethod]
-        public void TestFromByteArray13_MixedCase()
+        public void TestFromByteArray13MixedCase()
         {
             byte[] bytes = new byte[] { 65, 97, 66, 98, 67, 99 }; // 'A', 'a', 'B', 'b', 'C', 'c'
             string result = StringUtil.FromByteArray(bytes);
@@ -9179,7 +9180,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Special characters and punctuation
         [TestMethod]
-        public void TestFromByteArray14_PunctuationMarks()
+        public void TestFromByteArray14PunctuationMarks()
         {
             byte[] bytes = new byte[] { 46, 44, 33, 63, 59, 58 }; // '.', ',', '!', '?', ';', ':'
             string result = StringUtil.FromByteArray(bytes);
@@ -9188,7 +9189,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray15_CommonSymbols()
+        public void TestFromByteArray15CommonSymbols()
         {
             byte[] bytes = new byte[] { 64, 35, 36, 37, 94, 38, 42, 40, 41 }; // '@', '#', '$', '%', '^', '&', '*', '(', ')'
             string result = StringUtil.FromByteArray(bytes);
@@ -9197,7 +9198,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray16_BracketsAndBraces()
+        public void TestFromByteArray16BracketsAndBraces()
         {
             byte[] bytes = new byte[] { 91, 93, 123, 125, 40, 41, 60, 62 }; // '[', ']', '{', '}', '(', ')', '<', '>'
             string result = StringUtil.FromByteArray(bytes);
@@ -9206,7 +9207,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray17_QuotesAndApostrophes()
+        public void TestFromByteArray17QuotesAndApostrophes()
         {
             byte[] bytes = new byte[] { 34, 39 }; // '"', '\''
             string result = StringUtil.FromByteArray(bytes);
@@ -9215,7 +9216,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Whitespace tests
         [TestMethod]
-        public void TestFromByteArray18_Space()
+        public void TestFromByteArray18Space()
         {
             byte[] bytes = new byte[] { 32 }; // space
             string result = StringUtil.FromByteArray(bytes);
@@ -9223,7 +9224,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray19_MultipleSpaces()
+        public void TestFromByteArray19MultipleSpaces()
         {
             byte[] bytes = new byte[] { 32, 32, 32 };
             string result = StringUtil.FromByteArray(bytes);
@@ -9232,7 +9233,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray20_TabCharacter()
+        public void TestFromByteArray20TabCharacter()
         {
             byte[] bytes = new byte[] { 9 }; // ASCII tab
             string result = StringUtil.FromByteArray(bytes);
@@ -9240,7 +9241,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray21_NewlineCharacter()
+        public void TestFromByteArray21NewlineCharacter()
         {
             byte[] bytes = new byte[] { 10 }; // ASCII newline
             string result = StringUtil.FromByteArray(bytes);
@@ -9248,7 +9249,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray22_CarriageReturnCharacter()
+        public void TestFromByteArray22CarriageReturnCharacter()
         {
             byte[] bytes = new byte[] { 13 }; // ASCII carriage return
             string result = StringUtil.FromByteArray(bytes);
@@ -9257,7 +9258,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Repeated bytes
         [TestMethod]
-        public void TestFromByteArray23_RepeatedCharacter()
+        public void TestFromByteArray23RepeatedCharacter()
         {
             byte[] bytes = new byte[] { 97, 97, 97, 97 }; // 'a', 'a', 'a', 'a'
             string result = StringUtil.FromByteArray(bytes);
@@ -9266,7 +9267,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray24_RepeatedDigit()
+        public void TestFromByteArray24RepeatedDigit()
         {
             byte[] bytes = new byte[] { 49, 49, 49, 49 }; // '1', '1', '1', '1'
             string result = StringUtil.FromByteArray(bytes);
@@ -9275,7 +9276,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Mixed content
         [TestMethod]
-        public void TestFromByteArray25_AlphanumericMixed()
+        public void TestFromByteArray25AlphanumericMixed()
         {
             byte[] bytes = new byte[] { 97, 49, 98, 50, 99, 51 }; // 'a', '1', 'b', '2', 'c', '3'
             string result = StringUtil.FromByteArray(bytes);
@@ -9284,7 +9285,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray26_WordWithSpaces()
+        public void TestFromByteArray26WordWithSpaces()
         {
             byte[] bytes = new byte[] { 104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100 }; // 'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'
             string result = StringUtil.FromByteArray(bytes);
@@ -9293,7 +9294,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray27_SentenceWithPunctuation()
+        public void TestFromByteArray27SentenceWithPunctuation()
         {
             byte[] bytes = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 }; // 'H', 'e', 'l', 'l', 'o', ',', ' ', 'W', 'o', 'r', 'l', 'd', '!'
             string result = StringUtil.FromByteArray(bytes);
@@ -9303,7 +9304,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Numeric strings
         [TestMethod]
-        public void TestFromByteArray28_NumericString()
+        public void TestFromByteArray28NumericString()
         {
             byte[] bytes = new byte[] { 49, 50, 51, 52, 53 }; // '1', '2', '3', '4', '5'
             string result = StringUtil.FromByteArray(bytes);
@@ -9312,7 +9313,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray29_NumericWithDecimal()
+        public void TestFromByteArray29NumericWithDecimal()
         {
             byte[] bytes = new byte[] { 51, 46, 49, 52, 49, 53, 57 }; // '3', '.', '1', '4', '1', '5', '9'
             string result = StringUtil.FromByteArray(bytes);
@@ -9322,7 +9323,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Special sequences
         [TestMethod]
-        public void TestFromByteArray30_QuotedString()
+        public void TestFromByteArray30QuotedString()
         {
             byte[] bytes = new byte[] { 34, 104, 101, 108, 108, 111, 34 }; // '"hello"'
             string result = StringUtil.FromByteArray(bytes);
@@ -9331,7 +9332,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray31_URLLike()
+        public void TestFromByteArray31URLLike()
         {
             byte[] bytes = new byte[] { 104, 116, 116, 112, 58, 47, 47, 101, 120, 97, 109, 112, 108, 101, 46, 99, 111, 109 }; // 'h', 't', 't', 'p', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'
             string result = StringUtil.FromByteArray(bytes);
@@ -9340,7 +9341,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray32_EmailLike()
+        public void TestFromByteArray32EmailLike()
         {
             byte[] bytes = new byte[] { 117, 115, 101, 114, 64, 101, 120, 97, 109, 112, 108, 101, 46, 99, 111, 109 }; // 'u', 's', 'e', 'r', '@', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'
             string result = StringUtil.FromByteArray(bytes);
@@ -9350,7 +9351,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Array content verification
         [TestMethod]
-        public void TestFromByteArray33_VerifyCharacterValues()
+        public void TestFromByteArray33VerifyCharacterValues()
         {
             byte[] bytes = new byte[] { 65, 66, 67 }; // 'A', 'B', 'C'
             string result = StringUtil.FromByteArray(bytes);
@@ -9361,7 +9362,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray34_VerifyNumericCharacters()
+        public void TestFromByteArray34VerifyNumericCharacters()
         {
             byte[] bytes = new byte[] { 55, 56, 57 }; // '7', '8', '9'
             string result = StringUtil.FromByteArray(bytes);
@@ -9372,7 +9373,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray35_JSONLikeString()
+        public void TestFromByteArray35JSONLikeString()
         {
             byte[] bytes = new byte[] { 123, 34, 107, 101, 121, 34, 58, 34, 118, 97, 108, 117, 101, 34, 125 }; // {"key":"value"}
             string result = StringUtil.FromByteArray(bytes);
@@ -9381,7 +9382,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray36_XMLLikeString()
+        public void TestFromByteArray36XMLLikeString()
         {
             byte[] bytes = new byte[] { 60, 116, 97, 103, 62, 99, 111, 110, 116, 101, 110, 116, 60, 47, 116, 97, 103, 62 }; // <tag>content</tag>
             string result = StringUtil.FromByteArray(bytes);
@@ -9390,7 +9391,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray37_OperatorSymbols()
+        public void TestFromByteArray37OperatorSymbols()
         {
             byte[] bytes = new byte[] { 43, 45, 42, 47, 61 }; // '+', '-', '*', '/', '='
             string result = StringUtil.FromByteArray(bytes);
@@ -9399,7 +9400,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray38_MixedWhitespace()
+        public void TestFromByteArray38MixedWhitespace()
         {
             byte[] bytes = new byte[] { 97, 32, 98, 9, 99 }; // 'a', ' ', 'b', '\t', 'c'
             string result = StringUtil.FromByteArray(bytes);
@@ -9408,7 +9409,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray39_UnderscoresAndDashes()
+        public void TestFromByteArray39UnderscoresAndDashes()
         {
             byte[] bytes = new byte[] { 116, 101, 115, 116, 95, 110, 97, 109, 101, 45, 118, 97, 108, 117, 101 }; // 'test_name-value'
             string result = StringUtil.FromByteArray(bytes);
@@ -9417,7 +9418,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray40_LongString()
+        public void TestFromByteArray40LongString()
         {
             byte[] bytes = new byte[1000];
             for (int i = 0; i < 1000; i++)
@@ -9434,7 +9435,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray41_AllPrintableASCII()
+        public void TestFromByteArray41AllPrintableASCII()
         {
             // Test a range of printable ASCII characters (32-126)
             byte[] bytes = new byte[95]; // 95 printable ASCII characters
@@ -9450,7 +9451,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestFromByteArray42_RoundTripConversion()
+        public void TestFromByteArray42RoundTripConversion()
         {
             // Test that ToByteArray and FromByteArray are inverses
             string original = "Hello, World! 123";
@@ -9465,7 +9466,7 @@ namespace StarThrower.StringUtilities.Test
         #region ToByteArray / FromByteArray round-trip tests
 
         [TestMethod]
-        public void TestRoundTrip1_EmptyString()
+        public void TestRoundTrip1EmptyString()
         {
             string original = "";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9474,7 +9475,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip2_SingleCharacterLowercase()
+        public void TestRoundTrip2SingleCharacterLowercase()
         {
             string original = "a";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9484,7 +9485,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip3_SingleCharacterUppercase()
+        public void TestRoundTrip3SingleCharacterUppercase()
         {
             string original = "Z";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9493,7 +9494,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip4_SingleDigit()
+        public void TestRoundTrip4SingleDigit()
         {
             string original = "7";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9502,7 +9503,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip5_SingleSpecialCharacter()
+        public void TestRoundTrip5SingleSpecialCharacter()
         {
             string original = "!";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9511,7 +9512,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip6_SimpleWord()
+        public void TestRoundTrip6SimpleWord()
         {
             string original = "hello";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9520,7 +9521,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip7_TwoWords()
+        public void TestRoundTrip7TwoWords()
         {
             string original = "hello world";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9529,7 +9530,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip8_SentenceWithPunctuation()
+        public void TestRoundTrip8SentenceWithPunctuation()
         {
             string original = "Hello, World!";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9538,7 +9539,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip9_MixedCase()
+        public void TestRoundTrip9MixedCase()
         {
             string original = "CamelCase";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9547,7 +9548,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip10_AlphanumericString()
+        public void TestRoundTrip10AlphanumericString()
         {
             string original = "abc123xyz";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9556,7 +9557,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip11_WithNumbers()
+        public void TestRoundTrip11WithNumbers()
         {
             string original = "The year is 2024";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9565,7 +9566,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip12_WithDecimal()
+        public void TestRoundTrip12WithDecimal()
         {
             string original = "3.14159";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9574,7 +9575,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip13_AllLowercaseAlphabet()
+        public void TestRoundTrip13AllLowercaseAlphabet()
         {
             string original = "abcdefghijklmnopqrstuvwxyz";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9583,7 +9584,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip14_AllUppercaseAlphabet()
+        public void TestRoundTrip14AllUppercaseAlphabet()
         {
             string original = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9592,7 +9593,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip15_AllDigits()
+        public void TestRoundTrip15AllDigits()
         {
             string original = "0123456789";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9601,7 +9602,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip16_WithSpaces()
+        public void TestRoundTrip16WithSpaces()
         {
             string original = "a b c d e";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9610,7 +9611,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip17_WithMultipleSpaces()
+        public void TestRoundTrip17WithMultipleSpaces()
         {
             string original = "word1   word2";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9619,7 +9620,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip18_WithTab()
+        public void TestRoundTrip18WithTab()
         {
             string original = "column1\tcolumn2";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9628,7 +9629,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip19_WithNewline()
+        public void TestRoundTrip19WithNewline()
         {
             string original = "line1\nline2";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9637,7 +9638,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip20_WithCarriageReturn()
+        public void TestRoundTrip20WithCarriageReturn()
         {
             string original = "line1\rline2";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9646,7 +9647,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip21_WithMultipleWhitespaceTypes()
+        public void TestRoundTrip21WithMultipleWhitespaceTypes()
         {
             string original = "a b\tc\r\nd";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9655,7 +9656,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip22_Punctuation()
+        public void TestRoundTrip22Punctuation()
         {
             string original = ".,!?;:";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9664,7 +9665,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip23_CommonSymbols()
+        public void TestRoundTrip23CommonSymbols()
         {
             string original = "@#$%^&*()";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9673,7 +9674,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip24_Brackets()
+        public void TestRoundTrip24Brackets()
         {
             string original = "[]{}()<>";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9682,7 +9683,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip25_Quotes()
+        public void TestRoundTrip25Quotes()
         {
             string original = "\"hello\"";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9691,7 +9692,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip26_Apostrophes()
+        public void TestRoundTrip26Apostrophes()
         {
             string original = "'world'";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9700,7 +9701,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip27_MixedQuotes()
+        public void TestRoundTrip27MixedQuotes()
         {
             string original = "\"It's a test\"";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9709,7 +9710,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip28_OperatorSymbols()
+        public void TestRoundTrip28OperatorSymbols()
         {
             string original = "+-*/=";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9718,7 +9719,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip29_UnderscoreAndDash()
+        public void TestRoundTrip29UnderscoreAndDash()
         {
             string original = "test_name-value";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9727,7 +9728,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip30_URLString()
+        public void TestRoundTrip30URLString()
         {
             string original = "http://example.com";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9736,7 +9737,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip31_EmailString()
+        public void TestRoundTrip31EmailString()
         {
             string original = "user@example.com";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9745,7 +9746,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip32_FilePathStyle()
+        public void TestRoundTrip32FilePathStyle()
         {
             string original = "C:\\Users\\Test\\file.txt";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9754,7 +9755,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip33_JSONData()
+        public void TestRoundTrip33JSONData()
         {
             string original = "{\"key\":\"value\"}";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9763,7 +9764,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip34_XMLData()
+        public void TestRoundTrip34XMLData()
         {
             string original = "<tag>content</tag>";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9772,7 +9773,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip35_ComplexSentence()
+        public void TestRoundTrip35ComplexSentence()
         {
             string original = "The quick brown fox jumps over the lazy dog!";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9781,7 +9782,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip36_MixedContentString()
+        public void TestRoundTrip36MixedContentString()
         {
             string original = "Test@123 with-symbols_and MIXED Case!";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9790,7 +9791,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip37_CodeLikeString()
+        public void TestRoundTrip37CodeLikeString()
         {
             string original = "public void Method(int x) { return x + 1; }";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9799,7 +9800,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip38_CSVLine()
+        public void TestRoundTrip38CSVLine()
         {
             string original = "Name,Age,City,Email";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9808,7 +9809,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip39_SQLStatementFragment()
+        public void TestRoundTrip39SQLStatementFragment()
         {
             string original = "SELECT * FROM users WHERE id=123;";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9817,7 +9818,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip40_LongString()
+        public void TestRoundTrip40LongString()
         {
             string original = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9827,7 +9828,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip41_VeryLongRepeatedString()
+        public void TestRoundTrip41VeryLongRepeatedString()
         {
             string original = new string('x', 500);
             byte[] bytes = StringUtil.ToByteArray(original);
@@ -9837,7 +9838,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestRoundTrip42_AllPrintableASCIICharacters()
+        public void TestRoundTrip42AllPrintableASCIICharacters()
         {
             // Build a string with all printable ASCII characters (32-126)
             string original = "";
@@ -9858,7 +9859,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Null input tests
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestAppendSpaces1_NullInput()
+        public void TestAppendSpaces1NullInput()
         {
             StringUtil.AppendSpaces(null, 10);
             Assert.Fail();
@@ -9866,7 +9867,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Empty string tests
         [TestMethod]
-        public void TestAppendSpaces2_EmptyStringWithZeroLength()
+        public void TestAppendSpaces2EmptyStringWithZeroLength()
         {
             string result = StringUtil.AppendSpaces("", 0);
             Assert.AreEqual("", result);
@@ -9874,7 +9875,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces3_EmptyStringWithPositiveLength()
+        public void TestAppendSpaces3EmptyStringWithPositiveLength()
         {
             string result = StringUtil.AppendSpaces("", 5);
             Assert.AreEqual("     ", result);
@@ -9882,7 +9883,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces4_EmptyStringWithLargeLength()
+        public void TestAppendSpaces4EmptyStringWithLargeLength()
         {
             string result = StringUtil.AppendSpaces("", 20);
             Assert.AreEqual(20, result.Length);
@@ -9895,7 +9896,7 @@ namespace StarThrower.StringUtilities.Test
 
         // No padding needed tests (string already meets or exceeds length)
         [TestMethod]
-        public void TestAppendSpaces5_StringExactLength()
+        public void TestAppendSpaces5StringExactLength()
         {
             string result = StringUtil.AppendSpaces("hello", 5);
             Assert.AreEqual("hello", result);
@@ -9903,7 +9904,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces6_StringLongerThanTarget()
+        public void TestAppendSpaces6StringLongerThanTarget()
         {
             string result = StringUtil.AppendSpaces("hello", 3);
             Assert.AreEqual("hello", result);
@@ -9911,7 +9912,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces7_StringMuchLongerThanTarget()
+        public void TestAppendSpaces7StringMuchLongerThanTarget()
         {
             string result = StringUtil.AppendSpaces("supercalifragilisticexpialidocious", 10);
             Assert.AreEqual("supercalifragilisticexpialidocious", result);
@@ -9920,7 +9921,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Padding required tests - single character
         [TestMethod]
-        public void TestAppendSpaces8_SingleCharPaddedToTwo()
+        public void TestAppendSpaces8SingleCharPaddedToTwo()
         {
             string result = StringUtil.AppendSpaces("a", 2);
             Assert.AreEqual("a ", result);
@@ -9928,7 +9929,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces9_SingleCharPaddedToTen()
+        public void TestAppendSpaces9SingleCharPaddedToTen()
         {
             string result = StringUtil.AppendSpaces("x", 10);
             Assert.AreEqual("x         ", result);
@@ -9937,7 +9938,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Padding required tests - multiple characters
         [TestMethod]
-        public void TestAppendSpaces10_TwoCharPaddedToFour()
+        public void TestAppendSpaces10TwoCharPaddedToFour()
         {
             string result = StringUtil.AppendSpaces("hi", 4);
             Assert.AreEqual("hi  ", result);
@@ -9945,7 +9946,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces11_ThreeCharPaddedToEight()
+        public void TestAppendSpaces11ThreeCharPaddedToEight()
         {
             string result = StringUtil.AppendSpaces("cat", 8);
             Assert.AreEqual("cat     ", result);
@@ -9953,7 +9954,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces12_FiveCharPaddedToTen()
+        public void TestAppendSpaces12FiveCharPaddedToTen()
         {
             string result = StringUtil.AppendSpaces("hello", 10);
             Assert.AreEqual("hello     ", result);
@@ -9962,7 +9963,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Padding required tests - various lengths
         [TestMethod]
-        public void TestAppendSpaces13_PaddingByOne()
+        public void TestAppendSpaces13PaddingByOne()
         {
             string result = StringUtil.AppendSpaces("test", 5);
             Assert.AreEqual("test ", result);
@@ -9970,7 +9971,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces14_PaddingByThree()
+        public void TestAppendSpaces14PaddingByThree()
         {
             string result = StringUtil.AppendSpaces("word", 7);
             Assert.AreEqual("word   ", result);
@@ -9978,7 +9979,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces15_PaddingByFive()
+        public void TestAppendSpaces15PaddingByFive()
         {
             string result = StringUtil.AppendSpaces("go", 7);
             Assert.AreEqual("go     ", result);
@@ -9987,7 +9988,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Word and sentence padding
         [TestMethod]
-        public void TestAppendSpaces16_SingleWordPadding()
+        public void TestAppendSpaces16SingleWordPadding()
         {
             string result = StringUtil.AppendSpaces("apple", 15);
             Assert.AreEqual("apple          ", result);
@@ -9995,7 +9996,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces17_TwoWordsPadding()
+        public void TestAppendSpaces17TwoWordsPadding()
         {
             string result = StringUtil.AppendSpaces("hello world", 20);
             Assert.AreEqual("hello world         ", result);
@@ -10003,7 +10004,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces18_SentencePadding()
+        public void TestAppendSpaces18SentencePadding()
         {
             string result = StringUtil.AppendSpaces("Hello, World!", 25);
             Assert.AreEqual("Hello, World!            ", result);
@@ -10012,7 +10013,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Special characters and symbols
         [TestMethod]
-        public void TestAppendSpaces19_WithNumberPadding()
+        public void TestAppendSpaces19WithNumberPadding()
         {
             string result = StringUtil.AppendSpaces("123", 8);
             Assert.AreEqual("123     ", result);
@@ -10020,7 +10021,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces20_WithSymbolsPadding()
+        public void TestAppendSpaces20WithSymbolsPadding()
         {
             string result = StringUtil.AppendSpaces("@#$", 10);
             Assert.AreEqual("@#$       ", result);
@@ -10028,7 +10029,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces21_WithMixedContentPadding()
+        public void TestAppendSpaces21WithMixedContentPadding()
         {
             string result = StringUtil.AppendSpaces("abc123!@#", 15);
             Assert.AreEqual("abc123!@#      ", result);
@@ -10037,7 +10038,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Edge cases with specific target lengths
         [TestMethod]
-        public void TestAppendSpaces22_StringLengthOne()
+        public void TestAppendSpaces22StringLengthOne()
         {
             string result = StringUtil.AppendSpaces("a", 1);
             Assert.AreEqual("a", result);
@@ -10045,7 +10046,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces23_TargetLengthOne()
+        public void TestAppendSpaces23TargetLengthOne()
         {
             string result = StringUtil.AppendSpaces("", 1);
             Assert.AreEqual(" ", result);
@@ -10053,7 +10054,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces24_LargeTargetLength()
+        public void TestAppendSpaces24LargeTargetLength()
         {
             string result = StringUtil.AppendSpaces("hi", 100);
             Assert.AreEqual(100, result.Length);
@@ -10067,7 +10068,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Verification of padding character
         [TestMethod]
-        public void TestAppendSpaces25_VerifyPaddingCharacter()
+        public void TestAppendSpaces25VerifyPaddingCharacter()
         {
             string result = StringUtil.AppendSpaces("test", 10);
             for (int i = 4; i < 10; i++)
@@ -10077,7 +10078,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces26_VerifyOriginalContentPreserved()
+        public void TestAppendSpaces26VerifyOriginalContentPreserved()
         {
             string result = StringUtil.AppendSpaces("hello", 15);
             Assert.AreEqual("hello", result.Substring(0, 5));
@@ -10085,7 +10086,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Case sensitivity preservation
         [TestMethod]
-        public void TestAppendSpaces27_LowercasePreserved()
+        public void TestAppendSpaces27LowercasePreserved()
         {
             string result = StringUtil.AppendSpaces("abc", 10);
             Assert.AreEqual("abc", result.Substring(0, 3));
@@ -10096,7 +10097,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces28_UppercasePreserved()
+        public void TestAppendSpaces28UppercasePreserved()
         {
             string result = StringUtil.AppendSpaces("ABC", 10);
             Assert.AreEqual("ABC", result.Substring(0, 3));
@@ -10107,7 +10108,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces29_MixedCasePreserved()
+        public void TestAppendSpaces29MixedCasePreserved()
         {
             string result = StringUtil.AppendSpaces("CamelCase", 15);
             Assert.AreEqual("CamelCase", result.Substring(0, 9));
@@ -10115,7 +10116,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Whitespace in original strings
         [TestMethod]
-        public void TestAppendSpaces30_StringWithSpaces()
+        public void TestAppendSpaces30StringWithSpaces()
         {
             string result = StringUtil.AppendSpaces("hello world", 20);
             Assert.AreEqual("hello world         ", result);
@@ -10123,7 +10124,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces31_StringWithTab()
+        public void TestAppendSpaces31StringWithTab()
         {
             string result = StringUtil.AppendSpaces("col1\tcol2", 15);
             Assert.AreEqual("col1\tcol2      ", result);
@@ -10131,7 +10132,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces32_StringWithLeadingSpace()
+        public void TestAppendSpaces32StringWithLeadingSpace()
         {
             string result = StringUtil.AppendSpaces(" hello", 12);
             Assert.AreEqual(" hello      ", result);
@@ -10139,7 +10140,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces33_StringWithTrailingSpace()
+        public void TestAppendSpaces33StringWithTrailingSpace()
         {
             string result = StringUtil.AppendSpaces("hello ", 12);
             Assert.AreEqual("hello       ", result);
@@ -10148,7 +10149,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Numeric padding values
         [TestMethod]
-        public void TestAppendSpaces34_SmallString_LargeTargetLength()
+        public void TestAppendSpaces34SmallStringLargeTargetLength()
         {
             string result = StringUtil.AppendSpaces("x", 50);
             Assert.AreEqual(50, result.Length);
@@ -10156,7 +10157,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces35_MediumString_MediumTargetLength()
+        public void TestAppendSpaces35MediumStringMediumTargetLength()
         {
             string result = StringUtil.AppendSpaces("medium", 20);
             Assert.AreEqual("medium              ", result);
@@ -10165,7 +10166,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Specific real-world scenarios
         [TestMethod]
-        public void TestAppendSpaces36_NamePadding()
+        public void TestAppendSpaces36NamePadding()
         {
             string result = StringUtil.AppendSpaces("John", 20);
             Assert.AreEqual("John                ", result);
@@ -10173,7 +10174,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces37_AddressPadding()
+        public void TestAppendSpaces37AddressPadding()
         {
             string result = StringUtil.AppendSpaces("123 Main St", 30);
             Assert.AreEqual(30, result.Length);
@@ -10181,7 +10182,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces38_PhoneNumberPadding()
+        public void TestAppendSpaces38PhoneNumberPadding()
         {
             string result = StringUtil.AppendSpaces("555-1234", 15);
             Assert.AreEqual("555-1234       ", result);
@@ -10189,7 +10190,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces39_EmailPadding()
+        public void TestAppendSpaces39EmailPadding()
         {
             string result = StringUtil.AppendSpaces("user@example.com", 25);
             Assert.AreEqual("user@example.com         ", result);
@@ -10197,7 +10198,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces40_AlphanumericPadding()
+        public void TestAppendSpaces40AlphanumericPadding()
         {
             string result = StringUtil.AppendSpaces("ABC123", 12);
             Assert.AreEqual("ABC123      ", result);
@@ -10205,7 +10206,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces41_SymbolsAndNumbersPadding()
+        public void TestAppendSpaces41SymbolsAndNumbersPadding()
         {
             string result = StringUtil.AppendSpaces("#123-456", 20);
             Assert.AreEqual("#123-456            ", result);
@@ -10213,7 +10214,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestAppendSpaces42_VeryLongStringWithSmallTarget()
+        public void TestAppendSpaces42VeryLongStringWithSmallTarget()
         {
             string result = StringUtil.AppendSpaces("This is a very long string with many characters", 10);
             Assert.AreEqual("This is a very long string with many characters", result);
@@ -10228,14 +10229,14 @@ namespace StarThrower.StringUtilities.Test
 
         // Null input tests
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetCountOf1_NullSource()
+        public void TestGetCountOf1NullSource()
         {
             StringUtil.GetCountOf(null, "test");
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestGetCountOf2_NullTarget()
+        public void TestGetCountOf2NullTarget()
         {
             StringUtil.GetCountOf("test", null);
             Assert.Fail();
@@ -10243,21 +10244,21 @@ namespace StarThrower.StringUtilities.Test
 
         // Empty string tests
         [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void TestGetCountOf3_EmptySourceEmptyTarget()
+        public void TestGetCountOf3EmptySourceEmptyTarget()
         {
             StringUtil.GetCountOf("", "");
             Assert.Fail("Should have thrown ArgumentException");
         }
 
         [TestMethod]
-        public void TestGetCountOf4_EmptySourceNonEmptyTarget()
+        public void TestGetCountOf4EmptySourceNonEmptyTarget()
         {
             int result = StringUtil.GetCountOf("", "test");
             Assert.AreEqual(0, result);
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void TestGetCountOf5_NonEmptySourceEmptyTarget()
+        public void TestGetCountOf5NonEmptySourceEmptyTarget()
         {
             StringUtil.GetCountOf("hello", "");
             Assert.Fail();
@@ -10265,28 +10266,28 @@ namespace StarThrower.StringUtilities.Test
 
         // Simple single occurrence tests
         [TestMethod]
-        public void TestGetCountOf6_SingleCharSingleOccurrence()
+        public void TestGetCountOf6SingleCharSingleOccurrence()
         {
             int result = StringUtil.GetCountOf("a", "a");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf7_SingleCharNoOccurrence()
+        public void TestGetCountOf7SingleCharNoOccurrence()
         {
             int result = StringUtil.GetCountOf("a", "b");
             Assert.AreEqual(0, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf8_WordSingleOccurrence()
+        public void TestGetCountOf8WordSingleOccurrence()
         {
             int result = StringUtil.GetCountOf("hello", "hello");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf9_WordNoOccurrence()
+        public void TestGetCountOf9WordNoOccurrence()
         {
             int result = StringUtil.GetCountOf("hello", "world");
             Assert.AreEqual(0, result);
@@ -10294,35 +10295,35 @@ namespace StarThrower.StringUtilities.Test
 
         // Multiple occurrences tests
         [TestMethod]
-        public void TestGetCountOf10_SingleCharTwoOccurrences()
+        public void TestGetCountOf10SingleCharTwoOccurrences()
         {
             int result = StringUtil.GetCountOf("aa", "a");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf11_SingleCharThreeOccurrences()
+        public void TestGetCountOf11SingleCharThreeOccurrences()
         {
             int result = StringUtil.GetCountOf("aaa", "a");
             Assert.AreEqual(3, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf12_SingleCharManyOccurrences()
+        public void TestGetCountOf12SingleCharManyOccurrences()
         {
             int result = StringUtil.GetCountOf("aaaaaaaaaa", "a");
             Assert.AreEqual(10, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf13_TwoCharPatternMultipleOccurrences()
+        public void TestGetCountOf13TwoCharPatternMultipleOccurrences()
         {
             int result = StringUtil.GetCountOf("ababab", "ab");
             Assert.AreEqual(3, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf14_WordPatternMultipleOccurrences()
+        public void TestGetCountOf14WordPatternMultipleOccurrences()
         {
             int result = StringUtil.GetCountOf("testtest", "test");
             Assert.AreEqual(2, result);
@@ -10330,35 +10331,35 @@ namespace StarThrower.StringUtilities.Test
 
         // Case sensitivity tests
         [TestMethod]
-        public void TestGetCountOf15_CaseSensitiveLowercase()
+        public void TestGetCountOf15CaseSensitiveLowercase()
         {
             int result = StringUtil.GetCountOf("hello", "hello");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf16_CaseSensitiveUppercase()
+        public void TestGetCountOf16CaseSensitiveUppercase()
         {
             int result = StringUtil.GetCountOf("HELLO", "HELLO");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf17_CaseSensitiveMixedSource()
+        public void TestGetCountOf17CaseSensitiveMixedSource()
         {
             int result = StringUtil.GetCountOf("HeLLo", "LL");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf18_CaseSensitiveDifferentCase()
+        public void TestGetCountOf18CaseSensitiveDifferentCase()
         {
             int result = StringUtil.GetCountOf("hello", "HELLO");
             Assert.AreEqual(0, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf19_CaseSensitivePartialMismatch()
+        public void TestGetCountOf19CaseSensitivePartialMismatch()
         {
             int result = StringUtil.GetCountOf("HeLLo", "hello");
             Assert.AreEqual(0, result);
@@ -10366,28 +10367,28 @@ namespace StarThrower.StringUtilities.Test
 
         // Substring tests
         [TestMethod]
-        public void TestGetCountOf20_SubstringAtBeginning()
+        public void TestGetCountOf20SubstringAtBeginning()
         {
             int result = StringUtil.GetCountOf("hello world", "hello");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf21_SubstringAtEnd()
+        public void TestGetCountOf21SubstringAtEnd()
         {
             int result = StringUtil.GetCountOf("hello world", "world");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf22_SubstringInMiddle()
+        public void TestGetCountOf22SubstringInMiddle()
         {
             int result = StringUtil.GetCountOf("hello world", "lo wo");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf23_MultipleSubstringOccurrences()
+        public void TestGetCountOf23MultipleSubstringOccurrences()
         {
             int result = StringUtil.GetCountOf("the cat and the dog and the bird", "the");
             Assert.AreEqual(3, result);
@@ -10395,28 +10396,28 @@ namespace StarThrower.StringUtilities.Test
 
         // Non-overlapping occurrence tests (important for this implementation)
         [TestMethod]
-        public void TestGetCountOf24_NonOverlappingPattern()
+        public void TestGetCountOf24NonOverlappingPattern()
         {
             int result = StringUtil.GetCountOf("aabbaa", "aa");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf25_PotentiallyOverlappingPattern()
+        public void TestGetCountOf25PotentiallyOverlappingPattern()
         {
             int result = StringUtil.GetCountOf("aaa", "aa");
             Assert.AreEqual(1, result); // Non-overlapping: matches first "aa", then index advances to 2, "a" left doesn't match
         }
 
         [TestMethod]
-        public void TestGetCountOf26_OverlappingPotentialAtEnd()
+        public void TestGetCountOf26OverlappingPotentialAtEnd()
         {
             int result = StringUtil.GetCountOf("aaaa", "aa");
             Assert.AreEqual(2, result); // Non-overlapping: first "aa" at 0, second "aa" at 2
         }
 
         [TestMethod]
-        public void TestGetCountOf27_ComplexNonOverlappingPattern()
+        public void TestGetCountOf27ComplexNonOverlappingPattern()
         {
             int result = StringUtil.GetCountOf("abababab", "ab");
             Assert.AreEqual(4, result);
@@ -10424,21 +10425,21 @@ namespace StarThrower.StringUtilities.Test
 
         // Pattern at different positions
         [TestMethod]
-        public void TestGetCountOf28_PatternRepeatedConsecutively()
+        public void TestGetCountOf28PatternRepeatedConsecutively()
         {
             int result = StringUtil.GetCountOf("testingtesting", "testing");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf29_PatternSeparatedBySpaces()
+        public void TestGetCountOf29PatternSeparatedBySpaces()
         {
             int result = StringUtil.GetCountOf("cat cat cat", "cat");
             Assert.AreEqual(3, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf30_PatternWithSpaces()
+        public void TestGetCountOf30PatternWithSpaces()
         {
             int result = StringUtil.GetCountOf("hello world hello world", "hello world");
             Assert.AreEqual(2, result);
@@ -10446,21 +10447,21 @@ namespace StarThrower.StringUtilities.Test
 
         // Digit and number tests
         [TestMethod]
-        public void TestGetCountOf31_SingleDigit()
+        public void TestGetCountOf31SingleDigit()
         {
             int result = StringUtil.GetCountOf("12121212", "1");
             Assert.AreEqual(4, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf32_MultiDigitPattern()
+        public void TestGetCountOf32MultiDigitPattern()
         {
             int result = StringUtil.GetCountOf("123123123", "123");
             Assert.AreEqual(3, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf33_NumberInText()
+        public void TestGetCountOf33NumberInText()
         {
             int result = StringUtil.GetCountOf("abc123def123ghi", "123");
             Assert.AreEqual(2, result);
@@ -10468,21 +10469,21 @@ namespace StarThrower.StringUtilities.Test
 
         // Special characters tests
         [TestMethod]
-        public void TestGetCountOf34_SpecialCharacter()
+        public void TestGetCountOf34SpecialCharacter()
         {
             int result = StringUtil.GetCountOf("a.b.c.d", ".");
             Assert.AreEqual(3, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf35_MultipleSpecialCharacters()
+        public void TestGetCountOf35MultipleSpecialCharacters()
         {
             int result = StringUtil.GetCountOf("@#$@#$", "@#");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf36_Hyphen()
+        public void TestGetCountOf36Hyphen()
         {
             int result = StringUtil.GetCountOf("123-456-789", "-");
             Assert.AreEqual(2, result);
@@ -10490,21 +10491,21 @@ namespace StarThrower.StringUtilities.Test
 
         // Whitespace tests
         [TestMethod]
-        public void TestGetCountOf37_Space()
+        public void TestGetCountOf37Space()
         {
             int result = StringUtil.GetCountOf("hello world test", " ");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf38_MultipleSpaces()
+        public void TestGetCountOf38MultipleSpaces()
         {
             int result = StringUtil.GetCountOf("hello  world  test", "  ");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf39_Tab()
+        public void TestGetCountOf39Tab()
         {
             int result = StringUtil.GetCountOf("col1\tcol2\tcol3", "\t");
             Assert.AreEqual(2, result);
@@ -10512,35 +10513,35 @@ namespace StarThrower.StringUtilities.Test
 
         // Edge cases with target length
         [TestMethod]
-        public void TestGetCountOf40_TargetLongerThanSource()
+        public void TestGetCountOf40TargetLongerThanSource()
         {
             int result = StringUtil.GetCountOf("cat", "catastrophe");
             Assert.AreEqual(0, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf41_TargetEqualToSource()
+        public void TestGetCountOf41TargetEqualToSource()
         {
             int result = StringUtil.GetCountOf("exact", "exact");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf42_SingleCharTargetInLongString()
+        public void TestGetCountOf42SingleCharTargetInLongString()
         {
             int result = StringUtil.GetCountOf("abcdefghijklmnopqrstuvwxyz", "e");
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf43_MultiCharTargetInLongString()
+        public void TestGetCountOf43MultiCharTargetInLongString()
         {
             int result = StringUtil.GetCountOf("The quick brown fox jumps over the lazy dog", "the");
             Assert.AreEqual(1, result); // Case sensitive, finds lowercase "the" in "the lazy dog"
         }
 
         [TestMethod]
-        public void TestGetCountOf44_MultiCharTargetInLongStringCaseSensitive()
+        public void TestGetCountOf44MultiCharTargetInLongStringCaseSensitive()
         {
             int result = StringUtil.GetCountOf("The quick brown fox jumps over the lazy dog", "The");
             Assert.AreEqual(1, result); // Only one "The" at beginning
@@ -10548,42 +10549,42 @@ namespace StarThrower.StringUtilities.Test
 
         // Real-world scenarios
         [TestMethod]
-        public void TestGetCountOf45_URLCount()
+        public void TestGetCountOf45URLCount()
         {
             int result = StringUtil.GetCountOf("http://example.com http://test.com", "http://");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf46_EmailDomainCount()
+        public void TestGetCountOf46EmailDomainCount()
         {
             int result = StringUtil.GetCountOf("user1@example.com user2@example.com", "@example.com");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf47_CSVValueCount()
+        public void TestGetCountOf47CSVValueCount()
         {
             int result = StringUtil.GetCountOf("a,b,c,d,e", ",");
             Assert.AreEqual(4, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf48_SQLKeywordCount()
+        public void TestGetCountOf48SQLKeywordCount()
         {
             int result = StringUtil.GetCountOf("SELECT * FROM table WHERE SELECT id FROM", "SELECT");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf49_FilePathCount()
+        public void TestGetCountOf49FilePathCount()
         {
             int result = StringUtil.GetCountOf("C:\\Users\\Test\\Documents\\file.txt", "\\");
             Assert.AreEqual(4, result);
         }
 
         [TestMethod]
-        public void TestGetCountOf50_WordCountInSentence()
+        public void TestGetCountOf50WordCountInSentence()
         {
             int result = StringUtil.GetCountOf("the cat sat on the mat the dog ran", " the ");
             Assert.AreEqual(2, result); // " the " (with spaces) appears twice: "on the " and "mat the "
@@ -10595,656 +10596,656 @@ namespace StarThrower.StringUtilities.Test
         #region SqueezeNumber() tests
 
         [TestMethod]
-        public void TestSqueezeNumber_1()
+        public void TestSqueezeNumber1()
         {
             Assert.AreEqual("1.00E+10", StringUtil.SqueezeNumber(9999999999, 5));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_2()
+        public void TestSqueezeNumber2()
         {
             Assert.AreEqual("1.00E+10", StringUtil.SqueezeNumber(9999999999, 12));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_3()
+        public void TestSqueezeNumber3()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 13));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_4()
+        public void TestSqueezeNumber4()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 20));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithNegativeNumbersThatFit()
+        public void TestSqueezeNumberWithNegativeNumbersThatFit()
         {
             Assert.AreEqual("-123", StringUtil.SqueezeNumber(-123, 10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithNegativeNumbersThatFitLarge()
+        public void TestSqueezeNumberWithNegativeNumbersThatFitLarge()
         {
             Assert.AreEqual("-1,234,567", StringUtil.SqueezeNumber(-1234567, 15));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithNegativeNumbersRequiringScientificNotation()
+        public void TestSqueezeNumberWithNegativeNumbersRequiringScientificNotation()
         {
             Assert.AreEqual("-1.00E+10", StringUtil.SqueezeNumber(-9999999999, 5));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithNegativeNumbersRequiringScientificNotationLarge()
+        public void TestSqueezeNumberWithNegativeNumbersRequiringScientificNotationLarge()
         {
             Assert.AreEqual("-1.00E+10", StringUtil.SqueezeNumber(-9999999999, 12));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithZero()
+        public void TestSqueezeNumberWithZero()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0, 5));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithZeroSmallLength()
+        public void TestSqueezeNumberWithZeroSmallLength()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0, 1));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithSmallDecimals()
+        public void TestSqueezeNumberWithSmallDecimals()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithSmallDecimalsSmallLength()
+        public void TestSqueezeNumberWithSmallDecimalsSmallLength()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 4));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithVerySmallNumbers()
+        public void TestSqueezeNumberWithVerySmallNumbers()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.000000000123, 5));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithDoubles()
+        public void TestSqueezeNumberWithDoubles()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithDoublesSmallLength()
+        public void TestSqueezeNumberWithDoublesSmallLength()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 4));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithFloats()
+        public void TestSqueezeNumberWithFloats()
         {
             Assert.AreEqual("457", StringUtil.SqueezeNumber(456.789f, 10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithDecimals()
+        public void TestSqueezeNumberWithDecimals()
         {
             Assert.AreEqual("789", StringUtil.SqueezeNumber(789.123m, 10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithLongs()
+        public void TestSqueezeNumberWithLongs()
         {
             Assert.AreEqual("1,000,000", StringUtil.SqueezeNumber(1000000L, 10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithLongsRequiringScientificNotation()
+        public void TestSqueezeNumberWithLongsRequiringScientificNotation()
         {
             Assert.AreEqual("1.00E+15", StringUtil.SqueezeNumber(1000000000000000L, 5));
         }
 
         [TestMethod]
-        public void TestSqueezeNumber_WithVeryLargeNumbers()
+        public void TestSqueezeNumberWithVeryLargeNumbers()
         {
             Assert.AreEqual("1.00E+20", StringUtil.SqueezeNumber(100000000000000000000d, 5));
         }
 
 
         [TestMethod]
-        public void TestSqueezeNumberENotation_1()
+        public void TestSqueezeNumberENotation1()
         {
             Assert.AreEqual("1.00E+10", StringUtil.SqueezeNumber(9999999999, 5, ScientificNotationFormat.Exponential));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberENotation_2()
+        public void TestSqueezeNumberENotation2()
         {
             Assert.AreEqual("1.00E+10", StringUtil.SqueezeNumber(9999999999, 12, ScientificNotationFormat.Exponential));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberENotation_3()
+        public void TestSqueezeNumberENotation3()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 13, ScientificNotationFormat.Exponential));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberENotation_4()
+        public void TestSqueezeNumberENotation4()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 20, ScientificNotationFormat.Exponential));
         }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithNegativeNumbersThatFit()
+         public void TestSqueezeNumberENotationWithNegativeNumbersThatFit()
          {
              Assert.AreEqual("-123", StringUtil.SqueezeNumber(-123, 10, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithNegativeNumbersThatFitLarge()
+         public void TestSqueezeNumberENotationWithNegativeNumbersThatFitLarge()
          {
              Assert.AreEqual("-1,234,567", StringUtil.SqueezeNumber(-1234567, 15, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithNegativeNumbersRequiringScientificNotation()
+         public void TestSqueezeNumberENotationWithNegativeNumbersRequiringScientificNotation()
          {
              Assert.AreEqual("-1.00E+10", StringUtil.SqueezeNumber(-9999999999, 5, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithNegativeNumbersRequiringScientificNotationLarge()
+         public void TestSqueezeNumberENotationWithNegativeNumbersRequiringScientificNotationLarge()
          {
              Assert.AreEqual("-1.00E+10", StringUtil.SqueezeNumber(-9999999999, 12, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithZero()
+         public void TestSqueezeNumberENotationWithZero()
          {
              Assert.AreEqual("0", StringUtil.SqueezeNumber(0, 5, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithSmallDecimals()
+         public void TestSqueezeNumberENotationWithSmallDecimals()
          {
              Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 10, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithSmallDecimalsSmallLength()
+         public void TestSqueezeNumberENotationWithSmallDecimalsSmallLength()
          {
              Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 4, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithVerySmallNumbers()
+         public void TestSqueezeNumberENotationWithVerySmallNumbers()
          {
              Assert.AreEqual("0", StringUtil.SqueezeNumber(0.000000000123, 5, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithDoubles()
+         public void TestSqueezeNumberENotationWithDoubles()
          {
              Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 10, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithDoublesSmallLength()
+         public void TestSqueezeNumberENotationWithDoublesSmallLength()
          {
              Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 4, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithFloats()
+         public void TestSqueezeNumberENotationWithFloats()
          {
              Assert.AreEqual("457", StringUtil.SqueezeNumber(456.789f, 10, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithDecimals()
+         public void TestSqueezeNumberENotationWithDecimals()
          {
              Assert.AreEqual("789", StringUtil.SqueezeNumber(789.123m, 10, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithLongs()
+         public void TestSqueezeNumberENotationWithLongs()
          {
              Assert.AreEqual("1,000,000", StringUtil.SqueezeNumber(1000000L, 10, ScientificNotationFormat.Exponential));
          }
 
          [TestMethod]
-         public void TestSqueezeNumberENotation_WithLongsRequiringScientificNotation()
+         public void TestSqueezeNumberENotationWithLongsRequiringScientificNotation()
          {
              Assert.AreEqual("1.00E+15", StringUtil.SqueezeNumber(1000000000000000L, 5, ScientificNotationFormat.Exponential));
          }
 
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_1()
+        public void TestSqueezeNumberBase101()
         {
             Assert.AreEqual("1.00x10^10", StringUtil.SqueezeNumber(9999999999, 5, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_2()
+        public void TestSqueezeNumberBase102()
         {
             Assert.AreEqual("1.00x10^10", StringUtil.SqueezeNumber(9999999999, 12, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_3()
+        public void TestSqueezeNumberBase103()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 13, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_4()
+        public void TestSqueezeNumberBase104()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 20, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithNegativeNumbersThatFit()
+        public void TestSqueezeNumberBase10WithNegativeNumbersThatFit()
         {
             Assert.AreEqual("-123", StringUtil.SqueezeNumber(-123, 10, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithNegativeNumbersThatFitLarge()
+        public void TestSqueezeNumberBase10WithNegativeNumbersThatFitLarge()
         {
             Assert.AreEqual("-1,234,567", StringUtil.SqueezeNumber(-1234567, 15, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithNegativeNumbersRequiringScientificNotation()
+        public void TestSqueezeNumberBase10WithNegativeNumbersRequiringScientificNotation()
         {
             Assert.AreEqual("-1.00x10^10", StringUtil.SqueezeNumber(-9999999999, 5, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithNegativeNumbersRequiringScientificNotationLarge()
+        public void TestSqueezeNumberBase10WithNegativeNumbersRequiringScientificNotationLarge()
         {
             Assert.AreEqual("-1.00x10^10", StringUtil.SqueezeNumber(-9999999999, 12, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithZero()
+        public void TestSqueezeNumberBase10WithZero()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0, 5, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithSmallDecimals()
+        public void TestSqueezeNumberBase10WithSmallDecimals()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 10, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithSmallDecimalsSmallLength()
+        public void TestSqueezeNumberBase10WithSmallDecimalsSmallLength()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 4, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithVerySmallNumbers()
+        public void TestSqueezeNumberBase10WithVerySmallNumbers()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.000000000123, 5, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithDoubles()
+        public void TestSqueezeNumberBase10WithDoubles()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 10, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithDoublesSmallLength()
+        public void TestSqueezeNumberBase10WithDoublesSmallLength()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 4, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithFloats()
+        public void TestSqueezeNumberBase10WithFloats()
         {
             Assert.AreEqual("457", StringUtil.SqueezeNumber(456.789f, 10, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithDecimals()
+        public void TestSqueezeNumberBase10WithDecimals()
         {
             Assert.AreEqual("789", StringUtil.SqueezeNumber(789.123m, 10, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithLongs()
+        public void TestSqueezeNumberBase10WithLongs()
         {
             Assert.AreEqual("1,000,000", StringUtil.SqueezeNumber(1000000L, 10, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10_WithLongsRequiringScientificNotation()
+        public void TestSqueezeNumberBase10WithLongsRequiringScientificNotation()
         {
             Assert.AreEqual("1.00x10^15", StringUtil.SqueezeNumber(1000000000000000L, 5, ScientificNotationFormat.Base10));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_1()
+        public void TestSqueezeNumberBase10Spaced1()
         {
             Assert.AreEqual("1.00 x 10^10", StringUtil.SqueezeNumber(9999999999, 5, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_2()
+        public void TestSqueezeNumberBase10Spaced2()
         {
             Assert.AreEqual("1.00 x 10^10", StringUtil.SqueezeNumber(9999999999, 12, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_3()
+        public void TestSqueezeNumberBase10Spaced3()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 13, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_4()
+        public void TestSqueezeNumberBase10Spaced4()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 20, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithNegativeNumbersThatFit()
+        public void TestSqueezeNumberBase10SpacedWithNegativeNumbersThatFit()
         {
             Assert.AreEqual("-123", StringUtil.SqueezeNumber(-123, 10, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithNegativeNumbersThatFitLarge()
+        public void TestSqueezeNumberBase10SpacedWithNegativeNumbersThatFitLarge()
         {
             Assert.AreEqual("-1,234,567", StringUtil.SqueezeNumber(-1234567, 15, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithNegativeNumbersRequiringScientificNotation()
+        public void TestSqueezeNumberBase10SpacedWithNegativeNumbersRequiringScientificNotation()
         {
             Assert.AreEqual("-1.00 x 10^10", StringUtil.SqueezeNumber(-9999999999, 5, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithNegativeNumbersRequiringScientificNotationLarge()
+        public void TestSqueezeNumberBase10SpacedWithNegativeNumbersRequiringScientificNotationLarge()
         {
             Assert.AreEqual("-1.00 x 10^10", StringUtil.SqueezeNumber(-9999999999, 12, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithZero()
+        public void TestSqueezeNumberBase10SpacedWithZero()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0, 5, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithSmallDecimals()
+        public void TestSqueezeNumberBase10SpacedWithSmallDecimals()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 10, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithSmallDecimalsSmallLength()
+        public void TestSqueezeNumberBase10SpacedWithSmallDecimalsSmallLength()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 4, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithVerySmallNumbers()
+        public void TestSqueezeNumberBase10SpacedWithVerySmallNumbers()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.000000000123, 5, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithDoubles()
+        public void TestSqueezeNumberBase10SpacedWithDoubles()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 10, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithDoublesSmallLength()
+        public void TestSqueezeNumberBase10SpacedWithDoublesSmallLength()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 4, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithFloats()
+        public void TestSqueezeNumberBase10SpacedWithFloats()
         {
             Assert.AreEqual("457", StringUtil.SqueezeNumber(456.789f, 10, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithDecimals()
+        public void TestSqueezeNumberBase10SpacedWithDecimals()
         {
             Assert.AreEqual("789", StringUtil.SqueezeNumber(789.123m, 10, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithLongs()
+        public void TestSqueezeNumberBase10SpacedWithLongs()
         {
             Assert.AreEqual("1,000,000", StringUtil.SqueezeNumber(1000000L, 10, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Spaced_WithLongsRequiringScientificNotation()
+        public void TestSqueezeNumberBase10SpacedWithLongsRequiringScientificNotation()
         {
             Assert.AreEqual("1.00 x 10^15", StringUtil.SqueezeNumber(1000000000000000L, 5, ScientificNotationFormat.Base10Spaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_1()
+        public void TestSqueezeNumberBase10Superscript1()
         {
             Assert.AreEqual("1.00x10" + StringUtil.Superscript1 + StringUtil.Superscript0, StringUtil.SqueezeNumber(9999999999, 5, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_2()
+        public void TestSqueezeNumberBase10Superscript2()
         {
             Assert.AreEqual("1.00x10" + StringUtil.Superscript1 + StringUtil.Superscript0, StringUtil.SqueezeNumber(9999999999, 12, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_3()
+        public void TestSqueezeNumberBase10Superscript3()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 13, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_4()
+        public void TestSqueezeNumberBase10Superscript4()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 20, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithNegativeNumbersThatFit()
+        public void TestSqueezeNumberBase10SuperscriptWithNegativeNumbersThatFit()
         {
             Assert.AreEqual("-123", StringUtil.SqueezeNumber(-123, 10, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithNegativeNumbersThatFitLarge()
+        public void TestSqueezeNumberBase10SuperscriptWithNegativeNumbersThatFitLarge()
         {
             Assert.AreEqual("-1,234,567", StringUtil.SqueezeNumber(-1234567, 15, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithNegativeNumbersRequiringScientificNotation()
+        public void TestSqueezeNumberBase10SuperscriptWithNegativeNumbersRequiringScientificNotation()
         {
             Assert.AreEqual("-1.00x10" + StringUtil.Superscript1 + StringUtil.Superscript0, 
                 StringUtil.SqueezeNumber(-9999999999, 5, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithNegativeNumbersRequiringScientificNotationLarge()
+        public void TestSqueezeNumberBase10SuperscriptWithNegativeNumbersRequiringScientificNotationLarge()
         {
             Assert.AreEqual("-1.00x10" + StringUtil.Superscript1 + StringUtil.Superscript0,
                 StringUtil.SqueezeNumber(-9999999999, 12, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithZero()
+        public void TestSqueezeNumberBase10SuperscriptWithZero()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0, 5, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithSmallDecimals()
+        public void TestSqueezeNumberBase10SuperscriptWithSmallDecimals()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 10, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithSmallDecimalsSmallLength()
+        public void TestSqueezeNumberBase10SuperscriptWithSmallDecimalsSmallLength()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.1, 4, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithDoubles()
+        public void TestSqueezeNumberBase10SuperscriptWithDoubles()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 10, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithDoublesSmallLength()
+        public void TestSqueezeNumberBase10SuperscriptWithDoublesSmallLength()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 4, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithFloats()
+        public void TestSqueezeNumberBase10SuperscriptWithFloats()
         {
             Assert.AreEqual("457", StringUtil.SqueezeNumber(456.789f, 10, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithDecimals()
+        public void TestSqueezeNumberBase10SuperscriptWithDecimals()
         {
             Assert.AreEqual("789", StringUtil.SqueezeNumber(789.123m, 10, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithLongs()
+        public void TestSqueezeNumberBase10SuperscriptWithLongs()
         {
             Assert.AreEqual("1,000,000", StringUtil.SqueezeNumber(1000000L, 10, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10Superscript_WithLongsRequiringScientificNotation()
+        public void TestSqueezeNumberBase10SuperscriptWithLongsRequiringScientificNotation()
         {
             Assert.AreEqual("1.00x10" + StringUtil.Superscript1 + StringUtil.Superscript5,
                 StringUtil.SqueezeNumber(1000000000000000L, 5, ScientificNotationFormat.Base10Superscript));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_1()
+        public void TestSqueezeNumberBase10SuperscriptSpaced1()
         {
             Assert.AreEqual("1.00 x 10" + StringUtil.Superscript1 + StringUtil.Superscript0, StringUtil.SqueezeNumber(9999999999, 5, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_2()
+        public void TestSqueezeNumberBase10SuperscriptSpaced2()
         {
             Assert.AreEqual("1.00 x 10" + StringUtil.Superscript1 + StringUtil.Superscript0, StringUtil.SqueezeNumber(9999999999, 12, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_3()
+        public void TestSqueezeNumberBase10SuperscriptSpaced3()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 13, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_4()
+        public void TestSqueezeNumberBase10SuperscriptSpaced4()
         {
             Assert.AreEqual("9,999,999,999", StringUtil.SqueezeNumber(9999999999, 20, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithNegativeNumbersThatFit()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithNegativeNumbersThatFit()
         {
             Assert.AreEqual("-123", StringUtil.SqueezeNumber(-123, 10, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithNegativeNumbersThatFitLarge()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithNegativeNumbersThatFitLarge()
         {
             Assert.AreEqual("-1,234,567", StringUtil.SqueezeNumber(-1234567, 15, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithNegativeNumbersRequiringScientificNotation()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithNegativeNumbersRequiringScientificNotation()
         {
             Assert.AreEqual("-1.00 x 10" + StringUtil.Superscript1 + StringUtil.Superscript0, 
                 StringUtil.SqueezeNumber(-9999999999, 5, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithNegativeNumbersRequiringScientificNotationLarge()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithNegativeNumbersRequiringScientificNotationLarge()
         {
             Assert.AreEqual("-1.00 x 10" + StringUtil.Superscript1 + StringUtil.Superscript0,
                 StringUtil.SqueezeNumber(-9999999999, 12, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithZero()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithZero()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0, 5, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithSmallDecimals()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithSmallDecimals()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.123, 10, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithSmallDecimalsSmallLength()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithSmallDecimalsSmallLength()
         {
             Assert.AreEqual("0", StringUtil.SqueezeNumber(0.1, 4, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithDoubles()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithDoubles()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 10, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithDoublesSmallLength()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithDoublesSmallLength()
         {
             Assert.AreEqual("123", StringUtil.SqueezeNumber(123.456, 4, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithFloats()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithFloats()
         {
             Assert.AreEqual("457", StringUtil.SqueezeNumber(456.789f, 10, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithDecimals()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithDecimals()
         {
             Assert.AreEqual("789", StringUtil.SqueezeNumber(789.123m, 10, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithLongs()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithLongs()
         {
             Assert.AreEqual("1,000,000", StringUtil.SqueezeNumber(1000000L, 10, ScientificNotationFormat.Base10SuperscriptSpaced));
         }
 
         [TestMethod]
-        public void TestSqueezeNumberBase10SuperscriptSpaced_WithLongsRequiringScientificNotation()
+        public void TestSqueezeNumberBase10SuperscriptSpacedWithLongsRequiringScientificNotation()
         {
             Assert.AreEqual("1.00 x 10" + StringUtil.Superscript1 + StringUtil.Superscript5,
                 StringUtil.SqueezeNumber(1000000000000000L, 5, ScientificNotationFormat.Base10SuperscriptSpaced));
@@ -11257,14 +11258,14 @@ namespace StarThrower.StringUtilities.Test
 
         // Exception and null tests
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestENotationToBaseTenNotation1_NullSource()
+        public void TestENotationToBaseTenNotation1NullSource()
         {
             string result = StringUtil.ENotationToBaseTenNotation(null, false, false, false, false);
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestENotationToBaseTenNotation2_InvalidExponent()
+        public void TestENotationToBaseTenNotation2InvalidExponent()
         {
             // Invalid exponent that can't be parsed as integer
             string result = StringUtil.ENotationToBaseTenNotation("1.5Eabc", false, false, false, false);
@@ -11272,7 +11273,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestENotationToBaseTenNotation3_InvalidExponentWithDecimal()
+        public void TestENotationToBaseTenNotation3InvalidExponentWithDecimal()
         {
             // Exponent with decimal point - can't parse as int
             string result = StringUtil.ENotationToBaseTenNotation("1.5E2.5", false, false, false, false);
@@ -11281,14 +11282,14 @@ namespace StarThrower.StringUtilities.Test
 
         // No E notation tests - string should return unchanged (uppercased)
         [TestMethod]
-        public void TestENotationToBaseTenNotation4_NoENotation_SimpleNumber()
+        public void TestENotationToBaseTenNotation4NoENotationSimpleNumber()
         {
             string result = StringUtil.ENotationToBaseTenNotation("123.45", false, false, false, false);
             Assert.AreEqual("123.45", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation5_NoENotation_LowerCase()
+        public void TestENotationToBaseTenNotation5NoENotationLowerCase()
         {
             // Should return uppercased but since no E, should be unchanged except for case
             string result = StringUtil.ENotationToBaseTenNotation("abc", false, false, false, false);
@@ -11296,7 +11297,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation6_NoENotation_MixedCase()
+        public void TestENotationToBaseTenNotation6NoENotationMixedCase()
         {
             string result = StringUtil.ENotationToBaseTenNotation("AbC123", false, false, false, false);
             Assert.AreEqual("ABC123", result);
@@ -11304,7 +11305,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Zero power tests
         [TestMethod]
-        public void TestENotationToBaseTenNotation7_ZeroPowerExcludeTrue()
+        public void TestENotationToBaseTenNotation7ZeroPowerExcludeTrue()
         {
             // 1.5E0 with excludeZeroPower=true should return just base value
             string result = StringUtil.ENotationToBaseTenNotation("1.5E0", false, false, false, true);
@@ -11312,7 +11313,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation8_ZeroPowerExcludeFalse_NoSuperscript_NoSpace()
+        public void TestENotationToBaseTenNotation8ZeroPowerExcludeFalseNoSuperscriptNoSpace()
         {
             // 1.5E0 with excludeZeroPower=false should include x10^0
             string result = StringUtil.ENotationToBaseTenNotation("1.5E0", false, false, false, false);
@@ -11320,14 +11321,14 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation9_ZeroPowerExcludeFalse_NoSuperscript_Spaced()
+        public void TestENotationToBaseTenNotation9ZeroPowerExcludeFalseNoSuperscriptSpaced()
         {
             string result = StringUtil.ENotationToBaseTenNotation("1.5E0", false, true, false, false);
             Assert.AreEqual("1.5 x 10^0", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation10_ZeroPowerExcludeFalse_Superscript_NoSpace()
+        public void TestENotationToBaseTenNotation10ZeroPowerExcludeFalseSuperscriptNoSpace()
         {
             string baseValue = "1.5";
             string superscriptZero = StringUtil.Superscript0;
@@ -11336,7 +11337,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation11_ZeroPowerExcludeFalse_Superscript_Spaced()
+        public void TestENotationToBaseTenNotation11ZeroPowerExcludeFalseSuperscriptSpaced()
         {
             string baseValue = "1.5";
             string superscriptZero = StringUtil.Superscript0;
@@ -11346,35 +11347,35 @@ namespace StarThrower.StringUtilities.Test
 
         // Positive exponent tests - all 16 combinations
         [TestMethod]
-        public void TestENotationToBaseTenNotation12_PositiveExponent_NoSuperscript_NoSpace_IncludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation12PositiveExponentNoSuperscriptNoSpaceIncludePlusExcludeZero()
         {
             string result = StringUtil.ENotationToBaseTenNotation("2.5E+3", false, false, false, true);
             Assert.AreEqual("2.5x10^+3", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation13_PositiveExponent_NoSuperscript_NoSpace_ExcludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation13PositiveExponentNoSuperscriptNoSpaceExcludePlusExcludeZero()
         {
             string result = StringUtil.ENotationToBaseTenNotation("2.5E+3", false, false, true, true);
             Assert.AreEqual("2.5x10^3", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation14_PositiveExponent_NoSuperscript_Spaced_IncludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation14PositiveExponentNoSuperscriptSpacedIncludePlusExcludeZero()
         {
             string result = StringUtil.ENotationToBaseTenNotation("2.5E+3", false, true, false, true);
             Assert.AreEqual("2.5 x 10^+3", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation15_PositiveExponent_NoSuperscript_Spaced_ExcludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation15PositiveExponentNoSuperscriptSpacedExcludePlusExcludeZero()
         {
             string result = StringUtil.ENotationToBaseTenNotation("2.5E+3", false, true, true, true);
             Assert.AreEqual("2.5 x 10^3", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation16_PositiveExponent_Superscript_NoSpace_IncludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation16PositiveExponentSuperscriptNoSpaceIncludePlusExcludeZero()
         {
             string baseValue = "2.5";
             string superscriptPlus = StringUtil.SuperscriptPlus;
@@ -11384,7 +11385,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation17_PositiveExponent_Superscript_NoSpace_ExcludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation17PositiveExponentSuperscriptNoSpaceExcludePlusExcludeZero()
         {
             string baseValue = "2.5";
             string superscript3 = StringUtil.Superscript3;
@@ -11393,7 +11394,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation18_PositiveExponent_Superscript_Spaced_IncludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation18PositiveExponentSuperscriptSpacedIncludePlusExcludeZero()
         {
             string baseValue = "2.5";
             string superscriptPlus = StringUtil.SuperscriptPlus;
@@ -11403,7 +11404,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation19_PositiveExponent_Superscript_Spaced_ExcludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation19PositiveExponentSuperscriptSpacedExcludePlusExcludeZero()
         {
             string baseValue = "2.5";
             string superscript3 = StringUtil.Superscript3;
@@ -11413,14 +11414,14 @@ namespace StarThrower.StringUtilities.Test
 
         // Negative exponent tests - all 16 combinations
         [TestMethod]
-        public void TestENotationToBaseTenNotation20_NegativeExponent_NoSuperscript_NoSpace_IncludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation20NegativeExponentNoSuperscriptNoSpaceIncludePlusExcludeZero()
         {
             string result = StringUtil.ENotationToBaseTenNotation("1.2E-5", false, false, false, true);
             Assert.AreEqual("1.2x10^-5", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation21_NegativeExponent_NoSuperscript_NoSpace_ExcludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation21NegativeExponentNoSuperscriptNoSpaceExcludePlusExcludeZero()
         {
             // excludePlusSign should not affect negative sign
             string result = StringUtil.ENotationToBaseTenNotation("1.2E-5", false, false, true, true);
@@ -11428,21 +11429,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation22_NegativeExponent_NoSuperscript_Spaced_IncludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation22NegativeExponentNoSuperscriptSpacedIncludePlusExcludeZero()
         {
             string result = StringUtil.ENotationToBaseTenNotation("1.2E-5", false, true, false, true);
             Assert.AreEqual("1.2 x 10^-5", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation23_NegativeExponent_NoSuperscript_Spaced_ExcludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation23NegativeExponentNoSuperscriptSpacedExcludePlusExcludeZero()
         {
             string result = StringUtil.ENotationToBaseTenNotation("1.2E-5", false, true, true, true);
             Assert.AreEqual("1.2 x 10^-5", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation24_NegativeExponent_Superscript_NoSpace_IncludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation24NegativeExponentSuperscriptNoSpaceIncludePlusExcludeZero()
         {
             string baseValue = "1.2";
             string superscriptMinus = StringUtil.SuperscriptMinus;
@@ -11452,7 +11453,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation25_NegativeExponent_Superscript_NoSpace_ExcludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation25NegativeExponentSuperscriptNoSpaceExcludePlusExcludeZero()
         {
             string baseValue = "1.2";
             string superscriptMinus = StringUtil.SuperscriptMinus;
@@ -11462,7 +11463,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation26_NegativeExponent_Superscript_Spaced_IncludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation26NegativeExponentSuperscriptSpacedIncludePlusExcludeZero()
         {
             string baseValue = "1.2";
             string superscriptMinus = StringUtil.SuperscriptMinus;
@@ -11472,7 +11473,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation27_NegativeExponent_Superscript_Spaced_ExcludePlus_ExcludeZero()
+        public void TestENotationToBaseTenNotation27NegativeExponentSuperscriptSpacedExcludePlusExcludeZero()
         {
             string baseValue = "1.2";
             string superscriptMinus = StringUtil.SuperscriptMinus;
@@ -11483,14 +11484,14 @@ namespace StarThrower.StringUtilities.Test
 
         // Edge cases
         [TestMethod]
-        public void TestENotationToBaseTenNotation28_SingleCharBase()
+        public void TestENotationToBaseTenNotation28SingleCharBase()
         {
             string result = StringUtil.ENotationToBaseTenNotation("5E2", false, false, false, true);
             Assert.AreEqual("5x10^2", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation29_LargePositiveExponent()
+        public void TestENotationToBaseTenNotation29LargePositiveExponent()
         {
             string result = StringUtil.ENotationToBaseTenNotation("3.14E100", false, true, true, true);
             string expected = "3.14 x 10^100";
@@ -11498,7 +11499,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation30_LargeNegativeExponent()
+        public void TestENotationToBaseTenNotation30LargeNegativeExponent()
         {
             string result = StringUtil.ENotationToBaseTenNotation("3.14E-100", false, true, false, true);
             string expected = "3.14 x 10^-100";
@@ -11506,7 +11507,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation31_LowercaseENotation()
+        public void TestENotationToBaseTenNotation31LowercaseENotation()
         {
             // Should convert lowercase 'e' to uppercase 'E' internally
             string result = StringUtil.ENotationToBaseTenNotation("2e4", false, false, false, true);
@@ -11514,7 +11515,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation32_IntegerBase()
+        public void TestENotationToBaseTenNotation32IntegerBase()
         {
             string result = StringUtil.ENotationToBaseTenNotation("42E3", true, true, true, true);
             string expected = "42 x 10" + StringUtil.Superscript3;
@@ -11522,21 +11523,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation33_ExponentWithExplicitPlus()
+        public void TestENotationToBaseTenNotation33ExponentWithExplicitPlus()
         {
             string result = StringUtil.ENotationToBaseTenNotation("1.5E+2", false, false, false, true);
             Assert.AreEqual("1.5x10^+2", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation34_ExponentWithoutExplicitPlus()
+        public void TestENotationToBaseTenNotation34ExponentWithoutExplicitPlus()
         {
             string result = StringUtil.ENotationToBaseTenNotation("1.5E2", false, false, false, true);
             Assert.AreEqual("1.5x10^2", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation35_MultiDigitBase()
+        public void TestENotationToBaseTenNotation35MultiDigitBase()
         {
             string result = StringUtil.ENotationToBaseTenNotation("123.456E7", true, true, true, true);
             string superscript7 = StringUtil.Superscript7;
@@ -11544,7 +11545,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation36_OneAsExponent()
+        public void TestENotationToBaseTenNotation36OneAsExponent()
         {
             string result = StringUtil.ENotationToBaseTenNotation("5E1", false, false, false, true);
             string expected = "5x10^1";
@@ -11552,7 +11553,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation37_NegativeOne()
+        public void TestENotationToBaseTenNotation37NegativeOne()
         {
             string result = StringUtil.ENotationToBaseTenNotation("5E-1", true, false, false, true);
             string superscriptMinus = StringUtil.SuperscriptMinus;
@@ -11562,7 +11563,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation38_PositiveOneWithExplicitPlus()
+        public void TestENotationToBaseTenNotation38PositiveOneWithExplicitPlus()
         {
             string result = StringUtil.ENotationToBaseTenNotation("5E+1", true, true, false, true);
             string superscriptPlus = StringUtil.SuperscriptPlus;
@@ -11572,14 +11573,14 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation39_SmallDecimalBase()
+        public void TestENotationToBaseTenNotation39SmallDecimalBase()
         {
             string result = StringUtil.ENotationToBaseTenNotation("0.001E6", false, true, true, true);
             Assert.AreEqual("0.001 x 10^6", result);
         }
 
         [TestMethod]
-        public void TestENotationToBaseTenNotation40_ExponentTwo()
+        public void TestENotationToBaseTenNotation40ExponentTwo()
         {
             string result = StringUtil.ENotationToBaseTenNotation("7E2", true, false, true, true);
             string superscript2 = StringUtil.Superscript2;
@@ -11618,70 +11619,70 @@ namespace StarThrower.StringUtilities.Test
 
         // Individual digit tests
         [TestMethod]
-        public void TestToSuperscript_Digit0()
+        public void TestToSuperscriptDigit0()
         {
             string result = StringUtil.ToSuperscript("0");
             Assert.AreEqual(StringUtil.Superscript0, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit1()
+        public void TestToSuperscriptDigit1()
         {
             string result = StringUtil.ToSuperscript("1");
             Assert.AreEqual(StringUtil.Superscript1, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit2()
+        public void TestToSuperscriptDigit2()
         {
             string result = StringUtil.ToSuperscript("2");
             Assert.AreEqual(StringUtil.Superscript2, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit3()
+        public void TestToSuperscriptDigit3()
         {
             string result = StringUtil.ToSuperscript("3");
             Assert.AreEqual(StringUtil.Superscript3, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit4()
+        public void TestToSuperscriptDigit4()
         {
             string result = StringUtil.ToSuperscript("4");
             Assert.AreEqual(StringUtil.Superscript4, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit5()
+        public void TestToSuperscriptDigit5()
         {
             string result = StringUtil.ToSuperscript("5");
             Assert.AreEqual(StringUtil.Superscript5, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit6()
+        public void TestToSuperscriptDigit6()
         {
             string result = StringUtil.ToSuperscript("6");
             Assert.AreEqual(StringUtil.Superscript6, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit7()
+        public void TestToSuperscriptDigit7()
         {
             string result = StringUtil.ToSuperscript("7");
             Assert.AreEqual(StringUtil.Superscript7, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit8()
+        public void TestToSuperscriptDigit8()
         {
             string result = StringUtil.ToSuperscript("8");
             Assert.AreEqual(StringUtil.Superscript8, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_Digit9()
+        public void TestToSuperscriptDigit9()
         {
             string result = StringUtil.ToSuperscript("9");
             Assert.AreEqual(StringUtil.Superscript9, result);
@@ -11689,7 +11690,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Plus sign tests
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_PlusOnly()
+        public void TestToSuperscriptPlusOnly()
         {
             // Plus sign alone is not a valid integer
             StringUtil.ToSuperscript("+");
@@ -11697,21 +11698,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToSuperscript_PlusWith0()
+        public void TestToSuperscriptPlusWith0()
         {
             string result = StringUtil.ToSuperscript("+0");
             Assert.AreEqual(StringUtil.SuperscriptPlus + StringUtil.Superscript0, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_PlusWith5()
+        public void TestToSuperscriptPlusWith5()
         {
             string result = StringUtil.ToSuperscript("+5");
             Assert.AreEqual(StringUtil.SuperscriptPlus + StringUtil.Superscript5, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_PlusWith9()
+        public void TestToSuperscriptPlusWith9()
         {
             string result = StringUtil.ToSuperscript("+9");
             Assert.AreEqual(StringUtil.SuperscriptPlus + StringUtil.Superscript9, result);
@@ -11719,7 +11720,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Minus sign tests
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_MinusOnly()
+        public void TestToSuperscriptMinusOnly()
         {
             // Minus sign alone is not a valid integer
             StringUtil.ToSuperscript("-");
@@ -11727,21 +11728,21 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToSuperscript_MinusWith0()
+        public void TestToSuperscriptMinusWith0()
         {
             string result = StringUtil.ToSuperscript("-0");
             Assert.AreEqual(StringUtil.SuperscriptMinus + StringUtil.Superscript0, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_MinusWith5()
+        public void TestToSuperscriptMinusWith5()
         {
             string result = StringUtil.ToSuperscript("-5");
             Assert.AreEqual(StringUtil.SuperscriptMinus + StringUtil.Superscript5, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_MinusWith9()
+        public void TestToSuperscriptMinusWith9()
         {
             string result = StringUtil.ToSuperscript("-9");
             Assert.AreEqual(StringUtil.SuperscriptMinus + StringUtil.Superscript9, result);
@@ -11749,91 +11750,91 @@ namespace StarThrower.StringUtilities.Test
 
         // Multi-digit number tests
         [TestMethod]
-        public void TestToSuperscript_TwoDigits()
+        public void TestToSuperscriptTwoDigits()
         {
             string result = StringUtil.ToSuperscript("12");
             Assert.AreEqual(StringUtil.Superscript1 + StringUtil.Superscript2, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_ThreeDigits()
+        public void TestToSuperscriptThreeDigits()
         {
             string result = StringUtil.ToSuperscript("123");
             Assert.AreEqual(StringUtil.Superscript1 + StringUtil.Superscript2 + StringUtil.Superscript3, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_PlusWithTwoDigits()
+        public void TestToSuperscriptPlusWithTwoDigits()
         {
             string result = StringUtil.ToSuperscript("+12");
             Assert.AreEqual(StringUtil.SuperscriptPlus + StringUtil.Superscript1 + StringUtil.Superscript2, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_MinusWithTwoDigits()
+        public void TestToSuperscriptMinusWithTwoDigits()
         {
             string result = StringUtil.ToSuperscript("-12");
             Assert.AreEqual(StringUtil.SuperscriptMinus + StringUtil.Superscript1 + StringUtil.Superscript2, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_PlusWithMultipleDigits()
+        public void TestToSuperscriptPlusWithMultipleDigits()
         {
             string result = StringUtil.ToSuperscript("+456");
             Assert.AreEqual(StringUtil.SuperscriptPlus + StringUtil.Superscript4 + StringUtil.Superscript5 + StringUtil.Superscript6, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_MinusWithMultipleDigits()
+        public void TestToSuperscriptMinusWithMultipleDigits()
         {
             string result = StringUtil.ToSuperscript("-456");
             Assert.AreEqual(StringUtil.SuperscriptMinus + StringUtil.Superscript4 + StringUtil.Superscript5 + StringUtil.Superscript6, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_LargeNumber()
+        public void TestToSuperscriptLargeNumber()
         {
             string result = StringUtil.ToSuperscript("123456789");
             Assert.AreEqual(StringUtil.Superscript1 + StringUtil.Superscript2 + StringUtil.Superscript3 + StringUtil.Superscript4 + StringUtil.Superscript5 + StringUtil.Superscript6 + StringUtil.Superscript7 + StringUtil.Superscript8 + StringUtil.Superscript9, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_PlusWithLargeNumber()
+        public void TestToSuperscriptPlusWithLargeNumber()
         {
             string result = StringUtil.ToSuperscript("+123456789");
             Assert.AreEqual(StringUtil.SuperscriptPlus + StringUtil.Superscript1 + StringUtil.Superscript2 + StringUtil.Superscript3 + StringUtil.Superscript4 + StringUtil.Superscript5 + StringUtil.Superscript6 + StringUtil.Superscript7 + StringUtil.Superscript8 + StringUtil.Superscript9, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_MinusWithLargeNumber()
+        public void TestToSuperscriptMinusWithLargeNumber()
         {
             string result = StringUtil.ToSuperscript("-123456789");
             Assert.AreEqual(StringUtil.SuperscriptMinus + StringUtil.Superscript1 + StringUtil.Superscript2 + StringUtil.Superscript3 + StringUtil.Superscript4 + StringUtil.Superscript5 + StringUtil.Superscript6 + StringUtil.Superscript7 + StringUtil.Superscript8 + StringUtil.Superscript9, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_LeadingZeros()
+        public void TestToSuperscriptLeadingZeros()
         {
             string result = StringUtil.ToSuperscript("007");
             Assert.AreEqual(StringUtil.Superscript0 + StringUtil.Superscript0 + StringUtil.Superscript7, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_AllZeros()
+        public void TestToSuperscriptAllZeros()
         {
             string result = StringUtil.ToSuperscript("000");
             Assert.AreEqual(StringUtil.Superscript0 + StringUtil.Superscript0 + StringUtil.Superscript0, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_PlusWithAllZeros()
+        public void TestToSuperscriptPlusWithAllZeros()
         {
             string result = StringUtil.ToSuperscript("+000");
             Assert.AreEqual(StringUtil.SuperscriptPlus + StringUtil.Superscript0 + StringUtil.Superscript0 + StringUtil.Superscript0, result);
         }
 
         [TestMethod]
-        public void TestToSuperscript_MinusWithAllZeros()
+        public void TestToSuperscriptMinusWithAllZeros()
         {
             string result = StringUtil.ToSuperscript("-000");
             Assert.AreEqual(StringUtil.SuperscriptMinus + StringUtil.Superscript0 + StringUtil.Superscript0 + StringUtil.Superscript0, result);
@@ -11841,56 +11842,56 @@ namespace StarThrower.StringUtilities.Test
 
         // Invalid input tests
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_DecimalNumber()
+        public void TestToSuperscriptDecimalNumber()
         {
             StringUtil.ToSuperscript("1.5");
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_WithSpaces()
+        public void TestToSuperscriptWithSpaces()
         {
             StringUtil.ToSuperscript("1 2");
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_WithLetters()
+        public void TestToSuperscriptWithLetters()
         {
             StringUtil.ToSuperscript("+12a");
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_InvalidCharacters()
+        public void TestToSuperscriptInvalidCharacters()
         {
             StringUtil.ToSuperscript("12@34");
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_EmptyString()
+        public void TestToSuperscriptEmptyString()
         {
             StringUtil.ToSuperscript("");
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_OnlyPlusAndMinus()
+        public void TestToSuperscriptOnlyPlusAndMinus()
         {
             StringUtil.ToSuperscript("+-");
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_MultipleSignsAtStart()
+        public void TestToSuperscriptMultipleSignsAtStart()
         {
             StringUtil.ToSuperscript("++123");
             Assert.Fail();
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestToSuperscript_SignInMiddle()
+        public void TestToSuperscriptSignInMiddle()
         {
             StringUtil.ToSuperscript("12+3");
             Assert.Fail();
@@ -11903,7 +11904,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Basic datetime tests
         [TestMethod]
-        public void TestToXmlString_BasicDateTime()
+        public void TestToXmlStringBasicDateTime()
         {
             DateTime dt = new DateTime(2024, 3, 15, 14, 30, 45, 123);
             string result = dt.ToXmlString();
@@ -11911,7 +11912,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_Midnight()
+        public void TestToXmlStringMidnight()
         {
             DateTime dt = new DateTime(2024, 1, 1, 0, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -11919,7 +11920,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_EndOfDay()
+        public void TestToXmlStringEndOfDay()
         {
             DateTime dt = new DateTime(2024, 12, 31, 23, 59, 59, 999);
             string result = dt.ToXmlString();
@@ -11927,7 +11928,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_Noon()
+        public void TestToXmlStringNoon()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -11936,7 +11937,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Year formatting tests - single digit year
         [TestMethod]
-        public void TestToXmlString_YearOneDigit()
+        public void TestToXmlStringYearOneDigit()
         {
             DateTime dt = new DateTime(1, 1, 1, 0, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -11944,7 +11945,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_YearNine()
+        public void TestToXmlStringYearNine()
         {
             DateTime dt = new DateTime(9, 6, 15, 12, 30, 45, 500);
             string result = dt.ToXmlString();
@@ -11953,7 +11954,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Year formatting tests - two digit year
         [TestMethod]
-        public void TestToXmlString_YearTwoDigits()
+        public void TestToXmlStringYearTwoDigits()
         {
             DateTime dt = new DateTime(10, 3, 20, 8, 15, 30, 250);
             string result = dt.ToXmlString();
@@ -11961,7 +11962,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_YearNinetyNine()
+        public void TestToXmlStringYearNinetyNine()
         {
             DateTime dt = new DateTime(99, 12, 25, 18, 45, 20, 100);
             string result = dt.ToXmlString();
@@ -11970,7 +11971,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Year formatting tests - three digit year
         [TestMethod]
-        public void TestToXmlString_YearThreeDigits()
+        public void TestToXmlStringYearThreeDigits()
         {
             DateTime dt = new DateTime(100, 5, 10, 9, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -11978,7 +11979,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_YearNineHundredNinetyNine()
+        public void TestToXmlStringYearNineHundredNinetyNine()
         {
             DateTime dt = new DateTime(999, 7, 4, 16, 20, 15, 75);
             string result = dt.ToXmlString();
@@ -11987,7 +11988,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Year formatting tests - four digit year
         [TestMethod]
-        public void TestToXmlString_YearFourDigits()
+        public void TestToXmlStringYearFourDigits()
         {
             DateTime dt = new DateTime(1000, 2, 28, 13, 10, 5, 500);
             string result = dt.ToXmlString();
@@ -11995,7 +11996,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_YearMaxValue()
+        public void TestToXmlStringYearMaxValue()
         {
             DateTime dt = new DateTime(9999, 12, 31, 23, 59, 59, 999);
             string result = dt.ToXmlString();
@@ -12004,7 +12005,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Month formatting - single digit
         [TestMethod]
-        public void TestToXmlString_MonthJanuary()
+        public void TestToXmlStringMonthJanuary()
         {
             DateTime dt = new DateTime(2024, 1, 15, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12012,7 +12013,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MonthSeptember()
+        public void TestToXmlStringMonthSeptember()
         {
             DateTime dt = new DateTime(2024, 9, 15, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12021,7 +12022,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Month formatting - double digit
         [TestMethod]
-        public void TestToXmlString_MonthOctober()
+        public void TestToXmlStringMonthOctober()
         {
             DateTime dt = new DateTime(2024, 10, 15, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12029,7 +12030,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MonthDecember()
+        public void TestToXmlStringMonthDecember()
         {
             DateTime dt = new DateTime(2024, 12, 15, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12038,7 +12039,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Day formatting - single digit
         [TestMethod]
-        public void TestToXmlString_DayOne()
+        public void TestToXmlStringDayOne()
         {
             DateTime dt = new DateTime(2024, 6, 1, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12046,7 +12047,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_DayNine()
+        public void TestToXmlStringDayNine()
         {
             DateTime dt = new DateTime(2024, 6, 9, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12055,7 +12056,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Day formatting - double digit
         [TestMethod]
-        public void TestToXmlString_DayTen()
+        public void TestToXmlStringDayTen()
         {
             DateTime dt = new DateTime(2024, 6, 10, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12063,7 +12064,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_DayThirtyOne()
+        public void TestToXmlStringDayThirtyOne()
         {
             DateTime dt = new DateTime(2024, 5, 31, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12072,7 +12073,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Hour formatting - single digit
         [TestMethod]
-        public void TestToXmlString_HourZero()
+        public void TestToXmlStringHourZero()
         {
             DateTime dt = new DateTime(2024, 6, 15, 0, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12080,7 +12081,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_HourNine()
+        public void TestToXmlStringHourNine()
         {
             DateTime dt = new DateTime(2024, 6, 15, 9, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12089,7 +12090,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Hour formatting - double digit
         [TestMethod]
-        public void TestToXmlString_HourTen()
+        public void TestToXmlStringHourTen()
         {
             DateTime dt = new DateTime(2024, 6, 15, 10, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12097,7 +12098,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_HourTwentyThree()
+        public void TestToXmlStringHourTwentyThree()
         {
             DateTime dt = new DateTime(2024, 6, 15, 23, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12106,7 +12107,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Minute formatting - single digit
         [TestMethod]
-        public void TestToXmlString_MinuteZero()
+        public void TestToXmlStringMinuteZero()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12114,7 +12115,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MinuteNine()
+        public void TestToXmlStringMinuteNine()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 9, 0, 0);
             string result = dt.ToXmlString();
@@ -12123,7 +12124,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Minute formatting - double digit
         [TestMethod]
-        public void TestToXmlString_MinuteTen()
+        public void TestToXmlStringMinuteTen()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 10, 0, 0);
             string result = dt.ToXmlString();
@@ -12131,7 +12132,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MinuteFiftyNine()
+        public void TestToXmlStringMinuteFiftyNine()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 59, 0, 0);
             string result = dt.ToXmlString();
@@ -12140,7 +12141,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Second formatting - single digit
         [TestMethod]
-        public void TestToXmlString_SecondZero()
+        public void TestToXmlStringSecondZero()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12148,7 +12149,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_SecondNine()
+        public void TestToXmlStringSecondNine()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 9, 0);
             string result = dt.ToXmlString();
@@ -12157,7 +12158,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Second formatting - double digit
         [TestMethod]
-        public void TestToXmlString_SecondTen()
+        public void TestToXmlStringSecondTen()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 10, 0);
             string result = dt.ToXmlString();
@@ -12165,7 +12166,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_SecondFiftyNine()
+        public void TestToXmlStringSecondFiftyNine()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 59, 0);
             string result = dt.ToXmlString();
@@ -12174,7 +12175,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Millisecond formatting - single digit
         [TestMethod]
-        public void TestToXmlString_MillisecondZero()
+        public void TestToXmlStringMillisecondZero()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12182,7 +12183,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MillisecondOne()
+        public void TestToXmlStringMillisecondOne()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 1);
             string result = dt.ToXmlString();
@@ -12190,7 +12191,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MillisecondNine()
+        public void TestToXmlStringMillisecondNine()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 9);
             string result = dt.ToXmlString();
@@ -12199,7 +12200,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Millisecond formatting - double digit
         [TestMethod]
-        public void TestToXmlString_MillisecondTen()
+        public void TestToXmlStringMillisecondTen()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 10);
             string result = dt.ToXmlString();
@@ -12207,7 +12208,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MillisecondNinetynine()
+        public void TestToXmlStringMillisecondNinetynine()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 99);
             string result = dt.ToXmlString();
@@ -12216,7 +12217,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Millisecond formatting - triple digit
         [TestMethod]
-        public void TestToXmlString_MillisecondHundred()
+        public void TestToXmlStringMillisecondHundred()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 100);
             string result = dt.ToXmlString();
@@ -12224,7 +12225,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MillisecondFiveHundred()
+        public void TestToXmlStringMillisecondFiveHundred()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 500);
             string result = dt.ToXmlString();
@@ -12232,7 +12233,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MillisecondNineHundredNinetyNine()
+        public void TestToXmlStringMillisecondNineHundredNinetyNine()
         {
             DateTime dt = new DateTime(2024, 6, 15, 12, 0, 0, 999);
             string result = dt.ToXmlString();
@@ -12241,7 +12242,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Leap year tests
         [TestMethod]
-        public void TestToXmlString_LeapYearFeb29_2024()
+        public void TestToXmlStringLeapYearFeb292024()
         {
             DateTime dt = new DateTime(2024, 2, 29, 12, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12249,7 +12250,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_LeapYearFeb29_2000()
+        public void TestToXmlStringLeapYearFeb292000()
         {
             DateTime dt = new DateTime(2000, 2, 29, 0, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12258,7 +12259,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Century boundary tests
         [TestMethod]
-        public void TestToXmlString_CenturyBoundary1900()
+        public void TestToXmlStringCenturyBoundary1900()
         {
             DateTime dt = new DateTime(1900, 1, 1, 0, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12266,7 +12267,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_CenturyBoundary2000()
+        public void TestToXmlStringCenturyBoundary2000()
         {
             DateTime dt = new DateTime(2000, 1, 1, 0, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12274,7 +12275,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_CenturyBoundary2100()
+        public void TestToXmlStringCenturyBoundary2100()
         {
             DateTime dt = new DateTime(2100, 12, 31, 23, 59, 59, 999);
             string result = dt.ToXmlString();
@@ -12283,7 +12284,7 @@ namespace StarThrower.StringUtilities.Test
 
         // All components with boundary values
         [TestMethod]
-        public void TestToXmlString_AllMinimumValues()
+        public void TestToXmlStringAllMinimumValues()
         {
             DateTime dt = new DateTime(1, 1, 1, 0, 0, 0, 0);
             string result = dt.ToXmlString();
@@ -12291,7 +12292,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_AllMaximumValues()
+        public void TestToXmlStringAllMaximumValues()
         {
             DateTime dt = new DateTime(9999, 12, 31, 23, 59, 59, 999);
             string result = dt.ToXmlString();
@@ -12300,7 +12301,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Mixed edge case combinations
         [TestMethod]
-        public void TestToXmlString_MixedMinMax()
+        public void TestToXmlStringMixedMinMax()
         {
             DateTime dt = new DateTime(1000, 1, 31, 23, 59, 0, 0);
             string result = dt.ToXmlString();
@@ -12308,7 +12309,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_MixedEdgeCases()
+        public void TestToXmlStringMixedEdgeCases()
         {
             DateTime dt = new DateTime(999, 9, 9, 9, 9, 9, 9);
             string result = dt.ToXmlString();
@@ -12317,7 +12318,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Format validation tests
         [TestMethod]
-        public void TestToXmlString_FormatContainsDash()
+        public void TestToXmlStringFormatContainsDash()
         {
             DateTime dt = new DateTime(2024, 3, 15, 14, 30, 45, 123);
             string result = dt.ToXmlString();
@@ -12325,7 +12326,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_FormatContainsT()
+        public void TestToXmlStringFormatContainsT()
         {
             DateTime dt = new DateTime(2024, 3, 15, 14, 30, 45, 123);
             string result = dt.ToXmlString();
@@ -12333,7 +12334,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_FormatContainsColon()
+        public void TestToXmlStringFormatContainsColon()
         {
             DateTime dt = new DateTime(2024, 3, 15, 14, 30, 45, 123);
             string result = dt.ToXmlString();
@@ -12341,7 +12342,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_FormatContainsDot()
+        public void TestToXmlStringFormatContainsDot()
         {
             DateTime dt = new DateTime(2024, 3, 15, 14, 30, 45, 123);
             string result = dt.ToXmlString();
@@ -12349,7 +12350,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_FormatEndsWithZ()
+        public void TestToXmlStringFormatEndsWithZ()
         {
             DateTime dt = new DateTime(2024, 3, 15, 14, 30, 45, 123);
             string result = dt.ToXmlString();
@@ -12357,7 +12358,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_CorrectLength()
+        public void TestToXmlStringCorrectLength()
         {
             DateTime dt = new DateTime(2024, 3, 15, 14, 30, 45, 123);
             string result = dt.ToXmlString();
@@ -12373,7 +12374,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Zero/Minimum value tests
         [TestMethod]
-        public void TestToXmlString_TimeSpanZero()
+        public void TestToXmlStringTimeSpanZero()
         {
             TimeSpan ts = TimeSpan.Zero;
             string result = ts.ToXmlString();
@@ -12381,7 +12382,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneMicrosecond()
+        public void TestToXmlStringTimeSpanOneMicrosecond()
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(0.001);
             string result = ts.ToXmlString();
@@ -12390,7 +12391,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Millisecond tests
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneMillisecond()
+        public void TestToXmlStringTimeSpanOneMillisecond()
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(1);
             string result = ts.ToXmlString();
@@ -12398,7 +12399,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanTenMilliseconds()
+        public void TestToXmlStringTimeSpanTenMilliseconds()
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(10);
             string result = ts.ToXmlString();
@@ -12406,7 +12407,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanNinetynineMilliseconds()
+        public void TestToXmlStringTimeSpanNinetynineMilliseconds()
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(99);
             string result = ts.ToXmlString();
@@ -12414,7 +12415,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanHundredMilliseconds()
+        public void TestToXmlStringTimeSpanHundredMilliseconds()
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(100);
             string result = ts.ToXmlString();
@@ -12422,7 +12423,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanFiveHundredMilliseconds()
+        public void TestToXmlStringTimeSpanFiveHundredMilliseconds()
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(500);
             string result = ts.ToXmlString();
@@ -12430,7 +12431,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanNineHundredNinetynineMilliseconds()
+        public void TestToXmlStringTimeSpanNineHundredNinetynineMilliseconds()
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(999);
             string result = ts.ToXmlString();
@@ -12439,7 +12440,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Second tests
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneSecond()
+        public void TestToXmlStringTimeSpanOneSecond()
         {
             TimeSpan ts = TimeSpan.FromSeconds(1);
             string result = ts.ToXmlString();
@@ -12447,7 +12448,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanTenSeconds()
+        public void TestToXmlStringTimeSpanTenSeconds()
         {
             TimeSpan ts = TimeSpan.FromSeconds(10);
             string result = ts.ToXmlString();
@@ -12455,7 +12456,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanFiftyNineSeconds()
+        public void TestToXmlStringTimeSpanFiftyNineSeconds()
         {
             TimeSpan ts = TimeSpan.FromSeconds(59);
             string result = ts.ToXmlString();
@@ -12463,7 +12464,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneSecondWithMilliseconds()
+        public void TestToXmlStringTimeSpanOneSecondWithMilliseconds()
         {
             TimeSpan ts = TimeSpan.FromSeconds(1.500);
             string result = ts.ToXmlString();
@@ -12472,7 +12473,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Minute tests
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneMinute()
+        public void TestToXmlStringTimeSpanOneMinute()
         {
             TimeSpan ts = TimeSpan.FromMinutes(1);
             string result = ts.ToXmlString();
@@ -12480,7 +12481,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanTenMinutes()
+        public void TestToXmlStringTimeSpanTenMinutes()
         {
             TimeSpan ts = TimeSpan.FromMinutes(10);
             string result = ts.ToXmlString();
@@ -12488,7 +12489,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanFiftyNineMinutes()
+        public void TestToXmlStringTimeSpanFiftyNineMinutes()
         {
             TimeSpan ts = TimeSpan.FromMinutes(59);
             string result = ts.ToXmlString();
@@ -12496,7 +12497,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneMinuteWithSeconds()
+        public void TestToXmlStringTimeSpanOneMinuteWithSeconds()
         {
             TimeSpan ts = TimeSpan.FromMinutes(1).Add(TimeSpan.FromSeconds(30));
             string result = ts.ToXmlString();
@@ -12505,7 +12506,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Hour tests
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneHour()
+        public void TestToXmlStringTimeSpanOneHour()
         {
             TimeSpan ts = TimeSpan.FromHours(1);
             string result = ts.ToXmlString();
@@ -12513,7 +12514,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanTwelveHours()
+        public void TestToXmlStringTimeSpanTwelveHours()
         {
             TimeSpan ts = TimeSpan.FromHours(12);
             string result = ts.ToXmlString();
@@ -12521,7 +12522,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanTwentyThreeHours()
+        public void TestToXmlStringTimeSpanTwentyThreeHours()
         {
             TimeSpan ts = TimeSpan.FromHours(23);
             string result = ts.ToXmlString();
@@ -12529,7 +12530,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneHourWithMinutesSeconds()
+        public void TestToXmlStringTimeSpanOneHourWithMinutesSeconds()
         {
             TimeSpan ts = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(30)).Add(TimeSpan.FromSeconds(45));
             string result = ts.ToXmlString();
@@ -12538,7 +12539,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Day tests
         [TestMethod]
-        public void TestToXmlString_TimeSpanOneDay()
+        public void TestToXmlStringTimeSpanOneDay()
         {
             TimeSpan ts = TimeSpan.FromDays(1);
             string result = ts.ToXmlString();
@@ -12546,7 +12547,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanTenDays()
+        public void TestToXmlStringTimeSpanTenDays()
         {
             TimeSpan ts = TimeSpan.FromDays(10);
             string result = ts.ToXmlString();
@@ -12554,7 +12555,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanThirtyDays()
+        public void TestToXmlStringTimeSpanThirtyDays()
         {
             TimeSpan ts = TimeSpan.FromDays(30);
             string result = ts.ToXmlString();
@@ -12562,7 +12563,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanSixtyDays()
+        public void TestToXmlStringTimeSpanSixtyDays()
         {
             TimeSpan ts = TimeSpan.FromDays(60);
             string result = ts.ToXmlString();
@@ -12570,7 +12571,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanThreeSixtyFiveDays()
+        public void TestToXmlStringTimeSpanThreeSixtyFiveDays()
         {
             TimeSpan ts = TimeSpan.FromDays(365);
             string result = ts.ToXmlString();
@@ -12579,7 +12580,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Complex combinations
         [TestMethod]
-        public void TestToXmlString_TimeSpanComplexCombination()
+        public void TestToXmlStringTimeSpanComplexCombination()
         {
             TimeSpan ts = TimeSpan.FromDays(400).Add(TimeSpan.FromHours(5)).Add(TimeSpan.FromMinutes(30)).Add(TimeSpan.FromSeconds(45).Add(TimeSpan.FromMilliseconds(250)));
             string result = ts.ToXmlString();
@@ -12588,7 +12589,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanYearAndMinutes()
+        public void TestToXmlStringTimeSpanYearAndMinutes()
         {
             TimeSpan ts = TimeSpan.FromDays(365).Add(TimeSpan.FromMinutes(45));
             string result = ts.ToXmlString();
@@ -12596,7 +12597,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanMultipleYears()
+        public void TestToXmlStringTimeSpanMultipleYears()
         {
             TimeSpan ts = TimeSpan.FromDays(730);
             string result = ts.ToXmlString();
@@ -12604,7 +12605,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanMultipleMonths()
+        public void TestToXmlStringTimeSpanMultipleMonths()
         {
             TimeSpan ts = TimeSpan.FromDays(90);
             string result = ts.ToXmlString();
@@ -12613,7 +12614,7 @@ namespace StarThrower.StringUtilities.Test
 
         // All time components
         [TestMethod]
-        public void TestToXmlString_TimeSpanAllComponents()
+        public void TestToXmlStringTimeSpanAllComponents()
         {
             TimeSpan ts = TimeSpan.FromDays(500)
                 .Add(TimeSpan.FromHours(18))
@@ -12627,7 +12628,7 @@ namespace StarThrower.StringUtilities.Test
 
         // Format validation tests
         [TestMethod]
-        public void TestToXmlString_TimeSpanStartsWithP()
+        public void TestToXmlStringTimeSpanStartsWithP()
         {
             TimeSpan ts = TimeSpan.FromHours(1);
             string result = ts.ToXmlString();
@@ -12635,7 +12636,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanContainsT()
+        public void TestToXmlStringTimeSpanContainsT()
         {
             TimeSpan ts = TimeSpan.FromHours(1);
             string result = ts.ToXmlString();
@@ -12643,7 +12644,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanContainsYearComponent()
+        public void TestToXmlStringTimeSpanContainsYearComponent()
         {
             TimeSpan ts = TimeSpan.FromDays(365);
             string result = ts.ToXmlString();
@@ -12651,7 +12652,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanContainsMonthComponent()
+        public void TestToXmlStringTimeSpanContainsMonthComponent()
         {
             TimeSpan ts = TimeSpan.FromDays(30);
             string result = ts.ToXmlString();
@@ -12659,7 +12660,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanContainsDayComponent()
+        public void TestToXmlStringTimeSpanContainsDayComponent()
         {
             TimeSpan ts = TimeSpan.FromDays(1);
             string result = ts.ToXmlString();
@@ -12667,7 +12668,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanContainsHourComponent()
+        public void TestToXmlStringTimeSpanContainsHourComponent()
         {
             TimeSpan ts = TimeSpan.FromHours(1);
             string result = ts.ToXmlString();
@@ -12675,7 +12676,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanContainsSecondComponent()
+        public void TestToXmlStringTimeSpanContainsSecondComponent()
         {
             TimeSpan ts = TimeSpan.FromSeconds(1);
             string result = ts.ToXmlString();
@@ -12683,7 +12684,7 @@ namespace StarThrower.StringUtilities.Test
         }
 
         [TestMethod]
-        public void TestToXmlString_TimeSpanContainsDecimalPoint()
+        public void TestToXmlStringTimeSpanContainsDecimalPoint()
         {
             TimeSpan ts = TimeSpan.FromSeconds(1);
             string result = ts.ToXmlString();

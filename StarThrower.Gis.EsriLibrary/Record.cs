@@ -156,7 +156,7 @@ namespace StarThrower.Gis.EsriLibrary
             ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
             _data[fieldName.Replace("\0", "")] = newValue;
@@ -167,7 +167,7 @@ namespace StarThrower.Gis.EsriLibrary
             ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
             _data[fieldName.Replace("\0", "")] = newValue;
@@ -178,7 +178,7 @@ namespace StarThrower.Gis.EsriLibrary
             ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
             _data[fieldName.Replace("\0", "")] = newValue;
@@ -189,7 +189,7 @@ namespace StarThrower.Gis.EsriLibrary
             ArgumentNullException.ThrowIfNull(fieldName);
 
             int index = -1;
-            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException();
+            if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
             _data[fieldName.Replace("\0", "")] = newValue;

@@ -25,6 +25,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StarThrower.Gis.GeoUtilities.CoordinateSystems;
 using StarThrower.Gis.GeoUtilities.Ellipsoids;
 using StarThrower.Gis.GeoUtilities.Exceptions;
+using System.Globalization;
 
 namespace StarThrower.Gis.GeoUtilities.Test
 {
@@ -66,10 +67,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                            "EquatorialRadius=" + equatorialRadius.ToString() +
-                            ", PolarRadius=" + polarRadius.ToString() +
-                            ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                            "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                            ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                            ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -95,10 +96,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                            "EquatorialRadius=" + equatorialRadius.ToString() +
-                            ", PolarRadius=" + polarRadius.ToString() +
-                            ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                            "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                            ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                            ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -124,10 +125,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -153,10 +154,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                          "EquatorialRadius=" + equatorialRadius.ToString() +
-                          ", PolarRadius=" + polarRadius.ToString() +
-                          ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                          "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -182,10 +183,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                          "EquatorialRadius=" + equatorialRadius.ToString() +
-                          ", PolarRadius=" + polarRadius.ToString() +
-                          ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                          "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -211,10 +212,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                         "EquatorialRadius=" + equatorialRadius.ToString() +
-                         ", PolarRadius=" + polarRadius.ToString() +
-                         ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                         "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                         ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                         ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -240,10 +241,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -269,10 +270,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -298,10 +299,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                          "EquatorialRadius=" + equatorialRadius.ToString() +
-                          ", PolarRadius=" + polarRadius.ToString() +
-                          ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                          "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -327,10 +328,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                          "EquatorialRadius=" + equatorialRadius.ToString() +
-                          ", PolarRadius=" + polarRadius.ToString() +
-                          ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                          "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -356,10 +357,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -385,10 +386,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -414,10 +415,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -443,10 +444,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                          "EquatorialRadius=" + equatorialRadius.ToString() +
-                          ", PolarRadius=" + polarRadius.ToString() +
-                          ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                          "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -472,10 +473,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                          "EquatorialRadius=" + equatorialRadius.ToString() +
-                          ", PolarRadius=" + polarRadius.ToString() +
-                          ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                          "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -501,10 +502,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                         "EquatorialRadius=" + equatorialRadius.ToString() +
-                         ", PolarRadius=" + polarRadius.ToString() +
-                         ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                         "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                         ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                         ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -530,10 +531,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -559,10 +560,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                            "EquatorialRadius=" + equatorialRadius.ToString() +
-                            ", PolarRadius=" + polarRadius.ToString() +
-                            ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                            "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                            ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                            ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -588,10 +589,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -617,10 +618,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                          "EquatorialRadius=" + equatorialRadius.ToString() +
-                          ", PolarRadius=" + polarRadius.ToString() +
-                          ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                          "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -646,10 +647,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                          "EquatorialRadius=" + equatorialRadius.ToString() +
-                          ", PolarRadius=" + polarRadius.ToString() +
-                          ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                          "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                          ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -675,10 +676,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -704,10 +705,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(firstEccentricitySquared, e.FirstEccentricitySquared);
             Assert.AreEqual(secondEccentricitySquared, e.SecondEccentricitySquared);
             Assert.AreEqual("[" + ellipsoidType.Name + ":  " +
-                           "EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString() + "\" polarRadius=\"" + polarRadius.ToString() + "\" flattening=\"" + flattening.ToString() + "\"/>\n", e.ToXml());
+                           "EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + ellipsoidType.Name + "\" equatorialRadius=\"" + equatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + polarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e.ToXml());
         }
 
         [TestMethod]
@@ -761,10 +762,10 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual((2 * e1.Flattening) - (e1.Flattening * e1.Flattening), e1.FirstEccentricitySquared);
             Assert.AreEqual("[" + typeof(Ellipsoids.UserDefined).Name + ":  " +
                            "Name='" + name + "'" +
-                           ", EquatorialRadius=" + equatorialRadius.ToString() +
-                           ", PolarRadius=" + polarRadius.ToString() +
-                           ", Flattening=" + flattening.ToString() + "]", e1.ToString());
-            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + typeof(Ellipsoids.UserDefined).Name + "\" name=\"" + e1.Name + "\" equatorialRadius=\"" + e1.EquatorialRadius.ToString() + "\" polarRadius=\"" + e1.PolarRadius.ToString() + "\" flattening=\"" + e1.Flattening.ToString() + "\"/>\n", e1.ToXml());
+                           ", EquatorialRadius=" + equatorialRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", PolarRadius=" + polarRadius.ToString(CultureInfo.InvariantCulture) +
+                           ", Flattening=" + flattening.ToString(CultureInfo.InvariantCulture) + "]", e1.ToString());
+            Assert.AreEqual("<ellipsoid ellipsoidType=\"" + typeof(Ellipsoids.UserDefined).Name + "\" name=\"" + e1.Name + "\" equatorialRadius=\"" + e1.EquatorialRadius.ToString(CultureInfo.InvariantCulture) + "\" polarRadius=\"" + e1.PolarRadius.ToString(CultureInfo.InvariantCulture) + "\" flattening=\"" + e1.Flattening.ToString(CultureInfo.InvariantCulture) + "\"/>\n", e1.ToXml());
 
             IEllipsoid e2 = EllipsoidFactory.GetInstanceOfExistingUserDefinedEllipsoid(name);
             Assert.AreSame(e1, e2);

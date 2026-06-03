@@ -118,7 +118,7 @@ namespace StarThrower.Gis.GeoUtilities.Ellipsoids
             return this.EquatorialRadius.Equals(other.EquatorialRadius) &&
                    this.PolarRadius.Equals(other.PolarRadius) &&
                    this.Flattening.Equals(other.Flattening) &&
-                   _name.Equals(other._name);
+                   _name.Equals(other._name, StringComparison.Ordinal);
         }
 
         /// <summary>

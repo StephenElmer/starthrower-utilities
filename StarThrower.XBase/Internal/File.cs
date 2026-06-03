@@ -426,7 +426,7 @@ namespace StarThrower.XBase.Internal
         {
             if (_stream != null)
             {
-                if (_stream.Name.Equals(fileName))
+                if (_stream.Name.Equals(fileName, StringComparison.Ordinal))
                 {
                     this.Save();
                 }

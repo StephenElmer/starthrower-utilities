@@ -417,7 +417,7 @@ namespace StarThrower.EarleyParser.Test
 
             foreach (ParseTree pt in f.parseTrees)
             {
-                Assert.AreEqual(true, pt.ToString().Equals(s1) || pt.ToString().Equals(s2));
+                Assert.AreEqual(true, pt.ToString().Equals(s1, StringComparison.Ordinal) || pt.ToString().Equals(s2, StringComparison.Ordinal));
             }
         }
     }

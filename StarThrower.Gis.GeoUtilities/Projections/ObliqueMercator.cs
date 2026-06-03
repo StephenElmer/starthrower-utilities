@@ -29,14 +29,14 @@ namespace StarThrower.Gis.GeoUtilities.Projections
         {
             if (parameters == null) return false;
             if (parameters.Length != 8) return false;
-            if (!parameters[0].Name.Equals("False_Easting")) return false;
-            if (!parameters[1].Name.Equals("False_Northing")) return false;
-            if (!parameters[2].Name.Equals("Latitude_of_Origin")) return false;
-            if (!parameters[3].Name.Equals("Latitude_1")) return false;
-            if (!parameters[4].Name.Equals("Longitude_1")) return false;
-            if (!parameters[5].Name.Equals("Latitude_2")) return false;
-            if (!parameters[6].Name.Equals("Longitude_2")) return false;
-            if (!parameters[7].Name.Equals("Scale_Factor")) return false;
+            if (!parameters[0].Name.Equals("False_Easting", StringComparison.Ordinal)) return false;
+            if (!parameters[1].Name.Equals("False_Northing", StringComparison.Ordinal)) return false;
+            if (!parameters[2].Name.Equals("Latitude_of_Origin", StringComparison.Ordinal)) return false;
+            if (!parameters[3].Name.Equals("Latitude_1", StringComparison.Ordinal)) return false;
+            if (!parameters[4].Name.Equals("Longitude_1", StringComparison.Ordinal)) return false;
+            if (!parameters[5].Name.Equals("Latitude_2", StringComparison.Ordinal)) return false;
+            if (!parameters[6].Name.Equals("Longitude_2", StringComparison.Ordinal)) return false;
+            if (!parameters[7].Name.Equals("Scale_Factor", StringComparison.Ordinal)) return false;
             return true;
         }
 

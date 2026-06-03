@@ -39,7 +39,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidPrimeMeridianTypeException">Thrown if primeMeridianType cannot be found within this assembly or if it does not implement IPrimeMeridian.</exception>
         public static IPrimeMeridian GetInstanceOfPrimeMeridian(Type primeMeridianType)
         {
-            if (primeMeridianType == null) throw new ArgumentNullException("primeMeridianType");
+            ArgumentNullException.ThrowIfNull(primeMeridianType);
             if (!PrimeMeridianTypeExists(primeMeridianType.Name)) throw new Exceptions.InvalidPrimeMeridianTypeException();
             if (primeMeridianType.GetInterface("IPrimeMeridian") != typeof(IPrimeMeridian)) throw new Exceptions.InvalidPrimeMeridianTypeException();
 
@@ -48,10 +48,7 @@ namespace StarThrower.Gis.GeoUtilities
                 IPrimeMeridian pm = (IPrimeMeridian)(primeMeridianType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidPrimeMeridianTypeException()).Invoke(new object[] { });
                 lock (_pmListLock)
                 {
-                    if (!_pmList.ContainsKey(pm.Name))
-                    {
-                        _pmList.Add(pm.Name, pm);
-                    }
+                    _pmList.TryAdd(pm.Name, pm);
                 }
             }
             return _pmList[primeMeridianType.Name];
@@ -59,7 +56,7 @@ namespace StarThrower.Gis.GeoUtilities
         
         public static IPrimeMeridian GetInstanceOfPrimeMeridian(string primeMeridianTypeName)
         {
-            if (primeMeridianTypeName == null) throw new ArgumentNullException("primeMeridianTypeName");
+            ArgumentNullException.ThrowIfNullOrEmpty(primeMeridianTypeName);
             if (!PrimeMeridianTypeExists(primeMeridianTypeName)) throw new Exceptions.InvalidPrimeMeridianTypeException();
 
             Type primeMeridianType = GetPrimeMeridianType(primeMeridianTypeName);
@@ -68,12 +65,12 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static bool PrimeMeridianTypeExists(string primeMeridianTypeName)
         {
-            if (primeMeridianTypeName == null) throw new ArgumentNullException("primeMeridianTypeName");
-            if (primeMeridianTypeName.Equals(typeof(PrimeMeridians.Undefined).Name)) return false;
+            ArgumentNullException.ThrowIfNullOrEmpty(primeMeridianTypeName);
+            if (primeMeridianTypeName.Equals(typeof(PrimeMeridians.Undefined).Name, StringComparison.Ordinal)) return false;
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace && types[i].Name.Equals(primeMeridianTypeName))
+                if (types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace && types[i].Name.Equals(primeMeridianTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -83,11 +80,12 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static Type GetPrimeMeridianType(string primeMeridianTypeName)
         {
-            if (primeMeridianTypeName == null) throw new ArgumentNullException("primeMeridianTypeName");
+            ArgumentNullException.ThrowIfNull(primeMeridianTypeName);
+
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(primeMeridianTypeName))
+                if (types[i].Name.Equals(primeMeridianTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }

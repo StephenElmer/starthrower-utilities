@@ -116,7 +116,7 @@ namespace StarThrower.Gis.EsriLibrary
             if (obj == this) return true;
             if (!(obj is StarThrower.Gis.EsriLibrary.Field)) return false;
             StarThrower.Gis.EsriLibrary.Field other = (StarThrower.Gis.EsriLibrary.Field)obj;
-            return _name.Equals(other.Name) &&
+            return _name.Equals(other.Name, StringComparison.Ordinal) &&
                    object.Equals(_type, other.Type) &&
                    _length.Equals(other.Length) &&
                    _decimalCount.Equals(other.DecimalCount);

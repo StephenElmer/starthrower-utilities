@@ -337,7 +337,7 @@ namespace StarThrower.XBase.Internal
             catch (Exception ex)
             {
                 Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".ItemCopy(object)", ex);
-                throw ex;
+                throw;
             }
         }
 

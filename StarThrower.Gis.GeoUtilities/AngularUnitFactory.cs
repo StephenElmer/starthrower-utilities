@@ -36,7 +36,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <returns></returns>
         public static IAngularUnit GetInstanceOfAngularUnit(Type angularUnitType)
         {
-            if (angularUnitType == null) throw new ArgumentNullException("angularUnitType");
+            ArgumentNullException.ThrowIfNull(angularUnitType);
             if (!AngularUnitTypeExists(angularUnitType.Name)) throw new Exceptions.InvalidAngularUnitTypeException();
             if (angularUnitType.GetInterface("IAngularUnit") != typeof(IAngularUnit)) throw new Exceptions.InvalidAngularUnitTypeException();
 
@@ -45,18 +45,14 @@ namespace StarThrower.Gis.GeoUtilities
                 IAngularUnit au = (IAngularUnit)(angularUnitType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidAngularUnitTypeException()).Invoke(new object[] { });
                 lock (_unitListLock)
                 {
-                    if (!_unitList.ContainsKey(au.Name))
-                    {
-                        _unitList.Add(au.Name, au);
-                    }
+                    _unitList.TryAdd(au.Name, au);
                 }
             }
             return _unitList[angularUnitType.Name];
         }
-
         public static IAngularUnit GetInstanceOfAngularUnit(string angularUnitTypeName)
         {
-            if (angularUnitTypeName == null) throw new ArgumentNullException("angularUnitTypeName");
+            ArgumentNullException.ThrowIfNull(angularUnitTypeName);
             if (!AngularUnitTypeExists(angularUnitTypeName)) throw new Exceptions.InvalidAngularUnitTypeException();
 
             Type angularUnitType = GetAngularUnitType(angularUnitTypeName);
@@ -65,12 +61,13 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static bool AngularUnitTypeExists(string angularUnitTypeName)
         {
-            if (angularUnitTypeName == null) throw new ArgumentNullException("angularUnitTypeName");
-            if (angularUnitTypeName.Equals(typeof(AngularUnits.Undefined).Name)) return false;
+            ArgumentNullException.ThrowIfNull(angularUnitTypeName);
+
+            if (angularUnitTypeName.Equals(typeof(AngularUnits.Undefined).Name, StringComparison.Ordinal)) return false;
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(AngularUnits.Undefined).Namespace && types[i].Name.Equals(angularUnitTypeName))
+                if (types[i].Namespace == typeof(AngularUnits.Undefined).Namespace && types[i].Name.Equals(angularUnitTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -80,11 +77,12 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static Type GetAngularUnitType(string angularUnitTypeName)
         {
-            if (angularUnitTypeName == null) throw new ArgumentNullException("angularUnitTypeName");
+            ArgumentNullException.ThrowIfNull(angularUnitTypeName);
+            
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(angularUnitTypeName))
+                if (types[i].Name.Equals(angularUnitTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }

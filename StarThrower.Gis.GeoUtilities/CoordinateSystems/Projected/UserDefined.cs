@@ -133,7 +133,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
             return this.GeographicCoordinateSystem.Equals(other.GeographicCoordinateSystem) &&
                    this.Projection.Equals(other.Projection) &&
                    this.LinearUnit.Equals(other.LinearUnit) &&
-                   _name.Equals(other._name);
+                   _name.Equals(other._name, StringComparison.Ordinal);
         }
 
         /// <summary>

@@ -93,7 +93,7 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(AngularUnits.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(AngularUnits.Undefined).Name))
+                            !types[i].Name.Equals(typeof(AngularUnits.Undefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i]);
                         }
@@ -121,7 +121,7 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(AngularUnits.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(AngularUnits.Undefined).Name))
+                            !types[i].Name.Equals(typeof(AngularUnits.Undefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i].Name);
                         }
@@ -156,8 +156,8 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(Datums.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Datums.Undefined).Name) &&
-                            !types[i].Name.Equals(typeof(Datums.UserDefined).Name))
+                            !types[i].Name.Equals(typeof(Datums.Undefined).Name, StringComparison.Ordinal) &&
+                            !types[i].Name.Equals(typeof(Datums.UserDefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i]);
                         }
@@ -185,8 +185,8 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(Datums.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Datums.Undefined).Name) &&
-                            !types[i].Name.Equals(typeof(Datums.UserDefined).Name))
+                            !types[i].Name.Equals(typeof(Datums.Undefined).Name, StringComparison.Ordinal) &&
+                            !types[i].Name.Equals(typeof(Datums.UserDefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i].Name);
                         }
@@ -221,8 +221,8 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Ellipsoids.Undefined).Name) &&
-                            !types[i].Name.Equals(typeof(Ellipsoids.UserDefined).Name))
+                            !types[i].Name.Equals(typeof(Ellipsoids.Undefined).Name, StringComparison.Ordinal) &&
+                            !types[i].Name.Equals(typeof(Ellipsoids.UserDefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i]);
                         }
@@ -250,8 +250,8 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Ellipsoids.Undefined).Name) &&
-                            !types[i].Name.Equals(typeof(Ellipsoids.UserDefined).Name))
+                            !types[i].Name.Equals(typeof(Ellipsoids.Undefined).Name, StringComparison.Ordinal) &&
+                            !types[i].Name.Equals(typeof(Ellipsoids.UserDefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i].Name);
                         }
@@ -286,7 +286,7 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(LinearUnits.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(LinearUnits.Undefined).Name))
+                            !types[i].Name.Equals(typeof(LinearUnits.Undefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i]);
                         }
@@ -314,7 +314,7 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(LinearUnits.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(LinearUnits.Undefined).Name))
+                            !types[i].Name.Equals(typeof(LinearUnits.Undefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i].Name);
                         }
@@ -349,7 +349,7 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(PrimeMeridians.Undefined).Name))
+                            !types[i].Name.Equals(typeof(PrimeMeridians.Undefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i]);
                         }
@@ -377,7 +377,7 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(PrimeMeridians.Undefined).Name))
+                            !types[i].Name.Equals(typeof(PrimeMeridians.Undefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i].Name);
                         }
@@ -412,7 +412,7 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(Projections.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Projections.Undefined).Name))
+                            !types[i].Name.Equals(typeof(Projections.Undefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i]);
                         }
@@ -440,7 +440,7 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(Projections.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Projections.Undefined).Name))
+                            !types[i].Name.Equals(typeof(Projections.Undefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i].Name);
                         }
@@ -475,8 +475,8 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name) &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name))
+                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name, StringComparison.Ordinal) &&
+                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i]);
                         }
@@ -504,8 +504,8 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name) &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name))
+                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name, StringComparison.Ordinal) &&
+                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i].Name);
                         }
@@ -562,8 +562,8 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.Undefined).Name) &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name))
+                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.Undefined).Name, StringComparison.Ordinal) &&
+                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i]);
                         }
@@ -592,8 +592,8 @@ namespace StarThrower.Gis.GeoUtilities
                     {
                         if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
                             types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.Undefined).Name) &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name))
+                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.Undefined).Name, StringComparison.Ordinal) &&
+                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name, StringComparison.Ordinal))
                         {
                             result.Add(types[i].Name);
                         }
@@ -1176,7 +1176,7 @@ namespace StarThrower.Gis.GeoUtilities
         {
             if (yLat1 > 84.0 || yLat1 < -80.0)
             {
-                throw new ArgumentOutOfRangeException("Initial yLat must fall between -80.0 and 84.0", "yLat1");
+                throw new ArgumentOutOfRangeException(nameof(yLat1), "Initial yLat must fall between -80.0 and 84.0");
             }
 
             // Check if this is a southern hemisphere zone

@@ -133,7 +133,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
             return this.Datum.Equals(other.Datum) &&
                    this.PrimeMeridian.Equals(other.PrimeMeridian) &&
                    this.AngularUnit.Equals(other.AngularUnit) &&
-                   _name.Equals(other._name);
+                   _name.Equals(other._name, StringComparison.Ordinal);
         }
 
         /// <summary>

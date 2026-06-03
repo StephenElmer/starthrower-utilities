@@ -41,7 +41,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <returns></returns>
         public static IGeographicCoordinateSystem GetInstanceOfGeographicCoordinateSystem(Type geographicCoordinateSystemType)
         {
-            if (geographicCoordinateSystemType == null) throw new ArgumentNullException("geographicCoordinateSystemType");
+            ArgumentNullException.ThrowIfNull(geographicCoordinateSystemType);
             if (geographicCoordinateSystemType.Equals(typeof(CoordinateSystems.Geographic.UserDefined))) throw new Exceptions.AmbiguousCoordinateSystemException();
             if (!GeographicCoordinateSystemTypeExists(geographicCoordinateSystemType.Name)) throw new Exceptions.InvalidCoordinateSystemException();
             if (geographicCoordinateSystemType.GetInterface("IGeographicCoordinateSystem") != typeof(IGeographicCoordinateSystem)) throw new Exceptions.InvalidCoordinateSystemException();
@@ -51,18 +51,15 @@ namespace StarThrower.Gis.GeoUtilities
                 IGeographicCoordinateSystem gcs = (IGeographicCoordinateSystem)(geographicCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(new object[] { });
                 lock (_geographicCoordinateSystemsLock)
                 {
-                    if (!_geographicCoordinateSystems.ContainsKey(gcs.Key))
-                    {
-                        _geographicCoordinateSystems.Add(gcs.Key, gcs);
-                    }
+                    _geographicCoordinateSystems.TryAdd(gcs.Key, gcs);
                 }
             }
             return _geographicCoordinateSystems[geographicCoordinateSystemType.Name];
         }
         public static IGeographicCoordinateSystem GetInstanceOfGeographicCoordinateSystem(string geographicCoordinateSystemTypeName)
         {
-            if (geographicCoordinateSystemTypeName == null) throw new ArgumentNullException("geographicCoordinateSystemTypeName");
-            if (geographicCoordinateSystemTypeName.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name)) throw new Exceptions.AmbiguousCoordinateSystemException();
+            ArgumentException.ThrowIfNullOrEmpty(geographicCoordinateSystemTypeName);
+            if (geographicCoordinateSystemTypeName.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name, StringComparison.Ordinal)) throw new Exceptions.AmbiguousCoordinateSystemException();
             if (!GeographicCoordinateSystemTypeExists(geographicCoordinateSystemTypeName)) throw new Exceptions.InvalidCoordinateSystemException();
 
             Type geographicCoordinateSystemType = GetGeographicCoordinateSystemType(geographicCoordinateSystemTypeName);
@@ -70,12 +67,12 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static bool GeographicCoordinateSystemTypeExists(string geographicCoordinateSystemTypeName)
         {
-            if (geographicCoordinateSystemTypeName == null) throw new ArgumentNullException("geographicCoordinateSystemTypeName");
-            if (geographicCoordinateSystemTypeName.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name)) return false;
+            ArgumentException.ThrowIfNullOrEmpty(geographicCoordinateSystemTypeName);
+            if (geographicCoordinateSystemTypeName.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name, StringComparison.Ordinal)) return false;
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace && types[i].Name.Equals(geographicCoordinateSystemTypeName))
+                if (types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace && types[i].Name.Equals(geographicCoordinateSystemTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -84,11 +81,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static Type GetGeographicCoordinateSystemType(string geographicCoordinateSystemTypeName)
         {
-            if (geographicCoordinateSystemTypeName == null) throw new ArgumentNullException("geographicCoordinateSystemTypeName");
+            ArgumentNullException.ThrowIfNull(geographicCoordinateSystemTypeName);
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(geographicCoordinateSystemTypeName))
+                if (types[i].Name.Equals(geographicCoordinateSystemTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }
@@ -98,7 +95,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static bool UserDefinedGeographicCoordinateSystemExists(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.GeographicCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for coordinate system name.");
 
             return _geographicCoordinateSystems.ContainsKey(typeof(CoordinateSystems.Geographic.UserDefined).Name + name);
@@ -106,7 +103,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static bool UserDefinedGeographicCoordinateSystemExists(string name, IDatum datum, IPrimeMeridian primeMeridian, IAngularUnit angularUnit)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.GeographicCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for coordinate system name.");
 
             string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
@@ -120,7 +117,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static IGeographicCoordinateSystem GetInstanceOfNewUserDefinedGeographicCoordinateSystem(string name, IDatum datum, IPrimeMeridian primeMeridian, IAngularUnit angularUnit)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.GeographicCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for coordinate system name.");
 
             try
@@ -128,7 +125,7 @@ namespace StarThrower.Gis.GeoUtilities
                 string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
                 if (!_geographicCoordinateSystems.ContainsKey(key))
                 {
-                    IGeographicCoordinateSystem gcs = new CoordinateSystems.Geographic.UserDefined(name, datum, primeMeridian, angularUnit);
+                    CoordinateSystems.Geographic.UserDefined gcs = new CoordinateSystems.Geographic.UserDefined(name, datum, primeMeridian, angularUnit);
                     lock (_geographicCoordinateSystemsLock)
                     {
                         if (!_geographicCoordinateSystems.ContainsKey(gcs.Key))
@@ -156,7 +153,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static IGeographicCoordinateSystem GetInstanceOfExistingUserDefinedGeographicCoordinateSystem(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.GeographicCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for coordinate system name.");
 
             try

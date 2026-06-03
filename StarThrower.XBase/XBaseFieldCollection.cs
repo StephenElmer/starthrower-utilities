@@ -113,7 +113,7 @@ namespace StarThrower.XBase
                         temp = new string(buf);
                     }
 
-                    if (this[i].Name.Equals(temp))
+                    if (this[i].Name.Equals(temp, StringComparison.Ordinal))
                     {
                         index = i;
                         return true;

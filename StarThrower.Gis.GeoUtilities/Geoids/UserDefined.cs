@@ -93,7 +93,7 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
             if (Object.ReferenceEquals(obj, this)) return true;
             if (!(obj.GetType().Equals(this.GetType()))) return false;
             UserDefined other = (UserDefined)obj;
-            return _name.Equals(other._name);
+            return _name.Equals(other._name, StringComparison.Ordinal);
         }
 
         /// <summary>

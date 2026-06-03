@@ -517,7 +517,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void LoadXml(XmlDocument doc, StarThrower.Gis.GeoUtilities.Formatting.XmlFormat xmlFormat)
         {
-            if (doc == null) throw new ArgumentNullException("doc");
+            ArgumentNullException.ThrowIfNull(doc);
 
             this.Clear();
 
@@ -584,7 +584,7 @@ namespace StarThrower.Gis.EsriLibrary
 
                     break;
                 default:
-                    throw new ArgumentException();
+                    throw new ArgumentException("Unsupported XML format.", nameof(xmlFormat));
             }
         }
 

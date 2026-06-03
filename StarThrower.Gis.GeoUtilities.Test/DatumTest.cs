@@ -26,6 +26,7 @@ using StarThrower.Gis.GeoUtilities.CoordinateSystems;
 using StarThrower.Gis.GeoUtilities.Datums;
 using StarThrower.Gis.GeoUtilities.Ellipsoids;
 using StarThrower.Gis.GeoUtilities.Exceptions;
+using System.Globalization;
 
 namespace StarThrower.Gis.GeoUtilities.Test
 {
@@ -45,7 +46,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
         #region Non-UserDefined Instantiation
 
         [TestMethod]
-        public void TestGetInstanceOfDatum_D_European_1950()
+        public void TestGetInstanceOfDatumDEuropean1950()
         {
             Type datumType = typeof(Datums.European1950);
             Type ellipsoidType = typeof(Ellipsoids.International1924);
@@ -86,18 +87,18 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(west, d.Domain.Left);
             Assert.AreEqual("[" + datumType.Name + ":  " +
                             "Ellipsoid=" + ellipsoidType.Name +
-                            ", DeltaX=" + deltaX.ToString() +
-                            ", SigmaX=" + sigmaX.ToString() +
-                            ", DeltaY=" + deltaY.ToString() +
-                            ", SigmaY=" + sigmaY.ToString() +
-                            ", DeltaZ=" + deltaZ.ToString() +
-                            ", SigmaZ=" + sigmaZ.ToString() +
-                            ", RotationX=" + rotationX.ToString() +
-                            ", RotationY=" + rotationY.ToString() +
-                            ", RotationZ=" + rotationZ.ToString() +
-                            ", RotationScaleFactor=" + rotationScaleFactor.ToString() +
+                            ", DeltaX=" + deltaX.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaX=" + sigmaX.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaY=" + deltaY.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaY=" + sigmaY.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaZ=" + deltaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaZ=" + sigmaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationX=" + rotationX.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationY=" + rotationY.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationZ=" + rotationZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationScaleFactor=" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) +
                             ", " + d.Domain.ToString() + "]", d.ToString());
-            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString() + "\" sigmaX=\"" + sigmaX.ToString() + "\" deltaY=\"" + deltaY.ToString() + "\" sigmaY=\"" + sigmaY.ToString() + "\" deltaZ=\"" + deltaZ.ToString() + "\" sigmaZ=\"" + sigmaZ.ToString() + "\" rotationX=\"" + rotationX.ToString() + "\" rotationY=\"" + rotationY.ToString() + "\" rotationZ=\"" + rotationZ.ToString() + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString() + "\" north=\"" + north.ToString() + "\" south=\"" + south.ToString() + "\" east=\"" + east.ToString() + "\" west=\"" + west.ToString() + "\">\n" +
+            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString(CultureInfo.InvariantCulture) + "\" sigmaX=\"" + sigmaX.ToString(CultureInfo.InvariantCulture) + "\" deltaY=\"" + deltaY.ToString(CultureInfo.InvariantCulture) + "\" sigmaY=\"" + sigmaY.ToString(CultureInfo.InvariantCulture) + "\" deltaZ=\"" + deltaZ.ToString(CultureInfo.InvariantCulture) + "\" sigmaZ=\"" + sigmaZ.ToString(CultureInfo.InvariantCulture) + "\" rotationX=\"" + rotationX.ToString(CultureInfo.InvariantCulture) + "\" rotationY=\"" + rotationY.ToString(CultureInfo.InvariantCulture) + "\" rotationZ=\"" + rotationZ.ToString(CultureInfo.InvariantCulture) + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) + "\" north=\"" + north.ToString(CultureInfo.InvariantCulture) + "\" south=\"" + south.ToString(CultureInfo.InvariantCulture) + "\" east=\"" + east.ToString(CultureInfo.InvariantCulture) + "\" west=\"" + west.ToString(CultureInfo.InvariantCulture) + "\">\n" +
                             EllipsoidFactory.GetInstanceOfEllipsoid(ellipsoidType).ToXml() +
                             "</datum>\n", d.ToXml());
 
@@ -145,18 +146,18 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(west, d.Domain.Left);
             Assert.AreEqual("[" + datumType.Name + ":  " +
                             "Ellipsoid=" + ellipsoidType.Name +
-                            ", DeltaX=" + deltaX.ToString() +
-                            ", SigmaX=" + sigmaX.ToString() +
-                            ", DeltaY=" + deltaY.ToString() +
-                            ", SigmaY=" + sigmaY.ToString() +
-                            ", DeltaZ=" + deltaZ.ToString() +
-                            ", SigmaZ=" + sigmaZ.ToString() +
-                            ", RotationX=" + rotationX.ToString() +
-                            ", RotationY=" + rotationY.ToString() +
-                            ", RotationZ=" + rotationZ.ToString() +
-                            ", RotationScaleFactor=" + rotationScaleFactor.ToString() +
+                            ", DeltaX=" + deltaX.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaX=" + sigmaX.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaY=" + deltaY.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaY=" + sigmaY.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaZ=" + deltaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaZ=" + sigmaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationX=" + rotationX.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationY=" + rotationY.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationZ=" + rotationZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationScaleFactor=" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) +
                             ", " + d.Domain.ToString() + "]", d.ToString());
-            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString() + "\" sigmaX=\"" + sigmaX.ToString() + "\" deltaY=\"" + deltaY.ToString() + "\" sigmaY=\"" + sigmaY.ToString() + "\" deltaZ=\"" + deltaZ.ToString() + "\" sigmaZ=\"" + sigmaZ.ToString() + "\" rotationX=\"" + rotationX.ToString() + "\" rotationY=\"" + rotationY.ToString() + "\" rotationZ=\"" + rotationZ.ToString() + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString() + "\" north=\"" + north.ToString() + "\" south=\"" + south.ToString() + "\" east=\"" + east.ToString() + "\" west=\"" + west.ToString() + "\">\n" +
+            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString(CultureInfo.InvariantCulture) + "\" sigmaX=\"" + sigmaX.ToString(CultureInfo.InvariantCulture) + "\" deltaY=\"" + deltaY.ToString(CultureInfo.InvariantCulture) + "\" sigmaY=\"" + sigmaY.ToString(CultureInfo.InvariantCulture) + "\" deltaZ=\"" + deltaZ.ToString(CultureInfo.InvariantCulture) + "\" sigmaZ=\"" + sigmaZ.ToString(CultureInfo.InvariantCulture) + "\" rotationX=\"" + rotationX.ToString(CultureInfo.InvariantCulture) + "\" rotationY=\"" + rotationY.ToString(CultureInfo.InvariantCulture) + "\" rotationZ=\"" + rotationZ.ToString(CultureInfo.InvariantCulture) + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) + "\" north=\"" + north.ToString(CultureInfo.InvariantCulture) + "\" south=\"" + south.ToString(CultureInfo.InvariantCulture) + "\" east=\"" + east.ToString(CultureInfo.InvariantCulture) + "\" west=\"" + west.ToString(CultureInfo.InvariantCulture) + "\">\n" +
                             EllipsoidFactory.GetInstanceOfEllipsoid(ellipsoidType).ToXml() +
                             "</datum>\n", d.ToXml());
         }
@@ -203,18 +204,18 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(west, d.Domain.Left);
             Assert.AreEqual("[" + datumType.Name + ":  " +
                             "Ellipsoid=" + ellipsoidType.Name +
-                            ", DeltaX=" + deltaX.ToString() +
-                            ", SigmaX=" + sigmaX.ToString() +
-                            ", DeltaY=" + deltaY.ToString() +
-                            ", SigmaY=" + sigmaY.ToString() +
-                            ", DeltaZ=" + deltaZ.ToString() +
-                            ", SigmaZ=" + sigmaZ.ToString() +
-                            ", RotationX=" + rotationX.ToString() +
-                            ", RotationY=" + rotationY.ToString() +
-                            ", RotationZ=" + rotationZ.ToString() +
-                            ", RotationScaleFactor=" + rotationScaleFactor.ToString() +
+                            ", DeltaX=" + deltaX.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaX=" + sigmaX.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaY=" + deltaY.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaY=" + sigmaY.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaZ=" + deltaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaZ=" + sigmaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationX=" + rotationX.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationY=" + rotationY.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationZ=" + rotationZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationScaleFactor=" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) +
                             ", " + d.Domain.ToString() + "]", d.ToString());
-            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString() + "\" sigmaX=\"" + sigmaX.ToString() + "\" deltaY=\"" + deltaY.ToString() + "\" sigmaY=\"" + sigmaY.ToString() + "\" deltaZ=\"" + deltaZ.ToString() + "\" sigmaZ=\"" + sigmaZ.ToString() + "\" rotationX=\"" + rotationX.ToString() + "\" rotationY=\"" + rotationY.ToString() + "\" rotationZ=\"" + rotationZ.ToString() + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString() + "\" north=\"" + north.ToString() + "\" south=\"" + south.ToString() + "\" east=\"" + east.ToString() + "\" west=\"" + west.ToString() + "\">\n" +
+            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString(CultureInfo.InvariantCulture) + "\" sigmaX=\"" + sigmaX.ToString(CultureInfo.InvariantCulture) + "\" deltaY=\"" + deltaY.ToString(CultureInfo.InvariantCulture) + "\" sigmaY=\"" + sigmaY.ToString(CultureInfo.InvariantCulture) + "\" deltaZ=\"" + deltaZ.ToString(CultureInfo.InvariantCulture) + "\" sigmaZ=\"" + sigmaZ.ToString(CultureInfo.InvariantCulture) + "\" rotationX=\"" + rotationX.ToString(CultureInfo.InvariantCulture) + "\" rotationY=\"" + rotationY.ToString(CultureInfo.InvariantCulture) + "\" rotationZ=\"" + rotationZ.ToString(CultureInfo.InvariantCulture) + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) + "\" north=\"" + north.ToString(CultureInfo.InvariantCulture) + "\" south=\"" + south.ToString(CultureInfo.InvariantCulture) + "\" east=\"" + east.ToString(CultureInfo.InvariantCulture) + "\" west=\"" + west.ToString(CultureInfo.InvariantCulture) + "\">\n" +
                             EllipsoidFactory.GetInstanceOfEllipsoid(ellipsoidType).ToXml() +
                             "</datum>\n", d.ToXml());
         }
@@ -261,18 +262,18 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(west, d.Domain.Left);
             Assert.AreEqual("[" + datumType.Name + ":  " +
                             "Ellipsoid=" + ellipsoidType.Name +
-                            ", DeltaX=" + deltaX.ToString() +
-                            ", SigmaX=" + sigmaX.ToString() +
-                            ", DeltaY=" + deltaY.ToString() +
-                            ", SigmaY=" + sigmaY.ToString() +
-                            ", DeltaZ=" + deltaZ.ToString() +
-                            ", SigmaZ=" + sigmaZ.ToString() +
-                            ", RotationX=" + rotationX.ToString() +
-                            ", RotationY=" + rotationY.ToString() +
-                            ", RotationZ=" + rotationZ.ToString() +
-                            ", RotationScaleFactor=" + rotationScaleFactor.ToString() +
+                            ", DeltaX=" + deltaX.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaX=" + sigmaX.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaY=" + deltaY.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaY=" + sigmaY.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaZ=" + deltaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaZ=" + sigmaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationX=" + rotationX.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationY=" + rotationY.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationZ=" + rotationZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationScaleFactor=" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) +
                             ", " + d.Domain.ToString() + "]", d.ToString());
-            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString() + "\" sigmaX=\"" + sigmaX.ToString() + "\" deltaY=\"" + deltaY.ToString() + "\" sigmaY=\"" + sigmaY.ToString() + "\" deltaZ=\"" + deltaZ.ToString() + "\" sigmaZ=\"" + sigmaZ.ToString() + "\" rotationX=\"" + rotationX.ToString() + "\" rotationY=\"" + rotationY.ToString() + "\" rotationZ=\"" + rotationZ.ToString() + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString() + "\" north=\"" + north.ToString() + "\" south=\"" + south.ToString() + "\" east=\"" + east.ToString() + "\" west=\"" + west.ToString() + "\">\n" +
+            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString(CultureInfo.InvariantCulture) + "\" sigmaX=\"" + sigmaX.ToString(CultureInfo.InvariantCulture) + "\" deltaY=\"" + deltaY.ToString(CultureInfo.InvariantCulture) + "\" sigmaY=\"" + sigmaY.ToString(CultureInfo.InvariantCulture) + "\" deltaZ=\"" + deltaZ.ToString(CultureInfo.InvariantCulture) + "\" sigmaZ=\"" + sigmaZ.ToString(CultureInfo.InvariantCulture) + "\" rotationX=\"" + rotationX.ToString(CultureInfo.InvariantCulture) + "\" rotationY=\"" + rotationY.ToString(CultureInfo.InvariantCulture) + "\" rotationZ=\"" + rotationZ.ToString(CultureInfo.InvariantCulture) + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) + "\" north=\"" + north.ToString(CultureInfo.InvariantCulture) + "\" south=\"" + south.ToString(CultureInfo.InvariantCulture) + "\" east=\"" + east.ToString(CultureInfo.InvariantCulture) + "\" west=\"" + west.ToString(CultureInfo.InvariantCulture) + "\">\n" +
                             EllipsoidFactory.GetInstanceOfEllipsoid(ellipsoidType).ToXml() +
                             "</datum>\n", d.ToXml());
         }
@@ -319,18 +320,18 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(west, d.Domain.Left);
             Assert.AreEqual("[" + datumType.Name + ":  " +
                             "Ellipsoid=" + ellipsoidType.Name +
-                            ", DeltaX=" + deltaX.ToString() +
-                            ", SigmaX=" + sigmaX.ToString() +
-                            ", DeltaY=" + deltaY.ToString() +
-                            ", SigmaY=" + sigmaY.ToString() +
-                            ", DeltaZ=" + deltaZ.ToString() +
-                            ", SigmaZ=" + sigmaZ.ToString() +
-                            ", RotationX=" + rotationX.ToString() +
-                            ", RotationY=" + rotationY.ToString() +
-                            ", RotationZ=" + rotationZ.ToString() +
-                            ", RotationScaleFactor=" + rotationScaleFactor.ToString() +
+                            ", DeltaX=" + deltaX.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaX=" + sigmaX.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaY=" + deltaY.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaY=" + sigmaY.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaZ=" + deltaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaZ=" + sigmaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationX=" + rotationX.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationY=" + rotationY.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationZ=" + rotationZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationScaleFactor=" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) +
                             ", " + d.Domain.ToString() + "]", d.ToString());
-            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString() + "\" sigmaX=\"" + sigmaX.ToString() + "\" deltaY=\"" + deltaY.ToString() + "\" sigmaY=\"" + sigmaY.ToString() + "\" deltaZ=\"" + deltaZ.ToString() + "\" sigmaZ=\"" + sigmaZ.ToString() + "\" rotationX=\"" + rotationX.ToString() + "\" rotationY=\"" + rotationY.ToString() + "\" rotationZ=\"" + rotationZ.ToString() + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString() + "\" north=\"" + north.ToString() + "\" south=\"" + south.ToString() + "\" east=\"" + east.ToString() + "\" west=\"" + west.ToString() + "\">\n" +
+            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString(CultureInfo.InvariantCulture) + "\" sigmaX=\"" + sigmaX.ToString(CultureInfo.InvariantCulture) + "\" deltaY=\"" + deltaY.ToString(CultureInfo.InvariantCulture) + "\" sigmaY=\"" + sigmaY.ToString(CultureInfo.InvariantCulture) + "\" deltaZ=\"" + deltaZ.ToString(CultureInfo.InvariantCulture) + "\" sigmaZ=\"" + sigmaZ.ToString(CultureInfo.InvariantCulture) + "\" rotationX=\"" + rotationX.ToString(CultureInfo.InvariantCulture) + "\" rotationY=\"" + rotationY.ToString(CultureInfo.InvariantCulture) + "\" rotationZ=\"" + rotationZ.ToString(CultureInfo.InvariantCulture) + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) + "\" north=\"" + north.ToString(CultureInfo.InvariantCulture) + "\" south=\"" + south.ToString(CultureInfo.InvariantCulture) + "\" east=\"" + east.ToString(CultureInfo.InvariantCulture) + "\" west=\"" + west.ToString(CultureInfo.InvariantCulture) + "\">\n" +
                             EllipsoidFactory.GetInstanceOfEllipsoid(ellipsoidType).ToXml() +
                             "</datum>\n", d.ToXml());
         }
@@ -377,18 +378,18 @@ namespace StarThrower.Gis.GeoUtilities.Test
             Assert.AreEqual(west, d.Domain.Left);
             Assert.AreEqual("[" + datumType.Name + ":  " +
                             "Ellipsoid=" + ellipsoidType.Name +
-                            ", DeltaX=" + deltaX.ToString() +
-                            ", SigmaX=" + sigmaX.ToString() +
-                            ", DeltaY=" + deltaY.ToString() +
-                            ", SigmaY=" + sigmaY.ToString() +
-                            ", DeltaZ=" + deltaZ.ToString() +
-                            ", SigmaZ=" + sigmaZ.ToString() +
-                            ", RotationX=" + rotationX.ToString() +
-                            ", RotationY=" + rotationY.ToString() +
-                            ", RotationZ=" + rotationZ.ToString() +
-                            ", RotationScaleFactor=" + rotationScaleFactor.ToString() +
+                            ", DeltaX=" + deltaX.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaX=" + sigmaX.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaY=" + deltaY.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaY=" + sigmaY.ToString(CultureInfo.InvariantCulture) +
+                            ", DeltaZ=" + deltaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", SigmaZ=" + sigmaZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationX=" + rotationX.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationY=" + rotationY.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationZ=" + rotationZ.ToString(CultureInfo.InvariantCulture) +
+                            ", RotationScaleFactor=" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) +
                             ", " + d.Domain.ToString() + "]", d.ToString());
-            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString() + "\" sigmaX=\"" + sigmaX.ToString() + "\" deltaY=\"" + deltaY.ToString() + "\" sigmaY=\"" + sigmaY.ToString() + "\" deltaZ=\"" + deltaZ.ToString() + "\" sigmaZ=\"" + sigmaZ.ToString() + "\" rotationX=\"" + rotationX.ToString() + "\" rotationY=\"" + rotationY.ToString() + "\" rotationZ=\"" + rotationZ.ToString() + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString() + "\" north=\"" + north.ToString() + "\" south=\"" + south.ToString() + "\" east=\"" + east.ToString() + "\" west=\"" + west.ToString() + "\">\n" +
+            Assert.AreEqual("<datum datumType=\"" + datumType.Name + "\" deltaX=\"" + deltaX.ToString(CultureInfo.InvariantCulture) + "\" sigmaX=\"" + sigmaX.ToString(CultureInfo.InvariantCulture) + "\" deltaY=\"" + deltaY.ToString(CultureInfo.InvariantCulture) + "\" sigmaY=\"" + sigmaY.ToString(CultureInfo.InvariantCulture) + "\" deltaZ=\"" + deltaZ.ToString(CultureInfo.InvariantCulture) + "\" sigmaZ=\"" + sigmaZ.ToString(CultureInfo.InvariantCulture) + "\" rotationX=\"" + rotationX.ToString(CultureInfo.InvariantCulture) + "\" rotationY=\"" + rotationY.ToString(CultureInfo.InvariantCulture) + "\" rotationZ=\"" + rotationZ.ToString(CultureInfo.InvariantCulture) + "\" rotationScaleFactor=\"" + rotationScaleFactor.ToString(CultureInfo.InvariantCulture) + "\" north=\"" + north.ToString(CultureInfo.InvariantCulture) + "\" south=\"" + south.ToString(CultureInfo.InvariantCulture) + "\" east=\"" + east.ToString(CultureInfo.InvariantCulture) + "\" west=\"" + west.ToString(CultureInfo.InvariantCulture) + "\">\n" +
                           EllipsoidFactory.GetInstanceOfEllipsoid(ellipsoidType).ToXml() +
                           "</datum>\n", d.ToXml());
         }

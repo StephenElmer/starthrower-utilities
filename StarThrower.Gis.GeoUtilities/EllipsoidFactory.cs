@@ -93,7 +93,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.AmbiguousEllipsoidTypeException">Thrown on EllipsoidType.UserDefined.</exception>
         public static IEllipsoid GetInstanceOfEllipsoid(Type ellipsoidType)
         {
-            if (ellipsoidType == null) throw new ArgumentNullException("ellipsoidType");
+            ArgumentNullException.ThrowIfNull(ellipsoidType);
             if (ellipsoidType.Equals(typeof(Ellipsoids.UserDefined))) throw new Exceptions.AmbiguousEllipsoidTypeException();
             if (!EllipsoidTypeExists(ellipsoidType.Name)) throw new Exceptions.InvalidEllipsoidTypeException();
             if (ellipsoidType.GetInterface("IEllipsoid") != typeof(IEllipsoid)) throw new Exceptions.InvalidEllipsoidTypeException();
@@ -103,18 +103,15 @@ namespace StarThrower.Gis.GeoUtilities
                 IEllipsoid e = (IEllipsoid)(ellipsoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidEllipsoidTypeException()).Invoke(new object[] { });
                 lock (_ellipsoidListLock)
                 {
-                    if (!_ellipsoidList.ContainsKey(e.Key))
-                    {
-                        _ellipsoidList.Add(e.Key, e);
-                    }
+                    _ellipsoidList.TryAdd(e.Key, e);
                 }
             }
             return _ellipsoidList[ellipsoidType.Name];
         }
         public static IEllipsoid GetInstanceOfEllipsoid(string ellipsoidTypeName)
         {
-            if (ellipsoidTypeName == null) throw new ArgumentNullException("ellipsoidTypeName");
-            if (ellipsoidTypeName.Equals(typeof(Ellipsoids.UserDefined).Name)) throw new Exceptions.AmbiguousEllipsoidTypeException();
+            ArgumentNullException.ThrowIfNull(ellipsoidTypeName);            
+            if (ellipsoidTypeName.Equals(typeof(Ellipsoids.UserDefined).Name, StringComparison.Ordinal)) throw new Exceptions.AmbiguousEllipsoidTypeException();
             if (!EllipsoidTypeExists(ellipsoidTypeName)) throw new Exceptions.InvalidEllipsoidTypeException();
 
             Type ellipsoidType = GetEllipsoidType(ellipsoidTypeName);
@@ -122,12 +119,12 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static bool EllipsoidTypeExists(string ellipsoidTypeName)
         {
-            if (ellipsoidTypeName == null) throw new ArgumentNullException("ellipsoidTypeName");
-            if (ellipsoidTypeName.Equals(typeof(Ellipsoids.Undefined).Name)) return false;
+            ArgumentNullException.ThrowIfNull(ellipsoidTypeName);
+            if (ellipsoidTypeName.Equals(typeof(Ellipsoids.Undefined).Name, StringComparison.Ordinal)) return false;
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace && types[i].Name.Equals(ellipsoidTypeName))
+                if (types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace && types[i].Name.Equals(ellipsoidTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -136,11 +133,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static Type GetEllipsoidType(string ellipsoidTypeName)
         {
-            if (ellipsoidTypeName == null) throw new ArgumentNullException("ellipsoidTypeName");
+            ArgumentNullException.ThrowIfNull(ellipsoidTypeName);
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(ellipsoidTypeName))
+                if (types[i].Name.Equals(ellipsoidTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }
@@ -212,7 +209,7 @@ namespace StarThrower.Gis.GeoUtilities
                 string key = typeof(Ellipsoids.UserDefined).Name + name;
                 if (!_ellipsoidList.ContainsKey(key))
                 {
-                    IEllipsoid e = new Ellipsoids.UserDefined(name, equatorialRadius, flattening, EllipsoidParamOrder.EquatorialRadiusFlattening);
+                    Ellipsoids.UserDefined e = new Ellipsoids.UserDefined(name, equatorialRadius, flattening, EllipsoidParamOrder.EquatorialRadiusFlattening);
                     lock (_ellipsoidListLock)
                     {
                         if (!_ellipsoidList.ContainsKey(e.Key))

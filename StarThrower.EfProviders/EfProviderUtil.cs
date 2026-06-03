@@ -102,7 +102,6 @@ namespace StarThrower.EfProviders
                     }
                     else if (schemaVersionCheck == 0)
                     {
-                        int iStatus = 0;
                         foreach (string feature in features)
                         {
                             var result = (from x in db.aspnet_SchemaVersions

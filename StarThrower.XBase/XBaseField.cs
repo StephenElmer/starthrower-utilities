@@ -106,7 +106,7 @@ namespace StarThrower.XBase
             if (Object.ReferenceEquals(obj, this)) return true;
             if (!(obj is StarThrower.XBase.XBaseField)) return false;
             StarThrower.XBase.XBaseField other = (StarThrower.XBase.XBaseField)obj;
-            return _name.Equals(other.Name) &&
+            return _name.Equals(other.Name, StringComparison.Ordinal) &&
                    _fieldType.Equals(other.FieldType) &&
                    _length.Equals(other.Length) &&
                    _decimalCount.Equals(other.DecimalCount);
@@ -122,7 +122,7 @@ namespace StarThrower.XBase
         {
             if (Object.ReferenceEquals(other, null)) return false;
             if (Object.ReferenceEquals(other, this)) return true;
-            return _name.Equals(other.Name) &&
+            return _name.Equals(other.Name, StringComparison.Ordinal) &&
                    _fieldType.Equals(other.FieldType) &&
                    _length.Equals(other.Length) &&
                    _decimalCount.Equals(other.DecimalCount);

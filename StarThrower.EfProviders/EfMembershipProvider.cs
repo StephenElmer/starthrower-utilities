@@ -653,7 +653,6 @@ namespace StarThrower.EfProviders
 
             string salt = null;
             int passwordFormat;
-            int status;
 
             if (!CheckPassword(userName, oldPassword, false, false, out salt, out passwordFormat))
             {
@@ -1887,7 +1886,6 @@ namespace StarThrower.EfProviders
         {
             try
             {
-                bool result = false;
                 status = -1;
                 using (MembershipDB db = new MembershipDB())
                 {

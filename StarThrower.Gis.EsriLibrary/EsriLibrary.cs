@@ -44,65 +44,65 @@ namespace StarThrower.Gis.EsriLibrary
     {
         internal static StarThrower.Gis.EsriLibrary.ShapeType GetShapeTypeFromString(string shapeType)
         {
-            if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.NullShape.ToString()))
+            if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.NullShape.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.NullShape;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.Point.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.Point.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.Point;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolyLine.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolyLine.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.PolyLine;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.Polygon.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.Polygon.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.Polygon;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.MultiPoint.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.MultiPoint.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.MultiPoint;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PointZ.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PointZ.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.PointZ;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolyLineZ.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolyLineZ.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.PolyLineZ;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolygonZ.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolygonZ.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.PolygonZ;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.MultiPointZ.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.MultiPointZ.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.MultiPointZ;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PointM.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PointM.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.PointM;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolyLineM.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolyLineM.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.PolyLineM;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolygonM.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.PolygonM.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.PolygonM;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.MultiPointM.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.MultiPointM.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.MultiPointM;
             }
-            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.MultiPatch.ToString()))
+            else if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.MultiPatch.ToString(), StringComparison.Ordinal))
             {
                 return StarThrower.Gis.EsriLibrary.ShapeType.MultiPatch;
             }
             else
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Invalid shape type", nameof(shapeType));
             }
         }
 
@@ -139,7 +139,7 @@ namespace StarThrower.Gis.EsriLibrary
                 case StarThrower.Gis.GeoUtilities.Shapes.ShapeType.Multipatch:
                     return StarThrower.Gis.EsriLibrary.ShapeType.MultiPatch;
                 default:
-                    throw new ArgumentException();
+                    throw new ArgumentException("Invalid shape type", nameof(shapeType));
             }
         }
 
@@ -176,7 +176,7 @@ namespace StarThrower.Gis.EsriLibrary
                 case StarThrower.Gis.EsriLibrary.ShapeType.MultiPatch:
                     return StarThrower.Gis.GeoUtilities.Shapes.ShapeType.Multipatch;
                 default:
-                    throw new ArgumentException();
+                    throw new ArgumentException("Invalid shape type", nameof(shapeType));
             }
         }
 
@@ -411,7 +411,7 @@ namespace StarThrower.Gis.EsriLibrary
 
                     return result;
                 default:
-                    throw new ArgumentException();
+                    throw new ArgumentException("Invalid shape type", nameof(shape));
             }
         }
 
@@ -439,7 +439,7 @@ namespace StarThrower.Gis.EsriLibrary
                 case StarThrower.Gis.GeoUtilities.Shapes.ShapeType.Multipatch:
                     return 4; //length of _shapeType
                 default:
-                    throw new ArgumentException();
+                    throw new ArgumentException("Invalid shape type", nameof(shape));
             }
         }
 

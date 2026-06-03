@@ -32,7 +32,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static IGeoid GetInstanceOfGeoid(Type geoidType)
         {
-            if (geoidType == null) throw new ArgumentNullException("geoidType");
+            ArgumentNullException.ThrowIfNull(geoidType);
             if (geoidType.Equals(typeof(Geoids.Undefined))) throw new Exceptions.AmbiguousGeoidTypeException();
             if (!GeoidTypeExists(geoidType.Name)) throw new Exceptions.InvalidGeoidTypeException();
             if (geoidType.GetInterface("IGeoid") != typeof(IGeoid)) throw new Exceptions.InvalidGeoidTypeException();
@@ -42,18 +42,15 @@ namespace StarThrower.Gis.GeoUtilities
                 IGeoid g = (IGeoid)(geoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidGeoidTypeException()).Invoke(new object[] { });
                 lock (_geoidListLock)
                 {
-                    if (!_geoidList.ContainsKey(g.Key))
-                    {
-                        _geoidList.Add(g.Key, g);
-                    }
+                    _geoidList.TryAdd(g.Key, g);
                 }
             }
             return _geoidList[geoidType.Name];
         }
         public static IGeoid GetInstanceOfGeoid(string geoidTypeName)
         {
-            if (geoidTypeName == null) throw new ArgumentNullException("geoidTypeName");
-            if (geoidTypeName.Equals(typeof(Geoids.UserDefined).Name)) throw new Exceptions.AmbiguousGeoidTypeException();
+            ArgumentException.ThrowIfNullOrEmpty(geoidTypeName);
+            if (geoidTypeName.Equals(typeof(Geoids.UserDefined).Name, StringComparison.Ordinal)) throw new Exceptions.AmbiguousGeoidTypeException();
             if (!GeoidTypeExists(geoidTypeName)) throw new Exceptions.InvalidGeoidTypeException();
 
             Type geoidType = GetGeoidType(geoidTypeName);
@@ -61,12 +58,12 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static bool GeoidTypeExists(string geoidTypeName)
         {
-            if (geoidTypeName == null) throw new ArgumentNullException("geoidTypeName");
-            if (geoidTypeName.Equals(typeof(Geoids.Undefined).Name)) return false;
+            ArgumentException.ThrowIfNullOrEmpty(geoidTypeName);
+            if (geoidTypeName.Equals(typeof(Geoids.Undefined).Name, StringComparison.Ordinal)) return false;
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Namespace == typeof(Geoids.Undefined).Namespace && types[i].Name.Equals(geoidTypeName))
+                if (types[i].Namespace == typeof(Geoids.Undefined).Namespace && types[i].Name.Equals(geoidTypeName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -75,11 +72,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static Type GetGeoidType(string geoidTypeName)
         {
-            if (geoidTypeName == null) throw new ArgumentNullException("geoidTypeName");
+            ArgumentException.ThrowIfNullOrEmpty(geoidTypeName);
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].Name.Equals(geoidTypeName))
+                if (types[i].Name.Equals(geoidTypeName, StringComparison.Ordinal))
                 {
                     return types[i];
                 }
@@ -89,7 +86,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static bool UserDefinedGeoidExists(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, Geoid.ValidNamePattern)) throw new Exceptions.InvalidGeoidTypeException("Invalid format for geoid name.");
 
             return _geoidList.ContainsKey(typeof(Geoids.UserDefined).Name + name);
@@ -108,7 +105,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static IGeoid GetInstanceOfNewUserDefinedGeoid(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, Geoid.ValidNamePattern)) throw new Exceptions.InvalidGeoidTypeException("Invalid format for geoid name.");
 
             try
@@ -116,7 +113,7 @@ namespace StarThrower.Gis.GeoUtilities
                 string key = typeof(Geoids.UserDefined).Name + name;
                 if (!_geoidList.ContainsKey(key))
                 {
-                    IGeoid g = new Geoids.UserDefined(name);
+                    Geoids.UserDefined g = new Geoids.UserDefined(name);
                     lock (_geoidListLock)
                     {
                         if (!_geoidList.ContainsKey(g.Key))

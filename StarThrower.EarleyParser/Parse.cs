@@ -279,7 +279,7 @@ namespace StarThrower.EarleyParser
             if (_tokens.Count != other._tokens.Count) return false;
             for (int i = 0; i < _tokens.Count; i++)
             {
-                if (!_tokens[i].Equals(other._tokens[i])) return false;
+                if (!_tokens[i].Equals(other._tokens[i], StringComparison.Ordinal)) return false;
             }
 
             return true;
@@ -304,7 +304,7 @@ namespace StarThrower.EarleyParser
             if (_tokens.Count != other._tokens.Count) return false;
             for (int i = 0; i < _tokens.Count; i++)
             {
-                if (!_tokens[i].Equals(other._tokens[i])) return false;
+                if (!_tokens[i].Equals(other._tokens[i], StringComparison.Ordinal)) return false;
             }
 
             return true;
