@@ -151,8 +151,7 @@ namespace StarThrower.EarleyParser
             Category other = (Category)obj;
             return other != Category.Root &&
                 _isTerminal == other._isTerminal &&
-                (String.Compare(_name, other._name, StringComparison.Ordinal) == 0);
-
+                (string.Equals(_name, other._name, StringComparison.Ordinal));
         }
 
         public bool Equals(Category? other)
@@ -161,8 +160,7 @@ namespace StarThrower.EarleyParser
             if (other == null) return false;
             return other != Category.Root &&
                 _isTerminal == other._isTerminal &&
-                (String.Compare(_name, other._name, StringComparison.Ordinal) == 0);
-
+                (string.Equals(_name, other._name, StringComparison.Ordinal));
         }
 
         /// <summary>

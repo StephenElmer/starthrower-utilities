@@ -315,9 +315,9 @@ namespace StarThrower.EarleyParser
                         Category? activeCategory = dr.ActiveCategory;
                         if (activeCategory != null)
                         {
-                            StringComparison sc = (_options.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+                            StringComparison sc = _options.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
                             if (activeCategory.IsTerminal &&
-                                (String.Compare(activeCategory.Name, token, sc) == 0))
+                                string.Equals(activeCategory.Name, token, sc))
                             {
                                 Edge newEdge = Edge.Scan(edge, token);
                                 int successor = index + 1; //save next index

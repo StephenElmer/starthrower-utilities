@@ -81,7 +81,7 @@ namespace StarThrower.DataUtilities
                 if (dataRow[fieldName] == null) return false;
                 if (dataRow[fieldName] is DBNull) return false;
                 if (dataRow[fieldName].ToString() == "1") return true; //SQL Server
-                if (String.Compare(dataRow[fieldName].ToString(), "True", StringComparison.OrdinalIgnoreCase) == 0) return true; //Access ?
+                if (string.Equals(dataRow[fieldName].ToString(), "True", StringComparison.OrdinalIgnoreCase)) return true; //Access ?
                 return false;
             }
             catch (Exception ex)

@@ -104,7 +104,7 @@ namespace StarThrower.EarleyParser
                 foreach (Rule r in value)
                 {
                     StringComparison sc = (ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
-                    if (r.IsSingletonPreterminal && (String.Compare(r.Right[0].Name, token, sc) == 0))
+                    if (r.IsSingletonPreterminal && (string.Equals(r.Right[0].Name, token, sc)))
                     {
                         return r;
                     }
@@ -124,7 +124,7 @@ namespace StarThrower.EarleyParser
             if (obj == null) return false;
             if (!(obj is Grammar)) return false;
             Grammar other = (Grammar)obj;
-            if (String.Compare(_name, other._name, StringComparison.Ordinal) != 0) return false;
+            if (!string.Equals(_name, other._name, StringComparison.Ordinal)) return false;
             if (_rules.Count != other._rules.Count) return false;
             foreach (Category key in _rules.Keys)
             {
@@ -142,7 +142,7 @@ namespace StarThrower.EarleyParser
         {
             if (other == this) return true;
             if (other == null) return false;
-            if (String.Compare(_name, other._name, StringComparison.Ordinal) != 0) return false;
+            if (!string.Equals(_name, other._name, StringComparison.Ordinal)) return false;
             if (_rules.Count != other._rules.Count) return false;
             foreach (Category key in _rules.Keys)
             {

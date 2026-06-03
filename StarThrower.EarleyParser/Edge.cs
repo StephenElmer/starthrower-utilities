@@ -182,7 +182,7 @@ namespace StarThrower.EarleyParser
             Category? activeCategory = dr.ActiveCategory;
             if (activeCategory == null) throw new InvalidOperationException("edge has no active category: " + edge.ToString());
             if (!activeCategory.IsTerminal) { throw new InvalidOperationException("edge's active category is nonterminal: " + edge.ToString()); }
-            if (String.Compare(activeCategory.Name, token, StringComparison.OrdinalIgnoreCase) != 0) { throw new InvalidOperationException("token " + token + " incompatible with " + edge.ToString()); }
+            if (!string.Equals(activeCategory.Name, token, StringComparison.OrdinalIgnoreCase)) { throw new InvalidOperationException("token " + token + " incompatible with " + edge.ToString()); }
 
 
             //TODO: not so sure about the order of this.  The Java version is expressed as per this commented out code,

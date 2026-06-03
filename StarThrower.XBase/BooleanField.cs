@@ -98,14 +98,14 @@ namespace StarThrower.XBase
         {
             ArgumentNullException.ThrowIfNull(data);
 
-            if (String.Compare(data, "y", StringComparison.OrdinalIgnoreCase) == 0 ||
-                String.Compare(data, "t", StringComparison.OrdinalIgnoreCase) == 0)
+            if (string.Equals(data, "y", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(data, "t", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
-            else if (String.Compare(data, "n", StringComparison.OrdinalIgnoreCase) == 0 ||
-                     String.Compare(data, "f", StringComparison.OrdinalIgnoreCase) == 0 ||
-                     String.Compare(data, "?", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (string.Equals(data, "n", StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(data, "f", StringComparison.OrdinalIgnoreCase)   ||
+                     string.Equals(data, "?", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
