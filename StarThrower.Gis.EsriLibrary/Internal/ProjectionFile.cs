@@ -70,7 +70,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Private Methods
 
-        private void GetEsriNamesFromCoordinateSystem(IProjectedCoordinateSystem pcs, ref string projcs, ref string geogcs, ref string datum, ref double equatorialRadius, ref double inverseFlattening, ref string spheroid, ref string primeem, ref double primeemValue, ref string angularUnit, ref double angularUnitValue, ref string linearUnit, ref double linearUnitValue, ref string projection, ref string[] parameters, ref double[] parameterValues)
+        private static void GetEsriNamesFromCoordinateSystem(IProjectedCoordinateSystem pcs, ref string projcs, ref string geogcs, ref string datum, ref double equatorialRadius, ref double inverseFlattening, ref string spheroid, ref string primeem, ref double primeemValue, ref string angularUnit, ref double angularUnitValue, ref string linearUnit, ref double linearUnitValue, ref string projection, ref string[] parameters, ref double[] parameterValues)
         {
             string pcsType = pcs.GetType().Name;
             if (pcsType.CompareTo(typeof(Bng).Name) == 0)

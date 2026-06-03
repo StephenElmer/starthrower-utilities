@@ -27,7 +27,7 @@ namespace StarThrower.DataUtilities.Test
     [TestClass]
     public class DataUtilTest
     {
-        private void Ignore()
+        private static void Ignore()
         {
 #if FAIL_ON_IGNORE
                 Assert.Fail("This test has been ignored.");

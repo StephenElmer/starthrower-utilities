@@ -27,7 +27,7 @@ namespace StarThrower.MathUtilities.Test
     [TestClass]
     public class MathUtilTest
     {
-        private void Ignore()
+        private static void Ignore()
         {
 #if FAIL_ON_IGNORE
                 Assert.Fail("This test has been ignored.");

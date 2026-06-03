@@ -169,7 +169,7 @@ namespace StarThrower.EarleyParser.TestApp
 
         #region [ Private Methods ]
 
-        private string[] Lex(string text, bool ignoreWhitespace)
+        private static string[] Lex(string text, bool ignoreWhitespace)
         {
             List<string> r = new List<string>();
             for (int i = 0; i < text.Length; i++)
@@ -194,15 +194,15 @@ namespace StarThrower.EarleyParser.TestApp
 
         private static readonly char[] separator = new char[] { ' ' };
 
-        private string[] Tokenize(string text)
+        private static string[] Tokenize(string text)
         {
             return text.Split(separator);
         }
-
+  
         #endregion
 
 
-        private void test()
+        private static void Test()
         {
 
         }

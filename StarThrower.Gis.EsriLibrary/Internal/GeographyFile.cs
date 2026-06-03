@@ -290,6 +290,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         internal void DeleteRecord(int index)
         {
             //TODO:
+            throw new NotImplementedException();
         }
 
         internal void AddRecord(StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecord record)

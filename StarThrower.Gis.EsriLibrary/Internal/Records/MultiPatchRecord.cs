@@ -54,7 +54,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
 
         private void ParseBytes(byte[] bytes)
         {
-
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -95,7 +95,7 @@ namespace StarThrower.EarleyParser.Test
         #endregion
 
 
-        private Fixture GetCustomFixture()
+        private static Fixture GetCustomFixture()
         {
             Fixture f = new Fixture();
 

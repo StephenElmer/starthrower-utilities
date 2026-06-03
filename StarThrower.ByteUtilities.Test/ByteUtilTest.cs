@@ -26,7 +26,7 @@ namespace StarThrower.ByteUtilities.Test
     [TestClass]
     public class ByteUtilTest
     {
-        private void Ignore()
+        private static void Ignore()
         {
 #if FAIL_ON_IGNORE
                 Assert.Fail("This test has been ignored.");

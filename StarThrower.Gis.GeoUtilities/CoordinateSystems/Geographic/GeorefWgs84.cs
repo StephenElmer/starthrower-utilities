@@ -220,7 +220,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <param name="minutes">Minutes to be converted</param>
         /// <param name="precision">Length of resulting string</param>
         /// <returns>A String representation of the converted minutes.</returns>
-        private string ConvertMinutesToString(double minutes, long precision)
+        private static string ConvertMinutesToString(double minutes, long precision)
         {
             double divisor = Math.Pow(10.0, (5 - precision));
 
@@ -335,7 +335,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <param name="zAlt">Height in meters.</param>
         /// <param name="precision">Precision specified by the user.</param>
         /// <returns>A GenericResult implementation of the ITranslationResult, containing GCS WGS84 coordinates.</returns>
-        public ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt, long precision)
+        public static ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt, long precision)
         {
             //Initialize, Validate, and convert to Degrees
             double originXLon = (double)LONGITUDE_LOW;

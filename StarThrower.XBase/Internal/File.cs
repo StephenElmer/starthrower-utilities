@@ -300,6 +300,7 @@ namespace StarThrower.XBase.Internal
          */
         internal bool FindRecord(string queryText, ref Int32 index)
         {
+            throw new NotImplementedException();
             //TODO: handle queryString
 
             //string fieldName = "Name";
@@ -335,7 +336,7 @@ namespace StarThrower.XBase.Internal
             //    }
             //}
 
-            return false;
+            //return false;
         }
 
         internal void DeleteRecord(Int32 index)

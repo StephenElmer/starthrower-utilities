@@ -338,6 +338,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void AlterRecord(int index, StarThrower.Gis.EsriLibrary.Record record)
         {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -590,14 +591,12 @@ namespace StarThrower.Gis.EsriLibrary
 
         public string ToJson()
         {
-            StringBuilder result = new StringBuilder(String.Empty);
-
-            return result.ToString();
+            throw new NotImplementedException();
         }
 
         public void LoadJson(string doc)
         {
-
+            throw new NotImplementedException();
         }
 
         #endregion
