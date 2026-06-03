@@ -50,9 +50,9 @@ namespace StarThrower.XBase
         {
             byte[] result = new byte[3];
 
-            Int16 month = Int16.Parse(date.Substring(0, 2), CultureInfo.InvariantCulture);
-            Int16 day = Int16.Parse(date.Substring(3, 2), CultureInfo.InvariantCulture);
-            Int16 year = Int16.Parse(date.Substring(6, 4), CultureInfo.InvariantCulture);
+            Int16 month = Int16.Parse(date.AsSpan(0, 2), CultureInfo.InvariantCulture);
+            Int16 day = Int16.Parse(date.AsSpan(3, 2), CultureInfo.InvariantCulture);
+            Int16 year = Int16.Parse(date.AsSpan(6, 4), CultureInfo.InvariantCulture);
             year -= 1900;
 
             result[0] = ByteUtil.Int16ToByte(year, BitEndian.Little);

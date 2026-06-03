@@ -58,12 +58,12 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             string deg = StringUtil.GetToken(dms, " ", 1);
             if (dms[0].Equals('-'))
             {
-                degrees = double.Parse(deg.Substring(1, deg.Length - 2), CultureInfo.InvariantCulture);
+                degrees = double.Parse(deg.AsSpan(1, deg.Length - 2), CultureInfo.InvariantCulture);
                 isNeg = true;
             }
             else
             {
-                degrees = double.Parse(deg.Substring(0, deg.Length - 1), CultureInfo.InvariantCulture);
+                degrees = double.Parse(deg.AsSpan(0, deg.Length - 1), CultureInfo.InvariantCulture);
                 isNeg = false;
             }
 
@@ -72,12 +72,12 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             // of the text string for the variable Degree_Deg divided by
             // 60. The Val function converts the text string to a number.
             string min = StringUtil.GetToken(dms, " ", 2);
-            minutes = double.Parse(min.Substring(0, min.Length - 1), CultureInfo.InvariantCulture) / 60;
+            minutes = double.Parse(min.AsSpan(0, min.Length - 1), CultureInfo.InvariantCulture) / 60;
 
             // Set seconds to the number to the right of "'" that is
             // converted to a value and then divided by 3600.
             string sec = StringUtil.GetToken(dms, " ", 3);
-            seconds = double.Parse(sec.Substring(0, sec.Length - 1), CultureInfo.InvariantCulture) / 3600;
+            seconds = double.Parse(sec.AsSpan(0, sec.Length - 1), CultureInfo.InvariantCulture) / 3600;
 
             if (isNeg)
             {

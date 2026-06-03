@@ -111,9 +111,9 @@ namespace StarThrower.XBase
         {
             ArgumentNullException.ThrowIfNull(data);
 
-            int yr = int.Parse(data.Substring(0, 4), CultureInfo.InvariantCulture);
-            int mo = int.Parse(data.Substring(4, 2), CultureInfo.InvariantCulture);
-            int day = int.Parse(data.Substring(6, 2), CultureInfo.InvariantCulture);
+            int yr = int.Parse(data.AsSpan(0, 4), CultureInfo.InvariantCulture);
+            int mo = int.Parse(data.AsSpan(4, 2), CultureInfo.InvariantCulture);
+            int day = int.Parse(data.AsSpan(6, 2), CultureInfo.InvariantCulture);
 
             return new DateTime(yr, mo, day);
         }

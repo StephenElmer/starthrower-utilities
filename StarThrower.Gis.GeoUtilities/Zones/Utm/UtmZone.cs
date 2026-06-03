@@ -214,11 +214,11 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
             ArgumentNullException.ThrowIfNull(zone);
 
             int longitudinalZone = 0;
-            if (int.TryParse(zone.Substring(0, 2), out longitudinalZone))
+            if (int.TryParse(zone.AsSpan(0, 2), out longitudinalZone))
             {
                 _longitudinalZone = GetLongitudinalZoneFromLongitudinalZoneString(longitudinalZone.ToString(CultureInfo.InvariantCulture));
             }
-            else if (int.TryParse(zone.Substring(0, 1), out longitudinalZone))
+            else if (int.TryParse(zone.AsSpan(0, 1), out longitudinalZone))
             {
                 _longitudinalZone = GetLongitudinalZoneFromLongitudinalZoneString(longitudinalZone.ToString(CultureInfo.InvariantCulture));
             }
@@ -230,12 +230,12 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
 
             int stub = 0;
             string? latitudinalZone = null;
-            if (int.TryParse(zone.Substring(0, 2), out stub))
+            if (int.TryParse(zone.AsSpan(0, 2), out stub))
             {
                 latitudinalZone = zone.Substring(2);
                 _latitudinalZone = GetLatitudinalZoneFromLatitudinalZoneString(latitudinalZone);
             }
-            else if (int.TryParse(zone.Substring(0, 1), out stub))
+            else if (int.TryParse(zone.AsSpan(0, 1), out stub))
             {
                 latitudinalZone = zone.Substring(1);
                 _latitudinalZone = GetLatitudinalZoneFromLatitudinalZoneString(latitudinalZone);
