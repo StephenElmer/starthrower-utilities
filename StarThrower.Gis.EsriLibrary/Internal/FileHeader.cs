@@ -32,7 +32,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     /// in 16-bit words (the fifty 16-bit words of the header plus 4 times the number of records).
     /// 
     /// </summary>
-    internal class FileHeader
+    internal sealed class FileHeader
     {
         public const Int32 SIZE = 100; //size in bytes possible for the header
 

@@ -23,7 +23,7 @@ using System.Collections.Generic;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
-    internal class IndexFileRecordList
+    internal sealed class IndexFileRecordList
     {
         #region Private Member Variables
 

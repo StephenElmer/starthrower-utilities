@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
-    internal class GeographyFileRecordList
+    internal sealed class GeographyFileRecordList
     {
         #region Private Member Variables
 

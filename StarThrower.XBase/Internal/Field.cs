@@ -26,7 +26,7 @@ using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase.Internal
 {
-    internal class Field : ICloneable
+    internal sealed class Field : ICloneable
     {
         internal const Int32 SIZE = 32;
 

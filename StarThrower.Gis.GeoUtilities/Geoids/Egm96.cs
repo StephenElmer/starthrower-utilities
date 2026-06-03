@@ -27,7 +27,7 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
 {
     public class Egm96 : Geoid
     {
-        private class VariableGrid
+        private sealed class VariableGrid
         {
             #region Private Instance Variables
 

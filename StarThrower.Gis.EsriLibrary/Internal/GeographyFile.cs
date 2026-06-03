@@ -23,7 +23,7 @@ using System.Text;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
-    internal class GeographyFile : IDisposable
+    internal sealed class GeographyFile : IDisposable
     {
         #region Private Member Variables
 

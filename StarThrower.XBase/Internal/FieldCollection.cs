@@ -30,7 +30,7 @@ namespace StarThrower.XBase.Internal
     /// <summary>
     /// A collection of Fields
     /// </summary>
-    internal class FieldCollection : IList<StarThrower.XBase.Internal.Field>, IList
+    internal sealed class FieldCollection : IList<StarThrower.XBase.Internal.Field>, IList
     {
         internal const Int32 MAXSIZE = 128;
 
@@ -649,7 +649,7 @@ namespace StarThrower.XBase.Internal
     /// <summary>
     /// Supports a simple iteration over a FieldCollection.
     /// </summary>
-    internal class FieldCollectionEnumerator : System.Collections.IEnumerator
+    internal sealed class FieldCollectionEnumerator : System.Collections.IEnumerator
     {
         #region Private Member Variables
 

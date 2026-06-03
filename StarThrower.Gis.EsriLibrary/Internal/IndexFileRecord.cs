@@ -45,7 +45,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     /// The content length stored in the index record is the same as the value stored in the main 
     /// file record header.
     /// </remarks>
-    internal class IndexFileRecord
+    internal sealed class IndexFileRecord
     {
         internal const Int32 SIZE = 8; //length of an index record - 8 bytes
 

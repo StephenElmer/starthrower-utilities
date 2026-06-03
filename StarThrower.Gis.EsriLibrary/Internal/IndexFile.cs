@@ -49,7 +49,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     /// in 16-bit words (the fifty 16-bit words of the header plus 4 times the number of records).
     /// 
     /// </remarks>
-    internal class IndexFile : IDisposable
+    internal sealed class IndexFile : IDisposable
     {
         #region Private Member Variables
 

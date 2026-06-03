@@ -49,7 +49,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
     /// Each record therefore contributes (GeographyFileRecordHeader.LENGTH + ContentLength * 2) bytes toward the total length of the file
     /// 
     /// </remarks>
-    internal class GeographyFileRecordHeader
+    internal sealed class GeographyFileRecordHeader
     {
         public const Int32 SIZE = 8; //size, in bytes, of a geography file record header
 

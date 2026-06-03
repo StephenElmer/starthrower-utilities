@@ -29,7 +29,7 @@ namespace StarThrower.XBase.Internal
     /// <summary>
     /// A collection of Records
     /// </summary>
-    internal class RecordCollection : IList<StarThrower.XBase.Internal.Record>, IList
+    internal sealed class RecordCollection : IList<StarThrower.XBase.Internal.Record>, IList
     {
         #region Private Member Variables
 
@@ -560,7 +560,7 @@ namespace StarThrower.XBase.Internal
     /// <summary>
     /// Supports a simple iteration over a RecordCollection.
     /// </summary>
-    internal class RecordCollectionEnumerator : System.Collections.IEnumerator
+    internal sealed class RecordCollectionEnumerator : System.Collections.IEnumerator
     {
         #region Private Member Variables
 

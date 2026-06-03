@@ -23,7 +23,7 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
-    internal class GeographyFileRecord
+    internal sealed class GeographyFileRecord
     {
         #region Private Member Variables
 

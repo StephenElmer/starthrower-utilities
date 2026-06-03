@@ -34,7 +34,7 @@ namespace StarThrower.XBase.Internal
     /// file is marked by a single byte, with the end-of-file marker, an ASCII 26
     /// (1AH) character.
     /// </summary>
-    internal class Record : ICloneable
+    internal sealed class Record : ICloneable
     {
         #region Private Member Variables
 

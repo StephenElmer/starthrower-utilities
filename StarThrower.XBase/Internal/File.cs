@@ -43,7 +43,7 @@ namespace StarThrower.XBase.Internal
     /// Note that this structure is valid for Xbase - and dBase v. III - 5.  Later versions of dBase have a 
     /// different layout, like dBase 7.  (see http://www.dbase.com/KnowledgeBase/int/db7_file_fmt.htm)
     /// </summary>
-    internal class File : IDisposable
+    internal sealed class File : IDisposable
     {
         #region Private Member Variables
 

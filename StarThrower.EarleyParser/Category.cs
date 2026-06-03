@@ -38,7 +38,7 @@ namespace StarThrower.EarleyParser
     {
         #region [ Static Members ]
 
-        private class RootCategory : Category
+        private sealed class RootCategory : Category
         {
             public RootCategory(string name) : base(name) { }
 

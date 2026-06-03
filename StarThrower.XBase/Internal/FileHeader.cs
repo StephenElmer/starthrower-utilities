@@ -24,7 +24,7 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.XBase.Internal
 {
-    internal class FileHeader
+    internal sealed class FileHeader
     {
         internal const Int32 MAXSIZE = 4129; //maximum size in bytes possible for the header (note this includes XBaseFieldDescriptor.MAXLENGTH * XBaseFieldDescriptorList.MAX)
 
