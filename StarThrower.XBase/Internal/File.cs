@@ -197,7 +197,7 @@ namespace StarThrower.XBase.Internal
         {
             Int32 index = -1;
             if (!_header.Fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is an invalid FieldDescriptor.");
-            if (!ByteUtil.BytesAreEqual(field.Name, fieldName))
+            if (!field.Name.AsSpan().SequenceEqual(fieldName))
             {
                 if (_header.Fields.Find(field.Name)) throw new ArgumentException(fieldName + " cannot be changed to " + field.Name + " because a field named '" + field.Name + "' already exists.");
             }

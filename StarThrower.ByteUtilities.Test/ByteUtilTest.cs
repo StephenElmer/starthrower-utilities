@@ -1385,7 +1385,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0x01, 0x02, 0x03, 0x04 };
             byte[] arr2 = new byte[] { 0x01, 0x02, 0x03, 0x04 };
             bool expected = true;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1396,7 +1396,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = Array.Empty<byte>();
             byte[] arr2 = Array.Empty<byte>();
             bool expected = true;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1407,7 +1407,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0xFF };
             byte[] arr2 = new byte[] { 0xFF };
             bool expected = true;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1418,7 +1418,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0xFF };
             byte[] arr2 = new byte[] { 0x00 };
             bool expected = false;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1429,7 +1429,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0x01, 0x02, 0x03 };
             byte[] arr2 = new byte[] { 0x01, 0x02, 0x03, 0x04 };
             bool expected = false;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1440,7 +1440,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0x01, 0x02, 0x03, 0x04 };
             byte[] arr2 = new byte[] { 0x01, 0x02, 0x03, 0x05 };
             bool expected = false;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1451,7 +1451,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0x00, 0x00, 0x00, 0x00 };
             byte[] arr2 = new byte[] { 0x00, 0x00, 0x00, 0x00 };
             bool expected = true;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1462,7 +1462,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
             byte[] arr2 = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
             bool expected = true;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1473,7 +1473,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0xFF, 0x02, 0x03, 0x04 };
             byte[] arr2 = new byte[] { 0x00, 0x02, 0x03, 0x04 };
             bool expected = false;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1484,7 +1484,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0x01, 0x02, 0x03, 0xFF };
             byte[] arr2 = new byte[] { 0x01, 0x02, 0x03, 0x00 };
             bool expected = false;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1495,7 +1495,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0x01, 0x02, 0xFF, 0x04 };
             byte[] arr2 = new byte[] { 0x01, 0x02, 0x00, 0x04 };
             bool expected = false;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1506,7 +1506,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
             byte[] arr2 = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
             bool expected = true;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1517,7 +1517,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
             byte[] arr2 = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x09 };
             bool expected = false;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1528,7 +1528,7 @@ namespace StarThrower.ByteUtilities.Test
             byte[] arr1 = new byte[] { 0xAA, 0x55, 0xAA, 0x55 };
             byte[] arr2 = new byte[] { 0xAA, 0x55, 0xAA, 0x55 };
             bool expected = true;
-            bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+            bool actual = arr1.AsSpan().SequenceEqual(arr2);
 
             Assert.AreEqual(expected, actual);
         }
@@ -1538,7 +1538,9 @@ namespace StarThrower.ByteUtilities.Test
         {
             byte[]? arr1 = null;
             byte[] arr2 = new byte[] { 0x01, 0x02 };
+#pragma warning disable CS0618 // Type or member is obsolete
             bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+#pragma warning restore CS0618 // Type or member is obsolete
             Assert.Fail();
         }
 
@@ -1547,7 +1549,9 @@ namespace StarThrower.ByteUtilities.Test
         {
             byte[] arr1 = new byte[] { 0x01, 0x02 };
             byte[]? arr2 = null;
+#pragma warning disable CS0618 // Type or member is obsolete
             bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+#pragma warning restore CS0618 // Type or member is obsolete
             Assert.Fail();
         }
 
@@ -1556,7 +1560,9 @@ namespace StarThrower.ByteUtilities.Test
         {
             byte[]? arr1 = null;
             byte[]? arr2 = null;
+#pragma warning disable CS0618 // Type or member is obsolete
             bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
+#pragma warning restore CS0618 // Type or member is obsolete
             Assert.Fail();
         }
 

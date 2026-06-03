@@ -120,7 +120,7 @@ namespace StarThrower.XBase.Internal
                     }
 
 
-                    if (ByteUtil.BytesAreEqual(this[i].Name, temp))
+                    if ( this[i].Name.AsSpan().SequenceEqual(temp))
                     {
                         index = i;
                         return true;
