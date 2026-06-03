@@ -35,8 +35,8 @@ namespace StarThrower.Matrices
                 ArgumentNullException.ThrowIfNull(indexes);
                 if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
 
-                if (!_values.ContainsKey(indexes[0])) throw new InvalidOperationException("OneDimensionMatrix does not have an index associated with " + indexes[0].ToString());
-                return _values[indexes[0]];
+                if (!_values.TryGetValue(indexes[0], out TValue? value)) throw new InvalidOperationException("OneDimensionMatrix does not have an index associated with " + indexes[0].ToString());
+                return value;
                 // _values.TryGetValue(indexes[0], out TValue result);
                 // return result;
             }

@@ -62,9 +62,9 @@ namespace StarThrower.EarleyParser
         {
             ArgumentNullException.ThrowIfNull(rule);
 
-            if (_rules.ContainsKey(rule.Left))
+            if (_rules.TryGetValue(rule.Left, out Collection<Rule>? value))
             {
-                _rules[rule.Left].Add(rule);
+                value.Add(rule);
             }
             else
             {
@@ -99,9 +99,9 @@ namespace StarThrower.EarleyParser
 
         public Rule? SingletonPreterminal(Category left, string token, bool ignoreCase)
         {
-            if (_rules.ContainsKey(left))
+            if (_rules.TryGetValue(left, out Collection<Rule>? value))
             {
-                foreach (Rule r in _rules[left])
+                foreach (Rule r in value)
                 {
                     StringComparison sc = (ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
                     if (r.IsSingletonPreterminal && (String.Compare(r.Right[0].Name, token, sc) == 0))
@@ -128,8 +128,8 @@ namespace StarThrower.EarleyParser
             if (_rules.Count != other._rules.Count) return false;
             foreach (Category key in _rules.Keys)
             {
-                if (!other._rules.ContainsKey(key)) return false;
-                if (_rules[key].Count != other._rules[key].Count) return false;
+                if (!other._rules.TryGetValue(key, out Collection<Rule>? value)) return false;
+                if (_rules[key].Count != value.Count) return false;
                 for (int i = 0; i < _rules[key].Count; i++)
                 {
                     if (!_rules[key][i].Equals(other._rules[key][i])) return false;
@@ -146,8 +146,8 @@ namespace StarThrower.EarleyParser
             if (_rules.Count != other._rules.Count) return false;
             foreach (Category key in _rules.Keys)
             {
-                if (!other._rules.ContainsKey(key)) return false;
-                if (_rules[key].Count != other._rules[key].Count) return false;
+                if (!other._rules.TryGetValue(key, out Collection<Rule>? value)) return false;
+                if (_rules[key].Count != value.Count) return false;
                 for (int i = 0; i < _rules[key].Count; i++)
                 {
                     if (!_rules[key][i].Equals(other._rules[key][i])) return false;

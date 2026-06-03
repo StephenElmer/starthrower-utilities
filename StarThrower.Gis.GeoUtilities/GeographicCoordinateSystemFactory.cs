@@ -107,8 +107,7 @@ namespace StarThrower.Gis.GeoUtilities
             if (!StringUtil.IsValid(name, CoordinateSystems.GeographicCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for coordinate system name.");
 
             string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
-            if (!_geographicCoordinateSystems.ContainsKey(key)) return false;
-            IGeographicCoordinateSystem gcs = _geographicCoordinateSystems[key];
+            if (!_geographicCoordinateSystems.TryGetValue(key, out IGeographicCoordinateSystem? gcs)) return false;
             if (!(gcs.Datum.Equals(datum) &&
                   gcs.PrimeMeridian.Equals(primeMeridian) &&
                   gcs.AngularUnit.Equals(angularUnit))) return false;
@@ -159,8 +158,8 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
-                if (!_geographicCoordinateSystems.ContainsKey(key)) throw new Exceptions.InvalidCoordinateSystemException("A UserDefined Geographic Coordinate System could not be found for name.");
-                return _geographicCoordinateSystems[key];
+                if (!_geographicCoordinateSystems.TryGetValue(key, out IGeographicCoordinateSystem? value)) throw new Exceptions.InvalidCoordinateSystemException("A UserDefined Geographic Coordinate System could not be found for name.");
+                return value;
             }
             catch (Exception ex)
             {

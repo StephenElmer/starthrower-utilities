@@ -129,8 +129,7 @@ namespace StarThrower.Gis.GeoUtilities
             if (!StringUtil.IsValid(name, CoordinateSystems.ProjectedCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for projected coordinate system name.");
 
             string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
-            if (!_projectedCoordinateSystems.ContainsKey(key)) return false;
-            IProjectedCoordinateSystem pcs = _projectedCoordinateSystems[key];
+            if (!_projectedCoordinateSystems.TryGetValue(key, out IProjectedCoordinateSystem? pcs)) return false;
             if (!(pcs.GeographicCoordinateSystem.Equals(geographicCoordinateSystem) &&
                   pcs.LinearUnit.Equals(linearUnit) &&
                   pcs.Projection.Equals(projection))) return false;
@@ -178,8 +177,8 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
-                if (!_projectedCoordinateSystems.ContainsKey(key)) throw new Exceptions.InvalidCoordinateSystemException("A UserDefined ProjectedCoordinateSystem could not be found for name.");
-                return _projectedCoordinateSystems[key];
+                if (!_projectedCoordinateSystems.TryGetValue(key, out IProjectedCoordinateSystem? value)) throw new Exceptions.InvalidCoordinateSystemException("A UserDefined ProjectedCoordinateSystem could not be found for name.");
+                return value;
             }
             catch (Exception ex)
             {

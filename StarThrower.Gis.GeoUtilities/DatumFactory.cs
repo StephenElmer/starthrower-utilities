@@ -405,8 +405,7 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(west, east);
 
             string key = typeof(Datums.UserDefined).Name + name;
-            if (!_datumList.ContainsKey(key)) return false;
-            IDatum d = _datumList[key];
+            if (!_datumList.TryGetValue(key, out IDatum? d)) return false;
             if (!((d.Ellipsoid.Equals(ellipsoid)) &&
                    d.DeltaX.Equals(deltaX) &&
                    d.SigmaX.Equals(sigmaX) &&
@@ -458,7 +457,7 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(Datums.UserDefined).Name + name;
-                if (!_datumList.ContainsKey(key))
+                if (!_datumList.TryGetValue(key, out IDatum? value))
                 {
                     Datums.UserDefined d = new Datums.UserDefined(name, ellipsoid, deltaX, sigmaX, deltaY, sigmaY, deltaZ, sigmaZ, rotationX, rotationY, rotationZ, rotationScaleFactor, north, south, east, west);
                     lock (_datumListLock)
@@ -472,7 +471,7 @@ namespace StarThrower.Gis.GeoUtilities
                 }
                 else
                 {
-                    Datums.UserDefined d = (Datums.UserDefined)_datumList[key];
+                    Datums.UserDefined d = (Datums.UserDefined)value;
                     if (!((d.Ellipsoid.Equals(ellipsoid)) &&
                            d.DeltaX.Equals(deltaX) &&
                            d.SigmaX.Equals(sigmaX) &&
@@ -513,8 +512,8 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(Datums.UserDefined).Name + name;
-                if (!_datumList.ContainsKey(key)) throw new Exceptions.InvalidDatumTypeException("A UserDefined Datum could not be found for name.");
-                return _datumList[key];
+                if (!_datumList.TryGetValue(key, out IDatum? value)) throw new Exceptions.InvalidDatumTypeException("A UserDefined Datum could not be found for name.");
+                return value;
             }
             catch (Exception ex)
             {

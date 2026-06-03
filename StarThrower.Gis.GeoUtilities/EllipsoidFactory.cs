@@ -184,8 +184,7 @@ namespace StarThrower.Gis.GeoUtilities
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
 
             string key = typeof(Ellipsoids.UserDefined).Name + name;
-            if (!_ellipsoidList.ContainsKey(key)) return false;
-            IEllipsoid e = _ellipsoidList[key];
+            if (!_ellipsoidList.TryGetValue(key, out IEllipsoid? e)) return false;
             if (!(e.EquatorialRadius == equatorialRadius && e.Flattening == flattening)) return false;
             return true;
         }
@@ -248,8 +247,8 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(Ellipsoids.UserDefined).Name + name;
-                if (!_ellipsoidList.ContainsKey(key)) throw new Exceptions.InvalidEllipsoidTypeException("A UserDefined Ellipsoid could not be found for name.");
-                return _ellipsoidList[key];
+                if (!_ellipsoidList.TryGetValue(key, out IEllipsoid? value)) throw new Exceptions.InvalidEllipsoidTypeException("A UserDefined Ellipsoid could not be found for name.");
+                return value;
             }
             catch (Exception ex)
             {

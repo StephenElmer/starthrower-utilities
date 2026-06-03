@@ -266,8 +266,8 @@ namespace StarThrower.EarleyParser
         /// a read-only collection of edges.</returns>
         public ReadOnlyCollection<Edge>? GetEdgesAt(int index)
         {
-            if (!_edgeSets.ContainsKey(index)) return null;
-            return new ReadOnlyCollection<Edge>(_edgeSets[index]);
+            if (!_edgeSets.TryGetValue(index, out Collection<Edge>? value)) return null;
+            return new ReadOnlyCollection<Edge>(value);
         }
 
         /// <summary>
@@ -286,13 +286,13 @@ namespace StarThrower.EarleyParser
             ArgumentNullException.ThrowIfNull(edge);
             ArgumentOutOfRangeException.ThrowIfNegative(index);
 
-            if (!_edgeSets.ContainsKey(index))
+            if (!_edgeSets.TryGetValue(index, out Collection<Edge>? e))
             {
                 Collection<Edge> edges = new Collection<Edge>();
-                _edgeSets.Add(index, edges);
+                e = edges;
+                _edgeSets.Add(index, e);
             }
 
-            Collection<Edge> e = _edgeSets[index];
             if (e.Contains(edge))
             {
                 return false;
@@ -324,8 +324,8 @@ namespace StarThrower.EarleyParser
             if (_edgeSets.Count != other._edgeSets.Count) return false;
             foreach (int key in _edgeSets.Keys)
             {
-                if (!other._edgeSets.ContainsKey(key)) return false;
-                if (_edgeSets[key].Count != other._edgeSets[key].Count) return false;
+                if (!other._edgeSets.TryGetValue(key, out Collection<Edge>? value)) return false;
+                if (_edgeSets[key].Count != value.Count) return false;
                 for (int i = 0; i < _edgeSets[key].Count; i++)
                 {
                     if (!_edgeSets[key][i].Equals(other._edgeSets[key][i])) return false;
@@ -342,8 +342,8 @@ namespace StarThrower.EarleyParser
             if (_edgeSets.Count != other._edgeSets.Count) return false;
             foreach (int key in _edgeSets.Keys)
             {
-                if (!other._edgeSets.ContainsKey(key)) return false;
-                if (_edgeSets[key].Count != other._edgeSets[key].Count) return false;
+                if (!other._edgeSets.TryGetValue(key, out Collection<Edge>? value)) return false;
+                if (_edgeSets[key].Count != value.Count) return false;
                 for (int i = 0; i < _edgeSets[key].Count; i++)
                 {
                     if (!_edgeSets[key][i].Equals(other._edgeSets[key][i])) return false;
