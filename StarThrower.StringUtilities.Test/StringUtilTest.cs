@@ -2228,7 +2228,7 @@ namespace StarThrower.StringUtilities.Test
             string str1 = "TeSt";
             string str2 = "test";
             StringComparison comparison = StringUtil.ConvertComparisonType(ComparisonType.CaseSensitive);
-            int result = str1.CompareTo(str2);
+            int result = string.Compare(str1, str2, comparison);
             Assert.AreNotEqual(0, result); // Different (case-sensitive)
         }
 
