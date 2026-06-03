@@ -144,21 +144,17 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
-                if (!_projectedCoordinateSystems.ContainsKey(key))
+                lock (_projectedCoordinateSystemsLock)
                 {
-                    CoordinateSystems.Projected.UserDefined pcs = new CoordinateSystems.Projected.UserDefined(name, geographicCoordinateSystem, projection, linearUnit);
-                    lock (_projectedCoordinateSystemsLock)
+                    if (!_projectedCoordinateSystems.TryGetValue(key, out IProjectedCoordinateSystem? pcs))
                     {
-                        _projectedCoordinateSystems.TryAdd(pcs.Key, pcs);
+                        pcs = new CoordinateSystems.Projected.UserDefined(name, geographicCoordinateSystem, projection, linearUnit);
+                        _projectedCoordinateSystems.TryAdd(key, pcs);
+                        return pcs;
                     }
-                    return _projectedCoordinateSystems[pcs.Key];
-                }
-                else
-                {
-                    IProjectedCoordinateSystem pcs = _projectedCoordinateSystems[key];
                     if (!(pcs.GeographicCoordinateSystem.Equals(geographicCoordinateSystem) &&
-                          pcs.LinearUnit.Equals(linearUnit) &&
-                          pcs.Projection.Equals(projection))) throw new Exceptions.AmbiguousCoordinateSystemException("ProjectedCoordinateSystem for name already exists with different GeographicCoordinateSystem, Projection, and/or LinearUnit values.");
+                        pcs.LinearUnit.Equals(linearUnit) &&
+                        pcs.Projection.Equals(projection))) throw new Exceptions.AmbiguousCoordinateSystemException("ProjectedCoordinateSystem for name already exists with different GeographicCoordinateSystem, Projection, and/or LinearUnit values.");
                     return pcs;
                 }
             }

@@ -111,22 +111,18 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(Geoids.UserDefined).Name + name;
-                if (!_geoidList.ContainsKey(key))
+                lock (_geoidListLock)
                 {
-                    Geoids.UserDefined g = new Geoids.UserDefined(name);
-                    lock (_geoidListLock)
+                    if (!_geoidList.TryGetValue(key, out IGeoid? g))
                     {
-                        if (!_geoidList.ContainsKey(g.Key))
-                        {
-                            _geoidList.Add(g.Key, g);
-                        }
+                        g = new Geoids.UserDefined(name);
+                        _geoidList.TryAdd(key, g);
+                        return g;
                     }
-                    return _geoidList[g.Key];
-                }
-                else
-                {
-                    IGeoid g = _geoidList[key];
-                    return g;
+                    else
+                    {
+                        return g;
+                    }
                 }
             }
             catch (Exception ex)

@@ -206,23 +206,19 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(Ellipsoids.UserDefined).Name + name;
-                if (!_ellipsoidList.ContainsKey(key))
+                lock (_ellipsoidListLock)
                 {
-                    Ellipsoids.UserDefined e = new Ellipsoids.UserDefined(name, equatorialRadius, flattening, EllipsoidParamOrder.EquatorialRadiusFlattening);
-                    lock (_ellipsoidListLock)
+                    if (!_ellipsoidList.TryGetValue(key, out IEllipsoid? e))
                     {
-                        if (!_ellipsoidList.ContainsKey(e.Key))
-                        {
-                            _ellipsoidList.Add(e.Key, e);
-                        }
+                        e = new Ellipsoids.UserDefined(name, equatorialRadius, flattening, EllipsoidParamOrder.EquatorialRadiusFlattening);
+                        _ellipsoidList.Add(key, e);
+                        return e;
                     }
-                    return _ellipsoidList[e.Key];
-                }
-                else
-                {
-                    IEllipsoid e = _ellipsoidList[key];
-                    if (!(e.EquatorialRadius == equatorialRadius && e.Flattening == flattening)) throw new Exceptions.AmbiguousEllipsoidTypeException("Ellipsoid for name already exists with different EquatorialRadius and Flattening values.");
-                    return e;
+                    else
+                    {
+                        if (!(e.EquatorialRadius == equatorialRadius && e.Flattening == flattening)) throw new Exceptions.AmbiguousEllipsoidTypeException("Ellipsoid for name already exists with different EquatorialRadius and Flattening values.");
+                        return e;
+                    }
                 }
             }
             catch (Exception ex)

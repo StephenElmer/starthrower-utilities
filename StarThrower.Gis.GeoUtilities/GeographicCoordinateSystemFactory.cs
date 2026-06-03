@@ -122,24 +122,17 @@ namespace StarThrower.Gis.GeoUtilities
             try
             {
                 string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
-                if (!_geographicCoordinateSystems.ContainsKey(key))
+                lock (_geographicCoordinateSystemsLock)
                 {
-                    CoordinateSystems.Geographic.UserDefined gcs = new CoordinateSystems.Geographic.UserDefined(name, datum, primeMeridian, angularUnit);
-                    lock (_geographicCoordinateSystemsLock)
+                    if (!_geographicCoordinateSystems.TryGetValue(key, out IGeographicCoordinateSystem? gcs))
                     {
-                        if (!_geographicCoordinateSystems.ContainsKey(gcs.Key))
-                        {
-                            _geographicCoordinateSystems.Add(gcs.Key, gcs);
-                        }
+                        gcs = new CoordinateSystems.Geographic.UserDefined(name, datum, primeMeridian, angularUnit);
+                        _geographicCoordinateSystems.TryAdd(key, gcs);
+                        return gcs;
                     }
-                    return _geographicCoordinateSystems[gcs.Key];
-                }
-                else
-                {
-                    IGeographicCoordinateSystem gcs = _geographicCoordinateSystems[key];
                     if (!(gcs.Datum.Equals(datum) &&
-                          gcs.PrimeMeridian.Equals(primeMeridian) &&
-                          gcs.AngularUnit.Equals(angularUnit))) throw new Exceptions.AmbiguousCoordinateSystemException("GeographicCoordinateSystem for name already exists but with different Datum, PrimeMeridian, and/or AngularUnit values.");
+                        gcs.PrimeMeridian.Equals(primeMeridian) &&
+                        gcs.AngularUnit.Equals(angularUnit))) throw new Exceptions.AmbiguousCoordinateSystemException("GeographicCoordinateSystem for name already exists but with different Datum, PrimeMeridian, and/or AngularUnit values.");
                     return gcs;
                 }
             }
