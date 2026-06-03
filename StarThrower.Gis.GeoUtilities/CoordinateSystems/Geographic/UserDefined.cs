@@ -49,7 +49,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
 
         internal UserDefined(string name, IDatum datum, IPrimeMeridian primeMeridian, IAngularUnit angularUnit) : base()
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for coordinate system name.");
 
             _name = name;

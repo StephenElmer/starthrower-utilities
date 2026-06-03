@@ -47,7 +47,7 @@ namespace StarThrower.XBase
             get { return _fieldType; }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
 
                 _fieldType = value;
                 _fieldType.Owner = this; //asign this object as the owner of _type so that _type can perform validation

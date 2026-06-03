@@ -187,7 +187,7 @@ namespace StarThrower.XBase
         public StarThrower.XBase.XBaseRecord GetRecord(string queryText)
         {
             int index = -1;
-            if (!_file.FindRecord(queryText, ref index)) throw new ArgumentOutOfRangeException("queryText");
+            if (!_file.FindRecord(queryText, ref index)) throw new ArgumentOutOfRangeException(nameof(queryText));
             return XBase.InternalRecordToXBaseRecord(_file.GetRecord(index));
         }
 
@@ -209,7 +209,7 @@ namespace StarThrower.XBase
         public void DeleteRecord(string queryText)
         {
             int index = -1;
-            if (!_file.FindRecord(queryText, ref index)) throw new ArgumentOutOfRangeException("queryText");
+            if (!_file.FindRecord(queryText, ref index)) throw new ArgumentOutOfRangeException(nameof(queryText));
             _file.DeleteRecord(index);
         }
 
@@ -221,7 +221,7 @@ namespace StarThrower.XBase
         public void DestroyRecord(string queryText)
         {
             int index = -1;
-            if (!_file.FindRecord(queryText, ref index)) throw new ArgumentOutOfRangeException("queryText");
+            if (!_file.FindRecord(queryText, ref index)) throw new ArgumentOutOfRangeException(nameof(queryText));
             _file.DestroyRecord(index);
         }
 

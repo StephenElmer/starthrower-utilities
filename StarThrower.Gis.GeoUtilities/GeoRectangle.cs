@@ -109,8 +109,8 @@ namespace StarThrower.Gis.GeoUtilities
 
         public GeoRectangle(GeoPoint upperLeft, GeoPoint lowerRight) : this()
         {
-            if (upperLeft == null) throw new ArgumentNullException("upperLeft");
-            if (lowerRight == null) throw new ArgumentNullException("lowerRight");
+            ArgumentNullException.ThrowIfNull(upperLeft);
+            ArgumentNullException.ThrowIfNull(lowerRight);
 
             _upperLeft = (GeoPoint)(upperLeft.Clone());
             _lowerRight = (GeoPoint)(lowerRight.Clone());

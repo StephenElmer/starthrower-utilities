@@ -139,7 +139,7 @@ namespace StarThrower.XBase.Internal
 
         internal StarThrower.XBase.Internal.Field GetField(Int32 index)
         {
-            if (index < 0 || index >= _header.Fields.Count) throw new ArgumentOutOfRangeException("index");
+            if (index < 0 || index >= _header.Fields.Count) throw new ArgumentOutOfRangeException(nameof(index));
             return _header.Fields[index];
         }
 
@@ -269,7 +269,7 @@ namespace StarThrower.XBase.Internal
 
         internal StarThrower.XBase.Internal.Record GetRecord(Int32 index)
         {
-            if (index < 0 || index > _records.Count) throw new ArgumentOutOfRangeException("index");
+            if (index < 0 || index > _records.Count) throw new ArgumentOutOfRangeException(nameof(index));
             return _records[index];
         }
 

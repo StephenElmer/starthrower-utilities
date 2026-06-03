@@ -154,7 +154,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void AddField(StarThrower.Gis.EsriLibrary.Field field)
         {
-            if (field == null) throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(field);
 
             StarThrower.XBase.XBaseField newField = new StarThrower.XBase.XBaseField();
             newField.Name = field.Name;
@@ -270,7 +270,7 @@ namespace StarThrower.Gis.EsriLibrary
 
         public void AddRecord(StarThrower.Gis.EsriLibrary.Record record)
         {
-            if (record == null) throw new ArgumentNullException("record");
+            ArgumentNullException.ThrowIfNull(record);
             if (!(EsriLibrary.GeoToEsriShapeType(record.GetShape().ShapeType).Equals(this.ShapeType))) throw new ArgumentException("Record is of invalid ShapeType for this Shape File.");
 
             StarThrower.XBase.XBaseRecord xBaseRecord = _dataFile.CreateRecord();

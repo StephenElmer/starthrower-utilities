@@ -124,7 +124,7 @@ namespace StarThrower.EarleyParser
         /// <exception cref="ArgumentOutOfRangeException">Thrown if origin is less than 0.</exception>
         public Edge(DottedRule dottedRule, int origin, ReadOnlyCollection<Edge>? bases)
         {
-            if (origin < 0) throw new ArgumentOutOfRangeException("origin");
+            ArgumentOutOfRangeException.ThrowIfNegative(origin);
 
             _dottedRule = dottedRule;
             _origin = origin;

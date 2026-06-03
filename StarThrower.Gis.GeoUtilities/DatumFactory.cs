@@ -338,7 +338,7 @@ namespace StarThrower.Gis.GeoUtilities
         }
         public static Type GetDatumType(string datumTypeName)
         {
-            if (datumTypeName == null) throw new ArgumentNullException("datumTypeName");
+            ArgumentNullException.ThrowIfNull(datumTypeName);
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
@@ -368,7 +368,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidDatumException">Thrown if name is incorrectly formatted.</exception>
         public static bool UserDefinedDatumExists(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Datum.ValidNamePattern)) throw new Exceptions.InvalidDatumTypeException("Invalid format for datum name.");
 
             return _datumList.ContainsKey(typeof(Datums.UserDefined).Name + name);
@@ -399,10 +399,10 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="ArgumentOutOfRangeException">Thrown if west is not less than east or if south is not less than north.</exception>
         public static bool UserDefinedDatumExists(string name, IEllipsoid ellipsoid, double deltaX, double sigmaX, double deltaY, double sigmaY, double deltaZ, double sigmaZ, double rotationX, double rotationY, double rotationZ, double rotationScaleFactor, double north, double south, double east, double west)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Datum.ValidNamePattern)) throw new Exceptions.InvalidDatumTypeException("Invalid format for datum name.");
-            if (south >= north) throw new ArgumentOutOfRangeException("south");
-            if (west >= east) throw new ArgumentOutOfRangeException("west");
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(south, north);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(west, east);
 
             string key = typeof(Datums.UserDefined).Name + name;
             if (!_datumList.ContainsKey(key)) return false;
@@ -452,8 +452,8 @@ namespace StarThrower.Gis.GeoUtilities
         {
             ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Datum.ValidNamePattern)) throw new Exceptions.InvalidDatumTypeException("Invalid format for datum name.");
-            if (south >= north) throw new ArgumentOutOfRangeException("south");
-            if (west >= east) throw new ArgumentOutOfRangeException("west");
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(south, north);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(west, east);
 
             try
             {
@@ -507,7 +507,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidDatumTypeException">Thrown if name is incorrectly formatted OR if the instance could not be found.</exception>
         public static IDatum GetInstanceOfExistingUserDefinedDatum(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Datum.ValidNamePattern)) throw new Exceptions.InvalidDatumTypeException("Invalid format for datum name.");
 
             try

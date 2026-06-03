@@ -100,12 +100,12 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
 
             if ((easting < (Merc_False_Easting - Merc_Delta_Easting)) || (easting > (Merc_False_Easting + Merc_Delta_Easting)))
             {
-                throw new ArgumentOutOfRangeException("easting");
+                throw new ArgumentOutOfRangeException(nameof(easting));
             }
 
             if ((northing < (Merc_False_Northing - Merc_Delta_Northing)) || (northing > (Merc_False_Northing + Merc_Delta_Northing)))
             {
-                throw new ArgumentOutOfRangeException("northing");
+                throw new ArgumentOutOfRangeException(nameof(northing));
             }
             
             double dy = northing - Merc_False_Northing;
@@ -153,12 +153,12 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
 
             if ((latitude < -MAX_LAT) || (latitude > MAX_LAT))
             {
-                throw new ArgumentOutOfRangeException("latitude");
+                throw new ArgumentOutOfRangeException(nameof(latitude));
             }
 
             if ((longitude < -Math.PI) || (longitude > GeoUtil.TwoPi))
             {
-                throw new ArgumentOutOfRangeException("longitude");
+                throw new ArgumentOutOfRangeException(nameof(longitude));
             }
 
             if (longitude > Math.PI)

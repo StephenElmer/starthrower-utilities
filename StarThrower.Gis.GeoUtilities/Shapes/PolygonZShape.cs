@@ -60,7 +60,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 PolygonZShape other = (PolygonZShape)value;
 
                 base.ItemCopy(other);

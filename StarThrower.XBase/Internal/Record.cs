@@ -261,7 +261,7 @@ namespace StarThrower.XBase.Internal
 
         private Int32 GetDataIndexForField(Int32 fieldIndex)
         {
-            if (fieldIndex < 0 || fieldIndex > (_fields.Count - 1)) throw new ArgumentOutOfRangeException("fieldIndex");
+            if (fieldIndex < 0 || fieldIndex > (_fields.Count - 1)) throw new ArgumentOutOfRangeException(nameof(fieldIndex));
             return _fields.CalculateStartIndex(fieldIndex);
         }
 
@@ -324,7 +324,7 @@ namespace StarThrower.XBase.Internal
         {
             try
             {
-                if (obj == null) throw new ArgumentNullException("obj");
+                ArgumentNullException.ThrowIfNull(obj);
                 StarThrower.XBase.Internal.Record other = (StarThrower.XBase.Internal.Record)obj;
                 _isDeleted = other.IsDeleted;
                 _data = other.Data;

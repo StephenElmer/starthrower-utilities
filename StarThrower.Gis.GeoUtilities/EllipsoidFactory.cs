@@ -163,7 +163,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidEllipsoidException">Thrown if name is incorrectly formatted.</exception>
         public static bool UserDefinedEllipsoidExists(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
 
             return _ellipsoidList.ContainsKey(typeof(Ellipsoids.UserDefined).Name + name);
@@ -180,7 +180,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidEllipsoidException">Thrown if name is incorrectly formatted.</exception>
         public static bool UserDefinedEllipsoidExists(string name, double equatorialRadius, double flattening)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
 
             string key = typeof(Ellipsoids.UserDefined).Name + name;
@@ -201,7 +201,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidEllipsoidTypeException">Thrown if the name is incorrectly formatted.</exception>
         public static IEllipsoid GetInstanceOfNewUserDefinedEllipsoid(string? name, double equatorialRadius, double flattening)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
 
             try
@@ -242,7 +242,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <exception cref="Exceptions.InvalidEllipsoidTypeException">Thrown if name is incorrectly formatted OR if the instance could not be found.</exception>
         public static IEllipsoid GetInstanceOfExistingUserDefinedEllipsoid(string? name)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
 
             try

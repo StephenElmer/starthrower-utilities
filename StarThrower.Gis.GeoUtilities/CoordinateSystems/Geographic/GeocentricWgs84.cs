@@ -220,12 +220,12 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
 
             if ((yLat < -GeoUtil.PiOver2) || (yLat > GeoUtil.PiOver2))
             {
-                throw new ArgumentOutOfRangeException("yLat", "Latitude out of valid range (-90 to 90 degrees).");
+                throw new ArgumentOutOfRangeException(nameof(yLat), "Latitude out of valid range (-90 to 90 degrees).");
             }
 
             if ((xLon < -Math.PI) || (xLon > (2 * Math.PI)))
             {
-                throw new ArgumentOutOfRangeException("xLon", "Longitude out of valid range (-180 to 360 degrees).");
+                throw new ArgumentOutOfRangeException(nameof(xLon), "Longitude out of valid range (-180 to 360 degrees).");
             }
 
             if (xLon > Math.PI)

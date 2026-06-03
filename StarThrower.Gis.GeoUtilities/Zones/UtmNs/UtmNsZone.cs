@@ -176,8 +176,8 @@ namespace StarThrower.Gis.GeoUtilities.Zones.UtmNs
 
         public UtmNsZone(string zone)
         {
-            if (zone == null) throw new ArgumentNullException("zone");
-            if (zone.Length < 2) throw new ArgumentException("invalid zone", "zone");
+            ArgumentNullException.ThrowIfNull(zone);
+            if (zone.Length < 2) throw new ArgumentException("invalid zone", nameof(zone));
 
             int longitudinalZone = 0;
             if (int.TryParse(zone.Substring(0, 2), out longitudinalZone))
@@ -657,7 +657,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.UtmNs
 
         private static LongitudinalZone GetLongitudinalZoneFromLongitudinalZoneString(string lonZone)
         {
-            if (lonZone == null) throw new ArgumentNullException("lonZone");
+            ArgumentNullException.ThrowIfNull(lonZone);
 
             try
             {
@@ -813,7 +813,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.UtmNs
         /// <exception cref="FormatException">Thrown on an invalid combination of ns and latZone as described in the remarks section.</exception>
         private static LatitudinalZone GetLatitudinalZoneFromLatitudinalZoneString(string latZone)
         {
-            if (latZone == null) throw new ArgumentNullException("latZone");
+            ArgumentNullException.ThrowIfNull(latZone);
 
             try
             {

@@ -284,7 +284,7 @@ namespace StarThrower.EarleyParser
         public bool AddEdge(int index, Edge? edge)
         {
             ArgumentNullException.ThrowIfNull(edge);
-            if (index < 0) throw new ArgumentOutOfRangeException("index");
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
 
             if (!_edgeSets.ContainsKey(index))
             {

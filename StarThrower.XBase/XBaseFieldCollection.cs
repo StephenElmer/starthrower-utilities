@@ -60,7 +60,7 @@ namespace StarThrower.XBase
         /// <exception cref="ArgumentNullException">Thrown if fieldName is null.</exception>
         public bool Find(string fieldName)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             try
             {
@@ -83,7 +83,7 @@ namespace StarThrower.XBase
         /// <exception cref="ArgumentNullException">Thrown if fieldName is null.</exception>
         public bool Find(string fieldName, ref int index)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             try
             {
@@ -133,18 +133,18 @@ namespace StarThrower.XBase
         {
             get
             {
-                if (fieldName == null) throw new ArgumentNullException("fieldName");
+                ArgumentNullException.ThrowIfNull(fieldName);
 
                 int index = -1;
-                if (!this.Find(fieldName, ref index)) throw new ArgumentOutOfRangeException("fieldName");
+                if (!this.Find(fieldName, ref index)) throw new ArgumentOutOfRangeException(nameof(fieldName));
                 return this[index];
             }
             set
             {
-                if (fieldName == null) throw new ArgumentNullException("fieldName");
+                ArgumentNullException.ThrowIfNull(fieldName);
 
                 int index = -1;
-                if (!this.Find(fieldName, ref index)) throw new ArgumentOutOfRangeException("fieldName");
+                if (!this.Find(fieldName, ref index)) throw new ArgumentOutOfRangeException(nameof(fieldName));
                 this[index] = value;
             }
         }
@@ -628,7 +628,7 @@ namespace StarThrower.XBase
         /// <exception cref="ArgumentNullException"></exception>
         public XBaseFieldCollectionEnumerator(StarThrower.XBase.XBaseFieldCollection list)
         {
-            if (list == null) throw new ArgumentNullException("list");
+            ArgumentNullException.ThrowIfNull(list);
             _list = list;
             _cursor = -1;
         }

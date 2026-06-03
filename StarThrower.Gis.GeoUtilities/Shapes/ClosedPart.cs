@@ -57,7 +57,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 ClosedPart other = (ClosedPart)value;
 
                 base.ItemCopy(other);

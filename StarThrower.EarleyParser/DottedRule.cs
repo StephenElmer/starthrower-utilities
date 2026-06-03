@@ -92,7 +92,7 @@ namespace StarThrower.EarleyParser
         public DottedRule(Rule rule, int position)
             : base(rule.Left, rule.Right)
         {
-            if (position < 0 || position > this.Right.Count) throw new ArgumentOutOfRangeException("position");
+            if (position < 0 || position > this.Right.Count) throw new ArgumentOutOfRangeException(nameof(position));
 
             _position = position;
 

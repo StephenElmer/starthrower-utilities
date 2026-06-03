@@ -84,7 +84,7 @@ namespace StarThrower.Gis.GeoUtilities.Projections
                     case "Orientation":
                         return _orientation;
                     default:
-                        throw new ArgumentOutOfRangeException("parameterName");
+                        throw new ArgumentOutOfRangeException(nameof(parameterName));
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace StarThrower.Gis.GeoUtilities.Projections
 
         internal LocalCartesian(ProjectionParameter[] parameters)
         {
-            if (!ValidateParameters(parameters)) throw new ArgumentException("invalid parameters", "parameters");
+            if (!ValidateParameters(parameters)) throw new ArgumentException("invalid parameters", nameof(parameters));
             _latitudeOfOrigin = parameters[0].Value;
             _longitudeOfOrigin = parameters[1].Value;
             _originHeight = parameters[2].Value;

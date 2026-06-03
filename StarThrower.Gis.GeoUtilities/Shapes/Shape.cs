@@ -78,7 +78,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 Shape other = (Shape)value;
                 _shapeType = other.ShapeType;
             }

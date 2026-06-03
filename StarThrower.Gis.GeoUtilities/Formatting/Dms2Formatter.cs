@@ -47,7 +47,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
 
         public double DmsToDdNs(string dmsNS)
         {
-            if (dmsNS == null) throw new ArgumentNullException("dmsNS");
+            ArgumentNullException.ThrowIfNull(dmsNS);
             
             // Declare the variables to be double precision floating-point.
             double degrees = 0;

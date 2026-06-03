@@ -60,7 +60,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 PolylineMShape other = (PolylineMShape)value;
 
                 base.ItemCopy(other);

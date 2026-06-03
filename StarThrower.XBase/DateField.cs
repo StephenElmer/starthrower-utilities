@@ -109,7 +109,7 @@ namespace StarThrower.XBase
 
         public override object Translate(string data)
         {
-            if (data == null) throw new ArgumentNullException("data");
+            ArgumentNullException.ThrowIfNull(data);
 
             int yr = int.Parse(data.Substring(0, 4), CultureInfo.InvariantCulture);
             int mo = int.Parse(data.Substring(4, 2), CultureInfo.InvariantCulture);

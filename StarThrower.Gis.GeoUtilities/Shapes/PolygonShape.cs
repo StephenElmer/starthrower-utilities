@@ -132,7 +132,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 if (!(value is StarThrower.Gis.GeoUtilities.Shapes.PolygonShape)) throw new ArgumentException("Could not cast " + value.GetType().ToString() + " to " + this.GetType().ToString());
                 StarThrower.Gis.GeoUtilities.Shapes.PolygonShape other = (StarThrower.Gis.GeoUtilities.Shapes.PolygonShape)value;
                 _partList.Clear();

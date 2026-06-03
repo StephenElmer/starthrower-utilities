@@ -26,7 +26,7 @@ namespace StarThrower.Gis.GeoUtilities
     {
         public static IProjection GetInstanceOfProjection(Type projectionType, ProjectionParameter[] parameters)
         {
-            if (projectionType == null) throw new ArgumentNullException("projectionType");
+            ArgumentNullException.ThrowIfNull(projectionType);
             if (!ProjectionTypeExists(projectionType.Name)) throw new Exceptions.InvalidProjectionTypeException();
             if (projectionType.GetInterface("IProjection") != typeof(IProjection)) throw new Exceptions.InvalidProjectionTypeException();
             

@@ -55,7 +55,7 @@ namespace StarThrower.Gis.GeoUtilities.Ellipsoids
 
         internal UserDefined(string name, double paramOne, double paramTwo, EllipsoidParamOrder paramOrder)
         {
-            if (name == null) throw new ArgumentNullException("name");
+            ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
 
             _name = name;

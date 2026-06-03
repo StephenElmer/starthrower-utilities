@@ -35,7 +35,7 @@ namespace StarThrower.XBase
             get { return base.Owner; }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
 
                 base.Owner = value;
                 value.Length = 1;
@@ -96,7 +96,7 @@ namespace StarThrower.XBase
 
         public override object Translate(string data)
         {
-            if (data == null) throw new ArgumentNullException("data");
+            ArgumentNullException.ThrowIfNull(data);
 
             if (String.Compare(data, "y", StringComparison.OrdinalIgnoreCase) == 0 ||
                 String.Compare(data, "t", StringComparison.OrdinalIgnoreCase) == 0)

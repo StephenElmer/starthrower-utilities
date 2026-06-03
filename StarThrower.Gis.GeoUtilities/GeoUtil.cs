@@ -611,8 +611,8 @@ namespace StarThrower.Gis.GeoUtilities
 
         public static ITranslationResult Translate(ICoordinateSystem csFrom, ICoordinateSystem csTo, double xLon, double yLat, double zAlt)
         {
-            if (csFrom == null) throw new ArgumentNullException("csFrom");
-            if (csTo == null) throw new ArgumentNullException("csTo");
+            ArgumentNullException.ThrowIfNull(csFrom);
+            ArgumentNullException.ThrowIfNull(csTo);
 
             double wgs84x = 0.0;
             double wgs84y = 0.0;
@@ -853,11 +853,11 @@ namespace StarThrower.Gis.GeoUtilities
 
             if ((yLat < (-90 * Math.PI / 180)) || (yLat > (90 * Math.PI / 180)))
             {
-                throw new ArgumentOutOfRangeException("yLat");
+                throw new ArgumentOutOfRangeException(nameof(yLat));
             }
             if ((xLon < (-Math.PI)) || (xLon > (2 * Math.PI)))
             {
-                throw new ArgumentOutOfRangeException("xLon");
+                throw new ArgumentOutOfRangeException(nameof(xLon));
             }
             if (sourceDatum.GetType().Equals(destinationDatum.GetType()))
             {

@@ -93,7 +93,7 @@ namespace StarThrower.Gis.GeoUtilities.Projections
                     case "Scale_Factor":
                         return _scaleFactor;
                     default:
-                        throw new ArgumentOutOfRangeException("parameterName");
+                        throw new ArgumentOutOfRangeException(nameof(parameterName));
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace StarThrower.Gis.GeoUtilities.Projections
 
         internal LambertConformalConic1(ProjectionParameter[] parameters)
         {
-            if (!ValidateParameters(parameters)) throw new ArgumentException("invalid parameters", "parameters");
+            if (!ValidateParameters(parameters)) throw new ArgumentException("invalid parameters", nameof(parameters));
             _falseEasting = parameters[0].Value;
             _falseNorthing = parameters[1].Value;
             _centralMeridian = parameters[2].Value;

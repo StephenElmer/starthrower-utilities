@@ -407,7 +407,7 @@ namespace StarThrower.StringUtilities
                 case ComparisonType.CaseSensitive:
                     return StringComparison.Ordinal;
                 default:
-                    throw new ArgumentOutOfRangeException("compare");
+                    throw new ArgumentOutOfRangeException(nameof(compare), "ComparisonType must be either CaseSensitive or CaseInsensitive.");
             }
         }
 
@@ -829,7 +829,7 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(delimiter);
-            if (pos <= 0) throw new ArgumentOutOfRangeException("pos");
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pos);
 
             try
             {
@@ -840,7 +840,7 @@ namespace StarThrower.StringUtilities
                 {
                     delPos = temp.ToString().IndexOf(delimiter, StringComparison.Ordinal);
                     temp.Remove(0, delPos + delimiter.Length);
-                    if (delPos == -1) throw new ArgumentOutOfRangeException("delimiter");
+                    if (delPos == -1) throw new ArgumentOutOfRangeException(nameof(delimiter));
                 }
 
                 delPos = temp.ToString().IndexOf(delimiter, StringComparison.Ordinal);
@@ -975,17 +975,18 @@ namespace StarThrower.StringUtilities
         /// <summary>
         /// Returns a string representation of the ascii character code provided
         /// </summary>
-        /// <param name="characterCode">a value from 0 to 256 representing an ascii character</param>
+        /// <param name="characterCode">a value from 0 to 255 representing an ascii character</param>
         /// <returns>the string representation of the ascii character at charCode</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if characterCode is less than zero or greater than 255.</exception>
         public static string ToChar(int characterCode)
         {
-            if (characterCode < 0 || characterCode > 255) throw new ArgumentOutOfRangeException("characterCode");
+            ArgumentOutOfRangeException.ThrowIfNegative(characterCode);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(characterCode, 255);
 
-            if (characterCode < 0 || characterCode > 0x10FFFF)
-                throw new ArgumentOutOfRangeException(nameof(characterCode));
+            //TODO: why is this line here?  Because the previous line ensures it can never be greater than 255, this line will never throw an exception.  Should we remove it?
+            if (characterCode < 0 || characterCode > 0x10FFFF) throw new ArgumentOutOfRangeException(nameof(characterCode));
 
-            if (characterCode <= 0xFFFF)
+            if (characterCode <= 0xFFFF) //TODO: again, why?
             {
                 return ((char)characterCode).ToString();
             }
@@ -1019,14 +1020,14 @@ namespace StarThrower.StringUtilities
 
             try
             {
-                if (target.Length == 0) throw new ArgumentOutOfRangeException("target");
+                if (target.Length == 0) throw new ArgumentOutOfRangeException(nameof(target));
 
                 // Use the first character of the string
                 // Encode to Windows-1252 bytes to match VB.NET's Asc() behavior
                 Encoding encoding = Encoding.GetEncoding("Windows-1252");
                 byte[] bytes = encoding.GetBytes(target.Substring(0, 1));
 
-                if (bytes.Length == 0) throw new ArgumentOutOfRangeException("target");
+                if (bytes.Length == 0) throw new ArgumentOutOfRangeException(nameof(target));
 
                 return (int)bytes[0];
             }
@@ -1219,8 +1220,7 @@ namespace StarThrower.StringUtilities
         public static int GetCountOf(string? source, string? target)
         {
             ArgumentNullException.ThrowIfNull(source);
-            ArgumentNullException.ThrowIfNull(target);
-            if (target.Length == 0) throw new ArgumentException("target cannot be an empty string", "target");
+            ArgumentException.ThrowIfNullOrEmpty(target);
 
             int result = 0;
             int startIndex = 0;
@@ -1259,7 +1259,7 @@ namespace StarThrower.StringUtilities
         public static string SqueezeNumber(object? number, int length)
         {
             ArgumentNullException.ThrowIfNull(number);
-            if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException("number");
+            if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException(nameof(number));
 
             try
             {
@@ -1290,7 +1290,7 @@ namespace StarThrower.StringUtilities
         public static string SqueezeNumber(object? number, int length, ScientificNotationFormat format)
         {
             ArgumentNullException.ThrowIfNull(number);
-            if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException("number");
+            if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException(nameof(number));
 
             try
             {
@@ -1326,7 +1326,7 @@ namespace StarThrower.StringUtilities
                         case ScientificNotationFormat.Base10SuperscriptSpaced:
                             return ENotationToBaseTenNotation(eNotation, true, true, true, true);
                         default:
-                            throw new ArgumentOutOfRangeException("format");
+                            throw new ArgumentOutOfRangeException(nameof(format));
                     }
                 }
             }
@@ -1407,7 +1407,7 @@ namespace StarThrower.StringUtilities
                 string baseVal = temp.Substring(0, eIndex);
                 string power = temp.Substring(eIndex + 1, temp.Length - (eIndex + 1));
                 int pow = 0;
-                if (!int.TryParse(power, out pow)) throw new ArgumentOutOfRangeException("source");
+                if (!int.TryParse(power, out pow)) throw new ArgumentOutOfRangeException(nameof(source));
                 if (excludeZeroPower && pow == 0)
                 {
                     return baseVal;
@@ -1487,7 +1487,7 @@ namespace StarThrower.StringUtilities
         public static string ToSuperscript(string? target)
         {
             ArgumentNullException.ThrowIfNull(target);
-            if (!MathUtil.IsInteger(target)) throw new ArgumentOutOfRangeException("target");
+            if (!MathUtil.IsInteger(target)) throw new ArgumentOutOfRangeException(nameof(target));
 
             try
             {

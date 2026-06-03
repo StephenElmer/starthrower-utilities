@@ -260,7 +260,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <returns>A GenericResult implementation of the ITranslationResult, containing Geodetic coordinates (Latitude, Longitude in radians, Height in meters).</returns>
         public ITranslationResult ToGeodetic(string coordValue)
         {
-            if (coordValue == null) throw new ArgumentNullException("coordValue");
+            ArgumentNullException.ThrowIfNull(coordValue);
             
             double xLon = 0.0;
             double yLat = 0.0;

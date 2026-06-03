@@ -101,7 +101,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 if (!(value is StarThrower.Gis.GeoUtilities.Shapes.Part)) throw new ArgumentException("Could not cast " + value.GetType().ToString() + " to " + this.GetType().ToString());
                 StarThrower.Gis.GeoUtilities.Shapes.Part other = (StarThrower.Gis.GeoUtilities.Shapes.Part)value;
                 _pointList.Clear();

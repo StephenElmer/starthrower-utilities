@@ -352,7 +352,7 @@ namespace StarThrower.XBase.Internal
         {
             try
             {
-                if (obj == null) throw new ArgumentNullException("obj");
+                ArgumentNullException.ThrowIfNull(obj);
                 StarThrower.XBase.Internal.Field other = (StarThrower.XBase.Internal.Field)obj;
                 _name = other.Name;
                 _type = other.Type;

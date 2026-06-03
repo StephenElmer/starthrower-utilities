@@ -132,7 +132,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 if (!(value is StarThrower.Gis.GeoUtilities.Shapes.PolylineShape)) throw new ArgumentException("Could not cast " + value.GetType().ToString() + " to " + this.GetType().ToString());
                 StarThrower.Gis.GeoUtilities.Shapes.PolylineShape other = (StarThrower.Gis.GeoUtilities.Shapes.PolylineShape)value;
                 _partList.Clear();

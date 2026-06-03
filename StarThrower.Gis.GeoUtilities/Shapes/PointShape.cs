@@ -95,7 +95,7 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 PointShape other = (PointShape)value;
 
                 this.xLon = other.xLon;

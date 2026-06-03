@@ -65,7 +65,7 @@ namespace StarThrower.XBase.Internal
         /// <exception cref="ArgumentNullException">Thrown if fieldName is null.</exception>
         internal bool Find(byte[] fieldName)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             try
             {
@@ -88,7 +88,7 @@ namespace StarThrower.XBase.Internal
         /// <exception cref="ArgumentNullException">Thrown if fieldName is null.</exception>
         internal bool Find(byte[] fieldName, ref Int32 index)
         {
-            if (fieldName == null) throw new ArgumentNullException("fieldName");
+            ArgumentNullException.ThrowIfNull(fieldName);
 
             try
             {
@@ -168,7 +168,7 @@ namespace StarThrower.XBase.Internal
 
         internal void GetFieldBounds(Int32 fieldIndex, ref Int32 startIndex, ref Int32 length)
         {
-            if (fieldIndex < 0 || fieldIndex > (this.Count - 1)) throw new ArgumentOutOfRangeException("fieldIndex");
+            if (fieldIndex < 0 || fieldIndex > (this.Count - 1)) throw new ArgumentOutOfRangeException(nameof(fieldIndex));
             length = this[fieldIndex].Length;
             startIndex = CalculateStartIndex(fieldIndex);
         }
@@ -668,7 +668,8 @@ namespace StarThrower.XBase.Internal
         /// <exception cref="ArgumentNullException"></exception>
         internal FieldCollectionEnumerator(StarThrower.XBase.Internal.FieldCollection list)
         {
-            if (list == null) throw new ArgumentNullException("list");
+            ArgumentNullException.ThrowIfNull(list);
+
             _list = list;
             _cursor = -1;
         }

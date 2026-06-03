@@ -156,11 +156,11 @@ namespace StarThrower.Gis.GeoUtilities
 
             if ((latitude < -GeoUtil.PiOver2) || (latitude > GeoUtil.PiOver2))
             {
-                throw new ArgumentOutOfRangeException("latitude");
+                throw new ArgumentOutOfRangeException(nameof(latitude));
             }
             if ((longitude < -Math.PI) || (longitude > GeoUtil.TwoPi))
             {
-                throw new ArgumentOutOfRangeException("longitude");
+                throw new ArgumentOutOfRangeException(nameof(longitude));
             }
 
             latitude_dd = latitude * GeoUtil.PiUnder180;
@@ -352,11 +352,11 @@ namespace StarThrower.Gis.GeoUtilities
 
             if ((latitude < -GeoUtil.PiOver2) || (latitude > GeoUtil.PiOver2))
             {
-                throw new ArgumentOutOfRangeException("latitude");
+                throw new ArgumentOutOfRangeException(nameof(latitude));
             }
             if ((longitude < -Math.PI) || (longitude > GeoUtil.TwoPi))
             {
-                throw new ArgumentOutOfRangeException("longitude");
+                throw new ArgumentOutOfRangeException(nameof(longitude));
             }
 
             latitude_dd = latitude * GeoUtil.PiUnder180;

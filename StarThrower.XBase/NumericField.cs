@@ -77,7 +77,7 @@ namespace StarThrower.XBase
 
         public override bool IsValidData(object data, out string result)
         {
-            if (data == null) throw new ArgumentNullException("data");
+            ArgumentNullException.ThrowIfNull(data);
             if (this.Owner is null) throw new InvalidOperationException("Owner is not set.");
 
             if (this.Owner.DecimalCount == 0) //treat this field as if it were a (shortened) Int64

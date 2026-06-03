@@ -115,7 +115,7 @@ namespace StarThrower.Gis.GeoUtilities
         {
             try
             {
-                if (value == null) throw new ArgumentNullException("value");
+                ArgumentNullException.ThrowIfNull(value);
                 GeoPoint other = (GeoPoint)value;
                 this.yLat = other.yLat;
                 this.xLon = other.xLon;

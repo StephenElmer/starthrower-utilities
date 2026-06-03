@@ -70,7 +70,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
 
         internal UtmWgs84(IZone zone)
         {
-            if (!(zone is Zones.Utm.UtmZone) && !(zone is Zones.UndefinedZone)) throw new ArgumentException("invalid zone", "zone");
+            if (!(zone is Zones.Utm.UtmZone) && !(zone is Zones.UndefinedZone)) throw new ArgumentException("invalid zone", nameof(zone));
 
             _zone = zone;
             double centralMeridianValue = _zone.CentralMeridian;
