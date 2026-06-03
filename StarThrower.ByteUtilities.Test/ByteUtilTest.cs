@@ -107,9 +107,9 @@ namespace StarThrower.ByteUtilities.Test
         [TestMethod]
         public void TestXorByteArrayEmptyArrays()
         {
-            byte[] value1 = new byte[] { };
-            byte[] value2 = new byte[] { };
-            byte[] expected = new byte[] { };
+            byte[] value1 = Array.Empty<byte>();
+            byte[] value2 = Array.Empty<byte>();
+            byte[] expected = Array.Empty<byte>();
             
             byte[] actual = ByteUtil.XorByteArray(value1, value2);
             
@@ -136,7 +136,7 @@ namespace StarThrower.ByteUtilities.Test
         public void TestXorByteArrayOneEmpty()
         {
             byte[] value1 = new byte[] { 0xFF, 0xAA, 0x55 };
-            byte[] value2 = new byte[] { };
+            byte[] value2 = Array.Empty<byte>();
             byte[] expected = new byte[] { 0xFF, 0xAA, 0x55 };
             
             byte[] actual = ByteUtil.XorByteArray(value1, value2);
@@ -1393,8 +1393,8 @@ namespace StarThrower.ByteUtilities.Test
         [TestMethod]
         public void TestBytesAreEqualEmptyArrays()
         {
-            byte[] arr1 = new byte[] { };
-            byte[] arr2 = new byte[] { };
+            byte[] arr1 = Array.Empty<byte>();
+            byte[] arr2 = Array.Empty<byte>();
             bool expected = true;
             bool actual = ByteUtil.BytesAreEqual(arr1, arr2);
 

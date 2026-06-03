@@ -48,7 +48,7 @@ namespace StarThrower.Gis.GeoUtilities
 
             if (!_geographicCoordinateSystems.ContainsKey(geographicCoordinateSystemType.Name))
             {
-                IGeographicCoordinateSystem gcs = (IGeographicCoordinateSystem)(geographicCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(new object[] { });
+                IGeographicCoordinateSystem gcs = (IGeographicCoordinateSystem)(geographicCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Array.Empty<Type>(), null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(Array.Empty<object>());
                 lock (_geographicCoordinateSystemsLock)
                 {
                     _geographicCoordinateSystems.TryAdd(gcs.Key, gcs);

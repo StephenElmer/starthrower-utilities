@@ -100,7 +100,7 @@ namespace StarThrower.Gis.GeoUtilities
 
             if (!_ellipsoidList.ContainsKey(ellipsoidType.Name))
             {
-                IEllipsoid e = (IEllipsoid)(ellipsoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidEllipsoidTypeException()).Invoke(new object[] { });
+                IEllipsoid e = (IEllipsoid)(ellipsoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Array.Empty<Type>(), null) ?? throw new Exceptions.InvalidEllipsoidTypeException()).Invoke(Array.Empty<object>());
                 lock (_ellipsoidListLock)
                 {
                     _ellipsoidList.TryAdd(e.Key, e);

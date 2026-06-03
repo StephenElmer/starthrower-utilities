@@ -192,9 +192,11 @@ namespace StarThrower.EarleyParser.TestApp
             return r.ToArray();
         }
 
+        private static readonly char[] separator = new char[] { ' ' };
+
         private string[] Tokenize(string text)
         {
-            return text.Split(new char[] { ' ' });
+            return text.Split(separator);
         }
 
         #endregion

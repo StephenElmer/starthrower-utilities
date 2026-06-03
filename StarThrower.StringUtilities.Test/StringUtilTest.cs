@@ -4272,7 +4272,7 @@ namespace StarThrower.StringUtilities.Test
                 Assert.AreEqual(ary2[i], actual[i]);
             }
 
-            string[] ary3 = { };
+            string[] ary3 = Array.Empty<string>();
             actual = StringUtil.SplitStringIntoArray("");
             Assert.AreEqual(ary3.Length, actual.Length);
             for (int i = 0; i < ary3.Length; i++)
@@ -9075,7 +9075,7 @@ namespace StarThrower.StringUtilities.Test
         [TestMethod]
         public void TestFromByteArray2EmptyArray()
         {
-            string result = StringUtil.FromByteArray(new byte[0]);
+            string result = StringUtil.FromByteArray([]);
             Assert.AreEqual("", result);
             Assert.AreEqual(0, result.Length);
         }

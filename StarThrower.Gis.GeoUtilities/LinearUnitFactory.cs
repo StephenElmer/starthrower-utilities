@@ -45,7 +45,7 @@ namespace StarThrower.Gis.GeoUtilities
 
             if (!_unitList.ContainsKey(linearUnitType.Name))
             {
-                ILinearUnit au = (ILinearUnit)(linearUnitType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidLinearUnitTypeException()).Invoke(new object[] { });
+                ILinearUnit au = (ILinearUnit)(linearUnitType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Array.Empty<Type>(), null) ?? throw new Exceptions.InvalidLinearUnitTypeException()).Invoke(Array.Empty<object>());
                 lock (_unitListLock)
                 {
                     _unitList.TryAdd(au.Name, au);

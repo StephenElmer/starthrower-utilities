@@ -45,7 +45,7 @@ namespace StarThrower.Gis.GeoUtilities
 
             if (!_pmList.ContainsKey(primeMeridianType.Name))
             {
-                IPrimeMeridian pm = (IPrimeMeridian)(primeMeridianType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidPrimeMeridianTypeException()).Invoke(new object[] { });
+                IPrimeMeridian pm = (IPrimeMeridian)(primeMeridianType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Array.Empty<Type>(), null) ?? throw new Exceptions.InvalidPrimeMeridianTypeException()).Invoke(Array.Empty<object>());
                 lock (_pmListLock)
                 {
                     _pmList.TryAdd(pm.Name, pm);

@@ -52,7 +52,7 @@ namespace StarThrower.Gis.GeoUtilities
 
             if (!_projectedCoordinateSystems.ContainsKey(projectedCoordinateSystemType.Name))
             {
-                IProjectedCoordinateSystem pcs = (IProjectedCoordinateSystem)(projectedCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(new object[] { });
+                IProjectedCoordinateSystem pcs = (IProjectedCoordinateSystem)(projectedCoordinateSystemType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Array.Empty<Type>(), null) ?? throw new Exceptions.InvalidCoordinateSystemException()).Invoke(Array.Empty<object>());
                 lock (_projectedCoordinateSystemsLock)
                 {
                     _projectedCoordinateSystems.TryAdd(pcs.Key, pcs);

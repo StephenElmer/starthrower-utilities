@@ -304,7 +304,7 @@ namespace StarThrower.Gis.GeoUtilities
 
             if (!_datumList.ContainsKey(datumType.Name))
             {
-                IDatum d = (IDatum)(datumType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidDatumTypeException()).Invoke(new object[] { });
+                IDatum d = (IDatum)(datumType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Array.Empty<Type>(), null) ?? throw new Exceptions.InvalidDatumTypeException()).Invoke(Array.Empty<object>());
                 lock (_datumListLock)
                 {
                     _datumList.TryAdd(d.Key, d);

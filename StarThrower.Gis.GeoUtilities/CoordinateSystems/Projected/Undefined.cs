@@ -31,7 +31,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
         internal Undefined() : base()
         {
             this.GeographicCoordinateSystem = GeographicCoordinateSystemFactory.GetInstanceOfGeographicCoordinateSystem(typeof(Geographic.Undefined));
-            this.Projection = ProjectionFactory.GetInstanceOfProjection(typeof(Projections.Undefined), new ProjectionParameter[] { });
+            this.Projection = ProjectionFactory.GetInstanceOfProjection(typeof(Projections.Undefined), Array.Empty<ProjectionParameter>());
             this.LinearUnit = LinearUnitFactory.GetInstanceOfLinearUnit(typeof(LinearUnits.Undefined));
         }
 

@@ -39,7 +39,7 @@ namespace StarThrower.Gis.GeoUtilities
 
             if (!_geoidList.ContainsKey(geoidType.Name))
             {
-                IGeoid g = (IGeoid)(geoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { }, null) ?? throw new Exceptions.InvalidGeoidTypeException()).Invoke(new object[] { });
+                IGeoid g = (IGeoid)(geoidType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Array.Empty<Type>(), null) ?? throw new Exceptions.InvalidGeoidTypeException()).Invoke(Array.Empty<object>());
                 lock (_geoidListLock)
                 {
                     _geoidList.TryAdd(g.Key, g);
