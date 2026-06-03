@@ -211,7 +211,7 @@ namespace StarThrower.EarleyParser
 
                 if (i < this.Right.Count)
                 {
-                    sb.Append(" ");
+                    sb.Append(' ');
                     sb.Append(this.Right[i].ToString());
                 }
             }

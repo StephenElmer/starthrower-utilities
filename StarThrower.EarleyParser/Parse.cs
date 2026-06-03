@@ -360,7 +360,7 @@ namespace StarThrower.EarleyParser
             {
                 sb.Append(" (");
                 sb.Append(this.ParseTrees.Count.ToString(CultureInfo.InvariantCulture));
-                sb.Append(")");
+                sb.Append(')');
             }
             return sb.ToString();
         }

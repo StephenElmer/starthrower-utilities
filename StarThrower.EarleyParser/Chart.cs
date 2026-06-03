@@ -373,14 +373,16 @@ namespace StarThrower.EarleyParser
             StringBuilder sb = new StringBuilder(String.Empty);
             foreach (int key in _edgeSets.Keys)
             {
-                sb.Append("[" + key.ToString(CultureInfo.InvariantCulture) + ": ");
+                sb.Append('[');
+                sb.Append(key.ToString(CultureInfo.InvariantCulture));
+                sb.Append(": ");
                 if (_edgeSets[key].Count == 0)
                 {
                     sb.Append("{}");
                 }
                 else
                 {
-                    sb.Append("{");
+                    sb.Append('{');
                     for (int i = 0; i < _edgeSets[key].Count; i++)
                     {
                         if (i == 0)
@@ -389,12 +391,13 @@ namespace StarThrower.EarleyParser
                         }
                         else
                         {
-                            sb.Append(" " + _edgeSets[key][i].ToString());
+                            sb.Append(' ');
+                            sb.Append(_edgeSets[key][i].ToString());
                         }
                     }
-                    sb.Append("}");
+                    sb.Append('}');
                 }
-                sb.Append("]");
+                sb.Append(']');
             }
             return sb.ToString();
         }

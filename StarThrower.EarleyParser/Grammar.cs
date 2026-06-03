@@ -173,9 +173,9 @@ namespace StarThrower.EarleyParser
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(String.Empty);
-            sb.Append("[");
+            sb.Append('[');
             sb.Append("Grammar");
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(_name);
             sb.Append(": {");
 

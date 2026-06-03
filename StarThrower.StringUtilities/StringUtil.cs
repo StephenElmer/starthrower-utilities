@@ -106,6 +106,7 @@ namespace StarThrower.StringUtilities
         /// </summary>
         public const string SuperscriptMinus = "\u207B";
 
+        private static char OneChar(string s) => s[0];
 
         /// <summary>
         /// Converts the source string into a string of hexadecimal characters.
@@ -1498,40 +1499,40 @@ namespace StarThrower.StringUtilities
                     switch (target[i])
                     {
                         case '0':
-                            result.Append(Superscript0);
+                            result.Append(OneChar(Superscript0));
                             break;
                         case '1':
-                            result.Append(Superscript1);
+                            result.Append(OneChar(Superscript1));
                             break;
                         case '2':
-                            result.Append(Superscript2);
+                            result.Append(OneChar(Superscript2));
                             break;
                         case '3':
-                            result.Append(Superscript3);
+                            result.Append(OneChar(Superscript3));
                             break;
                         case '4':
-                            result.Append(Superscript4);
+                            result.Append(OneChar(Superscript4));
                             break;
                         case '5':
-                            result.Append(Superscript5);
+                            result.Append(OneChar(Superscript5));
                             break;
                         case '6':
-                            result.Append(Superscript6);
+                            result.Append(OneChar(Superscript6));
                             break;
                         case '7':
-                            result.Append(Superscript7);
+                            result.Append(OneChar(Superscript7));
                             break;
                         case '8':
-                            result.Append(Superscript8);
+                            result.Append(OneChar(Superscript8));
                             break;
                         case '9':
-                            result.Append(Superscript9);
+                            result.Append(OneChar(Superscript9));
                             break;
                         case '+':
-                            result.Append(SuperscriptPlus);
+                            result.Append(OneChar(SuperscriptPlus));
                             break;
                         case '-':
-                            result.Append(SuperscriptMinus);
+                            result.Append(OneChar(SuperscriptMinus));
                             break;
                         default:
                             throw new NotSupportedException();

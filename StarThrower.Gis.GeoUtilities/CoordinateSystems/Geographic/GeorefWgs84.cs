@@ -236,13 +236,13 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
             StringBuilder precisionString = new StringBuilder(String.Empty);
             for (int i = 0; i < precision; i++)
             {
-                precisionString.Append("0");
+                precisionString.Append('0');
             }
             result.Append(String.Format(CultureInfo.InvariantCulture, precisionString + "." + precisionString, min));
             
             if (precision == 1)
             {
-                result.Append("0");
+                result.Append('0');
             }
 
             return result.ToString();

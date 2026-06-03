@@ -256,7 +256,7 @@ namespace StarThrower.EarleyParser
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(String.Empty);
-            sb.Append("[");
+            sb.Append('[');
             sb.Append(_node.ToString());
             if (_children != null)
             {
@@ -265,7 +265,7 @@ namespace StarThrower.EarleyParser
                     sb.Append(child.ToString());
                 }
             }
-            sb.Append("]");
+            sb.Append(']');
             return sb.ToString();
         }
 

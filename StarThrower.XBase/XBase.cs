@@ -75,9 +75,10 @@ namespace StarThrower.XBase
             }
             else
             {
-                temp.Append("0" + month.ToString(CultureInfo.InvariantCulture));
+                temp.Append('0');
+                temp.Append(month.ToString(CultureInfo.InvariantCulture));
             }
-            temp.Append("-");
+            temp.Append('-');
 
             if (day >= 10)
             {
@@ -85,9 +86,10 @@ namespace StarThrower.XBase
             }
             else
             {
-                temp.Append("0" + day.ToString(CultureInfo.InvariantCulture));
+                temp.Append('0');
+                temp.Append(day.ToString(CultureInfo.InvariantCulture));
             }
-            temp.Append("-");
+            temp.Append('-');
 
             temp.Append(year.ToString(CultureInfo.InvariantCulture));
 

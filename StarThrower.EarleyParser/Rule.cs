@@ -178,7 +178,7 @@ namespace StarThrower.EarleyParser
             sb.Append(" ->");
             for (int i = 0; i < _right.Count; i++)
             {
-                sb.Append(" ");
+                sb.Append(' ');
                 sb.Append(_right[i].ToString());
             }
             return sb.ToString();
