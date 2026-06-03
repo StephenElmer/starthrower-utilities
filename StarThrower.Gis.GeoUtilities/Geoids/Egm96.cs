@@ -84,7 +84,7 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
 
         #region Private Instance Variables
 
-        private int _insetAreas = 0;
+        private int _insetAreas;
         private VariableGrid[] _variableGridTable = Array.Empty<VariableGrid>();
 
         #endregion

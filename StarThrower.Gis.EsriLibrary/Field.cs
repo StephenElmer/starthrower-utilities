@@ -28,8 +28,8 @@ namespace StarThrower.Gis.EsriLibrary
 
         private string _name = "";
         private StarThrower.Gis.EsriLibrary.Types.FieldType? _type;
-        private int _length = 0;
-        private int _decimalCount = 0;
+        private int _length;
+        private int _decimalCount;
 
         #endregion
 

@@ -56,8 +56,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Private Member Variables
 
-        private Int32 _recordNumber = 0; //Record Number - bytes 0-3 (Big Endian)   Record numbers begin at 1
-        private Int32 _contentLength = 0; //Record Number - bytes 4-7 (Big Endian)
+        private Int32 _recordNumber; //Record Number - bytes 0-3 (Big Endian)   Record numbers begin at 1
+        private Int32 _contentLength; //Record Number - bytes 4-7 (Big Endian)
 
         #endregion
 

@@ -40,26 +40,26 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         #region Private Member Variables
 
         private Int32 _fileCode = 9994; //4 bytes 0-3 (Big Endian)
-        private Int32 _reserved1 = 0; //4 bytes 4-7 (Big Endian)
-        private Int32 _reserved2 = 0; //4 bytes 8-11 (Big Endian)
-        private Int32 _reserved3 = 0; //4 bytes 12-15 (Big Endian)
-        private Int32 _reserved4 = 0; //4 bytes 16-19 (Big Endian)
-        private Int32 _reserved5 = 0; //4 bytes 20-23 (Big Endian)
+        private Int32 _reserved1; //4 bytes 4-7 (Big Endian)
+        private Int32 _reserved2; //4 bytes 8-11 (Big Endian)
+        private Int32 _reserved3; //4 bytes 12-15 (Big Endian)
+        private Int32 _reserved4; //4 bytes 16-19 (Big Endian)
+        private Int32 _reserved5; //4 bytes 20-23 (Big Endian)
         private Int32 _fileLength = 100; //4 bytes 24-27 (Big Endian)  100 = the length of the file header plus the EOF character - a file with no records should be at least 101 bytes
         private Int32 _version = 1000; //4 bytes 28-31 (Little Endian)
         private ShapeType _shapeType = ShapeType.NullShape; //4 bytes 32-35 (Little Endian)
 
         //Bounding box (extent)
-        private double _xMin = 0.0; //8 bytes 36-43 (Little Endian)
-        private double _yMin = 0.0; //8 bytes 44-51 (Little Endian)
-        private double _xMax = 0.0; //8 bytes 52-59 (Little Endian)
-        private double _yMax = 0.0; //8 bytes 60-67 (Little Endian)
+        private double _xMin; //8 bytes 36-43 (Little Endian)
+        private double _yMin; //8 bytes 44-51 (Little Endian)
+        private double _xMax; //8 bytes 52-59 (Little Endian)
+        private double _yMax; //8 bytes 60-67 (Little Endian)
 
         //Unused, with value 0.0, if not Measured or Z type
-        private double _zMin = 0.0; //8 bytes 68-75 (Little Endian)
-        private double _zMax = 0.0; //8 bytes 76-83 (Little Endian)
-        private double _mMin = 0.0; //8 bytes 84-91 (Little Endian)
-        private double _mMax = 0.0; //8 bytes 92-99 (Little Endian)
+        private double _zMin; //8 bytes 68-75 (Little Endian)
+        private double _zMax; //8 bytes 76-83 (Little Endian)
+        private double _mMin; //8 bytes 84-91 (Little Endian)
+        private double _mMax; //8 bytes 92-99 (Little Endian)
 
         #endregion
 

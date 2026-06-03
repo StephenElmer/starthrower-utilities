@@ -52,8 +52,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Private Member Variables
 
-        private Int32 _offset = 0; //bytes 0-3 (Big Endian)
-        private Int32 _contentLength = 0; //bytes 4-7 (Big Endian)
+        private Int32 _offset; //bytes 0-3 (Big Endian)
+        private Int32 _contentLength; //bytes 4-7 (Big Endian)
 
         #endregion
 

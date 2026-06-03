@@ -31,13 +31,13 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
         #region Private Member Variables
 
         //bounding box ie extent
-        private double _xMin = 0.0; //bytes 4-11 (Little Endian)
-        private double _yMin = 0.0; //bytes 12-19 (Little Endian)
-        private double _xMax = 0.0; //bytes 20-27 (Little Endian)
-        private double _yMax = 0.0; //bytes 28-35 (Little Endian)
+        private double _xMin; //bytes 4-11 (Little Endian)
+        private double _yMin; //bytes 12-19 (Little Endian)
+        private double _xMax; //bytes 20-27 (Little Endian)
+        private double _yMax; //bytes 28-35 (Little Endian)
 
-        private Int32 _numParts = 0; //bytes 36-39 (Little Endian)
-        private Int32 _numPoints = 0; //bytes 40-43 (Little Endian)
+        private Int32 _numParts; //bytes 36-39 (Little Endian)
+        private Int32 _numPoints; //bytes 40-43 (Little Endian)
         private List<Int32> _parts = new List<Int32>(); //bytes [44] - [(44 + (4 * _numParts)) - 1] (Little Endian)
         private List<GeoPoint> _points = new List<GeoPoint>(); //bytes [44 + (4 * _numParts)] - [((44 + (4 * _numParts)) + (4 * _numPoints)) - 1] (Little Endian)
 

@@ -24,7 +24,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
 {
     public class Dms2Formatter : IDmsFormatter
     {
-        private static Dms2Formatter? _formatter = null;
+        private static Dms2Formatter? _formatter;
 
 
         #region Construction

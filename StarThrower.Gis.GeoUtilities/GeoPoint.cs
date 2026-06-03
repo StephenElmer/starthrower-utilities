@@ -28,8 +28,8 @@ namespace StarThrower.Gis.GeoUtilities
     {
         #region Private Member Variables
 
-        private double _yLat = 0;
-        private double _xLon = 0;
+        private double _yLat;
+        private double _xLon;
         private IDmsFormatter _dmsFormatter = DmsFormatterFactory.Create(DmsFormat.Default);
 
         #endregion

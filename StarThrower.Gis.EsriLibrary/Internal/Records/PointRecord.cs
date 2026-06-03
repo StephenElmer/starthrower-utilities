@@ -28,8 +28,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
     {
         #region Private Member Variables
 
-        private double _x = 0.0; //bytes 4-11 (Little Endian)
-        private double _y = 0.0; //bytes 12-19 (Little Endian)
+        private double _x; //bytes 4-11 (Little Endian)
+        private double _y; //bytes 12-19 (Little Endian)
 
         #endregion
 
