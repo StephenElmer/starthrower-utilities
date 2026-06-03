@@ -80,10 +80,10 @@ namespace StarThrower.XBase.Test
             record.SetData("MYBOOL", false);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYBOOL"), typeof(bool));
+            Assert.IsInstanceOfType<bool>(file.GetRecord(0).GetData("MYBOOL"));
             Assert.AreEqual(true, file.GetRecord(0).GetData("MYBOOL"));
 
-            Assert.IsInstanceOfType(file.GetRecord(1).GetData("MYBOOL"), typeof(bool));
+            Assert.IsInstanceOfType<bool>(file.GetRecord(1).GetData("MYBOOL"));
             Assert.AreEqual(false, file.GetRecord(1).GetData("MYBOOL"));
         }
     }

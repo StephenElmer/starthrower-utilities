@@ -106,10 +106,10 @@ namespace StarThrower.XBase.Test
             record.SetData("MYSTRING", "abcdefghij");
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYSTRING"), typeof(string));
+            Assert.IsInstanceOfType<string>(file.GetRecord(0).GetData("MYSTRING"));
             Assert.AreEqual("1234567890", file.GetRecord(0).GetData("MYSTRING"));
 
-            Assert.IsInstanceOfType(file.GetRecord(1).GetData("MYSTRING"), typeof(string));
+            Assert.IsInstanceOfType<string>(file.GetRecord(1).GetData("MYSTRING"));
             Assert.AreEqual("abcdefghij", file.GetRecord(1).GetData("MYSTRING"));
         }
 
@@ -140,16 +140,16 @@ namespace StarThrower.XBase.Test
             record.SetData("MYSTRING", "         0");
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYSTRING"), typeof(string));
+            Assert.IsInstanceOfType<string>(file.GetRecord(0).GetData("MYSTRING"));
             Assert.AreEqual("          ", file.GetRecord(0).GetData("MYSTRING"));
 
-            Assert.IsInstanceOfType(file.GetRecord(1).GetData("MYSTRING"), typeof(string));
+            Assert.IsInstanceOfType<string>(file.GetRecord(1).GetData("MYSTRING"));
             Assert.AreEqual("1         ", file.GetRecord(1).GetData("MYSTRING"));
 
-            Assert.IsInstanceOfType(file.GetRecord(2).GetData("MYSTRING"), typeof(string));
+            Assert.IsInstanceOfType<string>(file.GetRecord(2).GetData("MYSTRING"));
             Assert.AreEqual("123456789 ", file.GetRecord(2).GetData("MYSTRING"));
 
-            Assert.IsInstanceOfType(file.GetRecord(3).GetData("MYSTRING"), typeof(string));
+            Assert.IsInstanceOfType<string>(file.GetRecord(3).GetData("MYSTRING"));
             Assert.AreEqual("         0", file.GetRecord(3).GetData("MYSTRING"));
         }
 

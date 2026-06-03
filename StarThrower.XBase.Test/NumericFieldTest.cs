@@ -114,7 +114,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual(7L, file.GetRecord(0).GetData("MYNUM"));
         }
 
@@ -155,7 +155,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual((long)(short.MinValue), file.GetRecord(0).GetData("MYNUM"));
         }
 
@@ -176,7 +176,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual((long)(short.MaxValue), file.GetRecord(0).GetData("MYNUM"));
         }
 
@@ -222,7 +222,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual(7L, file.GetRecord(0).GetData("MYNUM"));
         }
 
@@ -263,7 +263,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual((long)(int.MinValue), file.GetRecord(0).GetData("MYNUM"));
         }
 
@@ -284,7 +284,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual((long)(int.MaxValue), file.GetRecord(0).GetData("MYNUM"));
         }
 
@@ -330,7 +330,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual(7L, file.GetRecord(0).GetData("MYNUM"));
         }
 
@@ -371,7 +371,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual(-9999999999999999, file.GetRecord(0).GetData("MYNUM"));
         }
 
@@ -392,7 +392,7 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYNUM"), typeof(long));
+            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
             Assert.AreEqual(99999999999999999, file.GetRecord(0).GetData("MYNUM"));
         }
 

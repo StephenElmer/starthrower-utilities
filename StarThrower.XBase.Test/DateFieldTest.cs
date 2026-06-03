@@ -96,10 +96,10 @@ namespace StarThrower.XBase.Test
             file.AddRecord(record);
 
 
-            Assert.IsInstanceOfType(file.GetRecord(0).GetData("MYDATE"), typeof(DateTime));
+            Assert.IsInstanceOfType<DateTime>(file.GetRecord(0).GetData("MYDATE"));
             Assert.AreEqual(dtNow.Date, file.GetRecord(0).GetData("MYDATE"));
 
-            Assert.IsInstanceOfType(file.GetRecord(1).GetData("MYDATE"), typeof(DateTime));
+            Assert.IsInstanceOfType<DateTime>(file.GetRecord(1).GetData("MYDATE"));
             Assert.AreEqual(new DateTime(1968, 5, 18), file.GetRecord(1).GetData("MYDATE"));
         }
     }
