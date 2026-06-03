@@ -232,12 +232,12 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
             string? latitudinalZone = null;
             if (int.TryParse(zone.Substring(0, 2), out stub))
             {
-                latitudinalZone = zone.Substring(2, zone.Length - 2);
+                latitudinalZone = zone.Substring(2);
                 _latitudinalZone = GetLatitudinalZoneFromLatitudinalZoneString(latitudinalZone);
             }
             else if (int.TryParse(zone.Substring(0, 1), out stub))
             {
-                latitudinalZone = zone.Substring(1, zone.Length - 1);
+                latitudinalZone = zone.Substring(1);
                 _latitudinalZone = GetLatitudinalZoneFromLatitudinalZoneString(latitudinalZone);
             }
             else

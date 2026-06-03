@@ -1405,7 +1405,7 @@ namespace StarThrower.StringUtilities
                 if (!temp.Contains('E')) return temp;
                 int eIndex = temp.IndexOf('E', StringComparison.Ordinal);
                 string baseVal = temp.Substring(0, eIndex);
-                string power = temp.Substring(eIndex + 1, temp.Length - (eIndex + 1));
+                string power = temp.Substring(eIndex + 1);
                 int pow = 0;
                 if (!int.TryParse(power, out pow)) throw new ArgumentOutOfRangeException(nameof(source));
                 if (excludeZeroPower && pow == 0)
