@@ -28,7 +28,7 @@ namespace StarThrower.Matrices
     {
         public Dictionary<TIndex, CompositeMatrix<TIndex, TValue>> _values;
 
-        public override TValue this[params TIndex[] indexes]
+        public override TValue? this[params TIndex[] indexes]
         {
             get
             {
@@ -111,7 +111,7 @@ namespace StarThrower.Matrices
             return result;
         }
 
-        public override TValue GetItemAt(params int[] indexes)
+        public override TValue? GetItemAt(params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
 
@@ -138,7 +138,7 @@ namespace StarThrower.Matrices
             return _values[key].GetItemAt(idx);
         }
 
-        public override void SetItemAt(TValue value, params int[] indexes)
+        public override void SetItemAt(TValue? value, params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
 

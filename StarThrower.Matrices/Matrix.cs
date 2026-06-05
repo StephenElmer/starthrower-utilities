@@ -28,7 +28,7 @@ namespace StarThrower.Matrices
     {
         private CompositeMatrix<TIndex, TValue> _matrix;
 
-        public override TValue this[params TIndex[] indexes]
+        public override TValue? this[params TIndex[] indexes]
         {
             get
             {
@@ -47,12 +47,12 @@ namespace StarThrower.Matrices
             return _matrix.GetIndexesAt(indexes);
         }
 
-        public override TValue GetItemAt(params int[] indexes)
+        public override TValue? GetItemAt(params int[] indexes)
         {
             return _matrix.GetItemAt(indexes);
         }
 
-        public override void SetItemAt(TValue value, params int[] indexes)
+        public override void SetItemAt(TValue? value, params int[] indexes)
         {
             _matrix.SetItemAt(value, indexes);
         }

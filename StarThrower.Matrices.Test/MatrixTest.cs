@@ -142,6 +142,45 @@ namespace StarThrower.Matrices.Test
             Assert.AreEqual(x3, m.GetIndexesAt(2)[0]);
         }
 
+        [TestMethod]
+        public void Matrix1DNullableDefaultIsNull()
+        {
+            List<int> indices = new List<int>();
+            indices.Add(1);
+            indices.Add(2);
+            indices.Add(3);
+
+            Matrix<int, string?> m = new Matrix<int, string?>(indices);
+
+            Assert.IsNull(m[1]);
+            Assert.IsNull(m[2]);
+            Assert.IsNull(m[3]);
+            Assert.IsNull(m.GetItemAt(0));
+            Assert.IsNull(m.GetItemAt(1));
+            Assert.IsNull(m.GetItemAt(2));
+        }
+
+        [TestMethod]
+        public void Matrix1DNullableSetGet()
+        {
+            List<int> indices = new List<int>();
+            indices.Add(1);
+            indices.Add(2);
+            indices.Add(3);
+
+            Matrix<int, string?> m = new Matrix<int, string?>(indices);
+            m[1] = "one";
+            m[2] = null;
+            m.SetItemAt("three", 2);
+
+            Assert.AreEqual("one", m[1]);
+            Assert.IsNull(m[2]);
+            Assert.AreEqual("three", m[3]);
+            Assert.AreEqual("one", m.GetItemAt(0));
+            Assert.IsNull(m.GetItemAt(1));
+            Assert.AreEqual("three", m.GetItemAt(2));
+        }
+
         #endregion
 
 
@@ -355,6 +394,29 @@ namespace StarThrower.Matrices.Test
 
             Assert.AreEqual(x3, m.GetIndexesAt(2, 2)[0]);
             Assert.AreEqual(y3, m.GetIndexesAt(2, 2)[1]);
+        }
+
+        [TestMethod]
+        public void Matrix2DNullableDefaultAndSet()
+        {
+            List<int> d1indices = new List<int>();
+            d1indices.Add(1);
+            d1indices.Add(2);
+
+            List<int> d2indices = new List<int>();
+            d2indices.Add(10);
+            d2indices.Add(20);
+
+            Matrix<int, string?> m = new Matrix<int, string?>(d1indices, d2indices);
+
+            Assert.IsNull(m[1, 10]);
+            Assert.IsNull(m.GetItemAt(0, 0));
+
+            m[1, 10] = "a";
+            m.SetItemAt(null, 1, 1);
+
+            Assert.AreEqual("a", m[1, 10]);
+            Assert.IsNull(m[2, 20]);
         }
 
         #endregion

@@ -26,9 +26,9 @@ namespace StarThrower.Matrices
 {
     internal sealed class OneDimensionMatrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue> where TIndex : notnull
     {
-        public Dictionary<TIndex, TValue> _values;
+        public Dictionary<TIndex, TValue?> _values;
 
-        public override TValue this[params TIndex[] indexes]
+        public override TValue? this[params TIndex[] indexes]
         {
             get
             {
@@ -63,7 +63,7 @@ namespace StarThrower.Matrices
             return result;
         }
 
-        public override TValue GetItemAt(params int[] indexes)
+        public override TValue? GetItemAt(params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
@@ -74,7 +74,7 @@ namespace StarThrower.Matrices
             return _values[key];
         }
 
-        public override void SetItemAt(TValue value, params int[] indexes)
+        public override void SetItemAt(TValue? value, params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
             ArgumentOutOfRangeException.ThrowIfNegative(indexes[0]);
@@ -89,10 +89,10 @@ namespace StarThrower.Matrices
             ArgumentNullException.ThrowIfNull(indexes);
             if (!indexes.Any()) throw new InvalidOperationException("OneDimensionMatrix must contain at least one value in its indices list");
 
-            _values = new Dictionary<TIndex, TValue>();
+            _values = new Dictionary<TIndex, TValue?>();
             foreach (TIndex i in indexes)
             {
-                _values.Add(i, default(TValue));
+                _values.Add(i, default);
             }
         }
     }
