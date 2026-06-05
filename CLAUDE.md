@@ -77,7 +77,7 @@ to take only what they need.
 ### Test Projects
 
 Each library has a paired `*.Test` project. Tests currently use MSTest (VS Test).
-Migration target is **xUnit + FluentAssertions**.
+Migration target is **xUnit + FluentAssertions** (Step 6).
 
 Additional projects:
 - `StarThrower.EarleyParser.TestApp` — WPF app for interactive parser testing (WinExe, not a console app)
@@ -140,10 +140,11 @@ Current/
     ByteUtilities, DataUtilities, FileUtilities, StringUtilities, DateTimeUtilities,
     EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
 - **Source control:** Git / GitHub (TFS artifacts removed — Step 1 complete)
-- **Test framework:** MSTest (VS Test) — xUnit migration pending (Step 5)
+- **Test framework:** MSTest (VS Test) — xUnit migration pending (Step 6)
 - **NuGet:** PackageReference (packages.config removed — Step 2a complete)
-- **Code analysis:** FxCopCmd removed — Roslyn analyzers pending (Step 3)
-- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1–7), 2d
+- **Code analysis:** Roslyn analyzers configured — `<AnalysisMode>Recommended</AnalysisMode>` (Step 3 complete)
+- **NuGet packages:** All core library projects updated to latest versions (Step 4 complete)
+- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1–7), 2d, 3, 4
 - **All tests passing** on all migrated (net10.0) projects
 
 ---
@@ -321,7 +322,7 @@ with a comment explaining why. The modern equivalent (`AsSpan(start, length).ToA
 requires net6.0+ and cannot be used while the project stays on net48.
 
 These projects will remain at net48 until a deliberate redesign decision is made for a
-future phase. Exclude them from Steps 2c, 2d, 3, 4, and 5.
+future phase. Exclude them from Steps 2c, 2d, 3, 4, 5, and 6.
 
 ***Step 2c — Enable C# 14 and nullable — project by project***
 
@@ -371,13 +372,16 @@ For each logged item, choose one of:
 
 Do not remove or deprecate any public API without explicit discussion first.
 
-**Step 3 — Configure Roslyn analyzers** (replaces FxCopCmd): ← CURRENT STEP
-- Add `<AnalysisMode>Recommended</AnalysisMode>` to shared build props or each csproj
-- `Microsoft.CodeAnalysis.NetAnalyzers` ships with the .NET 10 SDK — no additional
-  package needed
-- Review and address analyzer warnings as a separate pass after build is clean
+**Step 3 — Configure Roslyn analyzers** (replaces FxCopCmd): ✅ COMPLETE
+- `<AnalysisMode>Recommended</AnalysisMode>` added to all net10.0 library projects
+- All pre-logged CA2200 and CA2022 warnings addressed
+- ~2,400 warnings reviewed and resolved across Groups 1–7
 
-**Step 4 — Add NuGet package metadata** to each library `.csproj` (not test projects):
+**Step 4 — Update NuGet packages:** ✅ COMPLETE
+- All core library projects (Groups 1–7) updated to latest stable package versions
+- Vulnerability and deprecation warnings resolved
+
+**Step 5 — Add NuGet package metadata** to each library `.csproj` (not test projects): ← CURRENT STEP
 ```xml
 <PackageId>StarThrower.{AssemblyName}</PackageId>
 <Version>1.0.0</Version>
@@ -386,7 +390,7 @@ Do not remove or deprecate any public API without explicit discussion first.
 <GenerateDocumentationFile>true</GenerateDocumentationFile>
 ```
 
-**Step 5 — Migrate tests from MSTest to xUnit + FluentAssertions:**
+**Step 6 — Migrate tests from MSTest to xUnit + FluentAssertions:**
 - Replace `[TestClass]` / `[TestMethod]` with `[Fact]` / `[Theory]`
 - Replace `Assert.AreEqual(expected, actual)` with `actual.Should().Be(expected)`
 - Replace `Assert.IsNotNull(x)` with `x.Should().NotBeNull()`
@@ -398,12 +402,12 @@ Do not remove or deprecate any public API without explicit discussion first.
     `Microsoft.NET.Test.Sdk` needed)
   - xUnit v3 is the likely target for net10; evaluate at migration time
 
-**Step 6 — Fix nullable warnings:**
+**Step 7 — Fix nullable warnings:**
 - Do not suppress with `!` operator — annotate properly
 - Add `?` to reference types that are legitimately nullable
 - Add null guards where parameters must be non-null
 
-**Step 7 — Fix test paths** — replace hard-coded paths with assembly-relative paths:
+**Step 8 — Fix test paths** — replace hard-coded paths with assembly-relative paths:
 ```csharp
 var testInputPath = Path.GetFullPath(
     Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "TestInput"));
@@ -412,7 +416,7 @@ var testOutputPath = Path.GetFullPath(
 ```
 Note: verify the exact relative depth once `dotnet test` output paths are confirmed.
 
-**Step 8 — Verify all tests still pass** after each step via `dotnet test`.
+**Step 9 — Verify all tests still pass** after each step via `dotnet test`.
 
 ### Phase 2 — Polish and Publish (after Phase 1 complete)
 
@@ -503,7 +507,7 @@ To be addressed in Step 2d. Do not modify these items during Steps 2b or 2c.
 |---|---|---|---|
 | `StarThrower.Collections` | `ReadOnlyDictionary<TKey,TValue>` | `System.Collections.ObjectModel.ReadOnlyDictionary<TKey,TValue>` (added .NET 4.5) | **Done in Step 2d.** Class now inherits from BCL version; marked `[Obsolete]`. |
 | `StarThrower.ByteUtilities` | `ByteUtil.ReverseBytes` | `Array.Reverse(byte[])` or `Span<T>` in-place reversal | **Keep as-is.** BCL equivalents are in-place (destructive); `ReverseBytes` returns a new array (non-destructive). No single-call BCL equivalent. |
-| `StarThrower.ByteUtilities` | `ByteUtil.BytesAreEqual` | `span.SequenceEqual()` (.NET Core 2.1+) | **Done in Step 2d.** Null guards preserved; body replaced with `value1.AsSpan().SequenceEqual(value2)`; marked `[Obsolete]`. Test project intentionally calls the obsolete method; CS0618 warnings left standing (tests verify the wrapper works; suppression would hide that an obsolete API is under test). Migrate tests to BCL API in Step 5. |
+| `StarThrower.ByteUtilities` | `ByteUtil.BytesAreEqual` | `span.SequenceEqual()` (.NET Core 2.1+) | **Done in Step 2d.** Null guards preserved; body replaced with `value1.AsSpan().SequenceEqual(value2)`; marked `[Obsolete]`. Test project intentionally calls the obsolete method; CS0618 warnings left standing (tests verify the wrapper works; suppression would hide that an obsolete API is under test). Migrate tests to BCL API in Step 6. |
 | `StarThrower.DataUtilities` | All `OleDbDataReader` overloads | `DbDataReader` (abstract base in `System.Data.Common`) | **Done in Step 2b.** New `DbDataReader` overloads added as primary API; `OleDbDataReader` overloads marked `[Obsolete]` and delegate to them. Requires `System.Data.OleDb` NuGet package (Windows-only). |
 
 ---
