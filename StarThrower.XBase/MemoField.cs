@@ -26,7 +26,7 @@ namespace StarThrower.XBase
         public MemoField()
             : base()
         {
-            this.Text = Resources.Memo;
+            this.Text = "Memo";
             this.Code = 'M';
         }
 

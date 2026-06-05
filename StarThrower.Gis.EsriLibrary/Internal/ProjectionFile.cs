@@ -73,7 +73,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         private static void GetEsriNamesFromCoordinateSystem(IProjectedCoordinateSystem pcs, ref string projcs, ref string geogcs, ref string datum, ref double equatorialRadius, ref double inverseFlattening, ref string spheroid, ref string primeem, ref double primeemValue, ref string angularUnit, ref double angularUnitValue, ref string linearUnit, ref double linearUnitValue, ref string projection, ref string[] parameters, ref double[] parameterValues)
         {
             string pcsType = pcs.GetType().Name;
-            if (pcsType.CompareTo(typeof(Bng).Name) == 0)
+            if (pcsType.Equals(typeof(Bng).Name, StringComparison.Ordinal))
             {
                 throw new NotImplementedException();
             }
@@ -585,8 +585,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         private void ParseDataString(string data)
         {
-            if (!data.Contains("PROJCS[\"")) throw new Exception("Invalid Projection File: could not find PROJCS tag.");
-            if (!data.Contains("\"GEOGCS[")) throw new Exception("Invalid Projection File: could not find GEOGCS tag.");
+            if (!data.Contains("PROJCS[\"")) throw new FormatException("Invalid Projection File: could not find PROJCS tag.");
+            if (!data.Contains("\"GEOGCS[")) throw new FormatException("Invalid Projection File: could not find GEOGCS tag.");
             int startIndex = 8; //index of first character after PROJCS"
             int stopIndex = data.IndexOf("\"GEOGCS[", StringComparison.Ordinal);
             string projectedCoordinateSystemName = data.Substring(startIndex, stopIndex - startIndex);

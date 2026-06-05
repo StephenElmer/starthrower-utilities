@@ -26,7 +26,7 @@ namespace StarThrower.XBase
         public BooleanField()
             : base()
         {
-            this.Text = Resources.Boolean;
+            this.Text = "Boolean";
             this.Code = 'L';
         }
 

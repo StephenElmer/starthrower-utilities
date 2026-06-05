@@ -27,7 +27,7 @@ namespace StarThrower.XBase
         public FloatField()
             : base()
         {
-            this.Text = Resources.Float;
+            this.Text = "Float";
             this.Code = 'F';
         }
 

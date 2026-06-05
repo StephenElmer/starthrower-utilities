@@ -664,7 +664,7 @@ namespace StarThrower.Gis.GeoUtilities
                     //check input datum validity
                     if (!csFrom.Datum.Validate(wgs84x, wgs84y))
                     {
-                        throw new Exception("Invalid x, y values for datum.");
+                        throw new InvalidOperationException("Invalid x, y values for datum.");
                     }
                 }
                 else //copy the coordites
@@ -755,7 +755,7 @@ namespace StarThrower.Gis.GeoUtilities
                     //check output datum validity
                     if (!csTo.Datum.Validate(wgs84x, wgs84y))
                     {
-                        throw new Exception("Invalid x, y values for datum.");
+                        throw new InvalidOperationException("Invalid x, y values for datum.");
                     }
                 }
                 else //copy the coordinates

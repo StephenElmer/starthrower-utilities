@@ -27,7 +27,7 @@ namespace StarThrower.XBase
         public StringField()
             : base()
         {
-            this.Text = Resources.String;
+            this.Text = "String";
             this.Code = 'C';
         }
 

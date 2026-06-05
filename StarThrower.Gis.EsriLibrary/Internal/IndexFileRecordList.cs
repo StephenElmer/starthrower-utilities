@@ -45,7 +45,9 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         internal IndexFileRecord GetRecord(Int32 index)
         {
-            if (index < 0 || index >= _list.Count) throw new IndexOutOfRangeException();
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, _list.Count);
+            
             return _list[index];
         }
 

@@ -27,7 +27,7 @@ namespace StarThrower.XBase
         public DateField()
             : base()
         {
-            this.Text = Resources.Date;
+            this.Text = "Date";
             this.Code = 'D';
         }
 

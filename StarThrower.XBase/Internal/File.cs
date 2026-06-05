@@ -483,33 +483,54 @@ namespace StarThrower.XBase.Internal
         {
             if (_stream == null || !_stream.CanRead) throw new IOException("Stream is not in a readable mode.");
 
-            byte[] header = new byte[StarThrower.XBase.Internal.FileHeader.MAXSIZE];
+            // Read the fixed 32-byte DBF header prefix first.
+            const int fixedHeaderLength = 32;
+            byte[] fixedHeader = new byte[fixedHeaderLength];
             _stream.Seek(0, SeekOrigin.Begin);
-            _stream.Read(header, 0, StarThrower.XBase.Internal.FileHeader.MAXSIZE);
+            _stream.ReadExactly(fixedHeader, 0, fixedHeaderLength);
+
+            // Bytes 8-9 contain the full header length (little-endian Int16).
+            short headerLengthValue = ByteUtil.ByteArrayToInt16(
+                ByteUtil.ByteSubstring(fixedHeader, 8, 2),
+                ByteEndian.Little,
+                BitEndian.Little);
+
+            int headerLength = headerLengthValue;
+
+            // Validate before allocating/reading the remaining header bytes.
+            if (headerLength < 33 || headerLength > StarThrower.XBase.Internal.FileHeader.MAXSIZE)
+            {
+                throw new InvalidDataException("Header length is outside valid DBF bounds.");
+            }
+
+            // Build the complete header buffer: fixed 32 bytes + remaining bytes.
+            byte[] header = new byte[headerLength];
+            Buffer.BlockCopy(fixedHeader, 0, header, 0, fixedHeaderLength);
+
+            int remainingHeaderBytes = headerLength - fixedHeaderLength;
+            if (remainingHeaderBytes > 0)
+            {
+                _stream.ReadExactly(header, fixedHeaderLength, remainingHeaderBytes);
+            }
+
             _header.ParseBytes(header);
 
             _records.Clear();
             _records.FileHeader = _header;
-            Int32 curIdx = _header.HeaderLength;
-            bool done = false;
-            _stream.Seek(curIdx, SeekOrigin.Begin);
-            for (Int32 i = 0; i < _header.RecordCount && !done; i++)
+
+            _stream.Seek(_header.HeaderLength, SeekOrigin.Begin);
+            for (int i = 0; i < _header.RecordCount; i++)
             {
                 byte[] record = new byte[_header.RecordLength];
-                _stream.Read(record, 0, _header.RecordLength);
+                _stream.ReadExactly(record, 0, _header.RecordLength);
                 StarThrower.XBase.Internal.Record newRecord = new StarThrower.XBase.Internal.Record(record, _header.Fields);
                 _records.Add(newRecord);
-                curIdx += _header.RecordLength;
-
-                if (curIdx >= (_header.RecordCount * _header.RecordLength) + _header.HeaderLength)
-                {
-                    done = true;
-                }
             }
 
-            byte[] eof = new byte[1];
-            _stream.Read(eof, 0, 1);
-            _endOfFile = eof[0];
+            // Read final EOF marker byte.
+            int eof = _stream.ReadByte();
+            if (eof == -1) throw new EndOfStreamException("Expected DBF EOF marker byte.");
+            _endOfFile = (byte)eof;
         }
 
         #endregion

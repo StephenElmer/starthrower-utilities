@@ -41,7 +41,7 @@ namespace StarThrower.XBase
         public NumericField()
             : base()
         {
-            this.Text = Resources.Numeric;
+            this.Text = "Numeric";
             this.Code = 'N';
         }
 

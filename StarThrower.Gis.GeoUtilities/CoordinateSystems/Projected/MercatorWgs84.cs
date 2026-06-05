@@ -57,7 +57,9 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
         /// <param name="northing">Northing (Y) in meters.</param>
         /// <param name="zAlt">Altitude value in meters.</param>
         /// <returns>A GenericResult implementation of the ITranslationResult, containing Geodetic coordinates (Latitude (phi) in radians, Longitude (lambda) in radians).</returns>
+#pragma warning disable CA1725 // Parameter names should match base declaration
         public override ITranslationResult ToGeodetic(double easting, double northing, double zAlt)
+#pragma warning restore CA1725 // Parameter names should match base declaration
         {
             //Ellipsoid Parameters, default to WGS 84
             double Merc_a = this.Datum.Ellipsoid.EquatorialRadius; //6378137.0 Semi-major axis of ellipsoid in meters
@@ -136,7 +138,9 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
         /// <param name="latitude">Latitude (phi) in radians</param>
         /// <param name="zAlt">Altitude value in meters</param>
         /// <returns>A GenericResult implementation of the ITranslationResult, containing Mercator coordinates (Easting in meters, Northing in meters).</returns>
+#pragma warning disable CA1725 // Parameter names should match base declaration
         public override ITranslationResult FromGeodetic(double longitude, double latitude, double zAlt)
+#pragma warning restore CA1725 // Parameter names should match base declaration
         {
             //Ellipsoid Parameters, default to WGS 84
             double Merc_a = this.Datum.Ellipsoid.EquatorialRadius; //6378137.0 Semi-major axis of ellipsoid in meters

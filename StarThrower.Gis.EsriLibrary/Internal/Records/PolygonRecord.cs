@@ -102,7 +102,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
 
         private Int32 GetNumPointsInPart(Int32 partNumber)
         {
-            if (partNumber < 0 || partNumber >= _parts.Count) throw new IndexOutOfRangeException();
+            ArgumentOutOfRangeException.ThrowIfNegative(partNumber);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(partNumber, _parts.Count);
 
             if (partNumber == _parts.Count - 1) // it is the last part
             {

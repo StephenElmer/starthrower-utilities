@@ -24,7 +24,9 @@ using StarThrower.EarleyParser;
 
 namespace StarThrower.EarleyParser.Test
 {
+#pragma warning disable CA1708 // Identifiers should differ by more than case
     public class Fixture
+#pragma warning restore CA1708 // Identifiers should differ by more than case
     {
         public Grammar grammar { get; set; }
         public Grammar mixed { get; set; }
@@ -37,8 +39,10 @@ namespace StarThrower.EarleyParser.Test
         public Category X { get; set; }
         public Category Y { get; set; }
         public Category Z { get; set; }
+#pragma warning disable IDE1006 // Naming Styles
         public Category a { get; set; }
         public Category b { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
         public Category seed { get; set; }
         public Category S { get; set; }

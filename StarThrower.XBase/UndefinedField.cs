@@ -26,7 +26,7 @@ namespace StarThrower.XBase
         public UndefinedField()
             : base()
         {
-            this.Text = Resources.Undefined;
+            this.Text = "Undefined";
             this.Code = 'U';
         }
 
