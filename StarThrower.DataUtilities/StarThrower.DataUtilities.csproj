@@ -1,14 +1,77 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!--
+    StarThrower.DataUtilities.csproj
+    =================================
+    Project-specific properties only. All shared properties (Authors, Copyright,
+    RepositoryUrl, License, SourceLink, etc.) are inherited from Directory.Build.props.
+
+    Properties NOT set here (inherited from Directory.Build.props):
+      Authors, Company, Product, Copyright, NeutralLanguage
+      PackageProjectUrl, RepositoryUrl, RepositoryType
+      PackageLicenseExpression, PackageReleaseNotes
+      GenerateDocumentationFile, AnalysisMode, Nullable
+      IncludeSymbols, SymbolPackageFormat
+      Microsoft.SourceLink.GitHub PackageReference
+  -->
+
+  <!-- =========================================================== -->
+  <!-- Build configuration                                          -->
+  <!-- =========================================================== -->
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>14.0</LangVersion>
+    <AssemblyName>StarThrower.DataUtilities</AssemblyName>
+    <RootNamespace>StarThrower.DataUtilities</RootNamespace>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- =========================================================== -->
+  <!-- NuGet package identity — unique per package                  -->
+  <!-- =========================================================== -->
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>$(AssemblyName)</PackageId>
+
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>$(Version).0</FileVersion>
+
+    <Description>Data manipulation helpers with provider-agnostic database reader extensions supporting both legacy OleDb and modern DbDataReader APIs.</Description>
+
+    <!-- Suite-level tags inherited from Directory.Build.props.     -->
+    <!-- Append package-specific tags with semicolon separator.     -->
+    <PackageTags>$(PackageTags);data;database;helper;oleDb;dbDataReader</PackageTags>
+
+    <!-- Per-package README embedded in the NuGet package.         -->
+    <!-- TODO: Claude Code documentation pass                       -->
+    <PackageReadme>README.md</PackageReadme>
+  </PropertyGroup>
+
+  <!-- =========================================================== -->
+  <!-- README embedding — pairs with <PackageReadme> above         -->
+  <!-- =========================================================== -->
   <ItemGroup>
-    <PackageReference Include="System.Data.OleDb" Version="10.0.8" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
+  <!-- =========================================================== -->
+  <!-- Icon embedding — uncomment once icon.png is available       -->
+  <!-- =========================================================== -->
+  <ItemGroup>
+    <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+ 
+  <!-- =========================================================== -->
+  <!-- NuGet dependencies                                           -->
+  <!-- =========================================================== -->
+  <ItemGroup>
+    <PackageReference Include="System.Data.OleDb" Version="10.0.9" />
+  </ItemGroup>
+ 
+  <!-- =========================================================== -->
+  <!-- Project references                                           -->
+  <!-- =========================================================== -->
   <ItemGroup>
     <ProjectReference Include="..\StarThrower.Logging\StarThrower.Logging.csproj" />
   </ItemGroup>

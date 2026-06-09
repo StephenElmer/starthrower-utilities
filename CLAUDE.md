@@ -144,7 +144,8 @@ Current/
 - **NuGet:** PackageReference (packages.config removed — Step 2a complete)
 - **Code analysis:** Roslyn analyzers configured — `<AnalysisMode>Recommended</AnalysisMode>` (Step 3 complete)
 - **NuGet packages:** All core library projects updated to latest versions (Step 4 complete)
-- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1–7), 2d, 3, 4
+- **Add NuGet package metadata:** Add metadata and associated additional files to prepare for NuGet publication (Step 5 complete)
+- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1–7), 2d, 3, 4, 5
 - **All tests passing** on all migrated (net10.0) projects
 
 ---
@@ -381,16 +382,42 @@ Do not remove or deprecate any public API without explicit discussion first.
 - All core library projects (Groups 1–7) updated to latest stable package versions
 - Vulnerability and deprecation warnings resolved
 
-**Step 5 — Add NuGet package metadata** to each library `.csproj` (not test projects): ← CURRENT STEP
+**Step 5 — Add NuGet package metadata** ✅ COMPLETE
+- create `icon.png`
+- create `LICENSE.md`
+- create root-level `README.md`
+- to `Directory.Build.props` for global properties
 ```xml
-<PackageId>StarThrower.{AssemblyName}</PackageId>
+<Authors>Stephen Elmer</Authors>
+<Company>StarThrower Software</Company>
+<Copyright>Copyright © 2026 Stephen Elmer</Copyright>
+<NeutralLanguage>en-US</NeutralLanguage>
+<PackageProjectUrl>https://github.com/StephenElmer/starthrower-utilities</PackageProjectUrl>
+<RepositoryUrl>https://github.com/StephenElmer/starthrower-utilities</RepositoryUrl>
+<RepositoryType>git</RepositoryType>
+<PackageTags>utilities;csharp;dotnet;starthrower</PackageTags>
+<PackageLicenseExpression>MIT</PackageLicenseExpression>
+<PackageReleaseNotes>See $(PackageProjectUrl)/releases</PackageReleaseNotes>
+<PackageIcon>icon.png</PackageIcon>                       
 <Version>1.0.0</Version>
-<Authors>Stephen</Authors>
+<AssemblyVersion>1.0.0.0</AssemblyVersion>
+<FileVersion>$(Version).0</FileVersion>
+```
+- to each library `.csproj`
+```xml
+<IsPackable>true</IsPackable>
+<PackageId>$(AssemblyName)</PackageId>
+<Version>1.0.0</Version>
+<AssemblyVersion>1.0.0.0</AssemblyVersion>
+<FileVersion>$(Version).0</FileVersion>
 <Description><!-- to be filled per assembly --></Description>
 <GenerateDocumentationFile>true</GenerateDocumentationFile>
+<PackageTags>$(PackageTags);<!-- to be filled per assembly --></PackageTags>
+<PackageReadme>README.md</PackageReadme>
 ```
 
-**Step 6 — Migrate tests from MSTest to xUnit + FluentAssertions:**
+
+**Step 6 — Migrate tests from MSTest to xUnit + FluentAssertions:** ← CURRENT STEP
 - Replace `[TestClass]` / `[TestMethod]` with `[Fact]` / `[Theory]`
 - Replace `Assert.AreEqual(expected, actual)` with `actual.Should().Be(expected)`
 - Replace `Assert.IsNotNull(x)` with `x.Should().NotBeNull()`

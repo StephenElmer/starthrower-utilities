@@ -1,10 +1,80 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!--
+    StarThrower.FileUtilities.csproj
+    =================================
+    Project-specific properties only. All shared properties (Authors, Copyright,
+    RepositoryUrl, License, SourceLink, etc.) are inherited from Directory.Build.props.
+
+    Properties NOT set here (inherited from Directory.Build.props):
+      Authors, Company, Product, Copyright, NeutralLanguage
+      PackageProjectUrl, RepositoryUrl, RepositoryType
+      PackageLicenseExpression, PackageReleaseNotes
+      GenerateDocumentationFile, AnalysisMode, Nullable
+      IncludeSymbols, SymbolPackageFormat
+      Microsoft.SourceLink.GitHub PackageReference
+  -->
+
+  <!-- =========================================================== -->
+  <!-- Build configuration                                          -->
+  <!-- =========================================================== -->
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>14.0</LangVersion>
+    <AssemblyName>StarThrower.FileUtilities</AssemblyName>
+    <RootNamespace>StarThrower.FileUtilities</RootNamespace>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- =========================================================== -->
+  <!-- NuGet package identity — unique per package                  -->
+  <!-- =========================================================== -->
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>$(AssemblyName)</PackageId>
+
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>$(Version).0</FileVersion>
+
+    <Description>File and directory I/O helper methods for common read, write, and path manipulation operations.</Description>
+
+    <!-- Suite-level tags inherited from Directory.Build.props.     -->
+    <!-- Append package-specific tags with semicolon separator.     -->
+    <!-- TODO: Claude Code documentation pass                       -->
+    <PackageTags>$(PackageTags);file;directory;i/o;path;helper</PackageTags>
+
+    <!-- Per-package README embedded in the NuGet package.         -->
+    <!-- TODO: Claude Code documentation pass                       -->
+    <PackageReadme>README.md</PackageReadme>
+  </PropertyGroup>
+
+  <!-- =========================================================== -->
+  <!-- README embedding — pairs with <PackageReadme> above         -->
+  <!-- =========================================================== -->
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+  <!-- =========================================================== -->
+  <!-- Icon embedding — uncomment once icon.png is available       -->
+  <!-- =========================================================== -->
+  <ItemGroup>
+    <None Include="..\..\icon.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+ 
+  <!-- =========================================================== -->
+  <!-- NuGet dependencies                                           -->
+  <!-- =========================================================== -->
+  <ItemGroup>
+    <!-- Add project-specific PackageReferences here               -->
+    <!-- Example:                                                   -->
+    <!-- <PackageReference Include="Newtonsoft.Json" Version="13.*"/> -->
+  </ItemGroup>
+
+  <!-- =========================================================== -->
+  <!-- Project references                                           -->
+  <!-- =========================================================== -->
   <ItemGroup>
     <ProjectReference Include="..\StarThrower.Logging\StarThrower.Logging.csproj" />
   </ItemGroup>

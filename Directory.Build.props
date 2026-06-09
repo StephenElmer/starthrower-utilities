@@ -1,6 +1,102 @@
 <Project>
-  <PropertyGroup Condition="'$(TargetFramework)' != 'net48'">
-    <AnalysisMode>Recommended</AnalysisMode>
-    <NoIncremental>true</NoIncremental>
+
+  <!--
+    Directory.Build.props — StarThrower.Utilities
+    ================================================
+    Shared MSBuild properties inherited by all projects in this solution.
+    Individual .csproj files override only what is unique to that project:
+      - PackageId
+      - Version
+      - Description
+      - PackageTags (appends to shared tags via $(PackageTags);extra-tag)
+
+    Parking lot — fill in when resolved:
+      - Version-related properties (AssemblyVersion, FileVersion) pending
+        review of legacy app versions to determine new major version number
+      - PackageProjectUrl / RepositoryUrl pending GitHub username resolution
+        (investigating recovery of github.com/starthrower)
+      - PackageIcon pending design of StarThrower logo asset
+  -->
+
+  <!-- =========================================================== -->
+  <!-- Identity                                                      -->
+  <!-- =========================================================== -->
+  <PropertyGroup>
+    <Authors>Stephen Elmer</Authors>
+    <Company>StarThrower Software</Company>
+    <Product>$(AssemblyName)</Product>
+    <Copyright>Copyright © 2026 Stephen Elmer</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
+
+  <!-- =========================================================== -->
+  <!-- NuGet package metadata                                        -->
+  <!-- =========================================================== -->
+  <PropertyGroup>
+    <!-- TODO: Update URLs once GitHub username is resolved         -->
+    <PackageProjectUrl>https://github.com/StephenElmer/starthrower-utilities</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/StephenElmer/starthrower-utilities</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <PackageTags>utilities;csharp;dotnet;starthrower</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>See $(PackageProjectUrl)/releases</PackageReleaseNotes>
+
+    <PackageIcon>icon.png</PackageIcon>                       
+
+    <!-- README is per-package — set in each individual csproj      -->
+  </PropertyGroup>
+
+  <!-- =========================================================== -->
+  <!-- Versioning                                                    -->
+  <!-- =========================================================== -->
+  <PropertyGroup>
+    <!--
+      TODO: Set once legacy app version review is complete.
+      Recommendation: pin AssemblyVersion at MAJOR.0.0.0 and increment
+      only on intentional breaking changes. FileVersion increments freely.
+    -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>$(Version).0</FileVersion>
+  </PropertyGroup>
+
+  <!-- =========================================================== -->
+  <!-- Build quality                                                 -->
+  <!-- =========================================================== -->
+  <PropertyGroup>
+    <!-- <GenerateDocumentationFile>true</GenerateDocumentationFile> -->
+
+    <!-- Roslyn analyzers — net10.0 projects only                   -->
+    <AnalysisMode Condition="'$(TargetFramework)' == 'net10.0'">Recommended</AnalysisMode>
+
+    <!-- Nullable — net10.0 projects only                           -->
+    <Nullable Condition="'$(TargetFramework)' == 'net10.0'">enable</Nullable>
+
+    <!--
+      ImplicitUsings deliberately omitted. This solution mixes net10.0
+      and net48 projects; applying implicit usings only to net10.0 projects
+      creates asymmetric conventions. Explicit usings are consistent across
+      all TFMs and make each file self-contained.
+    -->
+  </PropertyGroup>
+
+  <!-- =========================================================== -->
+  <!-- Symbol packages (Source Link support)                        -->
+  <!-- =========================================================== -->
+  <PropertyGroup Condition="'$(IsPackable)' != 'false'">
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!-- =========================================================== -->
+  <!-- Package references — library projects only                   -->
+  <!-- IsPackable=false on test projects excludes them              -->
+  <!-- =========================================================== -->
+  <ItemGroup Condition="'$(IsPackable)' != 'false'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub"
+                      Version="10.0.300"
+                      PrivateAssets="All"/>
+  </ItemGroup>
+
 </Project>

@@ -1,17 +1,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!--
+    StarThrower.Logging.Test.csproj
+    =======================================
+    Test projects are NOT packaged — IsPackable=false suppresses NuGet
+    package generation and excludes this project from IncludeSymbols,
+    SymbolPackageFormat, and Microsoft.SourceLink.GitHub (all conditioned
+    on IsPackable != false in Directory.Build.props).
+  -->
+
+  <!-- =========================================================== -->
+  <!-- Build configuration                                          -->
+  <!-- =========================================================== -->
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>14.0</LangVersion>
+    <AssemblyName>StarThrower.Logging.Test</AssemblyName>
+    <RootNamespace>StarThrower.Logging.Test</RootNamespace>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- =========================================================== -->
+  <!-- Test framework                                               -->
+  <!-- =========================================================== -->
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.4.3" />
     <PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
   </ItemGroup>
 
+  <!-- =========================================================== -->
+  <!-- Project under test                                           -->
+  <!-- =========================================================== -->
   <ItemGroup>
     <ProjectReference Include="..\StarThrower.Logging\StarThrower.Logging.csproj" />
   </ItemGroup>
