@@ -37,12 +37,12 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>$(Version).0</FileVersion>
 
-    <Description>Matrix data structure and operations library supporting creation, transformation, and arithmetic on two-dimensional numeric matrices.</Description>
+    <Description>A generic, multi-dimensional, key-indexed matrix data structure for accessing values by custom keys or positional offsets.</Description>
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
     <!-- TODO: Claude Code documentation pass                       -->
-    <PackageTags>$(PackageTags);matrix;matrices;linear algebra;math;utilities</PackageTags>
+    <PackageTags>$(PackageTags);matrix;matrices;collections;utilities</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
     <!-- TODO: Claude Code documentation pass                       -->

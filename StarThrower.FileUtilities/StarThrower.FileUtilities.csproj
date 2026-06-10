@@ -37,7 +37,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>$(Version).0</FileVersion>
 
-    <Description>File and directory I/O helper methods for common read, write, and path manipulation operations.</Description>
+    <Description>File and directory I/O helper methods for file comparison, text file writing, and bulk file deletion.</Description>
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->

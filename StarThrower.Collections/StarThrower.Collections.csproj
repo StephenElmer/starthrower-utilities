@@ -37,7 +37,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>$(Version).0</FileVersion>
 
-    <Description>General-purpose collection types for .NET including a read-only dictionary wrapper and other commonly needed collection extensions.</Description>
+    <Description>A read-only dictionary compatibility wrapper for migrating to the BCL ReadOnlyDictionary&lt;TKey, TValue&gt;.</Description>
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
