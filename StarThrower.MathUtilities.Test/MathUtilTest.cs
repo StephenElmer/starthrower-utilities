@@ -2,314 +2,304 @@
 
 using System;
 using System.Globalization;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
+using Xunit;
 using StarThrower.MathUtilities;
 
 namespace StarThrower.MathUtilities.Test
 {
-    [TestClass]
     public class MathUtilTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-
         #region IsNumeric() tests
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric1()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("asdf"), false);
+            (MathUtil.IsNumeric("asdf")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric2()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("one"), false);
+            (MathUtil.IsNumeric("one")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric3()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("1a"), false);
+            (MathUtil.IsNumeric("1a")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric4()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("12345.asdf"), false);
+            (MathUtil.IsNumeric("12345.asdf")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric5()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("0"), true);
+            (MathUtil.IsNumeric("0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric6()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("00000"), true);
+            (MathUtil.IsNumeric("00000")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric7()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("0.0"), true);
+            (MathUtil.IsNumeric("0.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric8()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-0"), true);
+            (MathUtil.IsNumeric("-0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric9()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-00000"), true);
+            (MathUtil.IsNumeric("-00000")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric10()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-0.0"), true);
+            (MathUtil.IsNumeric("-0.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric11()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+0"), true);
+            (MathUtil.IsNumeric("+0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric12()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+00000"), true);
+            (MathUtil.IsNumeric("+00000")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric13()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+0.0"), true);
+            (MathUtil.IsNumeric("+0.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric14()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("1"), true);
+            (MathUtil.IsNumeric("1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric15()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+1"), true);
+            (MathUtil.IsNumeric("+1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric16()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("1.0"), true);
+            (MathUtil.IsNumeric("1.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric17()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+1.0"), true);
+            (MathUtil.IsNumeric("+1.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric18()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("0.1"), true);
+            (MathUtil.IsNumeric("0.1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric19()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+0.1"), true);
+            (MathUtil.IsNumeric("+0.1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric20()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("1.2"), true);
+            (MathUtil.IsNumeric("1.2")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric21()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+1.2"), true);
+            (MathUtil.IsNumeric("+1.2")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric22()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("12345"), true);
+            (MathUtil.IsNumeric("12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric23()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+12345"), true);
+            (MathUtil.IsNumeric("+12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric24()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("12345.12345"), true);
+            (MathUtil.IsNumeric("12345.12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric25()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("+12345.12345"), true);
+            (MathUtil.IsNumeric("+12345.12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric26()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-1"), true);
+            (MathUtil.IsNumeric("-1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric27()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-1.0"), true);
+            (MathUtil.IsNumeric("-1.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric28()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-0.1"), true);
+            (MathUtil.IsNumeric("-0.1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric29()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-1.2"), true);
+            (MathUtil.IsNumeric("-1.2")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric30()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-12345"), true);
+            (MathUtil.IsNumeric("-12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric31()
         {
-            Assert.AreEqual(MathUtil.IsNumeric("-12345.12345"), true);
+            (MathUtil.IsNumeric("-12345.12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric32()
         {
             //When run against Microsoft.VisualBasic.IsNumeric(), this test breaks
             //therefore I am going to assume that it is an invalid case and check for the
             //false condition instead.  If Microsoft doesn't accept this case as a valid
             //numeric string, then I don't need to either.
-            //Assert.AreEqual(MathUtil.IsNumeric("+-+-+-+++-1234"), true);
+            //(MathUtil.IsNumeric("+-+-+-+++-1234")).Should().Be(true);
 
             //As double.TryParse() fails in this situation, it seems appropriate that IsNumeric should also fail.
-            Assert.AreEqual(MathUtil.IsNumeric("+-+-+-+++-1234"), false);
-            Assert.AreEqual(MathUtil.IsNumeric("+-1234"), false);
-            Assert.AreEqual(MathUtil.IsNumeric("--1234"), false);
+            (MathUtil.IsNumeric("+-+-+-+++-1234")).Should().Be(false);
+            (MathUtil.IsNumeric("+-1234")).Should().Be(false);
+            (MathUtil.IsNumeric("--1234")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric33()
         {
             double d = 0.0;
             //double x = 123450;
             //string s = x.ToString("Scientific");
             //bool result = double.TryParse(s, out d);
-            //Assert.AreEqual(true, result);
+            //(result).Should().Be(true);
 
             //interesting - this works:
             bool result = double.TryParse("123.45E+3", out d);
-            Assert.AreEqual(true, result);
+            (result).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumeric34()
         {
             double d = 0.0;
             double x = 123450;
             string s = x.ToString("E", CultureInfo.InvariantCulture); // "E" formats as scientific notation
             bool result = double.TryParse(s, out d);
-            Assert.AreEqual(true, result);
+            (result).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumericNull()
         {
             // Null should return false (IsNullOrEmpty check)
-            Assert.AreEqual(MathUtil.IsNumeric(null), false);
+            (MathUtil.IsNumeric(null)).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumericEmpty()
         {
             // Empty string should return false
-            Assert.AreEqual(MathUtil.IsNumeric(""), false);
+            (MathUtil.IsNumeric("")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumericWhitespaceOnly()
         {
             // Whitespace-only strings should be invalid for IsNumeric
-            Assert.AreEqual(MathUtil.IsNumeric(" "), false);
-            Assert.AreEqual(MathUtil.IsNumeric("  "), false);
-            Assert.AreEqual(MathUtil.IsNumeric("\t"), false);
+            (MathUtil.IsNumeric(" ")).Should().Be(false);
+            (MathUtil.IsNumeric("  ")).Should().Be(false);
+            (MathUtil.IsNumeric("\t")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumericCurrencySymbols()
         {
             // Currency symbols are NOT supported with InvariantCulture
-            Assert.AreEqual(MathUtil.IsNumeric("$123"), false);
-            Assert.AreEqual(MathUtil.IsNumeric("123$"), false);
+            (MathUtil.IsNumeric("$123")).Should().Be(false);
+            (MathUtil.IsNumeric("123$")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumericThousandsSeparator()
         {
             // Thousands separator should be valid with NumberStyles.Any
-            Assert.AreEqual(MathUtil.IsNumeric("1,234"), true);
-            Assert.AreEqual(MathUtil.IsNumeric("1,234.56"), true);
+            (MathUtil.IsNumeric("1,234")).Should().Be(true);
+            (MathUtil.IsNumeric("1,234.56")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumericVeryLargeNumbers()
         {
             // Very large numbers should be valid
-            Assert.AreEqual(MathUtil.IsNumeric("999999999999999999999"), true);
-            Assert.AreEqual(MathUtil.IsNumeric("-999999999999999999999"), true);
+            (MathUtil.IsNumeric("999999999999999999999")).Should().Be(true);
+            (MathUtil.IsNumeric("-999999999999999999999")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumericVerySmallDecimals()
         {
             // Very small decimal numbers should be valid
-            Assert.AreEqual(MathUtil.IsNumeric("0.00000000001"), true);
-            Assert.AreEqual(MathUtil.IsNumeric("-0.00000000001"), true);
+            (MathUtil.IsNumeric("0.00000000001")).Should().Be(true);
+            (MathUtil.IsNumeric("-0.00000000001")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsNumericSpecialFormats()
         {
             // Percent format is NOT supported with InvariantCulture
-            Assert.AreEqual(MathUtil.IsNumeric("50%"), false);
+            (MathUtil.IsNumeric("50%")).Should().Be(false);
             // Parentheses for negative numbers ARE supported with NumberStyles.Any
-            Assert.AreEqual(MathUtil.IsNumeric("(123)"), true);
-            Assert.AreEqual(MathUtil.IsNumeric("(45.67)"), true);
+            (MathUtil.IsNumeric("(123)")).Should().Be(true);
+            (MathUtil.IsNumeric("(45.67)")).Should().Be(true);
         }
 
         #endregion
@@ -317,229 +307,229 @@ namespace StarThrower.MathUtilities.Test
 
         #region IsInteger() tests
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger1()
         {
-            Assert.AreEqual(MathUtil.IsInteger("0"), true);
+            (MathUtil.IsInteger("0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger2()
         {
-            Assert.AreEqual(MathUtil.IsInteger("1"), true);
+            (MathUtil.IsInteger("1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger3()
         {
-            Assert.AreEqual(MathUtil.IsInteger("12345"), true);
+            (MathUtil.IsInteger("12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger4()
         {
-            Assert.AreEqual(MathUtil.IsInteger(int.MaxValue.ToString(CultureInfo.InvariantCulture)), true);
+            (MathUtil.IsInteger(int.MaxValue.ToString(CultureInfo.InvariantCulture))).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger5()
         {
-            Assert.AreEqual(MathUtil.IsInteger(int.MinValue.ToString(CultureInfo.InvariantCulture)), true);
+            (MathUtil.IsInteger(int.MinValue.ToString(CultureInfo.InvariantCulture))).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger6()
         {
-            Assert.AreEqual(MathUtil.IsInteger("+0"), true);
+            (MathUtil.IsInteger("+0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger7()
         {
-            Assert.AreEqual(MathUtil.IsInteger("+1"), true);
+            (MathUtil.IsInteger("+1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger8()
         {
-            Assert.AreEqual(MathUtil.IsInteger("+12345"), true);
+            (MathUtil.IsInteger("+12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger9()
         {
-            Assert.AreEqual(MathUtil.IsInteger("+" + int.MaxValue.ToString(CultureInfo.InvariantCulture)), true);
+            (MathUtil.IsInteger("+" + int.MaxValue.ToString(CultureInfo.InvariantCulture))).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger10()
         {
             //TODO: this test breaks.  But is it valid?  Should "+-124" be considered a valid integer?  What about "+-+-+-+++-1234"?
             //      I'm going to say that such a case is not valid.  (See my comments for the similar test for IsNumeric(), above
-            //Assert.AreEqual(MathUtil.IsInteger("+" + int.MinValue.ToString()), true);
+            //(MathUtil.IsInteger("+" + int.MinValue.ToString())).Should().Be(true);
 
             //After examining how int.TryParse() works, it is clear that only one sign character is allowed.
             //Therefore "+" + int.MinValue.ToString() should be invalid.
-            Assert.AreEqual(MathUtil.IsInteger("+" + int.MinValue.ToString(CultureInfo.InvariantCulture)), false);
+            (MathUtil.IsInteger("+" + int.MinValue.ToString(CultureInfo.InvariantCulture))).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger11()
         {
-            Assert.AreEqual(MathUtil.IsInteger("-0"), true);
+            (MathUtil.IsInteger("-0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger12()
         {
-            Assert.AreEqual(MathUtil.IsInteger("-1"), true);
+            (MathUtil.IsInteger("-1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger13()
         {
-            Assert.AreEqual(MathUtil.IsInteger("-12345"), true);
+            (MathUtil.IsInteger("-12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger14()
         {
-            Assert.AreEqual(MathUtil.IsInteger("asdf"), false);
+            (MathUtil.IsInteger("asdf")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger15()
         {
-            Assert.AreEqual(MathUtil.IsInteger("one"), false);
+            (MathUtil.IsInteger("one")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger16()
         {
-            Assert.AreEqual(MathUtil.IsInteger("1a"), false);
+            (MathUtil.IsInteger("1a")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger17()
         {
-            Assert.AreEqual(MathUtil.IsInteger("12345.asdf"), false);
+            (MathUtil.IsInteger("12345.asdf")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger18()
         {
-            Assert.AreEqual(MathUtil.IsInteger("0.1"), false);
+            (MathUtil.IsInteger("0.1")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger19()
         {
-            Assert.AreEqual(MathUtil.IsInteger("1.2"), false);
+            (MathUtil.IsInteger("1.2")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger20()
         {
-            Assert.AreEqual(MathUtil.IsInteger("12345.12345"), false);
+            (MathUtil.IsInteger("12345.12345")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger21()
         {
-            Assert.AreEqual(MathUtil.IsInteger("-0.1"), false);
+            (MathUtil.IsInteger("-0.1")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger22()
         {
-            Assert.AreEqual(MathUtil.IsInteger("-1.2"), false);
+            (MathUtil.IsInteger("-1.2")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger23()
         {
-            Assert.AreEqual(MathUtil.IsInteger("-12345.12345"), false);
+            (MathUtil.IsInteger("-12345.12345")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger24()
         {
             double x = 123.0;
-            Assert.AreEqual(false, MathUtil.IsInteger(x.ToString("E", CultureInfo.InvariantCulture))); // "E" formats as scientific notation
+            (MathUtil.IsInteger(x.ToString("E", CultureInfo.InvariantCulture))).Should().Be(false); // "E" formats as scientific notation
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger25()
         {
             /* TODO: I'm not sure how these cases should be treated
-            Assert.AreEqual(MathUtil.IsInteger("0.0"), false);
-            Assert.AreEqual(MathUtil.IsInteger("1.0"), false);
-            Assert.AreEqual(MathUtil.IsInteger("-1.0"), false);
+            (MathUtil.IsInteger("0.0")).Should().Be(false);
+            (MathUtil.IsInteger("1.0")).Should().Be(false);
+            (MathUtil.IsInteger("-1.0")).Should().Be(false);
             long one = 1;
-            Assert.AreEqual(MathUtil.IsInteger((int.MaxValue + one).ToString()), false);
-            Assert.AreEqual(MathUtil.IsInteger((int.MinValue - one).ToString()), false);
+            (MathUtil.IsInteger((int.MaxValue + one).ToString())).Should().Be(false);
+            (MathUtil.IsInteger((int.MinValue - one).ToString())).Should().Be(false);
             */
 
             //After examining the int.TryParse() function, it is clear that passing
             //any sort of decimal into it should fail.
 
-            Assert.AreEqual(MathUtil.IsInteger("0.0"), false);
-            Assert.AreEqual(MathUtil.IsInteger("1.0"), false);
-            Assert.AreEqual(MathUtil.IsInteger("-1.0"), false);
+            (MathUtil.IsInteger("0.0")).Should().Be(false);
+            (MathUtil.IsInteger("1.0")).Should().Be(false);
+            (MathUtil.IsInteger("-1.0")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsInteger26()
         {
             long one = 1;
-            Assert.AreEqual(MathUtil.IsInteger((int.MaxValue + one).ToString(CultureInfo.InvariantCulture)), false);
-            Assert.AreEqual(MathUtil.IsInteger((int.MinValue - one).ToString(CultureInfo.InvariantCulture)), false);
+            (MathUtil.IsInteger((int.MaxValue + one).ToString(CultureInfo.InvariantCulture))).Should().Be(false);
+            (MathUtil.IsInteger((int.MinValue - one).ToString(CultureInfo.InvariantCulture))).Should().Be(false);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestIsIntegerNull()
         {
             // Null should throw ArgumentNullException
-            MathUtil.IsInteger(null);
+            Action act = () => MathUtil.IsInteger(null);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsIntegerEmpty()
         {
             // Empty string should return false
-            Assert.AreEqual(MathUtil.IsInteger(""), false);
+            (MathUtil.IsInteger("")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsIntegerWhitespaceOnly()
         {
             // Whitespace-only should be invalid
-            Assert.AreEqual(MathUtil.IsInteger(" "), false);
+            (MathUtil.IsInteger(" ")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsIntegerWithWhitespace()
         {
             // Whitespace around integers should be valid (int.TryParse accepts this)
-            Assert.AreEqual(MathUtil.IsInteger("  123  "), true);
-            Assert.AreEqual(MathUtil.IsInteger("  -456  "), true);
+            (MathUtil.IsInteger("  123  ")).Should().Be(true);
+            (MathUtil.IsInteger("  -456  ")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsIntegerNegativeZero()
         {
             // -0 should be valid
-            Assert.AreEqual(MathUtil.IsInteger("-0"), true);
+            (MathUtil.IsInteger("-0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsIntegerLeadingZeros()
         {
             // Leading zeros should be valid
-            Assert.AreEqual(MathUtil.IsInteger("00000"), true);
-            Assert.AreEqual(MathUtil.IsInteger("00123"), true);
-            Assert.AreEqual(MathUtil.IsInteger("-00456"), true);
+            (MathUtil.IsInteger("00000")).Should().Be(true);
+            (MathUtil.IsInteger("00123")).Should().Be(true);
+            (MathUtil.IsInteger("-00456")).Should().Be(true);
         }
 
         #endregion
@@ -547,124 +537,124 @@ namespace StarThrower.MathUtilities.Test
 
         #region RoundTo() tests
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTo1()
         {
-            Assert.AreEqual(0.12, MathUtil.RoundTo(0.12345, 2));
+            (MathUtil.RoundTo(0.12345, 2)).Should().Be(0.12);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTo2()
         {
-            Assert.AreEqual(0.1234500000, MathUtil.RoundTo(0.12345, 10));
+            (MathUtil.RoundTo(0.12345, 10)).Should().Be(0.1234500000);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTo3()
         {
-            Assert.AreNotEqual(0.13, MathUtil.RoundTo(0.12345, 2));
+            (MathUtil.RoundTo(0.12345, 2)).Should().NotBe(0.13);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTo4()
         {
-            Assert.AreEqual("0.12", MathUtil.RoundTo(0.12345, 2).ToString(CultureInfo.InvariantCulture));
+            (MathUtil.RoundTo(0.12345, 2).ToString(CultureInfo.InvariantCulture)).Should().Be("0.12");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTo5()
         {
-            Assert.AreEqual("0.12345", MathUtil.RoundTo(0.12345, 10).ToString(CultureInfo.InvariantCulture));
+            (MathUtil.RoundTo(0.12345, 10).ToString(CultureInfo.InvariantCulture)).Should().Be("0.12345");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTo6()
         {
-            Assert.AreNotEqual("0.13", MathUtil.RoundTo(0.12345, 2).ToString(CultureInfo.InvariantCulture));
+            (MathUtil.RoundTo(0.12345, 2).ToString(CultureInfo.InvariantCulture)).Should().NotBe("0.13");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTo7()
         {
-            Assert.AreEqual("0.003367003", MathUtil.RoundTo(1 / 297.0, 9).ToString(CultureInfo.InvariantCulture));
+            (MathUtil.RoundTo(1 / 297.0, 9).ToString(CultureInfo.InvariantCulture)).Should().Be("0.003367003");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToZeroDigits()
         {
             // Zero digits should round to nearest whole number
-            Assert.AreEqual(1.0, MathUtil.RoundTo(0.7, 0));
-            Assert.AreEqual(2.0, MathUtil.RoundTo(1.5, 0));
-            Assert.AreEqual(2.0, MathUtil.RoundTo(2.4, 0));
+            (MathUtil.RoundTo(0.7, 0)).Should().Be(1.0);
+            (MathUtil.RoundTo(1.5, 0)).Should().Be(2.0);
+            (MathUtil.RoundTo(2.4, 0)).Should().Be(2.0);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToNegativeDigits()
         {
             // Negative digits should still round to whole number (falls into else branch)
-            Assert.AreEqual(1.0, MathUtil.RoundTo(0.5, -1));
-            Assert.AreEqual(1.0, MathUtil.RoundTo(1.4, -5));
+            (MathUtil.RoundTo(0.5, -1)).Should().Be(1.0);
+            (MathUtil.RoundTo(1.4, -5)).Should().Be(1.0);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToNegativeNumbers()
         {
             // Rounding negative numbers should work correctly
-            Assert.AreEqual(-0.12, MathUtil.RoundTo(-0.12345, 2));
+            (MathUtil.RoundTo(-0.12345, 2)).Should().Be(-0.12);
             // RoundTo uses: Math.Floor(value * Math.Pow(10.0, digits) + 0.5)
             // -0.5 * 1 + 0.5 = 0, floor(0) = 0
-            Assert.AreEqual(0.0, MathUtil.RoundTo(-0.5, 0));
+            (MathUtil.RoundTo(-0.5, 0)).Should().Be(0.0);
             // -1.5 * 1 + 0.5 = -1, floor(-1) = -1
-            Assert.AreEqual(-1.0, MathUtil.RoundTo(-1.5, 0));
+            (MathUtil.RoundTo(-1.5, 0)).Should().Be(-1.0);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToVeryLargeDigits()
         {
             // Very large digit count should preserve precision
-            Assert.AreEqual(0.123456789, MathUtil.RoundTo(0.123456789, 20));
+            (MathUtil.RoundTo(0.123456789, 20)).Should().Be(0.123456789);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToZeroValue()
         {
             // Rounding zero should return zero
-            Assert.AreEqual(0.0, MathUtil.RoundTo(0.0, 5));
-            Assert.AreEqual(0.0, MathUtil.RoundTo(0.0, 0));
+            (MathUtil.RoundTo(0.0, 5)).Should().Be(0.0);
+            (MathUtil.RoundTo(0.0, 0)).Should().Be(0.0);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToVerySmallValue()
         {
             // Rounding very small values - due to floating point precision
-            Assert.AreEqual(0.0, MathUtil.RoundTo(0.00001, 3));
-            Assert.AreEqual(0.0, MathUtil.RoundTo(0.000001, 5));
+            (MathUtil.RoundTo(0.00001, 3)).Should().Be(0.0);
+            (MathUtil.RoundTo(0.000001, 5)).Should().Be(0.0);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToVeryLargeValue()
         {
             // Rounding very large values
-            Assert.AreEqual(123456.79, MathUtil.RoundTo(123456.789, 2));
-            Assert.AreEqual(1000000.0, MathUtil.RoundTo(999999.95, 1));
+            (MathUtil.RoundTo(123456.789, 2)).Should().Be(123456.79);
+            (MathUtil.RoundTo(999999.95, 1)).Should().Be(1000000.0);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToEdgeCaseRounding()
         {
             // Test rounding at the 0.5 boundary
-            Assert.AreEqual(0.5, MathUtil.RoundTo(0.45, 1));
-            Assert.AreEqual(1.5, MathUtil.RoundTo(1.45, 1));
-            Assert.AreEqual(2.5, MathUtil.RoundTo(2.45, 1));
+            (MathUtil.RoundTo(0.45, 1)).Should().Be(0.5);
+            (MathUtil.RoundTo(1.45, 1)).Should().Be(1.5);
+            (MathUtil.RoundTo(2.45, 1)).Should().Be(2.5);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundToMultipleDecimalPlaces()
         {
             // Test rounding to different decimal places
-            Assert.AreEqual(0.1, MathUtil.RoundTo(0.12345, 1));
-            Assert.AreEqual(0.123, MathUtil.RoundTo(0.12345, 3));
-            Assert.AreEqual(0.12345, MathUtil.RoundTo(0.12345, 5));
+            (MathUtil.RoundTo(0.12345, 1)).Should().Be(0.1);
+            (MathUtil.RoundTo(0.12345, 3)).Should().Be(0.123);
+            (MathUtil.RoundTo(0.12345, 5)).Should().Be(0.12345);
         }
 
         #endregion
@@ -672,138 +662,138 @@ namespace StarThrower.MathUtilities.Test
 
         #region IsWholeNumber() tests
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber1()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("0"), true);
+            (MathUtil.IsWholeNumber("0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber2()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("10"), true);
+            (MathUtil.IsWholeNumber("10")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber3()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("10.0"), true);
+            (MathUtil.IsWholeNumber("10.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber4()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("-10"), true);
+            (MathUtil.IsWholeNumber("-10")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber5()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("-10.0"), true);
+            (MathUtil.IsWholeNumber("-10.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber6()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("0.5"), false);
+            (MathUtil.IsWholeNumber("0.5")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber7()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("-0.5"), false);
+            (MathUtil.IsWholeNumber("-0.5")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber8()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("1.5"), false);
+            (MathUtil.IsWholeNumber("1.5")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumber9()
         {
-            Assert.AreEqual(MathUtil.IsWholeNumber("-1.5"), false);
+            (MathUtil.IsWholeNumber("-1.5")).Should().Be(false);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestIsWholeNumberNull()
         {
             // Null should throw ArgumentNullException
-            MathUtil.IsWholeNumber(null);
+            Action act = () => MathUtil.IsWholeNumber(null);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberEmpty()
         {
             // Empty string should return false
-            Assert.AreEqual(MathUtil.IsWholeNumber(""), false);
+            (MathUtil.IsWholeNumber("")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberWhitespaceOnly()
         {
             // Whitespace-only should be invalid
-            Assert.AreEqual(MathUtil.IsWholeNumber(" "), false);
+            (MathUtil.IsWholeNumber(" ")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberWithWhitespace()
         {
             // Whitespace around numbers should be valid (double.TryParse accepts this)
-            Assert.AreEqual(MathUtil.IsWholeNumber("  123  "), true);
-            Assert.AreEqual(MathUtil.IsWholeNumber("  10.0  "), true);
+            (MathUtil.IsWholeNumber("  123  ")).Should().Be(true);
+            (MathUtil.IsWholeNumber("  10.0  ")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberNegativeDecimals()
         {
             // Negative decimals should be invalid
-            Assert.AreEqual(MathUtil.IsWholeNumber("-0.1"), false);
-            Assert.AreEqual(MathUtil.IsWholeNumber("-1.5"), false);
-            Assert.AreEqual(MathUtil.IsWholeNumber("-100.999"), false);
+            (MathUtil.IsWholeNumber("-0.1")).Should().Be(false);
+            (MathUtil.IsWholeNumber("-1.5")).Should().Be(false);
+            (MathUtil.IsWholeNumber("-100.999")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberLeadingZeros()
         {
             // Leading zeros should be valid
-            Assert.AreEqual(MathUtil.IsWholeNumber("00000"), true);
-            Assert.AreEqual(MathUtil.IsWholeNumber("00100.0"), true);
+            (MathUtil.IsWholeNumber("00000")).Should().Be(true);
+            (MathUtil.IsWholeNumber("00100.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberNegativeZero()
         {
             // -0 and -0.0 should be valid whole numbers
-            Assert.AreEqual(MathUtil.IsWholeNumber("-0"), true);
-            Assert.AreEqual(MathUtil.IsWholeNumber("-0.0"), true);
+            (MathUtil.IsWholeNumber("-0")).Should().Be(true);
+            (MathUtil.IsWholeNumber("-0.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberVeryLargeNumbers()
         {
             // Very large whole numbers should be valid
-            Assert.AreEqual(MathUtil.IsWholeNumber("999999999999999999999.0"), true);
-            Assert.AreEqual(MathUtil.IsWholeNumber("-999999999999999999999.0"), true);
+            (MathUtil.IsWholeNumber("999999999999999999999.0")).Should().Be(true);
+            (MathUtil.IsWholeNumber("-999999999999999999999.0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberScientificNotation()
         {
             // Scientific notation representing whole numbers should be valid
-            Assert.AreEqual(MathUtil.IsWholeNumber("1e2"), true);
-            Assert.AreEqual(MathUtil.IsWholeNumber("5e0"), true);
+            (MathUtil.IsWholeNumber("1e2")).Should().Be(true);
+            (MathUtil.IsWholeNumber("5e0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsWholeNumberScientificNotationWithDecimals()
         {
             // 1.5e2 = 150.0, which is a whole number
-            Assert.AreEqual(MathUtil.IsWholeNumber("1.5e2"), true);
+            (MathUtil.IsWholeNumber("1.5e2")).Should().Be(true);
             // But 1.5e1 = 15.0, also whole
-            Assert.AreEqual(MathUtil.IsWholeNumber("1.5e1"), true);
+            (MathUtil.IsWholeNumber("1.5e1")).Should().Be(true);
         }
 
         #endregion
@@ -811,175 +801,175 @@ namespace StarThrower.MathUtilities.Test
 
         #region RoundTowardsZero() tests
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero1()
         {
             // Positive whole number
-            Assert.AreEqual(2L, MathUtil.RoundTowardsZero(2.0));
+            (MathUtil.RoundTowardsZero(2.0)).Should().Be(2L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero2()
         {
             // Positive number with fractional part (should truncate)
-            Assert.AreEqual(2L, MathUtil.RoundTowardsZero(2.5));
+            (MathUtil.RoundTowardsZero(2.5)).Should().Be(2L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero3()
         {
             // Positive small decimal (should truncate to 0)
-            Assert.AreEqual(0L, MathUtil.RoundTowardsZero(0.5));
+            (MathUtil.RoundTowardsZero(0.5)).Should().Be(0L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero4()
         {
             // Zero
-            Assert.AreEqual(0L, MathUtil.RoundTowardsZero(0.0));
+            (MathUtil.RoundTowardsZero(0.0)).Should().Be(0L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero5()
         {
             // Negative small decimal (should round up to 0)
-            Assert.AreEqual(0L, MathUtil.RoundTowardsZero(-0.5));
+            (MathUtil.RoundTowardsZero(-0.5)).Should().Be(0L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero6()
         {
             // Negative number with fractional part (should round up towards zero)
-            Assert.AreEqual(-2L, MathUtil.RoundTowardsZero(-2.5));
+            (MathUtil.RoundTowardsZero(-2.5)).Should().Be(-2L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero7()
         {
             // Negative whole number
-            Assert.AreEqual(-2L, MathUtil.RoundTowardsZero(-2.0));
+            (MathUtil.RoundTowardsZero(-2.0)).Should().Be(-2L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero8()
         {
             // Positive large number with fractional part
-            Assert.AreEqual(123L, MathUtil.RoundTowardsZero(123.999));
+            (MathUtil.RoundTowardsZero(123.999)).Should().Be(123L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero9()
         {
             // Negative large number with fractional part
-            Assert.AreEqual(-123L, MathUtil.RoundTowardsZero(-123.999));
+            (MathUtil.RoundTowardsZero(-123.999)).Should().Be(-123L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero10()
         {
             // Positive very small decimal close to zero
-            Assert.AreEqual(0L, MathUtil.RoundTowardsZero(0.0001));
+            (MathUtil.RoundTowardsZero(0.0001)).Should().Be(0L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero11()
         {
             // Negative very small decimal close to zero
-            Assert.AreEqual(0L, MathUtil.RoundTowardsZero(-0.0001));
+            (MathUtil.RoundTowardsZero(-0.0001)).Should().Be(0L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero12()
         {
             // Positive number with fractional part less than 1
-            Assert.AreEqual(0L, MathUtil.RoundTowardsZero(0.9999));
+            (MathUtil.RoundTowardsZero(0.9999)).Should().Be(0L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero13()
         {
             // Negative number with fractional part less than 1
-            Assert.AreEqual(0L, MathUtil.RoundTowardsZero(-0.9999));
+            (MathUtil.RoundTowardsZero(-0.9999)).Should().Be(0L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero14()
         {
             // Positive integer as double
-            Assert.AreEqual(5L, MathUtil.RoundTowardsZero(5.0));
+            (MathUtil.RoundTowardsZero(5.0)).Should().Be(5L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero15()
         {
             // Negative integer as double
-            Assert.AreEqual(-5L, MathUtil.RoundTowardsZero(-5.0));
+            (MathUtil.RoundTowardsZero(-5.0)).Should().Be(-5L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero16()
         {
             // Positive number just under a whole number
-            Assert.AreEqual(9L, MathUtil.RoundTowardsZero(9.1));
+            (MathUtil.RoundTowardsZero(9.1)).Should().Be(9L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZero17()
         {
             // Negative number just over a whole number
-            Assert.AreEqual(-9L, MathUtil.RoundTowardsZero(-9.1));
+            (MathUtil.RoundTowardsZero(-9.1)).Should().Be(-9L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZeroVeryLargePositive()
         {
             // Very large positive numbers - test with a value that accounts for floating point precision
             // The actual value due to floating point representation will be 9223372036854774784
-            Assert.AreEqual(9223372036854774784L, MathUtil.RoundTowardsZero(9223372036854775000.5));
+            (MathUtil.RoundTowardsZero(9223372036854775000.5)).Should().Be(9223372036854774784L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZeroVeryLargeNegative()
         {
             // Very large negative numbers - test with a value that accounts for floating point precision
             // The actual value due to floating point representation will be -9223372036854774784
-            Assert.AreEqual(-9223372036854774784L, MathUtil.RoundTowardsZero(-9223372036854775000.5));
+            (MathUtil.RoundTowardsZero(-9223372036854775000.5)).Should().Be(-9223372036854774784L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZeroExactHalf()
         {
             // Test exact 0.5 values
-            Assert.AreEqual(1L, MathUtil.RoundTowardsZero(1.5));
-            Assert.AreEqual(10L, MathUtil.RoundTowardsZero(10.5));
-            Assert.AreEqual(-1L, MathUtil.RoundTowardsZero(-1.5));
-            Assert.AreEqual(-10L, MathUtil.RoundTowardsZero(-10.5));
+            (MathUtil.RoundTowardsZero(1.5)).Should().Be(1L);
+            (MathUtil.RoundTowardsZero(10.5)).Should().Be(10L);
+            (MathUtil.RoundTowardsZero(-1.5)).Should().Be(-1L);
+            (MathUtil.RoundTowardsZero(-10.5)).Should().Be(-10L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZeroJustAboveWhole()
         {
             // Numbers just above whole numbers
-            Assert.AreEqual(5L, MathUtil.RoundTowardsZero(5.000001));
-            Assert.AreEqual(-5L, MathUtil.RoundTowardsZero(-5.000001));
+            (MathUtil.RoundTowardsZero(5.000001)).Should().Be(5L);
+            (MathUtil.RoundTowardsZero(-5.000001)).Should().Be(-5L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZeroJustBelowWhole()
         {
             // Numbers just below whole numbers
-            Assert.AreEqual(4L, MathUtil.RoundTowardsZero(4.999999));
-            Assert.AreEqual(-4L, MathUtil.RoundTowardsZero(-4.999999));
+            (MathUtil.RoundTowardsZero(4.999999)).Should().Be(4L);
+            (MathUtil.RoundTowardsZero(-4.999999)).Should().Be(-4L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRoundTowardsZeroOne()
         {
             // Test 1 and -1
-            Assert.AreEqual(1L, MathUtil.RoundTowardsZero(1.0));
-            Assert.AreEqual(-1L, MathUtil.RoundTowardsZero(-1.0));
-            Assert.AreEqual(1L, MathUtil.RoundTowardsZero(1.9999));
-            Assert.AreEqual(-1L, MathUtil.RoundTowardsZero(-1.9999));
+            (MathUtil.RoundTowardsZero(1.0)).Should().Be(1L);
+            (MathUtil.RoundTowardsZero(-1.0)).Should().Be(-1L);
+            (MathUtil.RoundTowardsZero(1.9999)).Should().Be(1L);
+            (MathUtil.RoundTowardsZero(-1.9999)).Should().Be(-1L);
         }
 
         #endregion
@@ -987,206 +977,206 @@ namespace StarThrower.MathUtilities.Test
 
         #region IsLong() tests
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong1()
         {
-            Assert.AreEqual(MathUtil.IsLong("0"), true);
+            (MathUtil.IsLong("0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong2()
         {
-            Assert.AreEqual(MathUtil.IsLong("1"), true);
+            (MathUtil.IsLong("1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong3()
         {
-            Assert.AreEqual(MathUtil.IsLong("12345"), true);
+            (MathUtil.IsLong("12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong4()
         {
-            Assert.AreEqual(MathUtil.IsLong(long.MaxValue.ToString(CultureInfo.InvariantCulture)), true);
+            (MathUtil.IsLong(long.MaxValue.ToString(CultureInfo.InvariantCulture))).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong5()
         {
-            Assert.AreEqual(MathUtil.IsLong(long.MinValue.ToString(CultureInfo.InvariantCulture)), true);
+            (MathUtil.IsLong(long.MinValue.ToString(CultureInfo.InvariantCulture))).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong6()
         {
-            Assert.AreEqual(MathUtil.IsLong("+0"), true);
+            (MathUtil.IsLong("+0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong7()
         {
-            Assert.AreEqual(MathUtil.IsLong("+1"), true);
+            (MathUtil.IsLong("+1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong8()
         {
-            Assert.AreEqual(MathUtil.IsLong("+12345"), true);
+            (MathUtil.IsLong("+12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong9()
         {
-            Assert.AreEqual(MathUtil.IsLong("+" + long.MaxValue.ToString(CultureInfo.InvariantCulture)), true);
+            (MathUtil.IsLong("+" + long.MaxValue.ToString(CultureInfo.InvariantCulture))).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong10()
         {
             // Only one sign character is allowed, so "+" + long.MinValue is invalid
-            Assert.AreEqual(MathUtil.IsLong("+" + long.MinValue.ToString(CultureInfo.InvariantCulture)), false);
+            (MathUtil.IsLong("+" + long.MinValue.ToString(CultureInfo.InvariantCulture))).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong11()
         {
-            Assert.AreEqual(MathUtil.IsLong("-0"), true);
+            (MathUtil.IsLong("-0")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong12()
         {
-            Assert.AreEqual(MathUtil.IsLong("-1"), true);
+            (MathUtil.IsLong("-1")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong13()
         {
-            Assert.AreEqual(MathUtil.IsLong("-12345"), true);
+            (MathUtil.IsLong("-12345")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong14()
         {
-            Assert.AreEqual(MathUtil.IsLong("asdf"), false);
+            (MathUtil.IsLong("asdf")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong15()
         {
-            Assert.AreEqual(MathUtil.IsLong("one"), false);
+            (MathUtil.IsLong("one")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong16()
         {
-            Assert.AreEqual(MathUtil.IsLong("1a"), false);
+            (MathUtil.IsLong("1a")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong17()
         {
-            Assert.AreEqual(MathUtil.IsLong("12345.asdf"), false);
+            (MathUtil.IsLong("12345.asdf")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong18()
         {
-            Assert.AreEqual(MathUtil.IsLong("0.1"), false);
+            (MathUtil.IsLong("0.1")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong19()
         {
-            Assert.AreEqual(MathUtil.IsLong("1.2"), false);
+            (MathUtil.IsLong("1.2")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong20()
         {
-            Assert.AreEqual(MathUtil.IsLong("12345.12345"), false);
+            (MathUtil.IsLong("12345.12345")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong21()
         {
-            Assert.AreEqual(MathUtil.IsLong("-0.1"), false);
+            (MathUtil.IsLong("-0.1")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong22()
         {
-            Assert.AreEqual(MathUtil.IsLong("-1.2"), false);
+            (MathUtil.IsLong("-1.2")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong23()
         {
-            Assert.AreEqual(MathUtil.IsLong("-12345.12345"), false);
+            (MathUtil.IsLong("-12345.12345")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong24()
         {
             // Scientific notation should not be valid for IsLong
             double x = 123.0;
-            Assert.AreEqual(false, MathUtil.IsLong(x.ToString("E", CultureInfo.InvariantCulture))); // "E" formats as scientific notation
+            (MathUtil.IsLong(x.ToString("E", CultureInfo.InvariantCulture))).Should().Be(false); // "E" formats as scientific notation
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong25()
         {
             // Decimal numbers should all be invalid
-            Assert.AreEqual(MathUtil.IsLong("0.0"), false);
-            Assert.AreEqual(MathUtil.IsLong("1.0"), false);
-            Assert.AreEqual(MathUtil.IsLong("-1.0"), false);
+            (MathUtil.IsLong("0.0")).Should().Be(false);
+            (MathUtil.IsLong("1.0")).Should().Be(false);
+            (MathUtil.IsLong("-1.0")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong26()
         {
             // Large numbers beyond int but within long range
             long one = 1;
-            Assert.AreEqual(MathUtil.IsLong((int.MaxValue + one).ToString(CultureInfo.InvariantCulture)), true);
-            Assert.AreEqual(MathUtil.IsLong((int.MinValue - one).ToString(CultureInfo.InvariantCulture)), true);
+            (MathUtil.IsLong((int.MaxValue + one).ToString(CultureInfo.InvariantCulture))).Should().Be(true);
+            (MathUtil.IsLong((int.MinValue - one).ToString(CultureInfo.InvariantCulture))).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong27()
         {
             // Empty string should be invalid
-            Assert.AreEqual(MathUtil.IsLong(""), false);
+            (MathUtil.IsLong("")).Should().Be(false);
             // Whitespace-only string should be invalid
-            Assert.AreEqual(MathUtil.IsLong(" "), false);
+            (MathUtil.IsLong(" ")).Should().Be(false);
             // Whitespace around numbers should be valid (long.TryParse accepts this)
-            Assert.AreEqual(MathUtil.IsLong("  123  "), true);
+            (MathUtil.IsLong("  123  ")).Should().Be(true);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestIsLong28()
         {
             // Null should throw ArgumentNullException
-            MathUtil.IsLong(null);
+            Action act = () => MathUtil.IsLong(null);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong29()
         {
             // Multiple signs should be invalid
-            Assert.AreEqual(MathUtil.IsLong("+-1"), false);
-            Assert.AreEqual(MathUtil.IsLong("--1"), false);
-            Assert.AreEqual(MathUtil.IsLong("++1"), false);
+            (MathUtil.IsLong("+-1")).Should().Be(false);
+            (MathUtil.IsLong("--1")).Should().Be(false);
+            (MathUtil.IsLong("++1")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsLong30()
         {
             // Leading zeros should be valid
-            Assert.AreEqual(MathUtil.IsLong("00000"), true);
-            Assert.AreEqual(MathUtil.IsLong("00123"), true);
-            Assert.AreEqual(MathUtil.IsLong("-00123"), true);
+            (MathUtil.IsLong("00000")).Should().Be(true);
+            (MathUtil.IsLong("00123")).Should().Be(true);
+            (MathUtil.IsLong("-00123")).Should().Be(true);
         }
 
         #endregion
@@ -1194,32 +1184,32 @@ namespace StarThrower.MathUtilities.Test
 
         #region Degree constant tests
 
-        [TestMethod]
+        [Fact]
         public void TestDegreeConstant()
         {
             // Degree should equal Math.PI / 180.0
-            Assert.AreEqual(Math.PI / 180.0, MathUtil.Degree);
+            (MathUtil.Degree).Should().Be(Math.PI / 180.0);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDegreeConstantValue()
         {
             // One degree should be approximately 0.0174533 radians
-            Assert.IsTrue(Math.Abs(MathUtil.Degree - 0.0174533) < 0.0000001);
+            (Math.Abs(MathUtil.Degree - 0.0174533) < 0.0000001).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDegreeConstantConversion()
         {
             // 180 degrees should equal Math.PI radians
-            Assert.IsTrue(Math.Abs(180.0 * MathUtil.Degree - Math.PI) < 0.0000001);
+            (Math.Abs(180.0 * MathUtil.Degree - Math.PI) < 0.0000001).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDegreeConstant360()
         {
             // 360 degrees should equal 2*Math.PI radians
-            Assert.IsTrue(Math.Abs(360.0 * MathUtil.Degree - 2.0 * Math.PI) < 0.0000001);
+            (Math.Abs(360.0 * MathUtil.Degree - 2.0 * Math.PI) < 0.0000001).Should().BeTrue();
         }
 
         #endregion
