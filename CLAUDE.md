@@ -513,6 +513,31 @@ Conversion steps:
     and found unnecessary — `OutputType=Exe` alone was sufficient for `dotnet run` and
     for VS Code/VS 2026 Test Explorer discovery in the pilot
 
+**Step 6 conversion script — known gotchas (from StringUtilities, the largest project
+converted so far at 1,584+ tests):** for large test files, a one-shot Python script
+doing regex-based conversion is workable, but watch for:
+- A regex like `Assert\.AreEqual\((.+)\);` (no `re.DOTALL`) only matches **single-line**
+  calls. Multi-line `Assert.AreEqual(expr,\n    actual);` calls are missed and must be
+  found (`grep -n "Assert\."` after the script runs) and fixed by hand.
+- When converting `[TestMethod]\n[ExpectedException(typeof(X))]\n` (or the combined
+  `[TestMethod, ExpectedException(typeof(X))]`) forms, if the regex match starts at
+  `[TestMethod...` (not including the leading indentation whitespace), the replacement's
+  `{indent}[Fact]` ends up **double-indented** — the original indentation before
+  `[TestMethod]` is left in place AND the captured `indent` group is prepended again.
+  Fix with a follow-up pass: `re.sub(r'^                \[Fact\]', '        [Fact]', text,
+  flags=re.MULTILINE)` (or capture/consume the leading whitespace in the original regex).
+- A `split_top_level_args` helper (depth-aware comma splitting that respects parens and
+  string/char literals) is needed for `Assert.AreEqual`/`IsTrue`/`IsFalse` calls with
+  nested method calls or char literals (`Assert.AreEqual('a', ...)`); make it aware of
+  both `"..."` and `'...'` so commas inside literals aren't treated as argument
+  separators.
+- For `[ExpectedException]` bodies, locate the SUT call as the **last** line containing
+  the class-under-test prefix (e.g. `StringUtil.`/`DataUtil.`) — not the first — since
+  setup lines (e.g. `DateTime expected = DataUtil.DTNull;`) can also contain the prefix.
+- After the script runs, grep for leftover `Assert.`, `TestMethod`, `TestClass`,
+  `ExpectedException`, `StringAssert`, and `Microsoft.VisualStudio.TestTools` to confirm
+  nothing was missed before running the test suite.
+
 **Step 7 — Fix nullable warnings:**
 - Do not suppress with `!` operator — annotate properly
 - Add `?` to reference types that are legitimately nullable

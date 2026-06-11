@@ -1,11 +1,12 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
+using Xunit;
 using StarThrower.EarleyParser;
 
 namespace StarThrower.EarleyParser.Test
@@ -13,7 +14,6 @@ namespace StarThrower.EarleyParser.Test
     /// <summary>
     /// Summary description for EarleyExampleTests2
     /// </summary>
-    [TestClass]
     public class EarleyExampleTests2
     {
         #region [ Construction ]
@@ -91,7 +91,6 @@ namespace StarThrower.EarleyParser.Test
 
         #region [ Private Instance Variables ]
 
-        private TestContext? testContextInstance;
         private Category S;
         private Category E;
         private Category T;
@@ -117,47 +116,7 @@ namespace StarThrower.EarleyParser.Test
         #endregion
 
 
-        #region [ Public Properties ]
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext? TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #endregion
-
-
-        #region [ Additional test attributes ]
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-
-        [TestMethod]
+        [Fact]
         public void AtimesAsucceeds()
         {
             string[] aTimesa = new string[3];
@@ -167,10 +126,10 @@ namespace StarThrower.EarleyParser.Test
 
             Parser parser = new Parser(g);
             Parse parse = parser.Parse(aTimesa, S);
-            Assert.AreEqual(Status.Accept, parse.Status);
+            parse.Status.Should().Be(Status.Accept);
         }
 
-        [TestMethod]
+        [Fact]
         public void AplusAsucceeds()
         {
             string[] aTimesa = new string[3];
@@ -180,10 +139,10 @@ namespace StarThrower.EarleyParser.Test
 
             Parser parser = new Parser(g);
             Parse parse = parser.Parse(aTimesa, S);
-            Assert.AreEqual(Status.Accept, parse.Status);
+            parse.Status.Should().Be(Status.Accept);
         }
 
-        [TestMethod]
+        [Fact]
         public void AminusAfails()
         {
             string[] aTimesa = new string[3];
@@ -193,10 +152,10 @@ namespace StarThrower.EarleyParser.Test
 
             Parser parser = new Parser(g);
             Parse parse = parser.Parse(aTimesa, S);
-            Assert.AreEqual(Status.Reject, parse.Status);
+            parse.Status.Should().Be(Status.Reject);
         }
 
-        [TestMethod]
+        [Fact]
         public void ATimesAplusASucceeds()
         {
             string[] aTimesa = new string[5];
@@ -208,7 +167,7 @@ namespace StarThrower.EarleyParser.Test
 
             Parser parser = new Parser(g);
             Parse parse = parser.Parse(aTimesa, S);
-            Assert.AreEqual(Status.Accept, parse.Status);
+            parse.Status.Should().Be(Status.Accept);
         }
     }
 }

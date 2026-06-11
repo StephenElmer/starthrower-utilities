@@ -1,187 +1,123 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
+using Xunit;
 using StarThrower.EarleyParser;
 
 namespace StarThrower.EarleyParser.Test
 {
-    [TestClass]
     public class ChartTests
     {
-        #region [ Construction ]
-
-        public ChartTests()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        #endregion
-
-
-        #region [ Private Instance Variables ]
-
-        private TestContext? testContextInstance;
-
-        #endregion
-
-
-        #region [ Public Properties ]
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext? TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #endregion
-
-
-        #region [ Additional test attributes ]
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-
-        [TestMethod]
+        [Fact]
         public void FirstKey()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(0, f.chart.FirstIndex);
+            f.chart.FirstIndex.Should().Be(0);
         }
 
-        [TestMethod]
+        [Fact]
         public void LastKey()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(1, f.chart.LastIndex);
+            f.chart.LastIndex.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void SubChart1()
         {
             Fixture f = new Fixture();
             Chart subChart = f.chart.GetSubChart(0, 1);
-            Assert.AreEqual(true, subChart.ContainsEdge(f.edge1));
+            subChart.ContainsEdge(f.edge1).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void SubChart2()
         {
             Fixture f = new Fixture();
             Chart subChart = f.chart.GetSubChart(0, 1);
-            Assert.AreEqual(true, subChart.ContainsEdge(f.edge2));
+            subChart.ContainsEdge(f.edge2).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void SubChart3()
         {
             Fixture f = new Fixture();
             Chart subChart = f.chart.GetSubChart(0, 1);
-            Assert.AreEqual(false, subChart.ContainsEdge(f.edge3));
+            subChart.ContainsEdge(f.edge3).Should().Be(false);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void SubChart4()
         {
             Fixture f = new Fixture();
-            Chart subChart = f.chart.GetSubChart(1, 0);
-            Assert.Fail("Expected an exception to be thrown here.");
+            Action act = () => f.chart.GetSubChart(1, 0);
+            act.Should().Throw<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void IndexOf1()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(0, f.chart.GetIndexOfEdge(f.edge1));
+            f.chart.GetIndexOfEdge(f.edge1).Should().Be(0);
         }
 
-        [TestMethod]
+        [Fact]
         public void IndexOf2()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(0, f.chart.GetIndexOfEdge(f.edge2));
+            f.chart.GetIndexOfEdge(f.edge2).Should().Be(0);
         }
 
-        [TestMethod]
+        [Fact]
         public void IndexOf3()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(1, f.chart.GetIndexOfEdge(f.edge3));
+            f.chart.GetIndexOfEdge(f.edge3).Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Contains1()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(true, f.chart.ContainsEdge(f.edge1));
+            f.chart.ContainsEdge(f.edge1).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Contains2()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(true, f.chart.ContainsEdge(f.edge2));
+            f.chart.ContainsEdge(f.edge2).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Contains3()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(true, f.chart.ContainsEdge(f.edge3));
+            f.chart.ContainsEdge(f.edge3).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Contains4()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(false, f.chart.ContainsEdge(new Edge(new DottedRule(f.rule3), 4)));
+            f.chart.ContainsEdge(new Edge(new DottedRule(f.rule3), 4)).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetIndices()
         {
             Fixture f = new Fixture();
             SortedDictionary<int, Collection<Edge>>.KeyCollection indices = f.chart.Indexes;
-            Assert.AreEqual(true, indices.Contains(0));
-            Assert.AreEqual(true, indices.Contains(1));
+            indices.Contains(0).Should().Be(true);
+            indices.Contains(1).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetIndices2()
         {
             Fixture f = new Fixture();
@@ -192,7 +128,7 @@ namespace StarThrower.EarleyParser.Test
             {
                 expected.Add(i);
             }
-            Assert.AreEqual(expected.Count, indices.Count);
+            indices.Count.Should().Be(expected.Count);
 
             int cur = -1;
             int last = -1;
@@ -202,38 +138,38 @@ namespace StarThrower.EarleyParser.Test
                 cur = i;
                 if (last != -1)
                 {
-                    Assert.AreEqual(true, cur > last);
+                    (cur > last).Should().Be(true);
                 }
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainsEdge()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(true, f.chart.ContainsEdgesAt(0));
-            Assert.AreEqual(true, f.chart.ContainsEdgesAt(1));
-            Assert.AreEqual(false, f.chart.ContainsEdgesAt(2));
+            f.chart.ContainsEdgesAt(0).Should().Be(true);
+            f.chart.ContainsEdgesAt(1).Should().Be(true);
+            f.chart.ContainsEdgesAt(2).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void AddEdge()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(false, f.chart.AddEdge(0, f.edge1));
+            f.chart.AddEdge(0, f.edge1).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetEdge()
         {
             Fixture f = new Fixture();
             ReadOnlyCollection<Edge>? zeroEdges = f.chart.GetEdgesAt(0);
-            Assert.IsNotNull(zeroEdges);
-            Assert.AreEqual(true, zeroEdges.Contains(f.edge1));
-            Assert.AreEqual(true, zeroEdges.Contains(f.edge2));
+            zeroEdges.Should().NotBeNull();
+            zeroEdges.Contains(f.edge1).Should().Be(true);
+            zeroEdges.Contains(f.edge2).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturns()
         {
             Fixture f = new Fixture();
@@ -242,7 +178,7 @@ namespace StarThrower.EarleyParser.Test
             c.AddEdge(0, f.edge2);
             c.AddEdge(1, f.edge3);
 
-            Assert.AreEqual(c, f.chart);
+            c.Should().Be(f.chart);
         }
     }
 }

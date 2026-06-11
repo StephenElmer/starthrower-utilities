@@ -1,145 +1,79 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
+using Xunit;
 using StarThrower.EarleyParser;
 
 namespace StarThrower.EarleyParser.Test
 {
-    [TestClass]
     public class DottedRuleTests
     {
-        #region [ Construction ]
-
-        public DottedRuleTests()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        #endregion
-
-
-        #region [ Private Instance Variables ]
-
-        private TestContext? testContextInstance;
-
-        #endregion
-
-
-        #region [ Public Properties ]
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext? TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #endregion
-
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-
-        [TestMethod]
+        [Fact]
         public void AdvanceDot()
         {
             Fixture f = new Fixture();
             Rule advanced = new DottedRule(f.rule3, 1);
-            Assert.AreEqual(advanced, DottedRule.AdvanceDot(f.edge2.DottedRule));
+            DottedRule.AdvanceDot(f.edge2.DottedRule).Should().Be(advanced);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void AdvanceDotFail()
         {
             Fixture f = new Fixture();
-            DottedRule.AdvanceDot(f.edge3.DottedRule);
-            Assert.Fail("Should have thrown an exception here.");
+            Action act = () => DottedRule.AdvanceDot(f.edge3.DottedRule);
+            act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void CreateStartRuleThrowsOnNull()
         {
             Category? nullSeed = null;
-            DottedRule.CreateStartRule(nullSeed);
-            Assert.Fail("Should have thrown an exception here.");
+            Action act = () => DottedRule.CreateStartRule(nullSeed);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void CreateStartRuleThrowsOnTerminalSeed()
         {
             Fixture f = new Fixture();
-            DottedRule.CreateStartRule(f.a);
-            Assert.Fail("Should have thrown an exception here.");
+            Action act = () => DottedRule.CreateStartRule(f.a);
+            act.Should().Throw<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateStartRule()
         {
             Fixture f = new Fixture();
             DottedRule sr = DottedRule.CreateStartRule(f.A);
-            Assert.AreSame(Category.Root, sr.Left);
-            Assert.AreEqual(Category.Root, sr.Left);
-            Assert.AreNotSame(Category.Root, new Category(Category.Root.Name));
-            Assert.AreEqual(0, sr.Position);
-            Assert.AreEqual(f.A, sr.ActiveCategory);
-            Assert.AreEqual(sr, DottedRule.CreateStartRule(f.A));
+            sr.Left.Should().BeSameAs(Category.Root);
+            sr.Left.Should().Be(Category.Root);
+            (new Category(Category.Root.Name)).Should().NotBeSameAs(Category.Root);
+            sr.Position.Should().Be(0);
+            sr.ActiveCategory.Should().Be(f.A);
+            DottedRule.CreateStartRule(f.A).Should().Be(sr);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetPosition()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(2, f.dot1.Position);
+            f.dot1.Position.Should().Be(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void ActiveCategory()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual(f.D, f.dot1.ActiveCategory);
-            Assert.AreEqual(null, f.dot2.ActiveCategory);
-            Assert.AreNotEqual(f.D, f.dot3.ActiveCategory);
+            f.dot1.ActiveCategory.Should().Be(f.D);
+            f.dot2.ActiveCategory.Should().BeNull();
+            f.dot3.ActiveCategory.Should().NotBe(f.D);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetHashCodeReturnsCorrect()
         {
             Fixture f = new Fixture();
@@ -152,32 +86,32 @@ namespace StarThrower.EarleyParser.Test
             result = 31 * result + f.dot1.Position.GetHashCode();
             result = 31 * result + bh;
 
-            Assert.AreEqual(result, f.dot1.GetHashCode());
+            f.dot1.GetHashCode().Should().Be(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrue()
         {
             Fixture f = new Fixture();
             DottedRule dr = new DottedRule(f.rule1, 2);
-            Assert.AreEqual(true, f.dot1.Equals(dr));
+            f.dot1.Equals(dr).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsFalse()
         {
             Fixture f = new Fixture();
             DottedRule dr = new DottedRule(f.rule1, 2);
-            Assert.AreEqual(false, f.dot2.Equals(dr));
+            f.dot2.Equals(dr).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringReturnsCorrectly()
         {
             Fixture f = new Fixture();
-            Assert.AreEqual("A -> B C * D E", f.dot1.ToString());
-            Assert.AreEqual("A -> a *", f.dot2.ToString());
-            Assert.AreEqual("X -> * Y Z", f.dot3.ToString());
+            f.dot1.ToString().Should().Be("A -> B C * D E");
+            f.dot2.ToString().Should().Be("A -> a *");
+            f.dot3.ToString().Should().Be("X -> * Y Z");
         }
     }
 }

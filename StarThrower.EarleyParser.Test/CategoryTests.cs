@@ -1,264 +1,198 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
+using Xunit;
 using StarThrower.EarleyParser;
 
 namespace StarThrower.EarleyParser.Test
 {
-    [TestClass]
     public class CategoryTests
     {
-        #region [ Construction ]
-
-        public CategoryTests()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        #endregion
-
-
-        #region [ Private Instance Variables ]
-
-        private TestContext? testContextInstance;
-
-        #endregion
-
-
-        #region [ Public Properties ]
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext? TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #endregion
-
-
-        #region [ Additional test attributes ]
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-
-        [TestMethod]
+        [Fact]
         public void Root()
         {
             Category r = Category.Root;
-            Assert.AreEqual("<start>", r.ToString());
-            Assert.AreEqual(false, r.IsTerminal);
+            r.ToString().Should().Be("<start>");
+            r.IsTerminal.Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void RootReturnsSameObject()
         {
             Category r1 = Category.Root;
             Category r2 = Category.Root;
-            Assert.AreSame(r1, r2);
+            r2.Should().BeSameAs(r1);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsTerminalNamePropertyReturnsName()
         {
             Category c = new Category("A", true);
-            Assert.AreEqual("A", c.Name);
+            c.Name.Should().Be("A");
         }
 
-        [TestMethod]
+        [Fact]
         public void IsTerminalReturnsTrue()
         {
             Category c = new Category("A", true);
-            Assert.AreEqual(true, c.IsTerminal);
+            c.IsTerminal.Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsTerminalReturnsFalse()
         {
             Category c = new Category("A", false);
-            Assert.AreEqual(false, c.IsTerminal);
+            c.IsTerminal.Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringReturnsName()
         {
             Category c = new Category("A");
-            Assert.AreEqual("A", c.ToString());
+            c.ToString().Should().Be("A");
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringReturnsNameWhenIsTerminal()
         {
             Category c = new Category("A", true);
-            Assert.AreEqual("A", c.ToString());
+            c.ToString().Should().Be("A");
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringReturnsNameWhenNotTerminal()
         {
             Category c = new Category("A", false);
-            Assert.AreEqual("A", c.ToString());
+            c.ToString().Should().Be("A");
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringReturnsEmptyForEmptyName()
         {
             Category c = new Category(String.Empty, true);
-            Assert.AreEqual("<empty>", c.ToString());
+            c.ToString().Should().Be("<empty>");
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void CtorThrowsOnNullName()
         {
             string? nullName = null;
-            Category c = new Category(nullName, false);
-            Assert.Fail("Expected an exception to be thrown!");
+            Action act = () => new Category(nullName, false);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void CtorThrowsOnEmptyNameWithNonTerminal()
         {
-            Category c = new Category("", false);
-            Assert.Fail("Expected an exception to be thrown!");
+            Action act = () => new Category("", false);
+            act.Should().Throw<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void CtorAcceptsEmptyNameWithTerminal()
         {
             Category c = new Category("", true);
-            Assert.AreEqual(String.Empty, c.Name);
-            Assert.AreEqual(true, c.IsTerminal);
+            c.Name.Should().Be(String.Empty);
+            c.IsTerminal.Should().Be(true);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void CtorThrowsOnWhitespaceName()
         {
-            Category c = new Category(" ", false);
-            Assert.Fail("Expected an exception to be thrown!");
+            Action act = () => new Category(" ", false);
+            act.Should().Throw<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrueWhenSame()
         {
             Category a = new Category("A", false);
             Category b = a;
-            Assert.AreEqual(true, a.Equals(b));
+            a.Equals(b).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsFalseWhenNull()
         {
             Category a = new Category("A", false);
             Category? b = null;
-            Assert.AreEqual(false, a.Equals(b));
+            a.Equals(b).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsFalseWhenNotCategory()
         {
             Category a = new Category("A", false);
             String b = "asdf";
-            Assert.AreEqual(false, a.Equals(b));
+            a.Equals(b).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrueWhenEquivalent1()
         {
             Category a = new Category("A", false);
             Category b = new Category("A", false);
-            Assert.AreEqual(true, a.Equals(b));
+            a.Equals(b).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrueWhenEquivalent2()
         {
             Category a = new Category("A", true);
             Category b = new Category("A", true);
-            Assert.AreEqual(true, a.Equals(b));
+            a.Equals(b).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrueWhenNotEquivalent1()
         {
             Category a = new Category("A", false);
             Category b = new Category("B", false);
-            Assert.AreEqual(false, a.Equals(b));
+            a.Equals(b).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrueWhenNotEquivalent2()
         {
             Category a = new Category("A", false);
             Category b = new Category("A", true);
-            Assert.AreEqual(false, a.Equals(b));
+            a.Equals(b).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrueWhenNotEquivalent3()
         {
             Category a = new Category("A", true);
             Category b = new Category("A", false);
-            Assert.AreEqual(false, a.Equals(b));
+            a.Equals(b).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrueWhenNotEquivalent4()
         {
             Category a = new Category("A", true);
             Category b = new Category("B", false);
-            Assert.AreEqual(false, a.Equals(b));
+            a.Equals(b).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsReturnsTrueWhenNotEquivalent5()
         {
             Category a = new Category("A", false);
             Category b = new Category("B", true);
-            Assert.AreEqual(false, a.Equals(b));
+            a.Equals(b).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void CtorSingleArgument()
         {
             Category a = new Category("A");
-            Assert.AreEqual("A", a.Name);
-            Assert.AreEqual(false, a.IsTerminal);
+            a.Name.Should().Be("A");
+            a.IsTerminal.Should().Be(false);
         }
     }
 }

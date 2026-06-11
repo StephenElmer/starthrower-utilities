@@ -1,83 +1,18 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
+using Xunit;
 using StarThrower.EarleyParser;
 
 namespace StarThrower.EarleyParser.Test
 {
-    [TestClass]
     public class ParseTreeTests
     {
-        #region [ Construction ]
-
-        public ParseTreeTests()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        #endregion
-
-
-        #region [ Private Instance Variables ]
-
-        private TestContext? testContextInstance;
-
-        #endregion
-
-
-        #region [ Public Properties ]
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext? TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #endregion
-
-
-        #region [ Additional test attributes ]
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-
-        // Use TestInitialize to run code before running each test 
-        [TestInitialize()]
-        public void MyTestInitialize()
-        {
-        }
-
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-
         private static Fixture GetCustomFixture()
         {
             Fixture f = new Fixture();
@@ -161,7 +96,7 @@ namespace StarThrower.EarleyParser.Test
             return f;
         }
 
-        [TestMethod]
+        [Fact]
         public void NewParseTree1()
         {
             Fixture f = new Fixture();
@@ -173,10 +108,10 @@ namespace StarThrower.EarleyParser.Test
             startEdge = Edge.Complete(startEdge, new Edge(new DottedRule(new Rule(f.S, right), 2), 0));
 
             ParseTree startTree = ParseTree.NewParseTree(startEdge);
-            Assert.IsNull(startTree.Children);
+            startTree.Children.Should().BeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void NewParseTree2()
         {
             Fixture f = new Fixture();
@@ -201,85 +136,85 @@ namespace StarThrower.EarleyParser.Test
 
             ParseTree sTree = ParseTree.NewParseTree(sEdge, null);
             Collection<ParseTree>? sChildren = sTree.Children;
-            Assert.IsNotNull(sChildren);
-            Assert.AreEqual(f.NP, sChildren[0].Node);
-            Assert.AreEqual(f.VP, sChildren[1].Node);
+            sChildren.Should().NotBeNull();
+            sChildren[0].Node.Should().Be(f.NP);
+            sChildren[1].Node.Should().Be(f.VP);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ParseTrees1()
         {
             Fixture f = GetCustomFixture();
 
-            Assert.AreEqual(2, f.parseTrees.Count);
+            f.parseTrees.Count.Should().Be(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseTrees2()
         {
             Fixture f = GetCustomFixture();
 
             Collection<ParseTree> vpSubTrees = f.parse.GetParseTreesFor(f.VP, 1, 4);
-            Assert.AreEqual(2, vpSubTrees.Count);
+            vpSubTrees.Count.Should().Be(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseTrees3()
         {
             Fixture f = GetCustomFixture();
 
             Collection<ParseTree> vpSubTrees = f.parse.GetParseTreesFor(f.VP, 1, 4);
             ReadOnlyCollection<Edge>? edgesAt4 = f.parse.Chart.GetEdgesAt(4);
-            Assert.IsNotNull(edgesAt4);
+            edgesAt4.Should().NotBeNull();
             foreach (Edge edge in edgesAt4)
             {
                 if (edge.Origin == 1 && edge.IsPassive && edge.DottedRule.Left.Equals(f.VP))
                 {
                     ParseTree? pt = f.parse.GetParseTreeFor(edge);
-                    Assert.IsNotNull(pt);
-                    Assert.AreEqual(true, vpSubTrees.Contains(pt));
+                    pt.Should().NotBeNull();
+                    vpSubTrees.Contains(pt).Should().Be(true);
                 }
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseTrees4()
         {
             Fixture f = GetCustomFixture();
 
             Collection<ParseTree> viSubTrees = f.parse.GetParseTreesFor(f.VI, 3, 4);
-            Assert.AreEqual(1, viSubTrees.Count);
+            viSubTrees.Count.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseTrees5()
         {
             Fixture f = GetCustomFixture();
 
             Collection<ParseTree> npSubTrees = f.parse.GetParseTreesFor(f.NP, 0, 1);
-            Assert.AreEqual(1, npSubTrees.Count);
+            npSubTrees.Count.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseTrees6()
         {
             Fixture f = GetCustomFixture();
 
             Collection<ParseTree> npSubTrees2 = f.parse.GetParseTreesFor(f.NP, 2, 4);
-            Assert.AreEqual(1, npSubTrees2.Count);
+            npSubTrees2.Count.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseTrees7()
         {
             Fixture f = GetCustomFixture();
 
             Collection<ParseTree> sSubTrees = f.parse.GetParseTreesFor(f.S, 2, 4);
-            Assert.AreEqual(1, sSubTrees.Count);
+            sSubTrees.Count.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseTrees8()
         {
             Fixture f = GetCustomFixture();
@@ -287,42 +222,42 @@ namespace StarThrower.EarleyParser.Test
             Collection<ParseTree> sSubTrees = f.parse.GetParseTreesFor(f.S, 2, 4);
             ParseTree sSubTree = sSubTrees[0];
             Collection<ParseTree>? sChildren = sSubTree.Children;
-            Assert.IsNotNull(sChildren);
-            Assert.AreEqual(f.NP, sChildren[0].Node);
+            sChildren.Should().NotBeNull();
+            sChildren[0].Node.Should().Be(f.NP);
             ParseTree sVPSubTree = sChildren[1];
-            Assert.AreEqual(f.VP, sVPSubTree.Node);
+            sVPSubTree.Node.Should().Be(f.VP);
             Collection<ParseTree>? vpChildren = sVPSubTree.Children;
-            Assert.IsNotNull(vpChildren);
+            vpChildren.Should().NotBeNull();
             ParseTree viSubTree = vpChildren[0];
-            Assert.AreEqual(f.VI, viSubTree.Node);
+            viSubTree.Node.Should().Be(f.VI);
             Collection<ParseTree>? viChildren = viSubTree.Children;
-            Assert.IsNotNull(viChildren);
+            viChildren.Should().NotBeNull();
             ParseTree duckSubTree = viChildren[0];
-            Assert.AreEqual(f.duck, duckSubTree.Node);
+            duckSubTree.Node.Should().Be(f.duck);
 
             // back up
-            Assert.AreEqual(viSubTree, duckSubTree.Parent);
-            Assert.AreEqual(sVPSubTree, viSubTree.Parent);
-            Assert.AreEqual(sSubTree, sVPSubTree.Parent);
-            Assert.AreEqual(true, sSubTree.Parent == null);
+            duckSubTree.Parent.Should().Be(viSubTree);
+            viSubTree.Parent.Should().Be(sVPSubTree);
+            sVPSubTree.Parent.Should().Be(sSubTree);
+            sSubTree.Parent.Should().BeNull();
 
             // wrong stuff in seed
-            Assert.AreEqual(0, f.parse.GetParseTreesFor(f.NP, 0, f.tokens.Length).Count);
+            f.parse.GetParseTreesFor(f.NP, 0, f.tokens.Length).Count.Should().Be(0);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void GetParent()
         {
             Fixture f = GetCustomFixture();
 
             foreach (ParseTree pt in f.parseTrees)
             {
-                Assert.AreEqual(f.S, pt.Node);
+                pt.Node.Should().Be(f.S);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void GetChildren1()
         {
             Fixture f = GetCustomFixture();
@@ -330,13 +265,13 @@ namespace StarThrower.EarleyParser.Test
             foreach (ParseTree pt in f.parseTrees)
             {
                 Collection<ParseTree>? i = pt.Children;
-                Assert.IsNotNull(i);
-                Assert.AreEqual(f.NP, i[0].Node);
-                Assert.AreEqual(f.VP, i[1].Node);
+                i.Should().NotBeNull();
+                i[0].Node.Should().Be(f.NP);
+                i[1].Node.Should().Be(f.VP);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void GetChildren2()
         {
             Fixture f = GetCustomFixture();
@@ -361,11 +296,11 @@ namespace StarThrower.EarleyParser.Test
             ParseTree tree = prse.ParseTrees[0];
             int npCount = 0;
             Collection<ParseTree>? treeChildren = tree.Children;
-            Assert.IsNotNull(treeChildren);
+            treeChildren.Should().NotBeNull();
             foreach (ParseTree c in treeChildren)
             {
                 Collection<ParseTree>? cChildren = c.Children;
-                Assert.IsNotNull(cChildren);
+                cChildren.Should().NotBeNull();
                 foreach (ParseTree x in cChildren)
                 {
                     if (x.Node.Equals(f.he))
@@ -375,10 +310,10 @@ namespace StarThrower.EarleyParser.Test
                 }
             }
 
-            Assert.AreEqual(2, npCount);
+            npCount.Should().Be(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void Equals1()
         {
             Fixture f = GetCustomFixture();
@@ -386,11 +321,11 @@ namespace StarThrower.EarleyParser.Test
             ParseTree test = new ParseTree(f.edge1.DottedRule.Left, null);
             foreach (ParseTree pt in f.parseTrees)
             {
-                Assert.AreEqual(false, test.Equals(pt));
+                test.Equals(pt).Should().Be(false);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ToString1()
         {
             Fixture f = GetCustomFixture();
@@ -400,7 +335,7 @@ namespace StarThrower.EarleyParser.Test
 
             foreach (ParseTree pt in f.parseTrees)
             {
-                Assert.AreEqual(true, pt.ToString().Equals(s1, StringComparison.Ordinal) || pt.ToString().Equals(s2, StringComparison.Ordinal));
+                (pt.ToString().Equals(s1, StringComparison.Ordinal) || pt.ToString().Equals(s2, StringComparison.Ordinal)).Should().Be(true);
             }
         }
     }
