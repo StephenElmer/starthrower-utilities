@@ -16,13 +16,15 @@ namespace StarThrower.XBase.Test
 
         public XBaseFileTest()
         {
-            _inputFolder = @"D:\StarThrower\Development\StarThrower.Utilities\Current\Code\TestInput";
+            _inputFolder = Path.GetFullPath(
+                Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "TestInput"));
             if (!Directory.Exists(_inputFolder))
             {
                 Directory.CreateDirectory(_inputFolder);
             }
 
-            _outputFolder = @"D:\StarThrower\Development\StarThrower.Utilities\Current\Code\TestOutput";
+            _outputFolder = Path.GetFullPath(
+                Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "TestOutput"));
             if (!Directory.Exists(_outputFolder))
             {
                 Directory.CreateDirectory(_outputFolder);

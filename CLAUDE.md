@@ -510,19 +510,24 @@ translation patterns from each Step 6 conversion (StringUtilities, EarleyParser,
 Gis.GeoUtilities) are archived in [docs/step6-conversion-notes.md](docs/step6-conversion-notes.md)
 for reference during Phase 2 documentation writeups.
 
-**Step 7 — Fix nullable warnings:**
-- Do not suppress with `!` operator — annotate properly
-- Add `?` to reference types that are legitimately nullable
-- Add null guards where parameters must be non-null
+**Step 7 — Fix nullable warnings:** ✅ COMPLETE (2026-06-11)
+- A clean rebuild (`dotnet build -t:Rebuild`) of the full solution produced 0 warnings /
+  0 errors. Nullable warnings were already fully resolved during Steps 2c/3; no further
+  action was needed.
 
-**Step 8 — Fix test paths** — replace hard-coded paths with assembly-relative paths:
+**Step 8 — Fix test paths** ✅ COMPLETE (2026-06-11) — replaced hard-coded
+`D:\StarThrower\...\Code\TestInput` / `TestOutput` paths with assembly-relative paths
+in `StarThrower.XBase.Test/XBaseFileTest.cs` and
+`StarThrower.Gis.GeoUtilities.Test/WGS84TranslationTest.cs`:
 ```csharp
 var testInputPath = Path.GetFullPath(
-    Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "TestInput"));
+    Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "TestInput"));
 var testOutputPath = Path.GetFullPath(
-    Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "TestOutput"));
+    Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "TestOutput"));
 ```
-Note: verify the exact relative depth once `dotnet test` output paths are confirmed.
+Verified relative depth: build output is `Code/<Project>/bin/Debug/net10.0/`, which is
+**four** levels below `Code/` (net10.0 → Debug → bin → project folder → Code), so four
+`".."` segments are required.
 
 **Step 9 — Verify all tests still pass** after each step via `dotnet test`.
 

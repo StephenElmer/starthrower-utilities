@@ -21,7 +21,8 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
         public WGS84TranslationTest()
         {
-            _inputFolder = @"D:\StarThrower\Development\StarThrower.Utilities\Current\Code\TestInput";
+            _inputFolder = Path.GetFullPath(
+                Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "TestInput"));
             if (!Directory.Exists(_inputFolder))
             {
                 Directory.CreateDirectory(_inputFolder);
