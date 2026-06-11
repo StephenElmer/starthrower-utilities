@@ -2,17 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
+using Xunit;
 using StarThrower.Matrices;
 
 namespace StarThrower.Matrices.Test
 {
-    [TestClass]
     public class MatrixTest
     {
         #region [ 1-D Matrix ]
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DCtor()
         {
             List<int> indices = new List<int>();
@@ -21,10 +21,10 @@ namespace StarThrower.Matrices.Test
             indices.Add(3);
             Matrix<int, int> md1 = new Matrix<int, int>(indices);
 
-            Assert.AreEqual(true, (md1 != null));
+            (md1 != null).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DGetter()
         {
             List<int> indices = new List<int>();
@@ -33,12 +33,12 @@ namespace StarThrower.Matrices.Test
             indices.Add(3);
             Matrix<int, int> md1 = new Matrix<int, int>(indices);
 
-            Assert.AreEqual(0, md1[1]);
-            Assert.AreEqual(0, md1[2]);
-            Assert.AreEqual(0, md1[3]);
+            (md1[1]).Should().Be(0);
+            (md1[2]).Should().Be(0);
+            (md1[3]).Should().Be(0);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DGetter2()
         {
             Guid i1 = Guid.NewGuid();
@@ -50,12 +50,12 @@ namespace StarThrower.Matrices.Test
             indices.Add(i3);
             Matrix<Guid, int> md1 = new Matrix<Guid, int>(indices);
 
-            Assert.AreEqual(0, md1.GetItemAt(0));
-            Assert.AreEqual(0, md1.GetItemAt(1));
-            Assert.AreEqual(0, md1.GetItemAt(2));
+            (md1.GetItemAt(0)).Should().Be(0);
+            (md1.GetItemAt(1)).Should().Be(0);
+            (md1.GetItemAt(2)).Should().Be(0);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DSetter()
         {
             List<int> indices = new List<int>();
@@ -67,12 +67,12 @@ namespace StarThrower.Matrices.Test
             md1[2] = 5;
             md1[3] = 6;
 
-            Assert.AreEqual(4, md1[1]);
-            Assert.AreEqual(5, md1[2]);
-            Assert.AreEqual(6, md1[3]);
+            (md1[1]).Should().Be(4);
+            (md1[2]).Should().Be(5);
+            (md1[3]).Should().Be(6);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DSetter2()
         {
             List<int> indices = new List<int>();
@@ -84,12 +84,12 @@ namespace StarThrower.Matrices.Test
             md1.SetItemAt(5, 1);
             md1.SetItemAt(6, 2);
 
-            Assert.AreEqual(4, md1.GetItemAt(0));
-            Assert.AreEqual(5, md1.GetItemAt(1));
-            Assert.AreEqual(6, md1.GetItemAt(2));
+            (md1.GetItemAt(0)).Should().Be(4);
+            (md1.GetItemAt(1)).Should().Be(5);
+            (md1.GetItemAt(2)).Should().Be(6);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DGetIndexesAt01()
         {
             int x1 = 1;
@@ -102,12 +102,12 @@ namespace StarThrower.Matrices.Test
             indices.Add(x3);
             Matrix<int, int> m = new Matrix<int, int>(indices);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0)[0]);
-            Assert.AreEqual(x2, m.GetIndexesAt(1)[0]);
-            Assert.AreEqual(x3, m.GetIndexesAt(2)[0]);
+            (m.GetIndexesAt(0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(2)[0]).Should().Be(x3);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DGetIndexesAt02()
         {
             Guid x1 = new Guid("{CB17883B-C9A5-4D6E-8E01-020F384D6E61}");
@@ -120,12 +120,12 @@ namespace StarThrower.Matrices.Test
             indices.Add(x3);
             Matrix<Guid, int> m = new Matrix<Guid, int>(indices);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0)[0]);
-            Assert.AreEqual(x2, m.GetIndexesAt(1)[0]);
-            Assert.AreEqual(x3, m.GetIndexesAt(2)[0]);
+            (m.GetIndexesAt(0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(2)[0]).Should().Be(x3);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DNullableDefaultIsNull()
         {
             List<int> indices = new List<int>();
@@ -135,15 +135,15 @@ namespace StarThrower.Matrices.Test
 
             Matrix<int, string?> m = new Matrix<int, string?>(indices);
 
-            Assert.IsNull(m[1]);
-            Assert.IsNull(m[2]);
-            Assert.IsNull(m[3]);
-            Assert.IsNull(m.GetItemAt(0));
-            Assert.IsNull(m.GetItemAt(1));
-            Assert.IsNull(m.GetItemAt(2));
+            (m[1]).Should().BeNull();
+            (m[2]).Should().BeNull();
+            (m[3]).Should().BeNull();
+            (m.GetItemAt(0)).Should().BeNull();
+            (m.GetItemAt(1)).Should().BeNull();
+            (m.GetItemAt(2)).Should().BeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix1DNullableSetGet()
         {
             List<int> indices = new List<int>();
@@ -156,12 +156,12 @@ namespace StarThrower.Matrices.Test
             m[2] = null;
             m.SetItemAt("three", 2);
 
-            Assert.AreEqual("one", m[1]);
-            Assert.IsNull(m[2]);
-            Assert.AreEqual("three", m[3]);
-            Assert.AreEqual("one", m.GetItemAt(0));
-            Assert.IsNull(m.GetItemAt(1));
-            Assert.AreEqual("three", m.GetItemAt(2));
+            (m[1]).Should().Be("one");
+            (m[2]).Should().BeNull();
+            (m[3]).Should().Be("three");
+            (m.GetItemAt(0)).Should().Be("one");
+            (m.GetItemAt(1)).Should().BeNull();
+            (m.GetItemAt(2)).Should().Be("three");
         }
 
         #endregion
@@ -169,7 +169,7 @@ namespace StarThrower.Matrices.Test
 
         #region [ 2-D Matrix ]
 
-        [TestMethod]
+        [Fact]
         public void Matrix2DCtor()
         {
             List<int> d1indices = new List<int>();
@@ -184,20 +184,20 @@ namespace StarThrower.Matrices.Test
 
             Matrix<int, int> md2 = new Matrix<int, int>(d1indices, d2indices);
 
-            Assert.AreEqual(0, md2[1, 1]);
-            Assert.AreEqual(0, md2[1, 2]);
-            Assert.AreEqual(0, md2[1, 3]);
+            (md2[1, 1]).Should().Be(0);
+            (md2[1, 2]).Should().Be(0);
+            (md2[1, 3]).Should().Be(0);
 
-            Assert.AreEqual(0, md2[2, 1]);
-            Assert.AreEqual(0, md2[2, 2]);
-            Assert.AreEqual(0, md2[2, 3]);
+            (md2[2, 1]).Should().Be(0);
+            (md2[2, 2]).Should().Be(0);
+            (md2[2, 3]).Should().Be(0);
 
-            Assert.AreEqual(0, md2[3, 1]);
-            Assert.AreEqual(0, md2[3, 2]);
-            Assert.AreEqual(0, md2[3, 3]);
+            (md2[3, 1]).Should().Be(0);
+            (md2[3, 2]).Should().Be(0);
+            (md2[3, 3]).Should().Be(0);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix2DSetter()
         {
             List<int> d1indices = new List<int>();
@@ -224,18 +224,18 @@ namespace StarThrower.Matrices.Test
             md2[3, 3] = 9;
 
 
-            Assert.AreEqual(1, md2[1, 1]);
-            Assert.AreEqual(2, md2[1, 2]);
-            Assert.AreEqual(3, md2[1, 3]);
-            Assert.AreEqual(4, md2[2, 1]);
-            Assert.AreEqual(5, md2[2, 2]);
-            Assert.AreEqual(6, md2[2, 3]);
-            Assert.AreEqual(7, md2[3, 1]);
-            Assert.AreEqual(8, md2[3, 2]);
-            Assert.AreEqual(9, md2[3, 3]);
+            (md2[1, 1]).Should().Be(1);
+            (md2[1, 2]).Should().Be(2);
+            (md2[1, 3]).Should().Be(3);
+            (md2[2, 1]).Should().Be(4);
+            (md2[2, 2]).Should().Be(5);
+            (md2[2, 3]).Should().Be(6);
+            (md2[3, 1]).Should().Be(7);
+            (md2[3, 2]).Should().Be(8);
+            (md2[3, 3]).Should().Be(9);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix2DSetter2()
         {
             List<int> d1indices = new List<int>();
@@ -262,18 +262,18 @@ namespace StarThrower.Matrices.Test
             md2.SetItemAt(9, 2, 2);
 
 
-            Assert.AreEqual(1, md2.GetItemAt(0, 0));
-            Assert.AreEqual(2, md2.GetItemAt(0, 1));
-            Assert.AreEqual(3, md2.GetItemAt(0, 2));
-            Assert.AreEqual(4, md2.GetItemAt(1, 0));
-            Assert.AreEqual(5, md2.GetItemAt(1, 1));
-            Assert.AreEqual(6, md2.GetItemAt(1, 2));
-            Assert.AreEqual(7, md2.GetItemAt(2, 0));
-            Assert.AreEqual(8, md2.GetItemAt(2, 1));
-            Assert.AreEqual(9, md2.GetItemAt(2, 2));
+            (md2.GetItemAt(0, 0)).Should().Be(1);
+            (md2.GetItemAt(0, 1)).Should().Be(2);
+            (md2.GetItemAt(0, 2)).Should().Be(3);
+            (md2.GetItemAt(1, 0)).Should().Be(4);
+            (md2.GetItemAt(1, 1)).Should().Be(5);
+            (md2.GetItemAt(1, 2)).Should().Be(6);
+            (md2.GetItemAt(2, 0)).Should().Be(7);
+            (md2.GetItemAt(2, 1)).Should().Be(8);
+            (md2.GetItemAt(2, 2)).Should().Be(9);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix2DGetIndexesAt01()
         {
             int x1 = 1;
@@ -296,37 +296,37 @@ namespace StarThrower.Matrices.Test
 
             Matrix<int, int> m = new Matrix<int, int>(xIndices, yIndices);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0)[1]);
+            (m.GetIndexesAt(0, 0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 0)[1]).Should().Be(y1);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(0, 1)[1]);
+            (m.GetIndexesAt(0, 1)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 1)[1]).Should().Be(y2);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(0, 2)[1]);
-
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0)[1]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1)[1]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2)[1]);
+            (m.GetIndexesAt(0, 2)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 2)[1]).Should().Be(y3);
 
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0)[1]);
+            (m.GetIndexesAt(1, 0)[0]).Should().Be(x2);
+            (m.GetIndexesAt(0, 0)[1]).Should().Be(y1);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1)[1]);
+            (m.GetIndexesAt(1, 1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 1)[1]).Should().Be(y2);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2)[1]);
+            (m.GetIndexesAt(1, 2)[0]).Should().Be(x2);
+            (m.GetIndexesAt(2, 2)[1]).Should().Be(y3);
+
+
+            (m.GetIndexesAt(2, 0)[0]).Should().Be(x3);
+            (m.GetIndexesAt(0, 0)[1]).Should().Be(y1);
+
+            (m.GetIndexesAt(2, 1)[0]).Should().Be(x3);
+            (m.GetIndexesAt(1, 1)[1]).Should().Be(y2);
+
+            (m.GetIndexesAt(2, 2)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 2)[1]).Should().Be(y3);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix2DGetIndexesAt02()
         {
             Guid x1 = new Guid("{917F34FC-37BD-4660-80BB-FA9641EDA9FF}");
@@ -349,37 +349,37 @@ namespace StarThrower.Matrices.Test
 
             Matrix<Guid, int> m = new Matrix<Guid, int>(xIndices, yIndices);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0)[1]);
+            (m.GetIndexesAt(0, 0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 0)[1]).Should().Be(y1);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(0, 1)[1]);
+            (m.GetIndexesAt(0, 1)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 1)[1]).Should().Be(y2);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(0, 2)[1]);
-
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0)[1]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1)[1]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2)[1]);
+            (m.GetIndexesAt(0, 2)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 2)[1]).Should().Be(y3);
 
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0)[1]);
+            (m.GetIndexesAt(1, 0)[0]).Should().Be(x2);
+            (m.GetIndexesAt(0, 0)[1]).Should().Be(y1);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1)[1]);
+            (m.GetIndexesAt(1, 1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 1)[1]).Should().Be(y2);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2)[1]);
+            (m.GetIndexesAt(1, 2)[0]).Should().Be(x2);
+            (m.GetIndexesAt(2, 2)[1]).Should().Be(y3);
+
+
+            (m.GetIndexesAt(2, 0)[0]).Should().Be(x3);
+            (m.GetIndexesAt(0, 0)[1]).Should().Be(y1);
+
+            (m.GetIndexesAt(2, 1)[0]).Should().Be(x3);
+            (m.GetIndexesAt(1, 1)[1]).Should().Be(y2);
+
+            (m.GetIndexesAt(2, 2)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 2)[1]).Should().Be(y3);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix2DNullableDefaultAndSet()
         {
             List<int> d1indices = new List<int>();
@@ -392,14 +392,14 @@ namespace StarThrower.Matrices.Test
 
             Matrix<int, string?> m = new Matrix<int, string?>(d1indices, d2indices);
 
-            Assert.IsNull(m[1, 10]);
-            Assert.IsNull(m.GetItemAt(0, 0));
+            (m[1, 10]).Should().BeNull();
+            (m.GetItemAt(0, 0)).Should().BeNull();
 
             m[1, 10] = "a";
             m.SetItemAt(null, 1, 1);
 
-            Assert.AreEqual("a", m[1, 10]);
-            Assert.IsNull(m[2, 20]);
+            (m[1, 10]).Should().Be("a");
+            (m[2, 20]).Should().BeNull();
         }
 
         #endregion
@@ -407,7 +407,7 @@ namespace StarThrower.Matrices.Test
 
         #region [ 3-D Matrix ]
 
-        [TestMethod]
+        [Fact]
         public void Matrix3DCtor()
         {
             List<int> d1indices = new List<int>();
@@ -427,46 +427,46 @@ namespace StarThrower.Matrices.Test
 
             Matrix<int, int> md2 = new Matrix<int, int>(d1indices, d2indices, d3indices);
 
-            Assert.AreEqual(0, md2[1, 1, 1]);
-            Assert.AreEqual(0, md2[1, 1, 2]);
-            Assert.AreEqual(0, md2[1, 1, 3]);
+            (md2[1, 1, 1]).Should().Be(0);
+            (md2[1, 1, 2]).Should().Be(0);
+            (md2[1, 1, 3]).Should().Be(0);
 
-            Assert.AreEqual(0, md2[1, 2, 1]);
-            Assert.AreEqual(0, md2[1, 2, 2]);
-            Assert.AreEqual(0, md2[1, 2, 3]);
+            (md2[1, 2, 1]).Should().Be(0);
+            (md2[1, 2, 2]).Should().Be(0);
+            (md2[1, 2, 3]).Should().Be(0);
 
-            Assert.AreEqual(0, md2[1, 3, 1]);
-            Assert.AreEqual(0, md2[1, 3, 2]);
-            Assert.AreEqual(0, md2[1, 3, 3]);
-
-
-            Assert.AreEqual(0, md2[2, 1, 1]);
-            Assert.AreEqual(0, md2[2, 1, 2]);
-            Assert.AreEqual(0, md2[2, 1, 3]);
-
-            Assert.AreEqual(0, md2[2, 2, 1]);
-            Assert.AreEqual(0, md2[2, 2, 2]);
-            Assert.AreEqual(0, md2[2, 2, 3]);
-
-            Assert.AreEqual(0, md2[2, 3, 1]);
-            Assert.AreEqual(0, md2[2, 3, 2]);
-            Assert.AreEqual(0, md2[2, 3, 3]);
+            (md2[1, 3, 1]).Should().Be(0);
+            (md2[1, 3, 2]).Should().Be(0);
+            (md2[1, 3, 3]).Should().Be(0);
 
 
-            Assert.AreEqual(0, md2[3, 1, 1]);
-            Assert.AreEqual(0, md2[3, 1, 2]);
-            Assert.AreEqual(0, md2[3, 1, 3]);
+            (md2[2, 1, 1]).Should().Be(0);
+            (md2[2, 1, 2]).Should().Be(0);
+            (md2[2, 1, 3]).Should().Be(0);
 
-            Assert.AreEqual(0, md2[3, 2, 1]);
-            Assert.AreEqual(0, md2[3, 2, 2]);
-            Assert.AreEqual(0, md2[3, 2, 3]);
+            (md2[2, 2, 1]).Should().Be(0);
+            (md2[2, 2, 2]).Should().Be(0);
+            (md2[2, 2, 3]).Should().Be(0);
 
-            Assert.AreEqual(0, md2[3, 3, 1]);
-            Assert.AreEqual(0, md2[3, 3, 2]);
-            Assert.AreEqual(0, md2[3, 3, 3]);
+            (md2[2, 3, 1]).Should().Be(0);
+            (md2[2, 3, 2]).Should().Be(0);
+            (md2[2, 3, 3]).Should().Be(0);
+
+
+            (md2[3, 1, 1]).Should().Be(0);
+            (md2[3, 1, 2]).Should().Be(0);
+            (md2[3, 1, 3]).Should().Be(0);
+
+            (md2[3, 2, 1]).Should().Be(0);
+            (md2[3, 2, 2]).Should().Be(0);
+            (md2[3, 2, 3]).Should().Be(0);
+
+            (md2[3, 3, 1]).Should().Be(0);
+            (md2[3, 3, 2]).Should().Be(0);
+            (md2[3, 3, 3]).Should().Be(0);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix3DSetter()
         {
             List<int> d1indices = new List<int>();
@@ -518,38 +518,38 @@ namespace StarThrower.Matrices.Test
             md2[3, 3, 3] = 27;
 
 
-            Assert.AreEqual(1, md2[1, 1, 1]);
-            Assert.AreEqual(2, md2[1, 1, 2]);
-            Assert.AreEqual(3, md2[1, 1, 3]);
-            Assert.AreEqual(4, md2[1, 2, 1]);
-            Assert.AreEqual(5, md2[1, 2, 2]);
-            Assert.AreEqual(6, md2[1, 2, 3]);
-            Assert.AreEqual(7, md2[1, 3, 1]);
-            Assert.AreEqual(8, md2[1, 3, 2]);
-            Assert.AreEqual(9, md2[1, 3, 3]);
+            (md2[1, 1, 1]).Should().Be(1);
+            (md2[1, 1, 2]).Should().Be(2);
+            (md2[1, 1, 3]).Should().Be(3);
+            (md2[1, 2, 1]).Should().Be(4);
+            (md2[1, 2, 2]).Should().Be(5);
+            (md2[1, 2, 3]).Should().Be(6);
+            (md2[1, 3, 1]).Should().Be(7);
+            (md2[1, 3, 2]).Should().Be(8);
+            (md2[1, 3, 3]).Should().Be(9);
 
-            Assert.AreEqual(10, md2[2, 1, 1]);
-            Assert.AreEqual(11, md2[2, 1, 2]);
-            Assert.AreEqual(12, md2[2, 1, 3]);
-            Assert.AreEqual(13, md2[2, 2, 1]);
-            Assert.AreEqual(14, md2[2, 2, 2]);
-            Assert.AreEqual(15, md2[2, 2, 3]);
-            Assert.AreEqual(16, md2[2, 3, 1]);
-            Assert.AreEqual(17, md2[2, 3, 2]);
-            Assert.AreEqual(18, md2[2, 3, 3]);
+            (md2[2, 1, 1]).Should().Be(10);
+            (md2[2, 1, 2]).Should().Be(11);
+            (md2[2, 1, 3]).Should().Be(12);
+            (md2[2, 2, 1]).Should().Be(13);
+            (md2[2, 2, 2]).Should().Be(14);
+            (md2[2, 2, 3]).Should().Be(15);
+            (md2[2, 3, 1]).Should().Be(16);
+            (md2[2, 3, 2]).Should().Be(17);
+            (md2[2, 3, 3]).Should().Be(18);
 
-            Assert.AreEqual(19, md2[3, 1, 1]);
-            Assert.AreEqual(20, md2[3, 1, 2]);
-            Assert.AreEqual(21, md2[3, 1, 3]);
-            Assert.AreEqual(22, md2[3, 2, 1]);
-            Assert.AreEqual(23, md2[3, 2, 2]);
-            Assert.AreEqual(24, md2[3, 2, 3]);
-            Assert.AreEqual(25, md2[3, 3, 1]);
-            Assert.AreEqual(26, md2[3, 3, 2]);
-            Assert.AreEqual(27, md2[3, 3, 3]);
+            (md2[3, 1, 1]).Should().Be(19);
+            (md2[3, 1, 2]).Should().Be(20);
+            (md2[3, 1, 3]).Should().Be(21);
+            (md2[3, 2, 1]).Should().Be(22);
+            (md2[3, 2, 2]).Should().Be(23);
+            (md2[3, 2, 3]).Should().Be(24);
+            (md2[3, 3, 1]).Should().Be(25);
+            (md2[3, 3, 2]).Should().Be(26);
+            (md2[3, 3, 3]).Should().Be(27);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix3DSetter2()
         {
             List<int> d1indices = new List<int>();
@@ -601,38 +601,38 @@ namespace StarThrower.Matrices.Test
             md2.SetItemAt(27, 2, 2, 2);
 
 
-            Assert.AreEqual(1, md2.GetItemAt(0, 0, 0));
-            Assert.AreEqual(2, md2.GetItemAt(0, 0, 1));
-            Assert.AreEqual(3, md2.GetItemAt(0, 0, 2));
-            Assert.AreEqual(4, md2.GetItemAt(0, 1, 0));
-            Assert.AreEqual(5, md2.GetItemAt(0, 1, 1));
-            Assert.AreEqual(6, md2.GetItemAt(0, 1, 2));
-            Assert.AreEqual(7, md2.GetItemAt(0, 2, 0));
-            Assert.AreEqual(8, md2.GetItemAt(0, 2, 1));
-            Assert.AreEqual(9, md2.GetItemAt(0, 2, 2));
+            (md2.GetItemAt(0, 0, 0)).Should().Be(1);
+            (md2.GetItemAt(0, 0, 1)).Should().Be(2);
+            (md2.GetItemAt(0, 0, 2)).Should().Be(3);
+            (md2.GetItemAt(0, 1, 0)).Should().Be(4);
+            (md2.GetItemAt(0, 1, 1)).Should().Be(5);
+            (md2.GetItemAt(0, 1, 2)).Should().Be(6);
+            (md2.GetItemAt(0, 2, 0)).Should().Be(7);
+            (md2.GetItemAt(0, 2, 1)).Should().Be(8);
+            (md2.GetItemAt(0, 2, 2)).Should().Be(9);
 
-            Assert.AreEqual(10, md2.GetItemAt(1, 0, 0));
-            Assert.AreEqual(11, md2.GetItemAt(1, 0, 1));
-            Assert.AreEqual(12, md2.GetItemAt(1, 0, 2));
-            Assert.AreEqual(13, md2.GetItemAt(1, 1, 0));
-            Assert.AreEqual(14, md2.GetItemAt(1, 1, 1));
-            Assert.AreEqual(15, md2.GetItemAt(1, 1, 2));
-            Assert.AreEqual(16, md2.GetItemAt(1, 2, 0));
-            Assert.AreEqual(17, md2.GetItemAt(1, 2, 1));
-            Assert.AreEqual(18, md2.GetItemAt(1, 2, 2));
+            (md2.GetItemAt(1, 0, 0)).Should().Be(10);
+            (md2.GetItemAt(1, 0, 1)).Should().Be(11);
+            (md2.GetItemAt(1, 0, 2)).Should().Be(12);
+            (md2.GetItemAt(1, 1, 0)).Should().Be(13);
+            (md2.GetItemAt(1, 1, 1)).Should().Be(14);
+            (md2.GetItemAt(1, 1, 2)).Should().Be(15);
+            (md2.GetItemAt(1, 2, 0)).Should().Be(16);
+            (md2.GetItemAt(1, 2, 1)).Should().Be(17);
+            (md2.GetItemAt(1, 2, 2)).Should().Be(18);
 
-            Assert.AreEqual(19, md2.GetItemAt(2, 0, 0));
-            Assert.AreEqual(20, md2.GetItemAt(2, 0, 1));
-            Assert.AreEqual(21, md2.GetItemAt(2, 0, 2));
-            Assert.AreEqual(22, md2.GetItemAt(2, 1, 0));
-            Assert.AreEqual(23, md2.GetItemAt(2, 1, 1));
-            Assert.AreEqual(24, md2.GetItemAt(2, 1, 2));
-            Assert.AreEqual(25, md2.GetItemAt(2, 2, 0));
-            Assert.AreEqual(26, md2.GetItemAt(2, 2, 1));
-            Assert.AreEqual(27, md2.GetItemAt(2, 2, 2));
+            (md2.GetItemAt(2, 0, 0)).Should().Be(19);
+            (md2.GetItemAt(2, 0, 1)).Should().Be(20);
+            (md2.GetItemAt(2, 0, 2)).Should().Be(21);
+            (md2.GetItemAt(2, 1, 0)).Should().Be(22);
+            (md2.GetItemAt(2, 1, 1)).Should().Be(23);
+            (md2.GetItemAt(2, 1, 2)).Should().Be(24);
+            (md2.GetItemAt(2, 2, 0)).Should().Be(25);
+            (md2.GetItemAt(2, 2, 1)).Should().Be(26);
+            (md2.GetItemAt(2, 2, 2)).Should().Be(27);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix3DGetIndexesAt01()
         {
             int x1 = 1;
@@ -667,118 +667,118 @@ namespace StarThrower.Matrices.Test
 
 
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 0, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(0, 0, 0)[2]);
+            (m.GetIndexesAt(0, 0, 0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 0, 0)[1]).Should().Be(y1);
+            (m.GetIndexesAt(0, 0, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 0, 1)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(0, 0, 1)[2]);
+            (m.GetIndexesAt(0, 0, 1)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 0, 1)[1]).Should().Be(y1);
+            (m.GetIndexesAt(0, 0, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 0, 2)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(0, 0, 2)[2]);
+            (m.GetIndexesAt(0, 0, 2)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 0, 2)[1]).Should().Be(y1);
+            (m.GetIndexesAt(0, 0, 2)[2]).Should().Be(z3);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 1, 0)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(0, 1, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(0, 1, 0)[2]);
+            (m.GetIndexesAt(0, 1, 0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 1, 0)[1]).Should().Be(y2);
+            (m.GetIndexesAt(0, 1, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 1, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(0, 1, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(0, 1, 1)[2]);
+            (m.GetIndexesAt(0, 1, 1)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 1, 1)[1]).Should().Be(y2);
+            (m.GetIndexesAt(0, 1, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 1, 2)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(0, 1, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(0, 1, 2)[2]);
+            (m.GetIndexesAt(0, 1, 2)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 1, 2)[1]).Should().Be(y2);
+            (m.GetIndexesAt(0, 1, 2)[2]).Should().Be(z3);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 2, 0)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(0, 2, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(0, 2, 0)[2]);
+            (m.GetIndexesAt(0, 2, 0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 2, 0)[1]).Should().Be(y3);
+            (m.GetIndexesAt(0, 2, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 2, 1)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(0, 2, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(0, 2, 1)[2]);
+            (m.GetIndexesAt(0, 2, 1)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 2, 1)[1]).Should().Be(y3);
+            (m.GetIndexesAt(0, 2, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 2, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(0, 2, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(0, 2, 2)[2]);
-
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 0, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(1, 0, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(1, 0, 0)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 0, 1)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(1, 0, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(1, 0, 1)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 0, 2)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(1, 0, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(1, 0, 2)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 1, 0)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(1, 1, 0)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 1, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(1, 1, 1)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 1, 2)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(1, 1, 2)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 2, 0)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(1, 2, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(1, 2, 0)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 2, 1)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(1, 2, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(1, 2, 1)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 2, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(1, 2, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(1, 2, 2)[2]);
+            (m.GetIndexesAt(0, 2, 2)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 2, 2)[1]).Should().Be(y3);
+            (m.GetIndexesAt(0, 2, 2)[2]).Should().Be(z3);
 
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 0, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(2, 0, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(2, 0, 0)[2]);
+            (m.GetIndexesAt(1, 0, 0)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 0, 0)[1]).Should().Be(y1);
+            (m.GetIndexesAt(1, 0, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 0, 1)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(2, 0, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(2, 0, 1)[2]);
+            (m.GetIndexesAt(1, 0, 1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 0, 1)[1]).Should().Be(y1);
+            (m.GetIndexesAt(1, 0, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 0, 2)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(2, 0, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(2, 0, 2)[2]);
+            (m.GetIndexesAt(1, 0, 2)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 0, 2)[1]).Should().Be(y1);
+            (m.GetIndexesAt(1, 0, 2)[2]).Should().Be(z3);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 1, 0)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(2, 1, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(2, 1, 0)[2]);
+            (m.GetIndexesAt(1, 1, 0)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 1, 0)[1]).Should().Be(y2);
+            (m.GetIndexesAt(1, 1, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 1, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(2, 1, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(2, 1, 1)[2]);
+            (m.GetIndexesAt(1, 1, 1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 1, 1)[1]).Should().Be(y2);
+            (m.GetIndexesAt(1, 1, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 1, 2)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(2, 1, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(2, 1, 2)[2]);
+            (m.GetIndexesAt(1, 1, 2)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 1, 2)[1]).Should().Be(y2);
+            (m.GetIndexesAt(1, 1, 2)[2]).Should().Be(z3);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 2, 0)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(2, 2, 0)[2]);
+            (m.GetIndexesAt(1, 2, 0)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 2, 0)[1]).Should().Be(y3);
+            (m.GetIndexesAt(1, 2, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 2, 1)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(2, 2, 1)[2]);
+            (m.GetIndexesAt(1, 2, 1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 2, 1)[1]).Should().Be(y3);
+            (m.GetIndexesAt(1, 2, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 2, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(2, 2, 2)[2]);
+            (m.GetIndexesAt(1, 2, 2)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 2, 2)[1]).Should().Be(y3);
+            (m.GetIndexesAt(1, 2, 2)[2]).Should().Be(z3);
+
+
+            (m.GetIndexesAt(2, 0, 0)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 0, 0)[1]).Should().Be(y1);
+            (m.GetIndexesAt(2, 0, 0)[2]).Should().Be(z1);
+
+            (m.GetIndexesAt(2, 0, 1)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 0, 1)[1]).Should().Be(y1);
+            (m.GetIndexesAt(2, 0, 1)[2]).Should().Be(z2);
+
+            (m.GetIndexesAt(2, 0, 2)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 0, 2)[1]).Should().Be(y1);
+            (m.GetIndexesAt(2, 0, 2)[2]).Should().Be(z3);
+
+            (m.GetIndexesAt(2, 1, 0)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 1, 0)[1]).Should().Be(y2);
+            (m.GetIndexesAt(2, 1, 0)[2]).Should().Be(z1);
+
+            (m.GetIndexesAt(2, 1, 1)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 1, 1)[1]).Should().Be(y2);
+            (m.GetIndexesAt(2, 1, 1)[2]).Should().Be(z2);
+
+            (m.GetIndexesAt(2, 1, 2)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 1, 2)[1]).Should().Be(y2);
+            (m.GetIndexesAt(2, 1, 2)[2]).Should().Be(z3);
+
+            (m.GetIndexesAt(2, 2, 0)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 2, 0)[1]).Should().Be(y3);
+            (m.GetIndexesAt(2, 2, 0)[2]).Should().Be(z1);
+
+            (m.GetIndexesAt(2, 2, 1)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 2, 1)[1]).Should().Be(y3);
+            (m.GetIndexesAt(2, 2, 1)[2]).Should().Be(z2);
+
+            (m.GetIndexesAt(2, 2, 2)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 2, 2)[1]).Should().Be(y3);
+            (m.GetIndexesAt(2, 2, 2)[2]).Should().Be(z3);
         }
 
-        [TestMethod]
+        [Fact]
         public void Matrix3DGetIndexesAt02()
         {
             Guid x1 = new Guid("{3300AD45-AE75-4A43-8959-3C97CCACBBF5}");
@@ -812,119 +812,119 @@ namespace StarThrower.Matrices.Test
             Matrix<Guid, int> m = new Matrix<Guid, int>(xIndices, yIndices, zIndices);
 
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 0, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(0, 0, 0)[2]);
+            (m.GetIndexesAt(0, 0, 0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 0, 0)[1]).Should().Be(y1);
+            (m.GetIndexesAt(0, 0, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 0, 1)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(0, 0, 1)[2]);
+            (m.GetIndexesAt(0, 0, 1)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 0, 1)[1]).Should().Be(y1);
+            (m.GetIndexesAt(0, 0, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 0, 2)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(0, 0, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(0, 0, 2)[2]);
+            (m.GetIndexesAt(0, 0, 2)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 0, 2)[1]).Should().Be(y1);
+            (m.GetIndexesAt(0, 0, 2)[2]).Should().Be(z3);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 1, 0)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(0, 1, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(0, 1, 0)[2]);
+            (m.GetIndexesAt(0, 1, 0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 1, 0)[1]).Should().Be(y2);
+            (m.GetIndexesAt(0, 1, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 1, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(0, 1, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(0, 1, 1)[2]);
+            (m.GetIndexesAt(0, 1, 1)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 1, 1)[1]).Should().Be(y2);
+            (m.GetIndexesAt(0, 1, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 1, 2)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(0, 1, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(0, 1, 2)[2]);
+            (m.GetIndexesAt(0, 1, 2)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 1, 2)[1]).Should().Be(y2);
+            (m.GetIndexesAt(0, 1, 2)[2]).Should().Be(z3);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 2, 0)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(0, 2, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(0, 2, 0)[2]);
+            (m.GetIndexesAt(0, 2, 0)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 2, 0)[1]).Should().Be(y3);
+            (m.GetIndexesAt(0, 2, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 2, 1)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(0, 2, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(0, 2, 1)[2]);
+            (m.GetIndexesAt(0, 2, 1)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 2, 1)[1]).Should().Be(y3);
+            (m.GetIndexesAt(0, 2, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x1, m.GetIndexesAt(0, 2, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(0, 2, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(0, 2, 2)[2]);
-
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 0, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(1, 0, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(1, 0, 0)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 0, 1)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(1, 0, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(1, 0, 1)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 0, 2)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(1, 0, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(1, 0, 2)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 1, 0)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(1, 1, 0)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 1, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(1, 1, 1)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 1, 2)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(1, 1, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(1, 1, 2)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 2, 0)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(1, 2, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(1, 2, 0)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 2, 1)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(1, 2, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(1, 2, 1)[2]);
-
-            Assert.AreEqual(x2, m.GetIndexesAt(1, 2, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(1, 2, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(1, 2, 2)[2]);
+            (m.GetIndexesAt(0, 2, 2)[0]).Should().Be(x1);
+            (m.GetIndexesAt(0, 2, 2)[1]).Should().Be(y3);
+            (m.GetIndexesAt(0, 2, 2)[2]).Should().Be(z3);
 
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 0, 0)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(2, 0, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(2, 0, 0)[2]);
+            (m.GetIndexesAt(1, 0, 0)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 0, 0)[1]).Should().Be(y1);
+            (m.GetIndexesAt(1, 0, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 0, 1)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(2, 0, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(2, 0, 1)[2]);
+            (m.GetIndexesAt(1, 0, 1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 0, 1)[1]).Should().Be(y1);
+            (m.GetIndexesAt(1, 0, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 0, 2)[0]);
-            Assert.AreEqual(y1, m.GetIndexesAt(2, 0, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(2, 0, 2)[2]);
+            (m.GetIndexesAt(1, 0, 2)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 0, 2)[1]).Should().Be(y1);
+            (m.GetIndexesAt(1, 0, 2)[2]).Should().Be(z3);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 1, 0)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(2, 1, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(2, 1, 0)[2]);
+            (m.GetIndexesAt(1, 1, 0)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 1, 0)[1]).Should().Be(y2);
+            (m.GetIndexesAt(1, 1, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 1, 1)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(2, 1, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(2, 1, 1)[2]);
+            (m.GetIndexesAt(1, 1, 1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 1, 1)[1]).Should().Be(y2);
+            (m.GetIndexesAt(1, 1, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 1, 2)[0]);
-            Assert.AreEqual(y2, m.GetIndexesAt(2, 1, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(2, 1, 2)[2]);
+            (m.GetIndexesAt(1, 1, 2)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 1, 2)[1]).Should().Be(y2);
+            (m.GetIndexesAt(1, 1, 2)[2]).Should().Be(z3);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 2, 0)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2, 0)[1]);
-            Assert.AreEqual(z1, m.GetIndexesAt(2, 2, 0)[2]);
+            (m.GetIndexesAt(1, 2, 0)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 2, 0)[1]).Should().Be(y3);
+            (m.GetIndexesAt(1, 2, 0)[2]).Should().Be(z1);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 2, 1)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2, 1)[1]);
-            Assert.AreEqual(z2, m.GetIndexesAt(2, 2, 1)[2]);
+            (m.GetIndexesAt(1, 2, 1)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 2, 1)[1]).Should().Be(y3);
+            (m.GetIndexesAt(1, 2, 1)[2]).Should().Be(z2);
 
-            Assert.AreEqual(x3, m.GetIndexesAt(2, 2, 2)[0]);
-            Assert.AreEqual(y3, m.GetIndexesAt(2, 2, 2)[1]);
-            Assert.AreEqual(z3, m.GetIndexesAt(2, 2, 2)[2]);
+            (m.GetIndexesAt(1, 2, 2)[0]).Should().Be(x2);
+            (m.GetIndexesAt(1, 2, 2)[1]).Should().Be(y3);
+            (m.GetIndexesAt(1, 2, 2)[2]).Should().Be(z3);
+
+
+            (m.GetIndexesAt(2, 0, 0)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 0, 0)[1]).Should().Be(y1);
+            (m.GetIndexesAt(2, 0, 0)[2]).Should().Be(z1);
+
+            (m.GetIndexesAt(2, 0, 1)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 0, 1)[1]).Should().Be(y1);
+            (m.GetIndexesAt(2, 0, 1)[2]).Should().Be(z2);
+
+            (m.GetIndexesAt(2, 0, 2)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 0, 2)[1]).Should().Be(y1);
+            (m.GetIndexesAt(2, 0, 2)[2]).Should().Be(z3);
+
+            (m.GetIndexesAt(2, 1, 0)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 1, 0)[1]).Should().Be(y2);
+            (m.GetIndexesAt(2, 1, 0)[2]).Should().Be(z1);
+
+            (m.GetIndexesAt(2, 1, 1)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 1, 1)[1]).Should().Be(y2);
+            (m.GetIndexesAt(2, 1, 1)[2]).Should().Be(z2);
+
+            (m.GetIndexesAt(2, 1, 2)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 1, 2)[1]).Should().Be(y2);
+            (m.GetIndexesAt(2, 1, 2)[2]).Should().Be(z3);
+
+            (m.GetIndexesAt(2, 2, 0)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 2, 0)[1]).Should().Be(y3);
+            (m.GetIndexesAt(2, 2, 0)[2]).Should().Be(z1);
+
+            (m.GetIndexesAt(2, 2, 1)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 2, 1)[1]).Should().Be(y3);
+            (m.GetIndexesAt(2, 2, 1)[2]).Should().Be(z2);
+
+            (m.GetIndexesAt(2, 2, 2)[0]).Should().Be(x3);
+            (m.GetIndexesAt(2, 2, 2)[1]).Should().Be(y3);
+            (m.GetIndexesAt(2, 2, 2)[2]).Should().Be(z3);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Matrix3DWithGuid01()
         {
             Guid x1 = new Guid("{C42DF629-BC62-4317-993F-94D6CC0A09FF}");
@@ -987,70 +987,70 @@ namespace StarThrower.Matrices.Test
             m.SetItemAt(26, 2, 2, 1);
             m.SetItemAt(27, 2, 2, 2);
 
-            Assert.AreEqual(1, m.GetItemAt(0, 0, 0));
-            Assert.AreEqual(2, m.GetItemAt(0, 0, 1));
-            Assert.AreEqual(3, m.GetItemAt(0, 0, 2));
-            Assert.AreEqual(4, m.GetItemAt(0, 1, 0));
-            Assert.AreEqual(5, m.GetItemAt(0, 1, 1));
-            Assert.AreEqual(6, m.GetItemAt(0, 1, 2));
-            Assert.AreEqual(7, m.GetItemAt(0, 2, 0));
-            Assert.AreEqual(8, m.GetItemAt(0, 2, 1));
-            Assert.AreEqual(9, m.GetItemAt(0, 2, 2));
+            (m.GetItemAt(0, 0, 0)).Should().Be(1);
+            (m.GetItemAt(0, 0, 1)).Should().Be(2);
+            (m.GetItemAt(0, 0, 2)).Should().Be(3);
+            (m.GetItemAt(0, 1, 0)).Should().Be(4);
+            (m.GetItemAt(0, 1, 1)).Should().Be(5);
+            (m.GetItemAt(0, 1, 2)).Should().Be(6);
+            (m.GetItemAt(0, 2, 0)).Should().Be(7);
+            (m.GetItemAt(0, 2, 1)).Should().Be(8);
+            (m.GetItemAt(0, 2, 2)).Should().Be(9);
 
-            Assert.AreEqual(10, m.GetItemAt(1, 0, 0));
-            Assert.AreEqual(11, m.GetItemAt(1, 0, 1));
-            Assert.AreEqual(12, m.GetItemAt(1, 0, 2));
-            Assert.AreEqual(13, m.GetItemAt(1, 1, 0));
-            Assert.AreEqual(14, m.GetItemAt(1, 1, 1));
-            Assert.AreEqual(15, m.GetItemAt(1, 1, 2));
-            Assert.AreEqual(16, m.GetItemAt(1, 2, 0));
-            Assert.AreEqual(17, m.GetItemAt(1, 2, 1));
-            Assert.AreEqual(18, m.GetItemAt(1, 2, 2));
+            (m.GetItemAt(1, 0, 0)).Should().Be(10);
+            (m.GetItemAt(1, 0, 1)).Should().Be(11);
+            (m.GetItemAt(1, 0, 2)).Should().Be(12);
+            (m.GetItemAt(1, 1, 0)).Should().Be(13);
+            (m.GetItemAt(1, 1, 1)).Should().Be(14);
+            (m.GetItemAt(1, 1, 2)).Should().Be(15);
+            (m.GetItemAt(1, 2, 0)).Should().Be(16);
+            (m.GetItemAt(1, 2, 1)).Should().Be(17);
+            (m.GetItemAt(1, 2, 2)).Should().Be(18);
 
-            Assert.AreEqual(19, m.GetItemAt(2, 0, 0));
-            Assert.AreEqual(20, m.GetItemAt(2, 0, 1));
-            Assert.AreEqual(21, m.GetItemAt(2, 0, 2));
-            Assert.AreEqual(22, m.GetItemAt(2, 1, 0));
-            Assert.AreEqual(23, m.GetItemAt(2, 1, 1));
-            Assert.AreEqual(24, m.GetItemAt(2, 1, 2));
-            Assert.AreEqual(25, m.GetItemAt(2, 2, 0));
-            Assert.AreEqual(26, m.GetItemAt(2, 2, 1));
-            Assert.AreEqual(27, m.GetItemAt(2, 2, 2));
-
-
+            (m.GetItemAt(2, 0, 0)).Should().Be(19);
+            (m.GetItemAt(2, 0, 1)).Should().Be(20);
+            (m.GetItemAt(2, 0, 2)).Should().Be(21);
+            (m.GetItemAt(2, 1, 0)).Should().Be(22);
+            (m.GetItemAt(2, 1, 1)).Should().Be(23);
+            (m.GetItemAt(2, 1, 2)).Should().Be(24);
+            (m.GetItemAt(2, 2, 0)).Should().Be(25);
+            (m.GetItemAt(2, 2, 1)).Should().Be(26);
+            (m.GetItemAt(2, 2, 2)).Should().Be(27);
 
 
 
 
-            Assert.AreEqual(1, m[x1, y1, z1]);
-            Assert.AreEqual(2, m[x1, y1, z2]);
-            Assert.AreEqual(3, m[x1, y1, z3]);
-            Assert.AreEqual(4, m[x1, y2, z1]);
-            Assert.AreEqual(5, m[x1, y2, z2]);
-            Assert.AreEqual(6, m[x1, y2, z3]);
-            Assert.AreEqual(7, m[x1, y3, z1]);
-            Assert.AreEqual(8, m[x1, y3, z2]);
-            Assert.AreEqual(9, m[x1, y3, z3]);
 
-            Assert.AreEqual(10, m[x2, y1, z1]);
-            Assert.AreEqual(11, m[x2, y1, z2]);
-            Assert.AreEqual(12, m[x2, y1, z3]);
-            Assert.AreEqual(13, m[x2, y2, z1]);
-            Assert.AreEqual(14, m[x2, y2, z2]);
-            Assert.AreEqual(15, m[x2, y2, z3]);
-            Assert.AreEqual(16, m[x2, y3, z1]);
-            Assert.AreEqual(17, m[x2, y3, z2]);
-            Assert.AreEqual(18, m[x2, y3, z3]);
 
-            Assert.AreEqual(19, m[x3, y1, z1]);
-            Assert.AreEqual(20, m[x3, y1, z2]);
-            Assert.AreEqual(21, m[x3, y1, z3]);
-            Assert.AreEqual(22, m[x3, y2, z1]);
-            Assert.AreEqual(23, m[x3, y2, z2]);
-            Assert.AreEqual(24, m[x3, y2, z3]);
-            Assert.AreEqual(25, m[x3, y3, z1]);
-            Assert.AreEqual(26, m[x3, y3, z2]);
-            Assert.AreEqual(27, m[x3, y3, z3]);
+            (m[x1, y1, z1]).Should().Be(1);
+            (m[x1, y1, z2]).Should().Be(2);
+            (m[x1, y1, z3]).Should().Be(3);
+            (m[x1, y2, z1]).Should().Be(4);
+            (m[x1, y2, z2]).Should().Be(5);
+            (m[x1, y2, z3]).Should().Be(6);
+            (m[x1, y3, z1]).Should().Be(7);
+            (m[x1, y3, z2]).Should().Be(8);
+            (m[x1, y3, z3]).Should().Be(9);
+
+            (m[x2, y1, z1]).Should().Be(10);
+            (m[x2, y1, z2]).Should().Be(11);
+            (m[x2, y1, z3]).Should().Be(12);
+            (m[x2, y2, z1]).Should().Be(13);
+            (m[x2, y2, z2]).Should().Be(14);
+            (m[x2, y2, z3]).Should().Be(15);
+            (m[x2, y3, z1]).Should().Be(16);
+            (m[x2, y3, z2]).Should().Be(17);
+            (m[x2, y3, z3]).Should().Be(18);
+
+            (m[x3, y1, z1]).Should().Be(19);
+            (m[x3, y1, z2]).Should().Be(20);
+            (m[x3, y1, z3]).Should().Be(21);
+            (m[x3, y2, z1]).Should().Be(22);
+            (m[x3, y2, z2]).Should().Be(23);
+            (m[x3, y2, z3]).Should().Be(24);
+            (m[x3, y3, z1]).Should().Be(25);
+            (m[x3, y3, z2]).Should().Be(26);
+            (m[x3, y3, z3]).Should().Be(27);
         }
 
         #endregion
