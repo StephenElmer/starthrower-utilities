@@ -76,8 +76,9 @@ to take only what they need.
 
 ### Test Projects
 
-Each library has a paired `*.Test` project. Tests currently use MSTest (VS Test).
-Migration target is **xUnit v3 + AwesomeAssertions** (Step 6).
+Each library has a paired `*.Test` project. Groups 1–7 (net10.0) test projects use
+**xUnit v3 + AwesomeAssertions** (Step 6 complete). The net48 test projects
+(WcfProviders.Test, EfProviders.Test) remain on MSTest (VS Test) indefinitely.
 
 Additional projects:
 - `StarThrower.EarleyParser.TestApp` — WPF app for interactive parser testing (WinExe, not a console app)
@@ -140,12 +141,13 @@ Current/
     ByteUtilities, DataUtilities, FileUtilities, StringUtilities, DateTimeUtilities,
     EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
 - **Source control:** Git / GitHub (TFS artifacts removed — Step 1 complete)
-- **Test framework:** MSTest (VS Test) — xUnit v3 + AwesomeAssertions migration pending (Step 6)
+- **Test framework:** xUnit v3 + AwesomeAssertions — Groups 1–7 complete (Step 6); net48
+  projects (WcfProviders.Test, EfProviders.Test) remain MSTest indefinitely
 - **NuGet:** PackageReference (packages.config removed — Step 2a complete)
 - **Code analysis:** Roslyn analyzers configured — `<AnalysisMode>Recommended</AnalysisMode>` (Step 3 complete)
 - **NuGet packages:** All core library projects updated to latest versions (Step 4 complete)
 - **Add NuGet package metadata:** Add metadata and associated additional files to prepare for NuGet publication (Step 5 complete)
-- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1–7), 2d, 3, 4, 5
+- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1–7), 2d, 3, 4, 5, 6 (Groups 1–7)
 - **All tests passing** on all migrated (net10.0) projects
 
 ---
@@ -417,7 +419,9 @@ Do not remove or deprecate any public API without explicit discussion first.
 ```
 
 
-**Step 6 — Migrate tests from MSTest to xUnit v3 + AwesomeAssertions:** ← CURRENT STEP
+**Step 6 — Migrate tests from MSTest to xUnit v3 + AwesomeAssertions:** ✅ COMPLETE for
+Groups 1–7 (2026-06-11). `WcfProviders.Test` and `EfProviders.Test` (net48) remain
+MSTest indefinitely — see net48 special case above.
 
 **Decision (2026-06-10): xUnit v3 + AwesomeAssertions.**
 
@@ -451,48 +455,36 @@ exercise, rather than having Claude perform the conversion directly. Validated:
 - Test Explorer in both **VS Code (C# Dev Kit)** and **VS 2026** discovers and runs tests
   correctly.
 
-**Open item — `dotnet test` CLI gap, and the permanent net48/MSTest split (investigated
-2026-06-10):**
+**Resolved — `dotnet test` CLI gap, and the permanent net48/MSTest split (2026-06-11):**
 
-Running `dotnet test` against a converted (xUnit v3/MTP) project only executes the
-Restore target and reports "Build succeeded" without discovering or running any tests —
-`dotnet run` (or the built `.exe` directly, or VS/VS Code Test Explorer) is required to
-actually execute the suite. Per-project verification (via `dotnet run` or Test Explorer)
-is the reliable path during Step 6.
-
-**Root cause:** The .NET 10 SDK added a native MTP mode for `dotnet test`, enabled via a
-`global.json` setting:
+The .NET 10 SDK's native MTP mode for `dotnet test` is enabled via a `global.json`
+setting:
 ```json
 { "test": { "runner": "Microsoft.Testing.Platform" } }
 ```
-This mode is **all-or-nothing for the whole repo** — if *any* project `dotnet test`
-touches is VSTest-only (not MTP-capable), it errors outright rather than skipping it.
+This mode is all-or-nothing per `dotnet test` invocation — if the discovered
+`global.json` enables MTP mode and the targeted project is VSTest-only (not
+MTP-capable), it errors outright. Since `WcfProviders.Test` and `EfProviders.Test`
+remain on net48 + MSTest **indefinitely** (excluded from Step 6 — see net48 special
+case above), the solution permanently contains a mix of MTP (net10/xUnit v3) and
+VSTest-only (net48/MSTest) test projects.
 
-**Why this can't just be flipped on at the end of Step 6:** `WcfProviders.Test` and
-`EfProviders.Test` remain on net48 + MSTest **indefinitely** (excluded from Step 6 — see
-net48 special case above). So even after Groups 1–7 are fully converted to xUnit v3,
-the solution will *permanently* contain a mix of MTP (net10/xUnit v3) and VSTest-only
-(net48/MSTest) test projects. The clean `global.json` MTP-mode switch can never be
-applied solution-wide.
+**Fix — nested `global.json` shadowing:** `global.json` discovery walks up from the
+current working directory and uses the *nearest* file found. A root `Code/global.json`
+enables MTP mode for the net10/xUnit v3 projects. A second, empty `global.json` (`{}`)
+placed in `StarThrower.WcfProviders.Test/` and `StarThrower.EfProviders.Test/` shadows
+the root file for those two projects, reverting them to default VSTest mode. As long as
+`dotnet test` for those two projects is invoked with the working directory set to the
+project folder (so the nearer `global.json` is discovered), both groups work correctly
+with `dotnet test`. See "Build and Test Commands" below for the resulting commands.
 
-**Decision: Option 2 — split `dotnet test` invocations by group**, rather than the
-"VSTest mode" bridge (`Microsoft.Testing.Platform.MSBuild` +
-`TestingPlatformDotnetTestSupport=true`), which Microsoft documents as legacy
-(removed in MTP v2) and not officially supported for mixed solutions (CLI option
-collisions between frameworks, e.g. xUnit's `--filter-trait` vs MSTest's `--filter`).
-The split avoids adding a soon-to-be-removed bridge package and matches the fact that
-net48 and net10 are already separate tracks in this repo.
+This avoids the "VSTest mode" bridge (`Microsoft.Testing.Platform.MSBuild` +
+`TestingPlatformDotnetTestSupport=true`), which Microsoft documents as legacy (removed
+in MTP v2) and not officially supported for mixed solutions (CLI option collisions
+between frameworks, e.g. xUnit's `--filter-trait` vs MSTest's `--filter`).
 
-**Plan:** once Groups 1–7 are fully converted to xUnit v3 (end of Step 6 for those
-groups), add `global.json` with the MTP `dotnet test` runner setting, and update the
-"Build and Test Commands" section / `.vscode/tasks.json` to run two test commands —
-one for the net10/xUnit v3 projects (MTP mode), one for the net48/MSTest projects
-(`WcfProviders.Test`, `EfProviders.Test`, legacy VSTest mode). Tracked here rather than
-implemented now since most projects are still MSTest and `global.json` MTP mode would
-break `dotnet test` for all of them today.
-
-No fallback to xUnit v2 was needed; v3 + AwesomeAssertions tooling worked end-to-end for
-this pilot. Apply the same conversion to the remaining Step 6 group order below.
+No fallback to xUnit v2 was needed; v3 + AwesomeAssertions tooling worked end-to-end
+across all of Groups 1–7.
 
 Conversion steps:
 - Replace `[TestClass]` / `[TestMethod]` with `[Fact]` / `[Theory]`
@@ -513,68 +505,10 @@ Conversion steps:
     and found unnecessary — `OutputType=Exe` alone was sufficient for `dotnet run` and
     for VS Code/VS 2026 Test Explorer discovery in the pilot
 
-**Step 6 conversion script — known gotchas (from StringUtilities, the largest project
-converted so far at 1,584+ tests):** for large test files, a one-shot Python script
-doing regex-based conversion is workable, but watch for:
-- A regex like `Assert\.AreEqual\((.+)\);` (no `re.DOTALL`) only matches **single-line**
-  calls. Multi-line `Assert.AreEqual(expr,\n    actual);` calls are missed and must be
-  found (`grep -n "Assert\."` after the script runs) and fixed by hand.
-- When converting `[TestMethod]\n[ExpectedException(typeof(X))]\n` (or the combined
-  `[TestMethod, ExpectedException(typeof(X))]`) forms, if the regex match starts at
-  `[TestMethod...` (not including the leading indentation whitespace), the replacement's
-  `{indent}[Fact]` ends up **double-indented** — the original indentation before
-  `[TestMethod]` is left in place AND the captured `indent` group is prepended again.
-  Fix with a follow-up pass: `re.sub(r'^                \[Fact\]', '        [Fact]', text,
-  flags=re.MULTILINE)` (or capture/consume the leading whitespace in the original regex).
-- A `split_top_level_args` helper (depth-aware comma splitting that respects parens and
-  string/char literals) is needed for `Assert.AreEqual`/`IsTrue`/`IsFalse` calls with
-  nested method calls or char literals (`Assert.AreEqual('a', ...)`); make it aware of
-  both `"..."` and `'...'` so commas inside literals aren't treated as argument
-  separators.
-- For `[ExpectedException]` bodies, locate the SUT call as the **last** line containing
-  the class-under-test prefix (e.g. `StringUtil.`/`DataUtil.`) — not the first — since
-  setup lines (e.g. `DateTime expected = DataUtil.DTNull;`) can also contain the prefix.
-- After the script runs, grep for leftover `Assert.`, `TestMethod`, `TestClass`,
-  `ExpectedException`, `StringAssert`, and `Microsoft.VisualStudio.TestTools` to confirm
-  nothing was missed before running the test suite.
-
-**Step 6 conversion notes (from EarleyParser.Test, ~2,900 lines / 136 tests across 13
-files):** for projects this size, direct file-by-file `Read`/`Write` conversion (no
-regex script) was faster and avoided the StringUtilities-style script gotchas above.
-Additional translation patterns observed:
-- `ReadOnlyCollection<T>` (and other types using AwesomeAssertions'
-  `GenericCollectionAssertions<T>`) do **not** support `.Should().Be(...)` — that
-  assertion type has no `Be` member. `Assert.AreEqual(collectionA, collectionB)` on a
-  type that doesn't override `Equals` (i.e. the assert was really checking reference
-  equality) becomes `.Should().BeSameAs(...)`, not `.Should().Be(...)`.
-- `Assert.AreSame`/`Assert.AreNotSame` → `.Should().BeSameAs(...)` /
-  `.Should().NotBeSameAs(...)`.
-- `Assert.AreEqual(true, x == null)` / `Assert.AreEqual(null, x)` → `x.Should().BeNull()`
-  (clearer than `(x == null).Should().Be(true)`).
-- `[ExpectedException]` conversions where the constructor/method-under-test takes a
-  variable that is itself the null/invalid argument (e.g.
-  `Category? nullSeed = null; DottedRule.CreateStartRule(nullSeed);`) — wrap the whole
-  call in the lambda: `Action act = () => DottedRule.CreateStartRule(nullSeed);`. The
-  variable declaration stays outside the lambda; only the SUT call moves in.
-- MSTest scaffolding boilerplate (`#region [ Construction ]` ctor stub, `TestContext`
-  field/property, `#region [ Additional test attributes ]`) is removed entirely — even
-  when the constructor contains real fixture-setup logic, just keep the meaningful
-  constructor body and drop the regions/attributes/TestContext around it. An empty,
-  active `[TestInitialize] MyTestInitialize() { }` (as opposed to the commented-out
-  template version) is also just deleted, not converted to a constructor.
-
-**Step 6 conversion notes (from XBase.Test, ~1,760 lines / 90 tests across 9 files):**
-- `Assert.IsInstanceOfType<T>(x)` → `x.Should().BeOfType<T>()`.
-- `Assert.ThrowsException<T>(() => ...)` (the modern MSTest inline-lambda assertion,
-  as opposed to the `[ExpectedException]` attribute form) converts the same way as
-  `[ExpectedException]`: `Action act = () => ...; act.Should().Throw<T>();`.
-- All field-type test classes (`BooleanFieldTest`, `DateFieldTest`, etc.) carried the
-  same unused `Ignore()` MSTest-Inconclusive helper, copy-pasted from a template and
-  never called — confirmed via grep before deleting, then removed from every file.
-- Test project `.csproj` files in this solution were copy-pasted from an earlier
-  project's template and can carry a stale header comment (e.g. `XBase.Test.csproj`'s
-  banner comment still said `StarThrower.ByteUtilities.Test.csproj`). Check/fix this
-  comment during the package-reference edit.
+**Step 6 conversion notes:** Detailed gotchas, regex-script pitfalls, and project-specific
+translation patterns from each Step 6 conversion (StringUtilities, EarleyParser, XBase,
+Gis.GeoUtilities) are archived in [docs/step6-conversion-notes.md](docs/step6-conversion-notes.md)
+for reference during Phase 2 documentation writeups.
 
 **Step 7 — Fix nullable warnings:**
 - Do not suppress with `!` operator — annotate properly
@@ -594,12 +528,9 @@ Note: verify the exact relative depth once `dotnet test` output paths are confir
 
 ### Phase 2 — Polish and Publish (after Phase 1 complete)
 
-- Set up GitHub Actions CI/CD workflow (build + test on push/PR)
-  - **Resolve `dotnet test` + xUnit v3/MTP gap** identified during the Step 6 pilot
-    (`StarThrower.DateTimeUtilities.Test`, 2026-06-10): `dotnet test` does not discover
-    or run tests for MTP-based xUnit v3 projects (only restores). CI must either find
-    the missing configuration to make `dotnet test` work, or invoke the built test
-    executables directly (`dotnet run` / `<assembly>.exe`) and parse results accordingly.
+- Set up GitHub Actions CI/CD workflow (build + test on push/PR), using the split
+  `dotnet test` commands documented in "Build and Test Commands" (net10/xUnit v3 via
+  MTP mode, net48/MSTest via the project-local `global.json` overrides)
 - NuGet publish workflow (on tagged release, one package per library)
 - XML doc comments review and augmentation
 - README.md at repo root and per-package documentation
@@ -657,21 +588,32 @@ working logic solely to apply them. Always explain the pattern when applying it.
 ```powershell
 # From Code/ directory
 dotnet build StarThrower.Utilities.sln
-dotnet test StarThrower.Utilities.sln
-
-# Single project (MSTest projects — not yet converted in Step 6)
-dotnet test StarThrower.ByteUtilities.Test/StarThrower.ByteUtilities.Test.csproj
 ```
 
-> **Interim note (Step 6 in progress):** `dotnet test` does **not** execute tests for
-> projects already converted to xUnit v3 (currently `StarThrower.DateTimeUtilities.Test`)
-> — it reports "Build succeeded" without running them. Verify converted projects
-> individually:
-> ```powershell
-> dotnet run --project StarThrower.DateTimeUtilities.Test/StarThrower.DateTimeUtilities.Test.csproj
-> ```
-> or use VS/VS Code Test Explorer. See the Step 6 "Open item" above for the planned
-> `global.json` + split-command fix once Groups 1–7 are fully converted.
+A root `global.json` enables MTP mode for `dotnet test` (required for the net10/xUnit
+v3 projects). Because the solution still contains two net48/MSTest projects (which are
+not MTP-capable), `dotnet test` cannot be run against the whole solution — run the
+net10/xUnit v3 projects individually with `--project`, and the net48/MSTest projects
+from their own directories (where a project-local empty `global.json` shadows the root
+one and reverts to VSTest mode):
+
+```powershell
+# net10.0 / xUnit v3 projects (MTP mode, from Code/)
+dotnet test --project StarThrower.Logging.Test/StarThrower.Logging.Test.csproj
+dotnet test --project StarThrower.MathUtilities.Test/StarThrower.MathUtilities.Test.csproj
+dotnet test --project StarThrower.Matrices.Test/StarThrower.Matrices.Test.csproj
+dotnet test --project StarThrower.ByteUtilities.Test/StarThrower.ByteUtilities.Test.csproj
+dotnet test --project StarThrower.DataUtilities.Test/StarThrower.DataUtilities.Test.csproj
+dotnet test --project StarThrower.StringUtilities.Test/StarThrower.StringUtilities.Test.csproj
+dotnet test --project StarThrower.DateTimeUtilities.Test/StarThrower.DateTimeUtilities.Test.csproj
+dotnet test --project StarThrower.EarleyParser.Test/StarThrower.EarleyParser.Test.csproj
+dotnet test --project StarThrower.XBase.Test/StarThrower.XBase.Test.csproj
+dotnet test --project StarThrower.Gis.GeoUtilities.Test/StarThrower.Gis.GeoUtilities.Test.csproj
+
+# net48 / MSTest projects (VSTest mode, run from within each project directory)
+Push-Location StarThrower.WcfProviders.Test; dotnet test; Pop-Location
+Push-Location StarThrower.EfProviders.Test; dotnet test; Pop-Location
+```
 
 ---
 
