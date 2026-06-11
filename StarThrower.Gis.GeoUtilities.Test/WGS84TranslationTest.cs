@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml;
+using AwesomeAssertions;
 using StarThrower.Gis.GeoUtilities;
 using StarThrower.Gis.GeoUtilities.CoordinateSystems;
 using StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic;
@@ -12,21 +9,12 @@ using StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected;
 using StarThrower.MathUtilities;
 using StarThrower.Gis.GeoUtilities.Translations;
 using System.Globalization;
+using Xunit;
 
 namespace StarThrower.Gis.GeoUtilities.Test
 {
-    [TestClass]
     public class WGS84TranslationTest
     {
-        private static void Ignore()
-        {
-            #if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-            #else
-                Assert.Inconclusive("this test has been ignored");
-            #endif
-        }
-
         private string _inputFolder = "";
 
         #region Construction
@@ -43,25 +31,25 @@ namespace StarThrower.Gis.GeoUtilities.Test
         #endregion
 
 
-        [TestMethod]
+        [Fact]
         public void Test1a()
         {
             ConductLLToUTMNSWGS84Test("test1");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test1b()
         {
             ConductUTMNSWGS84ToLLTest("test1");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test1c()
         {
             ConductLLToUTM_WGS84Test("test1");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test1d()
         {
             ConductUTM_WGS84ToLLTest("test1");
@@ -70,25 +58,25 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
 
 
-        [TestMethod]
+        [Fact]
         public void Test2a()
         {
             ConductLLToUTMNSWGS84Test("test2");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test2b()
         {
             ConductUTMNSWGS84ToLLTest("test2");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test2c()
         {
             ConductLLToUTM_WGS84Test("test2");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test2d()
         {
             ConductUTM_WGS84ToLLTest("test2");
@@ -96,25 +84,25 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
 
 
-        [TestMethod]
+        [Fact]
         public void Test3a()
         {
             ConductLLToUTMNSWGS84Test("test3");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test3b()
         {
             ConductUTMNSWGS84ToLLTest("test3");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test3c()
         {
             ConductLLToUTM_WGS84Test("test3");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test3d()
         {
             ConductUTM_WGS84ToLLTest("test3");
@@ -122,25 +110,25 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
 
 
-        [TestMethod]
+        [Fact]
         public void Test4a()
         {
             ConductLLToUTMNSWGS84Test("test4");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test4b()
         {
             ConductUTMNSWGS84ToLLTest("test4");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test4c()
         {
             ConductLLToUTM_WGS84Test("test4");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test4d()
         {
             ConductUTM_WGS84ToLLTest("test4");
@@ -148,25 +136,25 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
 
 
-        [TestMethod]
+        [Fact]
         public void Test5a()
         {
             ConductLLToUTMNSWGS84Test("test5");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test5b()
         {
             ConductUTMNSWGS84ToLLTest("test5");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test5c()
         {
             ConductLLToUTM_WGS84Test("test5");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test5d()
         {
             ConductUTM_WGS84ToLLTest("test5");
@@ -174,425 +162,425 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
 
 
-        [TestMethod]
+        [Fact]
         public void Test6a()
         {
             ConductLLToUTMNSWGS84Test("test6");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test6b()
         {
             ConductUTMNSWGS84ToLLTest("test6");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test6c()
         {
             ConductLLToUTM_WGS84Test("test6");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test6d()
         {
             ConductUTM_WGS84ToLLTest("test6");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test7a()
         {
             ConductLLToUTMNSWGS84Test("test7");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test7b()
         {
             ConductUTMNSWGS84ToLLTest("test7");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test7c()
         {
             ConductLLToUTM_WGS84Test("test7");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test7d()
         {
             ConductUTM_WGS84ToLLTest("test7");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test8a()
         {
             ConductLLToUTMNSWGS84Test("test8");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test8b()
         {
             ConductUTMNSWGS84ToLLTest("test8");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test8c()
         {
             ConductLLToUTM_WGS84Test("test8");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test8d()
         {
             ConductUTM_WGS84ToLLTest("test8");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test9a()
         {
             ConductLLToUTMNSWGS84Test("test9");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test9b()
         {
             ConductUTMNSWGS84ToLLTest("test9");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test9c()
         {
             ConductLLToUTM_WGS84Test("test9");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test9d()
         {
             ConductUTM_WGS84ToLLTest("test9");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test10a()
         {
             ConductLLToUTMNSWGS84Test("test10");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test10b()
         {
             ConductUTMNSWGS84ToLLTest("test10");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test10c()
         {
             ConductLLToUTM_WGS84Test("test10");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test10d()
         {
             ConductUTM_WGS84ToLLTest("test10");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test11a()
         {
             ConductLLToUTMNSWGS84Test("test11");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test11b()
         {
             ConductUTMNSWGS84ToLLTest("test11");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test11c()
         {
             ConductLLToUTM_WGS84Test("test11");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test11d()
         {
             ConductUTM_WGS84ToLLTest("test11");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test12a()
         {
             ConductLLToUTMNSWGS84Test("test12");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test12b()
         {
             ConductUTMNSWGS84ToLLTest("test12");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test12c()
         {
             ConductLLToUTM_WGS84Test("test12");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test12d()
         {
             ConductUTM_WGS84ToLLTest("test12");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test13a()
         {
             ConductLLToUTMNSWGS84Test("test13");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test13b()
         {
             ConductUTMNSWGS84ToLLTest("test13");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test13c()
         {
             ConductLLToUTM_WGS84Test("test13");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test13d()
         {
             ConductUTM_WGS84ToLLTest("test13");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test14a()
         {
             ConductLLToUTMNSWGS84Test("test14");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test14b()
         {
             ConductUTMNSWGS84ToLLTest("test14");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test14c()
         {
             ConductLLToUTM_WGS84Test("test14");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test14d()
         {
             ConductUTM_WGS84ToLLTest("test14");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test15a()
         {
             ConductLLToUTMNSWGS84Test("test15");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test15b()
         {
             ConductUTMNSWGS84ToLLTest("test15");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test15c()
         {
             ConductLLToUTM_WGS84Test("test15");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test15d()
         {
             ConductUTM_WGS84ToLLTest("test15");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test16a()
         {
             ConductLLToUTMNSWGS84Test("test16");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test16b()
         {
             ConductUTMNSWGS84ToLLTest("test16");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test16c()
         {
             ConductLLToUTM_WGS84Test("test16");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test16d()
         {
             ConductUTM_WGS84ToLLTest("test16");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test17a()
         {
             ConductLLToUTMNSWGS84Test("test17");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test17b()
         {
             ConductUTMNSWGS84ToLLTest("test17");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test17c()
         {
             ConductLLToUTM_WGS84Test("test17");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test17d()
         {
             ConductUTM_WGS84ToLLTest("test17");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test18a()
         {
             ConductLLToUTMNSWGS84Test("test18");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test18b()
         {
             ConductUTMNSWGS84ToLLTest("test18");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test18c()
         {
             ConductLLToUTM_WGS84Test("test18");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test18d()
         {
             ConductUTM_WGS84ToLLTest("test18");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test19a()
         {
             ConductLLToUTMNSWGS84Test("test19");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test19b()
         {
             ConductUTMNSWGS84ToLLTest("test19");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test19c()
         {
             ConductLLToUTM_WGS84Test("test19");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test19d()
         {
             ConductUTM_WGS84ToLLTest("test19");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test20a()
         {
             ConductLLToUTMNSWGS84Test("test20");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test20b()
         {
             ConductUTMNSWGS84ToLLTest("test20");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test20c()
         {
             ConductLLToUTM_WGS84Test("test20");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test20d()
         {
             ConductUTM_WGS84ToLLTest("test20");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test21a()
         {
             ConductLLToUTMNSWGS84Test("test21");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test21b()
         {
             ConductUTMNSWGS84ToLLTest("test21");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test21c()
         {
             ConductLLToUTM_WGS84Test("test21");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test21d()
         {
             ConductUTM_WGS84ToLLTest("test21");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Test22a()
         {
             ConductLLToUTMNSWGS84Test("test22");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test22b()
         {
             ConductUTMNSWGS84ToLLTest("test22");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test22c()
         {
             ConductLLToUTM_WGS84Test("test22");
         }
 
-        [TestMethod]
+        [Fact]
         public void Test22d()
         {
             ConductUTM_WGS84ToLLTest("test22");
@@ -635,9 +623,9 @@ namespace StarThrower.Gis.GeoUtilities.Test
                 zone = ((ZonedResult)result).Zone.ZoneString;
             }
 
-            Assert.AreEqual(expectedX, x, "(x)");
-            Assert.AreEqual(expectedY, y, "(y)");
-            Assert.AreEqual(expectedZone, zone, "(zone)");
+            x.Should().Be(expectedX, "(x)");
+            y.Should().Be(expectedY, "(y)");
+            zone.Should().Be(expectedZone, "(zone)");
         }
 
         private void ConductUTM_WGS84ToLLTest(string testName)
@@ -665,8 +653,8 @@ namespace StarThrower.Gis.GeoUtilities.Test
             lat = result.yLat;
             lon = result.xLon;
 
-            Assert.AreEqual(expectedLon, lon, "(xLon)");
-            Assert.AreEqual(expectedLat, lat, "(yLat)");
+            lon.Should().Be(expectedLon, "(xLon)");
+            lat.Should().Be(expectedLat, "(yLat)");
         }
 
 
@@ -701,9 +689,9 @@ namespace StarThrower.Gis.GeoUtilities.Test
                 zone = ((ZonedResult)result).Zone.ZoneString;
             }
 
-            Assert.AreEqual(expectedX, x, "(x)");
-            Assert.AreEqual(expectedY, y, "(y)");
-            Assert.AreEqual(expectedZone, zone, "(zone)");
+            x.Should().Be(expectedX, "(x)");
+            y.Should().Be(expectedY, "(y)");
+            zone.Should().Be(expectedZone, "(zone)");
         }
 
         private void ConductUTMNSWGS84ToLLTest(string testName)
@@ -731,8 +719,8 @@ namespace StarThrower.Gis.GeoUtilities.Test
             lat = result.yLat;
             lon = result.xLon;
 
-            Assert.AreEqual(expectedLon, lon, "(xLon)");
-            Assert.AreEqual(expectedLat, lat, "(yLat)");
+            lon.Should().Be(expectedLon, "(xLon)");
+            lat.Should().Be(expectedLat, "(yLat)");
         }
     }
 }

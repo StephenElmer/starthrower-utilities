@@ -563,6 +563,19 @@ Additional translation patterns observed:
   active `[TestInitialize] MyTestInitialize() { }` (as opposed to the commented-out
   template version) is also just deleted, not converted to a constructor.
 
+**Step 6 conversion notes (from XBase.Test, ~1,760 lines / 90 tests across 9 files):**
+- `Assert.IsInstanceOfType<T>(x)` → `x.Should().BeOfType<T>()`.
+- `Assert.ThrowsException<T>(() => ...)` (the modern MSTest inline-lambda assertion,
+  as opposed to the `[ExpectedException]` attribute form) converts the same way as
+  `[ExpectedException]`: `Action act = () => ...; act.Should().Throw<T>();`.
+- All field-type test classes (`BooleanFieldTest`, `DateFieldTest`, etc.) carried the
+  same unused `Ignore()` MSTest-Inconclusive helper, copy-pasted from a template and
+  never called — confirmed via grep before deleting, then removed from every file.
+- Test project `.csproj` files in this solution were copy-pasted from an earlier
+  project's template and can carry a stale header comment (e.g. `XBase.Test.csproj`'s
+  banner comment still said `StarThrower.ByteUtilities.Test.csproj`). Check/fix this
+  comment during the package-reference edit.
+
 **Step 7 — Fix nullable warnings:**
 - Do not suppress with `!` operator — annotate properly
 - Add `?` to reference types that are legitimately nullable

@@ -1,64 +1,51 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.Gis.GeoUtilities;
+using Xunit;
 
 namespace StarThrower.Gis.GeoUtilities.Test
 {
-    [TestClass]
     public class GeoUtilTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-        [TestMethod]
+        [Fact]
         public void TestIsValidLat()
         {
-            Assert.IsTrue(GeoUtil.IsValidLat(0));
-            Assert.IsTrue(GeoUtil.IsValidLat(0.0));
-            Assert.IsTrue(GeoUtil.IsValidLat(0.000001));
-            Assert.IsTrue(GeoUtil.IsValidLat(-0.000001));
-            Assert.IsTrue(GeoUtil.IsValidLat(1));
-            Assert.IsTrue(GeoUtil.IsValidLat(-1));
-            Assert.IsTrue(GeoUtil.IsValidLat(GeoUtil.MaxLat));
-            Assert.IsTrue(GeoUtil.IsValidLat(GeoUtil.MinLat));
-            Assert.IsTrue(GeoUtil.IsValidLat(GeoUtil.MaxLat - 1));
-            Assert.IsTrue(GeoUtil.IsValidLat(GeoUtil.MinLat + 1));
-            Assert.IsTrue(GeoUtil.IsValidLat(GeoUtil.MaxLat - 0.000001));
-            Assert.IsTrue(GeoUtil.IsValidLat(GeoUtil.MinLat + 0.000001));
+            GeoUtil.IsValidLat(0).Should().BeTrue();
+            GeoUtil.IsValidLat(0.0).Should().BeTrue();
+            GeoUtil.IsValidLat(0.000001).Should().BeTrue();
+            GeoUtil.IsValidLat(-0.000001).Should().BeTrue();
+            GeoUtil.IsValidLat(1).Should().BeTrue();
+            GeoUtil.IsValidLat(-1).Should().BeTrue();
+            GeoUtil.IsValidLat(GeoUtil.MaxLat).Should().BeTrue();
+            GeoUtil.IsValidLat(GeoUtil.MinLat).Should().BeTrue();
+            GeoUtil.IsValidLat(GeoUtil.MaxLat - 1).Should().BeTrue();
+            GeoUtil.IsValidLat(GeoUtil.MinLat + 1).Should().BeTrue();
+            GeoUtil.IsValidLat(GeoUtil.MaxLat - 0.000001).Should().BeTrue();
+            GeoUtil.IsValidLat(GeoUtil.MinLat + 0.000001).Should().BeTrue();
 
-            Assert.IsFalse(GeoUtil.IsValidLat(GeoUtil.MaxLat + 0.000001));
-            Assert.IsFalse(GeoUtil.IsValidLat(GeoUtil.MinLat - 0.000001));
+            GeoUtil.IsValidLat(GeoUtil.MaxLat + 0.000001).Should().BeFalse();
+            GeoUtil.IsValidLat(GeoUtil.MinLat - 0.000001).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsValidLon()
         {
-            Assert.IsTrue(GeoUtil.IsValidLon(0));
-            Assert.IsTrue(GeoUtil.IsValidLon(0.0));
-            Assert.IsTrue(GeoUtil.IsValidLon(0.000001));
-            Assert.IsTrue(GeoUtil.IsValidLon(-0.000001));
-            Assert.IsTrue(GeoUtil.IsValidLon(1));
-            Assert.IsTrue(GeoUtil.IsValidLon(-1));
-            Assert.IsTrue(GeoUtil.IsValidLon(GeoUtil.MaxLon));
-            Assert.IsTrue(GeoUtil.IsValidLon(GeoUtil.MinLon));
-            Assert.IsTrue(GeoUtil.IsValidLon(GeoUtil.MaxLon - 1));
-            Assert.IsTrue(GeoUtil.IsValidLon(GeoUtil.MinLon + 1));
-            Assert.IsTrue(GeoUtil.IsValidLon(GeoUtil.MaxLon - 0.000001));
-            Assert.IsTrue(GeoUtil.IsValidLon(GeoUtil.MinLon + 0.000001));
+            GeoUtil.IsValidLon(0).Should().BeTrue();
+            GeoUtil.IsValidLon(0.0).Should().BeTrue();
+            GeoUtil.IsValidLon(0.000001).Should().BeTrue();
+            GeoUtil.IsValidLon(-0.000001).Should().BeTrue();
+            GeoUtil.IsValidLon(1).Should().BeTrue();
+            GeoUtil.IsValidLon(-1).Should().BeTrue();
+            GeoUtil.IsValidLon(GeoUtil.MaxLon).Should().BeTrue();
+            GeoUtil.IsValidLon(GeoUtil.MinLon).Should().BeTrue();
+            GeoUtil.IsValidLon(GeoUtil.MaxLon - 1).Should().BeTrue();
+            GeoUtil.IsValidLon(GeoUtil.MinLon + 1).Should().BeTrue();
+            GeoUtil.IsValidLon(GeoUtil.MaxLon - 0.000001).Should().BeTrue();
+            GeoUtil.IsValidLon(GeoUtil.MinLon + 0.000001).Should().BeTrue();
 
-            Assert.IsFalse(GeoUtil.IsValidLon(GeoUtil.MaxLon + 0.000001));
-            Assert.IsFalse(GeoUtil.IsValidLon(GeoUtil.MinLon - 0.000001));
+            GeoUtil.IsValidLon(GeoUtil.MaxLon + 0.000001).Should().BeFalse();
+            GeoUtil.IsValidLon(GeoUtil.MinLon - 0.000001).Should().BeFalse();
         }
 
 
