@@ -1,59 +1,49 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.XBase;
+using Xunit;
 
 namespace StarThrower.XBase.Test
 {
-    [TestClass]
     public class UndefinedFieldTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-        [TestMethod]
+        [Fact]
         public void TestConstructor()
         {
             FieldType t = new UndefinedField();
-            Assert.IsNotNull(t);
-            Assert.AreEqual("Undefined", t.Text);
-            Assert.AreEqual('U', t.Code);
+            t.Should().NotBeNull();
+            t.Text.Should().Be("Undefined");
+            t.Code.Should().Be('U');
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodLength()
         {
             FieldType t = new UndefinedField();
-            Assert.IsTrue(t.IsValidLength(1));
-            Assert.IsTrue(t.IsValidLength(253));
+            t.IsValidLength(1).Should().BeTrue();
+            t.IsValidLength(253).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondLowerBound()
         {
             FieldType t = new UndefinedField();
-            Assert.IsFalse(t.IsValidLength(-1));
+            t.IsValidLength(-1).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodDecimalCount()
         {
             FieldType t = new UndefinedField();
-            Assert.IsTrue(t.IsValidDecimalCount(0));
+            t.IsValidDecimalCount(0).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDecimalCountBeyondLowerBound()
         {
             FieldType t = new UndefinedField();
-            Assert.IsFalse(t.IsValidDecimalCount(-1));
+            t.IsValidDecimalCount(-1).Should().BeFalse();
         }
     }
 }

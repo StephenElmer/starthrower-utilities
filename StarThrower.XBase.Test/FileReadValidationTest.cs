@@ -1,13 +1,13 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.XBase;
+using Xunit;
 
 namespace StarThrower.XBase.Test
 {
-    [TestClass]
     public class FileReadValidationTest
     {
         private static string CreateTempDbfPath()
@@ -40,7 +40,7 @@ namespace StarThrower.XBase.Test
             return path;
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenWhenHeaderLengthIsBelowMinimumThrowsInvalidDataException()
         {
             string path = CreateValidDbf();
@@ -55,8 +55,8 @@ namespace StarThrower.XBase.Test
                 File.WriteAllBytes(path, bytes);
 
                 using XBaseFile f = new XBaseFile(XBaseFileType.dBaseIII);
-                Assert.ThrowsException<InvalidDataException>(() =>
-                    f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read));
+                Action act = () => f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                act.Should().Throw<InvalidDataException>();
             }
             finally
             {
@@ -64,7 +64,7 @@ namespace StarThrower.XBase.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenWhenHeaderLengthExceedsMaximumThrowsInvalidDataException()
         {
             string path = CreateValidDbf();
@@ -79,8 +79,8 @@ namespace StarThrower.XBase.Test
                 File.WriteAllBytes(path, bytes);
 
                 using XBaseFile f = new XBaseFile(XBaseFileType.dBaseIII);
-                Assert.ThrowsException<InvalidDataException>(() =>
-                    f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read));
+                Action act = () => f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                act.Should().Throw<InvalidDataException>();
             }
             finally
             {
@@ -88,7 +88,7 @@ namespace StarThrower.XBase.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenWhenFixedHeaderPrefixIsTruncatedThrowsEndOfStreamException()
         {
             string path = CreateValidDbf();
@@ -102,8 +102,8 @@ namespace StarThrower.XBase.Test
                 File.WriteAllBytes(path, truncated);
 
                 using XBaseFile f = new XBaseFile(XBaseFileType.dBaseIII);
-                Assert.ThrowsException<EndOfStreamException>(() =>
-                    f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read));
+                Action act = () => f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                act.Should().Throw<EndOfStreamException>();
             }
             finally
             {
@@ -111,7 +111,7 @@ namespace StarThrower.XBase.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenWhenEofByteIsMissingThrowsEndOfStreamException()
         {
             string path = CreateValidDbf();
@@ -125,8 +125,8 @@ namespace StarThrower.XBase.Test
                 File.WriteAllBytes(path, withoutEof);
 
                 using XBaseFile f = new XBaseFile(XBaseFileType.dBaseIII);
-                Assert.ThrowsException<EndOfStreamException>(() =>
-                    f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read));
+                Action act = () => f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                act.Should().Throw<EndOfStreamException>();
             }
             finally
             {
@@ -134,7 +134,7 @@ namespace StarThrower.XBase.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenWithNormalVariableHeaderLengthSucceeds()
         {
             string path = CreateValidDbf();
@@ -143,8 +143,8 @@ namespace StarThrower.XBase.Test
                 using XBaseFile f = new XBaseFile(XBaseFileType.dBaseIII);
                 f.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-                Assert.AreEqual(1, f.FieldCount);
-                Assert.AreEqual(1, f.RecordCount);
+                f.FieldCount.Should().Be(1);
+                f.RecordCount.Should().Be(1);
 
                 f.Close();
             }

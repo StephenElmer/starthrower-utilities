@@ -1,76 +1,67 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.XBase;
+using Xunit;
 
 namespace StarThrower.XBase.Test
 {
-    [TestClass]
     public class StringFieldTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-        [TestMethod]
+        [Fact]
         public void TestConstructor()
         {
             FieldType t = new StringField();
-            Assert.IsNotNull(t);
-            Assert.AreEqual("String", t.Text);
-            Assert.AreEqual('C', t.Code);
+            t.Should().NotBeNull();
+            t.Text.Should().Be("String");
+            t.Code.Should().Be('C');
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodLength()
         {
             FieldType t = new StringField();
-            Assert.IsTrue(t.IsValidLength(1));
-            Assert.IsTrue(t.IsValidLength(253));
+            t.IsValidLength(1).Should().BeTrue();
+            t.IsValidLength(253).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondLowerBound()
         {
             FieldType t = new StringField();
-            Assert.IsFalse(t.IsValidLength(0));
+            t.IsValidLength(0).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondUpperBound()
         {
             FieldType t = new StringField();
-            Assert.IsFalse(t.IsValidLength(254));
+            t.IsValidLength(254).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodDecimalCount()
         {
             FieldType t = new StringField();
-            Assert.IsTrue(t.IsValidDecimalCount(0));
+            t.IsValidDecimalCount(0).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDecimalCountBeyondLowerBound()
         {
             FieldType t = new StringField();
-            Assert.IsFalse(t.IsValidDecimalCount(-1));
+            t.IsValidDecimalCount(-1).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDecimalCountBeyondUpperBound()
         {
             FieldType t = new StringField();
-            Assert.IsFalse(t.IsValidDecimalCount(1));
+            t.IsValidDecimalCount(1).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddStringField1()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -89,14 +80,14 @@ namespace StarThrower.XBase.Test
             record.SetData("MYSTRING", "abcdefghij");
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<string>(file.GetRecord(0).GetData("MYSTRING"));
-            Assert.AreEqual("1234567890", file.GetRecord(0).GetData("MYSTRING"));
+            file.GetRecord(0).GetData("MYSTRING").Should().BeOfType<string>();
+            file.GetRecord(0).GetData("MYSTRING").Should().Be("1234567890");
 
-            Assert.IsInstanceOfType<string>(file.GetRecord(1).GetData("MYSTRING"));
-            Assert.AreEqual("abcdefghij", file.GetRecord(1).GetData("MYSTRING"));
+            file.GetRecord(1).GetData("MYSTRING").Should().BeOfType<string>();
+            file.GetRecord(1).GetData("MYSTRING").Should().Be("abcdefghij");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddStringField2()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -123,20 +114,20 @@ namespace StarThrower.XBase.Test
             record.SetData("MYSTRING", "         0");
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<string>(file.GetRecord(0).GetData("MYSTRING"));
-            Assert.AreEqual("          ", file.GetRecord(0).GetData("MYSTRING"));
+            file.GetRecord(0).GetData("MYSTRING").Should().BeOfType<string>();
+            file.GetRecord(0).GetData("MYSTRING").Should().Be("          ");
 
-            Assert.IsInstanceOfType<string>(file.GetRecord(1).GetData("MYSTRING"));
-            Assert.AreEqual("1         ", file.GetRecord(1).GetData("MYSTRING"));
+            file.GetRecord(1).GetData("MYSTRING").Should().BeOfType<string>();
+            file.GetRecord(1).GetData("MYSTRING").Should().Be("1         ");
 
-            Assert.IsInstanceOfType<string>(file.GetRecord(2).GetData("MYSTRING"));
-            Assert.AreEqual("123456789 ", file.GetRecord(2).GetData("MYSTRING"));
+            file.GetRecord(2).GetData("MYSTRING").Should().BeOfType<string>();
+            file.GetRecord(2).GetData("MYSTRING").Should().Be("123456789 ");
 
-            Assert.IsInstanceOfType<string>(file.GetRecord(3).GetData("MYSTRING"));
-            Assert.AreEqual("         0", file.GetRecord(3).GetData("MYSTRING"));
+            file.GetRecord(3).GetData("MYSTRING").Should().BeOfType<string>();
+            file.GetRecord(3).GetData("MYSTRING").Should().Be("         0");
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddStringField3()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -148,13 +139,11 @@ namespace StarThrower.XBase.Test
             file.AddField(field);
 
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYSTRING", "          0");
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYSTRING", "          0");
+            act.Should().Throw<BadDataException>();
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddStringField4()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -166,10 +155,8 @@ namespace StarThrower.XBase.Test
             file.AddField(field);
 
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYSTRING", "12345678901");
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYSTRING", "12345678901");
+            act.Should().Throw<BadDataException>();
         }
     }
 }

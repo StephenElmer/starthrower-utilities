@@ -1,86 +1,77 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.XBase;
+using Xunit;
 
 namespace StarThrower.XBase.Test
 {
-    [TestClass]
     public class NumericFieldTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-        [TestMethod]
+        [Fact]
         public void TestConstructor()
         {
             FieldType t = new NumericField();
-            Assert.IsNotNull(t);
-            Assert.AreEqual("Numeric", t.Text);
-            Assert.AreEqual('N', t.Code);
+            t.Should().NotBeNull();
+            t.Text.Should().Be("Numeric");
+            t.Code.Should().Be('N');
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodLength()
         {
             FieldType t = new NumericField();
-            Assert.IsTrue(t.IsValidLength(1));
-            Assert.IsTrue(t.IsValidLength(17));
+            t.IsValidLength(1).Should().BeTrue();
+            t.IsValidLength(17).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondLowerBound()
         {
             FieldType t = new NumericField();
-            Assert.IsFalse(t.IsValidLength(0));
+            t.IsValidLength(0).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondUpperBound()
         {
             FieldType t = new NumericField();
-            Assert.IsFalse(t.IsValidLength(18));
+            t.IsValidLength(18).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodDecimalCountLowEnd()
         {
             FieldType t = new NumericField();
-            Assert.IsTrue(t.IsValidDecimalCount(0));
+            t.IsValidDecimalCount(0).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodDecimalCountHighEnd()
         {
             FieldType t = new NumericField();
-            Assert.IsTrue(t.IsValidDecimalCount(15));
+            t.IsValidDecimalCount(15).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDecimalCountBeyondLowerBound()
         {
             FieldType t = new NumericField();
-            Assert.IsFalse(t.IsValidDecimalCount(-1));
+            t.IsValidDecimalCount(-1).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDecimalCountBeyondUpperBound()
         {
             FieldType t = new NumericField();
-            Assert.IsFalse(t.IsValidDecimalCount(16));
+            t.IsValidDecimalCount(16).Should().BeFalse();
         }
 
 
         #region Short Tests
 
-        [TestMethod]
+        [Fact]
         public void TestAddShortField1()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -97,11 +88,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual(7L, file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be(7L);
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddShortField2()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -115,13 +106,11 @@ namespace StarThrower.XBase.Test
 
             short val = 32767;
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYNUM", val);
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYNUM", val);
+            act.Should().Throw<BadDataException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddShortField3()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -138,11 +127,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual((long)(short.MinValue), file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be((long)(short.MinValue));
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddShortField4()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -159,11 +148,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual((long)(short.MaxValue), file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be((long)(short.MaxValue));
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddShortField5()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -177,10 +166,8 @@ namespace StarThrower.XBase.Test
 
             short val = short.MinValue;
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYNUM", val);
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYNUM", val);
+            act.Should().Throw<BadDataException>();
         }
 
         #endregion
@@ -188,7 +175,7 @@ namespace StarThrower.XBase.Test
 
         #region Int Tests
 
-        [TestMethod]
+        [Fact]
         public void TestAddIntField1()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -205,11 +192,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual(7L, file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be(7L);
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddIntField2()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -223,13 +210,11 @@ namespace StarThrower.XBase.Test
 
             int val = 32767;
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYNUM", val);
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYNUM", val);
+            act.Should().Throw<BadDataException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddIntField3()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -246,11 +231,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual((long)(int.MinValue), file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be((long)(int.MinValue));
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddIntField4()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -267,11 +252,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual((long)(int.MaxValue), file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be((long)(int.MaxValue));
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddIntField5()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -285,10 +270,8 @@ namespace StarThrower.XBase.Test
 
             int val = int.MinValue;
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYNUM", val);
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYNUM", val);
+            act.Should().Throw<BadDataException>();
         }
 
         #endregion
@@ -296,7 +279,7 @@ namespace StarThrower.XBase.Test
 
         #region Long Tests
 
-        [TestMethod]
+        [Fact]
         public void TestAddLongField1()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -313,11 +296,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual(7L, file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be(7L);
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddLongField2()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -331,13 +314,11 @@ namespace StarThrower.XBase.Test
 
             long val = 32767;
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYNUM", val);
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYNUM", val);
+            act.Should().Throw<BadDataException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddLongField3()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -354,11 +335,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual(-9999999999999999, file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be(-9999999999999999);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddLongField4()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -375,11 +356,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYNUM", val);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<long>(file.GetRecord(0).GetData("MYNUM"));
-            Assert.AreEqual(99999999999999999, file.GetRecord(0).GetData("MYNUM"));
+            file.GetRecord(0).GetData("MYNUM").Should().BeOfType<long>();
+            file.GetRecord(0).GetData("MYNUM").Should().Be(99999999999999999);
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddLongField5()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -393,13 +374,11 @@ namespace StarThrower.XBase.Test
 
             long val = -9999999999999999;
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYNUM", val);
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYNUM", val);
+            act.Should().Throw<BadDataException>();
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddLongField6()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -413,13 +392,11 @@ namespace StarThrower.XBase.Test
 
             long val = long.MinValue;
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYNUM", val);
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYNUM", val);
+            act.Should().Throw<BadDataException>();
         }
 
-        [TestMethod, ExpectedException(typeof(BadDataException))]
+        [Fact]
         public void TestAddLongField7()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -433,10 +410,8 @@ namespace StarThrower.XBase.Test
 
             long val = long.MaxValue;
             StarThrower.XBase.XBaseRecord record = file.CreateRecord();
-            record.SetData("MYNUM", val);
-            file.AddRecord(record);
-
-            Assert.Fail();
+            Action act = () => record.SetData("MYNUM", val);
+            act.Should().Throw<BadDataException>();
         }
 
         #endregion

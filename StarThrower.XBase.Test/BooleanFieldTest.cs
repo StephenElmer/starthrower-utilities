@@ -1,51 +1,41 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.XBase;
+using Xunit;
 
 namespace StarThrower.XBase.Test
 {
-    [TestClass]
     public class BooleanFieldTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-        [TestMethod]
+        [Fact]
         public void TestConstructor()
         {
             FieldType t = new BooleanField();
-            Assert.IsNotNull(t);
-            Assert.AreEqual("Boolean", t.Text);
-            Assert.AreEqual('L', t.Code);
+            t.Should().NotBeNull();
+            t.Text.Should().Be("Boolean");
+            t.Code.Should().Be('L');
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsValidLength()
         {
             FieldType t = new BooleanField();
-            Assert.IsTrue(t.IsValidLength(1));
-            Assert.IsFalse(t.IsValidLength(0));
-            Assert.IsFalse(t.IsValidLength(2));
+            t.IsValidLength(1).Should().BeTrue();
+            t.IsValidLength(0).Should().BeFalse();
+            t.IsValidLength(2).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsValidDecimalCount()
         {
             FieldType t = new BooleanField();
-            Assert.IsTrue(t.IsValidDecimalCount(0));
-            Assert.IsFalse(t.IsValidDecimalCount(-1));
-            Assert.IsFalse(t.IsValidDecimalCount(1));
+            t.IsValidDecimalCount(0).Should().BeTrue();
+            t.IsValidDecimalCount(-1).Should().BeFalse();
+            t.IsValidDecimalCount(1).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddBooleanField()
         {
             StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
@@ -63,11 +53,11 @@ namespace StarThrower.XBase.Test
             record.SetData("MYBOOL", false);
             file.AddRecord(record);
 
-            Assert.IsInstanceOfType<bool>(file.GetRecord(0).GetData("MYBOOL"));
-            Assert.AreEqual(true, file.GetRecord(0).GetData("MYBOOL"));
+            file.GetRecord(0).GetData("MYBOOL").Should().BeOfType<bool>();
+            file.GetRecord(0).GetData("MYBOOL").Should().Be(true);
 
-            Assert.IsInstanceOfType<bool>(file.GetRecord(1).GetData("MYBOOL"));
-            Assert.AreEqual(false, file.GetRecord(1).GetData("MYBOOL"));
+            file.GetRecord(1).GetData("MYBOOL").Should().BeOfType<bool>();
+            file.GetRecord(1).GetData("MYBOOL").Should().Be(false);
         }
     }
 }

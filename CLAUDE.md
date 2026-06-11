@@ -538,6 +538,31 @@ doing regex-based conversion is workable, but watch for:
   `ExpectedException`, `StringAssert`, and `Microsoft.VisualStudio.TestTools` to confirm
   nothing was missed before running the test suite.
 
+**Step 6 conversion notes (from EarleyParser.Test, ~2,900 lines / 136 tests across 13
+files):** for projects this size, direct file-by-file `Read`/`Write` conversion (no
+regex script) was faster and avoided the StringUtilities-style script gotchas above.
+Additional translation patterns observed:
+- `ReadOnlyCollection<T>` (and other types using AwesomeAssertions'
+  `GenericCollectionAssertions<T>`) do **not** support `.Should().Be(...)` — that
+  assertion type has no `Be` member. `Assert.AreEqual(collectionA, collectionB)` on a
+  type that doesn't override `Equals` (i.e. the assert was really checking reference
+  equality) becomes `.Should().BeSameAs(...)`, not `.Should().Be(...)`.
+- `Assert.AreSame`/`Assert.AreNotSame` → `.Should().BeSameAs(...)` /
+  `.Should().NotBeSameAs(...)`.
+- `Assert.AreEqual(true, x == null)` / `Assert.AreEqual(null, x)` → `x.Should().BeNull()`
+  (clearer than `(x == null).Should().Be(true)`).
+- `[ExpectedException]` conversions where the constructor/method-under-test takes a
+  variable that is itself the null/invalid argument (e.g.
+  `Category? nullSeed = null; DottedRule.CreateStartRule(nullSeed);`) — wrap the whole
+  call in the lambda: `Action act = () => DottedRule.CreateStartRule(nullSeed);`. The
+  variable declaration stays outside the lambda; only the SUT call moves in.
+- MSTest scaffolding boilerplate (`#region [ Construction ]` ctor stub, `TestContext`
+  field/property, `#region [ Additional test attributes ]`) is removed entirely — even
+  when the constructor contains real fixture-setup logic, just keep the meaningful
+  constructor body and drop the regions/attributes/TestContext around it. An empty,
+  active `[TestInitialize] MyTestInitialize() { }` (as opposed to the commented-out
+  template version) is also just deleted, not converted to a constructor.
+
 **Step 7 — Fix nullable warnings:**
 - Do not suppress with `!` operator — annotate properly
 - Add `?` to reference types that are legitimately nullable

@@ -1,65 +1,56 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.XBase;
+using Xunit;
 
 namespace StarThrower.XBase.Test
 {
-    [TestClass]
     public class DateFieldTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-        [TestMethod]
+        [Fact]
         public void TestConstructor()
         {
             FieldType t = new DateField();
-            Assert.IsNotNull(t);
-            Assert.AreEqual("Date", t.Text);
-            Assert.AreEqual('D', t.Code);
+            t.Should().NotBeNull();
+            t.Text.Should().Be("Date");
+            t.Code.Should().Be('D');
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodLength()
         {
             FieldType t = new DateField();
-            Assert.IsTrue(t.IsValidLength(8));
-            Assert.IsFalse(t.IsValidLength(7));
-            Assert.IsFalse(t.IsValidLength(9));
+            t.IsValidLength(8).Should().BeTrue();
+            t.IsValidLength(7).Should().BeFalse();
+            t.IsValidLength(9).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondLowerBound()
         {
             FieldType t = new DateField();
-            Assert.IsFalse(t.IsValidLength(7));
+            t.IsValidLength(7).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondUpperBound()
         {
             FieldType t = new DateField();
-            Assert.IsFalse(t.IsValidLength(9));
+            t.IsValidLength(9).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsValidDecimalCount()
         {
             FieldType t = new DateField();
-            Assert.IsTrue(t.IsValidDecimalCount(0));
-            Assert.IsFalse(t.IsValidDecimalCount(-1));
-            Assert.IsFalse(t.IsValidDecimalCount(1));
+            t.IsValidDecimalCount(0).Should().BeTrue();
+            t.IsValidDecimalCount(-1).Should().BeFalse();
+            t.IsValidDecimalCount(1).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAddDateTimeField()
         {
             DateTime dtNow = DateTime.Now;
@@ -79,11 +70,11 @@ namespace StarThrower.XBase.Test
             file.AddRecord(record);
 
 
-            Assert.IsInstanceOfType<DateTime>(file.GetRecord(0).GetData("MYDATE"));
-            Assert.AreEqual(dtNow.Date, file.GetRecord(0).GetData("MYDATE"));
+            file.GetRecord(0).GetData("MYDATE").Should().BeOfType<DateTime>();
+            file.GetRecord(0).GetData("MYDATE").Should().Be(dtNow.Date);
 
-            Assert.IsInstanceOfType<DateTime>(file.GetRecord(1).GetData("MYDATE"));
-            Assert.AreEqual(new DateTime(1968, 5, 18), file.GetRecord(1).GetData("MYDATE"));
+            file.GetRecord(1).GetData("MYDATE").Should().BeOfType<DateTime>();
+            file.GetRecord(1).GetData("MYDATE").Should().Be(new DateTime(1968, 5, 18));
         }
     }
 }

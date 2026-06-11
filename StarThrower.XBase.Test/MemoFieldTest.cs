@@ -1,60 +1,50 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.XBase;
+using Xunit;
 
 namespace StarThrower.XBase.Test
 {
-    [TestClass]
     public class MemoFieldTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-        [TestMethod]
+        [Fact]
         public void TestConstructor()
         {
             FieldType t = new MemoField();
-            Assert.IsNotNull(t);
-            Assert.AreEqual("Memo", t.Text);
-            Assert.AreEqual('M', t.Code);
+            t.Should().NotBeNull();
+            t.Text.Should().Be("Memo");
+            t.Code.Should().Be('M');
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGoodLength()
         {
             FieldType t = new MemoField();
-            Assert.IsTrue(t.IsValidLength(10));
+            t.IsValidLength(10).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondLowerBound()
         {
             FieldType t = new MemoField();
-            Assert.IsFalse(t.IsValidLength(9));
+            t.IsValidLength(9).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestLengthBeyondUpperBound()
         {
             FieldType t = new MemoField();
-            Assert.IsFalse(t.IsValidLength(11));
+            t.IsValidLength(11).Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestIsValidDecimalCount()
         {
             FieldType t = new MemoField();
-            Assert.IsTrue(t.IsValidDecimalCount(0));
-            Assert.IsFalse(t.IsValidDecimalCount(-1));
-            Assert.IsFalse(t.IsValidDecimalCount(1));
+            t.IsValidDecimalCount(0).Should().BeTrue();
+            t.IsValidDecimalCount(-1).Should().BeFalse();
+            t.IsValidDecimalCount(1).Should().BeFalse();
         }
     }
 }

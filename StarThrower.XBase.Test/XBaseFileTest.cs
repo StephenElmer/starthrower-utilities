@@ -1,38 +1,18 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
 using StarThrower.FileUtilities;
 using StarThrower.XBase;
+using Xunit;
 
 namespace StarThrower.XBase.Test
 {
-    [TestClass]
     public class XBaseFileTest
     {
-        #region [ Test Harness Stuff ]
-
-        private TestContext? testContextInstance;
-        private string _inputFolder = String.Empty;
-        private string _outputFolder = String.Empty;
-
-        public TestContext? TestContext
-        {
-            get { return testContextInstance; }
-            set { testContextInstance = value; }
-        }
-
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-        #region Construction
+        private readonly string _inputFolder;
+        private readonly string _outputFolder;
 
         public XBaseFileTest()
         {
@@ -48,8 +28,6 @@ namespace StarThrower.XBase.Test
                 Directory.CreateDirectory(_outputFolder);
             }
         }
-
-        #endregion
 
         #region Private Methods
 
@@ -115,12 +93,10 @@ namespace StarThrower.XBase.Test
 
         #endregion
 
-        #endregion
-
 
         //File related
         //TEST003:  Open a dBase file, save it, compare the saved file to the opened file
-        [TestMethod]
+        [Fact]
         public void Test003()
         {
             string inputFile = _inputFolder + "\\ROOT002.DBF";
@@ -133,11 +109,11 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST004:  Create a dBase file, save it, compare the saved file to a file previously created in dBase IV (ROOT001)
-        [TestMethod]
+        [Fact]
         public void Test004()
         {
             string inputFile = _inputFolder + "\\ROOT001.DBF";
@@ -147,11 +123,11 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST008:  Create a dBase file w/ records, save it, compare the saved file to a file previously created in dBase IV (ROOT002)
-        [TestMethod]
+        [Fact]
         public void Test008()
         {
             string inputFile = _inputFolder + "\\ROOT002.DBF";
@@ -166,12 +142,12 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //Field related
         //TEST001:  Create a dBase file, add a field, save it, compare the saved file to a previous file which has had the same field added via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test001()
         {
             string inputFile = _inputFolder + "\\TEST001A.DBF";
@@ -190,12 +166,12 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST016:
         //Create a dBase file w/ records, add a field, save it, compare the saved file to a previous file which has had the same field added via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test016()
         {
             string intputFile = _inputFolder + "\\TEST015A.DBF";
@@ -212,12 +188,12 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(intputFile, outputFile));
+            FileSystem.FileCompare(intputFile, outputFile).Should().BeTrue();
         }
 
         //TEST017:
         //Open a dBase file w/ records, add a field, save it, compare the saved file to a previous file which has had the same field added via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test017()
         {
             string inputFile = _inputFolder + "\\ROOT002.DBF";
@@ -251,12 +227,12 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
+            FileSystem.FileCompare(controlFile, outputFile).Should().BeTrue();
         }
 
 
         //TEST002:  Open a dBase file, add a field, save it, compare the saved file to a previous file which has had the same field added via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test002()
         {
             string inputFile = _inputFolder + "\\TEST002A.DBF";
@@ -292,11 +268,11 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
+            FileSystem.FileCompare(controlFile, outputFile).Should().BeTrue();
         }
 
         //TEST005:  Open a dBase file, alter a field, save it, compare the saved file to a previous file which has had the same field altered via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test005()
         {
             string inputFile = _inputFolder + "\\TEST005A.DBF";
@@ -317,13 +293,13 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST018:
         //Open a dBase file w/ records, alter a field, save it, compare the saved file to a previous file which has had the same field altered via dBase IV
         //(reduces the length of the second field from 10 characters to 5 characters)
-        [TestMethod]
+        [Fact]
         public void Test018()
         {
             string inputFile = _inputFolder + "\\ROOT002.DBF";
@@ -359,13 +335,13 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
+            FileSystem.FileCompare(controlFile, outputFile).Should().BeTrue();
         }
 
         //TEST019:
         //Open a dBase file w/ records, alter a field, save it, compare the saved file to a previous file which has had the same field altered via dBase IV
         //(increases the length of the second field from 10 characters to 15 characters)
-        [TestMethod]
+        [Fact]
         public void Test019()
         {
             string inputFile = _inputFolder + "\\ROOT002.DBF";
@@ -401,11 +377,11 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
+            FileSystem.FileCompare(controlFile, outputFile).Should().BeTrue();
         }
 
         //TEST006:  Open a dBase file, remove a field, save it, compare the saved file to a previous file which has had the same field removed via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test006()
         {
             string inputFile = _inputFolder + "\\TEST006A.DBF";
@@ -420,12 +396,12 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST015:
         //Open a dBase file w/ records, remove a field, save it, compare the saved file to a previous file which has had the same field removed via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test015()
         {
             string inputFile = _inputFolder + "\\ROOT002.DBF";
@@ -453,23 +429,23 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(controlFile, outputFile));
+            FileSystem.FileCompare(controlFile, outputFile).Should().BeTrue();
         }
 
         //TEST012:  Open a dBase file, retrieve the last (index 2) field descriptor.
-        [TestMethod]
+        [Fact]
         public void Test012()
         {
             StarThrower.XBase.XBaseFile f = CreateRoot001XBaseFile();
-            Assert.AreEqual("[XBaseField:  Name='FIELDTHREE', Type=StarThrower.XBase.StringField, Length=10, DecimalCount=0]", f.GetField(2).ToString());
+            f.GetField(2).ToString().Should().Be("[XBaseField:  Name='FIELDTHREE', Type=StarThrower.XBase.StringField, Length=10, DecimalCount=0]");
         }
 
         //TEST014:  Open a dBase file, retrieve the field descriptor for a particular field name ("FIELDTHREE")
-        [TestMethod]
+        [Fact]
         public void Test014()
         {
             StarThrower.XBase.XBaseFile f = CreateRoot001XBaseFile();
-            Assert.AreEqual("[XBaseField:  Name='FIELDTHREE', Type=StarThrower.XBase.StringField, Length=10, DecimalCount=0]", f.GetField("FIELDTHREE").ToString());
+            f.GetField("FIELDTHREE").ToString().Should().Be("[XBaseField:  Name='FIELDTHREE', Type=StarThrower.XBase.StringField, Length=10, DecimalCount=0]");
         }
 
         //4. Add a field where a field already exists with the same name
@@ -480,7 +456,7 @@ namespace StarThrower.XBase.Test
 
         //Record related
         //TEST007:  Open a dBase file, add a record, save it, compare the saved file to a previous file which has had the same record added via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test007()
         {
             string inputFile = _inputFolder + "\\TEST007A.DBF";
@@ -499,11 +475,11 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST010:  Open a dBase file, remove a record, save it, compare the saved file to a previous file which has had the same record removed via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test010()
         {
             string inputFile = _inputFolder + "\\TEST010A.DBF";
@@ -520,11 +496,11 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST009:  Open a dBase file, alter a record, save it, compare the saved file to a previous file which has had the same record altered via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test009()
         {
             string inputFile = _inputFolder + "\\TEST009A.DBF";
@@ -545,11 +521,11 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST011:  Open a dBase file, destroy a record, save it, compare the saved file to a previous file which has had the same record deleted (and PACKed) via dBase IV
-        [TestMethod]
+        [Fact]
         public void Test011()
         {
             string inputFile = _inputFolder + "\\TEST011A.DBF";
@@ -566,11 +542,11 @@ namespace StarThrower.XBase.Test
             f.Close();
             f.Dispose();
 
-            Assert.IsTrue(FileSystem.FileCompare(inputFile, outputFile));
+            FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
         //TEST013:  Open a dBase file, retrieve the first (index 0) record
-        [TestMethod]
+        [Fact]
         public void Test013()
         {
             StarThrower.XBase.XBaseFile f = CreateRoot001XBaseFile();
@@ -578,7 +554,7 @@ namespace StarThrower.XBase.Test
             AddRecordsToRoot001ToMakeRoot002(f);
 
             StarThrower.XBase.XBaseRecord record = f.GetRecord(0);
-            Assert.AreEqual("[XBaseRecord:  IsDeleted=False, Data='123456789012345678901234567890']", record.ToString());
+            record.ToString().Should().Be("[XBaseRecord:  IsDeleted=False, Data='123456789012345678901234567890']");
         }
 
         //5. Attempt to add / alter a record in which the data length is too long
