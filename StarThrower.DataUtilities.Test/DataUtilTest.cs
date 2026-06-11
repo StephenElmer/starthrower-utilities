@@ -1,27 +1,18 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AwesomeAssertions;
+using Xunit;
 using StarThrower.DataUtilities;
 
 namespace StarThrower.DataUtilities.Test
 {
-    [TestClass]
     public class DataUtilTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
         #region GetBoolField() tests
 
-        [TestMethod]
+        [Fact]
         public void TestGetBoolField1()
         {
             bool expected = true;
@@ -29,10 +20,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(bool));
             DataRow? r = t.Rows.Add(new object[] { expected });
             bool actual = DataUtil.GetBooleanField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetBoolField2()
         {
             bool expected = false;
@@ -40,10 +31,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(bool));
             DataRow? r = t.Rows.Add(new object[] { expected });
             bool actual = DataUtil.GetBooleanField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetBoolField3()
         {
             bool expected = false;
@@ -51,38 +42,38 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(bool));
             DataRow? r = t.Rows.Add(new object?[] { null });
             bool actual = DataUtil.GetBooleanField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetBoolFieldArgumentNull1()
         {
             DataRow? r = null;
             string fieldName = "SomeField";
-            bool result = DataUtil.GetBooleanField(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetBooleanField(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetBoolFieldArgumentNull2()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object[] { "some data" });
             string? fieldName = null;
-            bool actual = DataUtil.GetBooleanField(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetBooleanField(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void TestGetBoolFieldArgumentException1()
         {
             bool expected = false;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(bool));
             DataRow? r = t.Rows.Add(new object[] { expected });
-            bool actual = DataUtil.GetBooleanField(r, "SomeOtherField");
-            Assert.Fail();
+            Action act = () => DataUtil.GetBooleanField(r, "SomeOtherField");
+            act.Should().Throw<ArgumentException>();
         }
 
         #endregion
@@ -90,7 +81,7 @@ namespace StarThrower.DataUtilities.Test
 
         #region GetStringField() tests
 
-        [TestMethod]
+        [Fact]
         public void TestGetStringField1()
         {
             string expected = "some data";
@@ -98,10 +89,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object[] { expected });
             string actual = DataUtil.GetStringField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetStringField2()
         {
             string expected = String.Empty;
@@ -109,10 +100,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object[] { expected });
             string actual = DataUtil.GetStringField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetStringField3()
         {
             string expected = String.Empty;
@@ -120,38 +111,38 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object?[] { null });
             string actual = DataUtil.GetStringField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetStringFieldArgumentNull1()
         {
             DataRow? r = null;
             string fieldName = "SomeField";
-            string result = DataUtil.GetStringField(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetStringField(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetStringFieldArgumentNull2()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object[] { "some data" });
             string? fieldName = null;
-            string result = DataUtil.GetStringField(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetStringField(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void TestGetStringFieldArgumentException1()
         {
             string expected = "some data";
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object[] { expected });
-            string actual = DataUtil.GetStringField(r, "SomeOtherField");
-            Assert.Fail();
+            Action act = () => DataUtil.GetStringField(r, "SomeOtherField");
+            act.Should().Throw<ArgumentException>();
         }
 
         #endregion
@@ -159,7 +150,7 @@ namespace StarThrower.DataUtilities.Test
 
         #region GetFloatField() test
 
-        [TestMethod]
+        [Fact]
         public void TestGetFloatField1()
         {
             float expected = 0.0f;
@@ -167,10 +158,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(float));
             DataRow? r = t.Rows.Add(new object[] { expected });
             float actual = DataUtil.GetSingleField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetFloatField2()
         {
             float expected = 123.456f;
@@ -178,10 +169,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(float));
             DataRow? r = t.Rows.Add(new object[] { expected });
             float actual = DataUtil.GetSingleField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetFloatField3()
         {
             float expected = 0.0f;
@@ -189,38 +180,38 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(float));
             DataRow? r = t.Rows.Add(new object?[] { null });
             float actual = DataUtil.GetSingleField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetFloatFieldArgumentNull1()
         {
             DataRow? r = null;
             string fieldName = "SomeField";
-            float actual = DataUtil.GetSingleField(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetSingleField(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetFloatFieldArgumentNull2()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object[] { "some data" });
             string? fieldName = null;
-            float actual = DataUtil.GetSingleField(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetSingleField(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void TestGetFloatFieldArgumentException1()
         {
             float expected = 0.0f;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(float));
             DataRow? r = t.Rows.Add(new object[] { expected });
-            float actual = DataUtil.GetSingleField(r, "SomeOtherField");
-            Assert.Fail();
+            Action act = () => DataUtil.GetSingleField(r, "SomeOtherField");
+            act.Should().Throw<ArgumentException>();
         }
 
         #endregion
@@ -228,7 +219,7 @@ namespace StarThrower.DataUtilities.Test
 
         #region GetDateTimeField() tests
 
-        [TestMethod]
+        [Fact]
         public void TestGetDateTimeField1()
         {
             DateTime expected = new DateTime(2007, 6, 24);
@@ -236,10 +227,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(DateTime));
             DataRow? r = t.Rows.Add(new object[] { expected });
             DateTime actual = DataUtil.GetDateTimeField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetDateTimeField2()
         {
             DateTime expected = new DateTime(2007, 6, 24, 7, 39, 15);
@@ -247,10 +238,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(DateTime));
             DataRow? r = t.Rows.Add(new object[] { expected });
             DateTime actual = DataUtil.GetDateTimeField(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetDateTimeField3()
         {
             DataTable t = new DataTable();
@@ -260,45 +251,45 @@ namespace StarThrower.DataUtilities.Test
             // When field is null, GetDateTimeField returns DateTime.Now (at the time of call)
             // We verify it's recent (within last second) rather than comparing exact values
             TimeSpan difference = DateTime.Now - actual;
-            Assert.IsTrue(difference.TotalSeconds < 1, $"Expected current time but got {actual}");
+            (difference.TotalSeconds < 1).Should().BeTrue($"Expected current time but got {actual}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetDateTimeFieldArgumentNull1()
         {
             DataRow? r = null;
             string fieldName = "SomeField";
-            DateTime actual = DataUtil.GetDateTimeField(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetDateTimeField(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetDateTimeFieldArgumentNull2()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object[] { "some data" });
             string? fieldName = null;
-            DateTime actual = DataUtil.GetDateTimeField(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetDateTimeField(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void TestGetDateTimeArgumentException1()
         {
             DateTime expected = DataUtil.DTNull;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(DateTime));
             DataRow? r = t.Rows.Add(new object[] { expected });
-            DateTime actual = DataUtil.GetDateTimeField(r, "SomeOtherField");
-            Assert.Fail();
+            Action act = () => DataUtil.GetDateTimeField(r, "SomeOtherField");
+            act.Should().Throw<ArgumentException>();
         }
         #endregion
 
 
         #region GetIntField() tests
 
-        [TestMethod]
+        [Fact]
         public void TestGetIntField1()
         {
             int expected = 1;
@@ -306,10 +297,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(int));
             DataRow? r = t.Rows.Add(new object[] { expected });
             int actual = DataUtil.GetInt32Field(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetIntField2()
         {
             int expected = 0;
@@ -317,10 +308,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(int));
             DataRow? r = t.Rows.Add(new object[] { expected });
             int actual = DataUtil.GetInt32Field(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetIntField3()
         {
             int expected = 0;
@@ -328,38 +319,38 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("SomeField", typeof(int));
             DataRow? r = t.Rows.Add(new object?[] { null });
             int actual = DataUtil.GetInt32Field(r, "SomeField");
-            Assert.AreEqual(expected, actual);
+            (actual).Should().Be(expected);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetIntFieldArgumentNull1()
         {
             DataRow? r = null;
             string fieldName = "SomeField";
-            int actual = DataUtil.GetInt32Field(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetInt32Field(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetIntFieldArgumentNull2()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
             DataRow? r = t.Rows.Add(new object[] { "some data" });
             string? fieldName = null;
-            int actual = DataUtil.GetInt32Field(r, fieldName);
-            Assert.Fail();
+            Action act = () => DataUtil.GetInt32Field(r, fieldName);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void TestGetIntFieldArgumentException1()
         {
             int expected = 0;
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(int));
             DataRow? r = t.Rows.Add(new object[] { expected });
-            int actual = DataUtil.GetInt32Field(r, "SomeOtherField");
-            Assert.Fail();
+            Action act = () => DataUtil.GetInt32Field(r, "SomeOtherField");
+            act.Should().Throw<ArgumentException>();
         }
         #endregion
 
@@ -375,125 +366,129 @@ namespace StarThrower.DataUtilities.Test
 
         // CheckFieldExists
 
-        [TestMethod]
+        [Fact]
         public void TestCheckFieldExistsFound()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
             t.Rows.Add("x");
             using DataTableReader dr = MakeReader(t);
-            Assert.IsTrue(DataUtil.CheckFieldExists(dr, "SomeField"));
+            (DataUtil.CheckFieldExists(dr, "SomeField")).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestCheckFieldExistsNotFound()
         {
             DataTable t = new DataTable();
             t.Columns.Add("SomeField", typeof(string));
             t.Rows.Add("x");
             using DataTableReader dr = MakeReader(t);
-            Assert.IsFalse(DataUtil.CheckFieldExists(dr, "OtherField"));
+            (DataUtil.CheckFieldExists(dr, "OtherField")).Should().BeFalse();
         }
 
         // GetBoolField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetBoolFieldDbReaderTrue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
             t.Rows.Add(true);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(true, DataUtil.GetBoolField(dr, "F"));
+            (DataUtil.GetBoolField(dr, "F")).Should().Be(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetBoolFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(false, DataUtil.GetBoolField(dr, "F"));
+            (DataUtil.GetBoolField(dr, "F")).Should().Be(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetBoolFieldDbReaderCustomDefault()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(true, DataUtil.GetBoolField(dr, "F", true));
+            (DataUtil.GetBoolField(dr, "F", true)).Should().Be(true);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetBoolFieldDbReaderNullReader()
         {
-            DataUtil.GetBoolField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetBoolField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetBoolFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(bool));
             t.Rows.Add(true);
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetBoolField(dr, (string?)null);
+            Action act = () => DataUtil.GetBoolField(dr, (string?)null);
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetStringField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetStringFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
             t.Rows.Add("hello");
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual("hello", DataUtil.GetStringField(dr, "F"));
+            (DataUtil.GetStringField(dr, "F")).Should().Be("hello");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetStringFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(string.Empty, DataUtil.GetStringField(dr, "F"));
+            (DataUtil.GetStringField(dr, "F")).Should().Be(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetStringFieldDbReaderCustomDefault()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual("default", DataUtil.GetStringField(dr, "F", "default"));
+            (DataUtil.GetStringField(dr, "F", "default")).Should().Be("default");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetStringFieldDbReaderNullReader()
         {
-            DataUtil.GetStringField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetStringField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetStringFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(string));
             t.Rows.Add("x");
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetStringField(dr, (string?)null);
+            Action act = () => DataUtil.GetStringField(dr, (string?)null);
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetDateTimeField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetDateTimeFieldDbReaderValue()
         {
             DateTime expected = new DateTime(2007, 6, 24);
@@ -501,10 +496,10 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(DateTime));
             t.Rows.Add(expected);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(expected, DataUtil.GetDateTimeField(dr, "F", DateTime.MinValue));
+            (DataUtil.GetDateTimeField(dr, "F", DateTime.MinValue)).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetDateTimeFieldDbReaderDBNull()
         {
             DateTime sentinel = new DateTime(1999, 1, 1);
@@ -512,168 +507,175 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(DateTime));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(sentinel, DataUtil.GetDateTimeField(dr, "F", sentinel));
+            (DataUtil.GetDateTimeField(dr, "F", sentinel)).Should().Be(sentinel);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetDateTimeFieldDbReaderNullReader()
         {
-            DataUtil.GetDateTimeField((System.Data.Common.DbDataReader?)null, "F", DateTime.MinValue);
+            Action act = () => DataUtil.GetDateTimeField((System.Data.Common.DbDataReader?)null, "F", DateTime.MinValue);
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetDateTimeFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(DateTime));
             t.Rows.Add(DateTime.Now);
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetDateTimeField(dr, (string?)null, DateTime.MinValue);
+            Action act = () => DataUtil.GetDateTimeField(dr, (string?)null, DateTime.MinValue);
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetFloatField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetFloatFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(float));
             t.Rows.Add(3.14f);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(3.14f, DataUtil.GetFloatField(dr, "F"));
+            (DataUtil.GetFloatField(dr, "F")).Should().Be(3.14f);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetFloatFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(float));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(99f, DataUtil.GetFloatField(dr, "F", 99f));
+            (DataUtil.GetFloatField(dr, "F", 99f)).Should().Be(99f);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetFloatFieldDbReaderNullReader()
         {
-            DataUtil.GetFloatField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetFloatField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetDoubleField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetDoubleFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(double));
             t.Rows.Add(2.718);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(2.718, DataUtil.GetDoubleField(dr, "F"));
+            (DataUtil.GetDoubleField(dr, "F")).Should().Be(2.718);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetDoubleFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(double));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(0.0, DataUtil.GetDoubleField(dr, "F"));
+            (DataUtil.GetDoubleField(dr, "F")).Should().Be(0.0);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetDoubleFieldDbReaderNullReader()
         {
-            DataUtil.GetDoubleField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetDoubleField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetLongField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetLongFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(long));
             t.Rows.Add(123456789L);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(123456789L, DataUtil.GetLongField(dr, "F"));
+            (DataUtil.GetLongField(dr, "F")).Should().Be(123456789L);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetLongFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(long));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(0L, DataUtil.GetLongField(dr, "F"));
+            (DataUtil.GetLongField(dr, "F")).Should().Be(0L);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetLongFieldDbReaderNullReader()
         {
-            DataUtil.GetLongField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetLongField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetIntField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetIntFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(int));
             t.Rows.Add(42);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(42, DataUtil.GetIntField(dr, "F"));
+            (DataUtil.GetIntField(dr, "F")).Should().Be(42);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetIntFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(int));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(0, DataUtil.GetIntField(dr, "F"));
+            (DataUtil.GetIntField(dr, "F")).Should().Be(0);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetIntFieldDbReaderNullReader()
         {
-            DataUtil.GetIntField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetIntField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetShortField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetShortFieldDbReaderValue()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(short));
             t.Rows.Add((short)7);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual((short)7, DataUtil.GetShortField(dr, "F"));
+            (DataUtil.GetShortField(dr, "F")).Should().Be((short)7);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetShortFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(short));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual((short)0, DataUtil.GetShortField(dr, "F"));
+            (DataUtil.GetShortField(dr, "F")).Should().Be((short)0);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetShortFieldDbReaderNullReader()
         {
-            DataUtil.GetShortField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetShortField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetGuidField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetGuidFieldDbReaderValue()
         {
             Guid expected = Guid.NewGuid();
@@ -681,38 +683,40 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(Guid));
             t.Rows.Add(expected);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(expected, DataUtil.GetGuidField(dr, "F"));
+            (DataUtil.GetGuidField(dr, "F")).Should().Be(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetGuidFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(Guid));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.AreEqual(Guid.Empty, DataUtil.GetGuidField(dr, "F"));
+            (DataUtil.GetGuidField(dr, "F")).Should().Be(Guid.Empty);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetGuidFieldDbReaderNullReader()
         {
-            DataUtil.GetGuidField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetGuidField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetGuidFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(Guid));
             t.Rows.Add(Guid.NewGuid());
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetGuidField(dr, (string?)null);
+            Action act = () => DataUtil.GetGuidField(dr, (string?)null);
+            act.Should().Throw<ArgumentNullException>();
         }
 
         // GetBinaryField(DbDataReader)
 
-        [TestMethod]
+        [Fact]
         public void TestGetBinaryFieldDbReaderValue()
         {
             byte[] expected = new byte[] { 1, 2, 3 };
@@ -720,33 +724,35 @@ namespace StarThrower.DataUtilities.Test
             t.Columns.Add("F", typeof(byte[]));
             t.Rows.Add((object)expected);
             using DataTableReader dr = MakeReader(t);
-            CollectionAssert.AreEqual(expected, DataUtil.GetBinaryField(dr, "F"));
+            (DataUtil.GetBinaryField(dr, "F")).Should().Equal(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGetBinaryFieldDbReaderDBNull()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(byte[]));
             t.Rows.Add((object?)null);
             using DataTableReader dr = MakeReader(t);
-            Assert.IsNull(DataUtil.GetBinaryField(dr, "F"));
+            (DataUtil.GetBinaryField(dr, "F")).Should().BeNull();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetBinaryFieldDbReaderNullReader()
         {
-            DataUtil.GetBinaryField((System.Data.Common.DbDataReader?)null, "F");
+            Action act = () => DataUtil.GetBinaryField((System.Data.Common.DbDataReader?)null, "F");
+            act.Should().Throw<ArgumentNullException>();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void TestGetBinaryFieldDbReaderNullField()
         {
             DataTable t = new DataTable();
             t.Columns.Add("F", typeof(byte[]));
             t.Rows.Add((object)new byte[] { 1 });
             using DataTableReader dr = MakeReader(t);
-            DataUtil.GetBinaryField(dr, (string?)null);
+            Action act = () => DataUtil.GetBinaryField(dr, (string?)null);
+            act.Should().Throw<ArgumentNullException>();
         }
 
         #endregion
