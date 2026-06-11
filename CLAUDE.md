@@ -441,21 +441,77 @@ Do not remove or deprecate any public API without explicit discussion first.
     data, so AwesomeAssertions minimizes friction/incorrect-syntax cycles when Claude Code
     writes or updates tests.
 
-**Pilot project:** `StarThrower.ByteUtilities.Test` — convert first to validate xUnit v3 +
-AwesomeAssertions tooling (VS Test Explorer / `dotnet test` under MTP) before applying to
-the rest of the Step 6 group order. Fall back to xUnit v2 for a project (and reconsider
-for the rest) only if the pilot surfaces a genuine blocker.
+**Pilot project — `StarThrower.DateTimeUtilities.Test`: ✅ COMPLETE (2026-06-10)**
+
+Converted manually by the developer (with Claude Code guidance) as a hands-on learning
+exercise, rather than having Claude perform the conversion directly. Validated:
+- Project builds cleanly with `xunit.v3` + `AwesomeAssertions` package references and
+  `OutputType=Exe`.
+- All 25 tests pass via `dotnet run --project <test-csproj>` (xUnit v3 in-process runner).
+- Test Explorer in both **VS Code (C# Dev Kit)** and **VS 2026** discovers and runs tests
+  correctly.
+
+**Open item — `dotnet test` CLI gap, and the permanent net48/MSTest split (investigated
+2026-06-10):**
+
+Running `dotnet test` against a converted (xUnit v3/MTP) project only executes the
+Restore target and reports "Build succeeded" without discovering or running any tests —
+`dotnet run` (or the built `.exe` directly, or VS/VS Code Test Explorer) is required to
+actually execute the suite. Per-project verification (via `dotnet run` or Test Explorer)
+is the reliable path during Step 6.
+
+**Root cause:** The .NET 10 SDK added a native MTP mode for `dotnet test`, enabled via a
+`global.json` setting:
+```json
+{ "test": { "runner": "Microsoft.Testing.Platform" } }
+```
+This mode is **all-or-nothing for the whole repo** — if *any* project `dotnet test`
+touches is VSTest-only (not MTP-capable), it errors outright rather than skipping it.
+
+**Why this can't just be flipped on at the end of Step 6:** `WcfProviders.Test` and
+`EfProviders.Test` remain on net48 + MSTest **indefinitely** (excluded from Step 6 — see
+net48 special case above). So even after Groups 1–7 are fully converted to xUnit v3,
+the solution will *permanently* contain a mix of MTP (net10/xUnit v3) and VSTest-only
+(net48/MSTest) test projects. The clean `global.json` MTP-mode switch can never be
+applied solution-wide.
+
+**Decision: Option 2 — split `dotnet test` invocations by group**, rather than the
+"VSTest mode" bridge (`Microsoft.Testing.Platform.MSBuild` +
+`TestingPlatformDotnetTestSupport=true`), which Microsoft documents as legacy
+(removed in MTP v2) and not officially supported for mixed solutions (CLI option
+collisions between frameworks, e.g. xUnit's `--filter-trait` vs MSTest's `--filter`).
+The split avoids adding a soon-to-be-removed bridge package and matches the fact that
+net48 and net10 are already separate tracks in this repo.
+
+**Plan:** once Groups 1–7 are fully converted to xUnit v3 (end of Step 6 for those
+groups), add `global.json` with the MTP `dotnet test` runner setting, and update the
+"Build and Test Commands" section / `.vscode/tasks.json` to run two test commands —
+one for the net10/xUnit v3 projects (MTP mode), one for the net48/MSTest projects
+(`WcfProviders.Test`, `EfProviders.Test`, legacy VSTest mode). Tracked here rather than
+implemented now since most projects are still MSTest and `global.json` MTP mode would
+break `dotnet test` for all of them today.
+
+No fallback to xUnit v2 was needed; v3 + AwesomeAssertions tooling worked end-to-end for
+this pilot. Apply the same conversion to the remaining Step 6 group order below.
 
 Conversion steps:
 - Replace `[TestClass]` / `[TestMethod]` with `[Fact]` / `[Theory]`
 - Replace `Assert.AreEqual(expected, actual)` with `actual.Should().Be(expected)`
 - Replace `Assert.IsNotNull(x)` with `x.Should().NotBeNull()`
 - Replace `Assert.IsTrue(x)` with `x.Should().BeTrue()`
+- Replace `[ExpectedException(typeof(T))]` + trailing `Assert.Fail()` with
+  `Action act = () => ...; act.Should().Throw<T>();`
+- Replace `Ignore()`-style TDD placeholder calls with `[Fact(Skip = "reason")]` on the
+  test method
 - Preserve all existing test logic — only update the framework scaffolding
 - Package changes per test project:
   - Remove: `Microsoft.NET.Test.Sdk`, `MSTest.TestAdapter`, `MSTest.TestFramework`
-  - Add: `xunit.v3`, `AwesomeAssertions` (add `xunit.v3.runner.visualstudio` only if needed
-    for VS Test Explorer integration — confirm during the pilot)
+  - Add: `xunit.v3`, `AwesomeAssertions`
+  - Add `<OutputType>Exe</OutputType>` to the existing build-configuration
+    `<PropertyGroup>` (xUnit v3 test projects are self-hosted executables)
+  - `UseMicrosoftTestingPlatformRunner` and `xunit.v3.runner.visualstudio` were tried
+    and found unnecessary — `OutputType=Exe` alone was sufficient for `dotnet run` and
+    for VS Code/VS 2026 Test Explorer discovery in the pilot
 
 **Step 7 — Fix nullable warnings:**
 - Do not suppress with `!` operator — annotate properly
@@ -476,6 +532,11 @@ Note: verify the exact relative depth once `dotnet test` output paths are confir
 ### Phase 2 — Polish and Publish (after Phase 1 complete)
 
 - Set up GitHub Actions CI/CD workflow (build + test on push/PR)
+  - **Resolve `dotnet test` + xUnit v3/MTP gap** identified during the Step 6 pilot
+    (`StarThrower.DateTimeUtilities.Test`, 2026-06-10): `dotnet test` does not discover
+    or run tests for MTP-based xUnit v3 projects (only restores). CI must either find
+    the missing configuration to make `dotnet test` work, or invoke the built test
+    executables directly (`dotnet run` / `<assembly>.exe`) and parse results accordingly.
 - NuGet publish workflow (on tagged release, one package per library)
 - XML doc comments review and augmentation
 - README.md at repo root and per-package documentation
@@ -535,9 +596,19 @@ working logic solely to apply them. Always explain the pattern when applying it.
 dotnet build StarThrower.Utilities.sln
 dotnet test StarThrower.Utilities.sln
 
-# Single project
+# Single project (MSTest projects — not yet converted in Step 6)
 dotnet test StarThrower.ByteUtilities.Test/StarThrower.ByteUtilities.Test.csproj
 ```
+
+> **Interim note (Step 6 in progress):** `dotnet test` does **not** execute tests for
+> projects already converted to xUnit v3 (currently `StarThrower.DateTimeUtilities.Test`)
+> — it reports "Build succeeded" without running them. Verify converted projects
+> individually:
+> ```powershell
+> dotnet run --project StarThrower.DateTimeUtilities.Test/StarThrower.DateTimeUtilities.Test.csproj
+> ```
+> or use VS/VS Code Test Explorer. See the Step 6 "Open item" above for the planned
+> `global.json` + split-command fix once Groups 1–7 are fully converted.
 
 ---
 
