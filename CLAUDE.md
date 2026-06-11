@@ -77,7 +77,7 @@ to take only what they need.
 ### Test Projects
 
 Each library has a paired `*.Test` project. Tests currently use MSTest (VS Test).
-Migration target is **xUnit + FluentAssertions** (Step 6).
+Migration target is **xUnit v3 + AwesomeAssertions** (Step 6).
 
 Additional projects:
 - `StarThrower.EarleyParser.TestApp` — WPF app for interactive parser testing (WinExe, not a console app)
@@ -140,7 +140,7 @@ Current/
     ByteUtilities, DataUtilities, FileUtilities, StringUtilities, DateTimeUtilities,
     EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
 - **Source control:** Git / GitHub (TFS artifacts removed — Step 1 complete)
-- **Test framework:** MSTest (VS Test) — xUnit migration pending (Step 6)
+- **Test framework:** MSTest (VS Test) — xUnit v3 + AwesomeAssertions migration pending (Step 6)
 - **NuGet:** PackageReference (packages.config removed — Step 2a complete)
 - **Code analysis:** Roslyn analyzers configured — `<AnalysisMode>Recommended</AnalysisMode>` (Step 3 complete)
 - **NuGet packages:** All core library projects updated to latest versions (Step 4 complete)
@@ -417,7 +417,36 @@ Do not remove or deprecate any public API without explicit discussion first.
 ```
 
 
-**Step 6 — Migrate tests from MSTest to xUnit + FluentAssertions:** ← CURRENT STEP
+**Step 6 — Migrate tests from MSTest to xUnit v3 + AwesomeAssertions:** ← CURRENT STEP
+
+**Decision (2026-06-10): xUnit v3 + AwesomeAssertions.**
+
+- **xUnit v3** — chosen over v2 because v3 is the actively-developed line, built on
+  Microsoft.Testing.Platform (MTP) rather than the legacy VSTest adapter model. v3 test
+  projects are self-hosted executables (`OutputType=Exe`) with no AppDomain isolation
+  baggage and no dependency on `Microsoft.NET.Test.Sdk`. This aligns with the project's
+  general direction of shedding .NET Framework-era plumbing. v2 remains the fallback for
+  any project where v3/MTP tooling proves problematic during the pilot.
+- **AwesomeAssertions** — chosen over FluentAssertions and Shouldly:
+  - FluentAssertions v8+ relicensed (Jan 2025) under the Xceed Community License —
+    free for non-commercial use only; commercial use requires a paid per-developer
+    license (~$130/dev/year). Given this library may see commercial use, that risk was
+    judged not worth taking on.
+  - AwesomeAssertions is a community-governed fork of FluentAssertions v7, **API-compatible**
+    with FluentAssertions, and the maintainers have committed to keeping it Apache 2.0
+    permanently.
+  - Over Shouldly: the API-compatibility with FluentAssertions matters for AI-assisted
+    development — FluentAssertions syntax (`.Should().Be(...)`, `.Should().BeEquivalentTo()`,
+    `.Should().Throw<T>()`) is the most heavily-represented assertion style in LLM training
+    data, so AwesomeAssertions minimizes friction/incorrect-syntax cycles when Claude Code
+    writes or updates tests.
+
+**Pilot project:** `StarThrower.ByteUtilities.Test` — convert first to validate xUnit v3 +
+AwesomeAssertions tooling (VS Test Explorer / `dotnet test` under MTP) before applying to
+the rest of the Step 6 group order. Fall back to xUnit v2 for a project (and reconsider
+for the rest) only if the pilot surfaces a genuine blocker.
+
+Conversion steps:
 - Replace `[TestClass]` / `[TestMethod]` with `[Fact]` / `[Theory]`
 - Replace `Assert.AreEqual(expected, actual)` with `actual.Should().Be(expected)`
 - Replace `Assert.IsNotNull(x)` with `x.Should().NotBeNull()`
@@ -425,9 +454,8 @@ Do not remove or deprecate any public API without explicit discussion first.
 - Preserve all existing test logic — only update the framework scaffolding
 - Package changes per test project:
   - Remove: `Microsoft.NET.Test.Sdk`, `MSTest.TestAdapter`, `MSTest.TestFramework`
-  - Add: `xunit`, `xunit.runner.visualstudio` (v2) **or** just `xunit` (v3, self-hosted, no
-    `Microsoft.NET.Test.Sdk` needed)
-  - xUnit v3 is the likely target for net10; evaluate at migration time
+  - Add: `xunit.v3`, `AwesomeAssertions` (add `xunit.v3.runner.visualstudio` only if needed
+    for VS Test Explorer integration — confirm during the pilot)
 
 **Step 7 — Fix nullable warnings:**
 - Do not suppress with `!` operator — annotate properly
