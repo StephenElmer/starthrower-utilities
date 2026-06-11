@@ -1,29 +1,16 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StarThrower.Logging;
+using Xunit;
 
 namespace StarThrower.Logging.Test
 {
-    [TestClass]
     public class LoggerTest
     {
-        private static void Ignore()
-        {
-#if FAIL_ON_IGNORE
-                Assert.Fail("This test has been ignored.");
-#else
-            Assert.Inconclusive("this test has been ignored");
-#endif
-        }
-
-
         #region RegisterErrorReporter() tests
 
-        [TestMethod]
+        [Fact(Skip = "this test has been ignored")]
         public void TestRegisterErrorReporter()
         {
-            Ignore();
         }
 
         #endregion
@@ -31,10 +18,9 @@ namespace StarThrower.Logging.Test
 
         #region UnregisterErrorReporter() tests
 
-        [TestMethod]
+        [Fact(Skip = "this test has been ignored")]
         public void TestUnregisterErrorReporter()
         {
-            Ignore();
         }
 
         #endregion
@@ -42,10 +28,9 @@ namespace StarThrower.Logging.Test
 
         #region ReportError() tests
 
-        [TestMethod]
+        [Fact(Skip = "this test has been ignored")]
         public void TestReportError()
         {
-            Ignore();
         }
 
         #endregion

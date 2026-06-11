@@ -19,15 +19,15 @@
     <RootNamespace>StarThrower.Logging.Test</RootNamespace>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <!-- =========================================================== -->
   <!-- Test framework                                               -->
   <!-- =========================================================== -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.4.3" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
+    <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
   </ItemGroup>
 
   <!-- =========================================================== -->
