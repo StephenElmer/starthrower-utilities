@@ -76,7 +76,7 @@
   <!-- Project references                                           -->
   <!-- =========================================================== -->
   <ItemGroup>
-    <ProjectReference Include="..\StarThrower.Logging\StarThrower.Logging.csproj" />
+    <!-- <ProjectReference Include="..\StarThrower.Logging\StarThrower.Logging.csproj" /> -->
   </ItemGroup>
 
 </Project>
