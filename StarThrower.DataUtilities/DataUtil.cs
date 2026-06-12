@@ -5,7 +5,6 @@ using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
 using System.Globalization;
-using StarThrower.Logging;
 
 namespace StarThrower.DataUtilities
 {
@@ -59,19 +58,11 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(dataRow);
             ArgumentNullException.ThrowIfNull(fieldName);
 
-            try
-            {
-                if (dataRow[fieldName] == null) return false;
-                if (dataRow[fieldName] is DBNull) return false;
-                if (dataRow[fieldName].ToString() == "1") return true; //SQL Server
-                if (string.Equals(dataRow[fieldName].ToString(), "True", StringComparison.OrdinalIgnoreCase)) return true; //Access ?
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBooleanField(DataRow, string)", ex);
-                throw;
-            }
+            if (dataRow[fieldName] == null) return false;
+            if (dataRow[fieldName] is DBNull) return false;
+            if (dataRow[fieldName].ToString() == "1") return true; //SQL Server
+            if (string.Equals(dataRow[fieldName].ToString(), "True", StringComparison.OrdinalIgnoreCase)) return true; //Access ?
+            return false;
         }
 
         /// <summary>
@@ -105,17 +96,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             bool result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToBoolean(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBoolField(DataRow, string, bool)", ex);
-                throw;
+                result = Convert.ToBoolean(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -126,17 +109,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             bool result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToBoolean(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBoolField(DbDataReader, string, bool)", ex);
-                throw;
+                result = Convert.ToBoolean(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -182,17 +157,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(defaultValue);
 
             string result = defaultValue;
-            try
+            if ((dr[field] != null) && !(dr[field] is DBNull))
             {
-                if ((dr[field] != null) && !(dr[field] is DBNull))
-                {
-                    result = dr[field].ToString() ?? result;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetStringField(DataRow, string, string)", ex);
-                throw;
+                result = dr[field].ToString() ?? result;
             }
             return result;
         }
@@ -204,17 +171,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(defaultValue);
 
             string result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = dr[field].ToString() ?? result;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetStringField(DbDataReader, string, string)", ex);
-                throw;
+                result = dr[field].ToString() ?? result;
             }
             return result;
         }
@@ -299,17 +258,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             DateTime result = defaultValue;
-            try
+            if ((dr[field] != null) && !(dr[field] is DBNull))
             {
-                if ((dr[field] != null) && !(dr[field] is DBNull))
-                {
-                    result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDateTimeField(DataRow, string, DateTime)", ex);
-                throw;
+                result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -320,17 +271,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             DateTime result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDateTimeField(DbDataReader, string, DateTime)", ex);
-                throw;
+                result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -370,17 +313,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Nullable<DateTime> result = defaultValue;
-            try
+            if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
-                {
-                    result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableDateTimeField(DataRow, string, Nullable<DateTime>)", ex);
-                throw;
+                result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -391,17 +326,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Nullable<DateTime> result = defaultValue;
-            try
+            if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
-                {
-                    result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableDateTimeField(DbDataReader, string, Nullable<DateTime>)", ex);
-                throw;
+                result = Convert.ToDateTime(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -427,17 +354,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(dataRow);
             ArgumentNullException.ThrowIfNull(fieldName);
 
-            try
-            {
-                if (dataRow[fieldName] == null) return 0.0f;
-                if (dataRow[fieldName] is DBNull) return 0.0f;
-                return Convert.ToSingle(dataRow[fieldName], CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetSingleField(DataRow, string)", ex);
-                throw;
-            }
+            if (dataRow[fieldName] == null) return 0.0f;
+            if (dataRow[fieldName] is DBNull) return 0.0f;
+            return Convert.ToSingle(dataRow[fieldName], CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -471,17 +390,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             float result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToSingle(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetFloatField(DataRow, string, float)", ex);
-                throw;
+                result = Convert.ToSingle(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -492,17 +403,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             float result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToSingle(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetFloatField(DbDataReader, string, float)", ex);
-                throw;
+                result = Convert.ToSingle(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -547,17 +450,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             double result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(DataRow, string, double)", ex);
-                throw;
+                result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -568,17 +463,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             double result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(DbDataReader, string, double)", ex);
-                throw;
+                result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -618,17 +505,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Nullable<double> result = defaultValue;
-            try
+            if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
-                {
-                    result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetDoubleField(DataRow, string, Nullable<double>)", ex);
-                throw;
+                result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -639,17 +518,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Nullable<double> result = defaultValue;
-            try
+            if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
-                {
-                    result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableDoubleField(DbDataReader, string, Nullable<double>)", ex);
-                throw;
+                result = Convert.ToDouble(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -675,17 +546,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(dataRow);
             ArgumentNullException.ThrowIfNull(fieldName);
 
-            try
-            {
-                if (dataRow[fieldName] == null) return 0;
-                if (dataRow[fieldName] is DBNull) return 0;
-                return Convert.ToInt64(dataRow[fieldName], CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetInt64Field(DataRow, string)", ex);
-                throw;
-            }
+            if (dataRow[fieldName] == null) return 0;
+            if (dataRow[fieldName] is DBNull) return 0;
+            return Convert.ToInt64(dataRow[fieldName], CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -719,17 +582,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             long result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToInt64(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetLongField(DataRow, string, long)", ex);
-                throw;
+                result = Convert.ToInt64(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -740,17 +595,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             long result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToInt64(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetLongField(DbDataReader, string, long)", ex);
-                throw;
+                result = Convert.ToInt64(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -776,17 +623,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(dataRow);
             ArgumentNullException.ThrowIfNull(fieldName);
 
-            try
-            {
-                if (dataRow[fieldName] == null) return 0;
-                if (dataRow[fieldName] is DBNull) return 0;
-                return Convert.ToInt32(dataRow[fieldName], CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetInt32Field(DataRow, string)", ex);
-                throw;
-            }
+            if (dataRow[fieldName] == null) return 0;
+            if (dataRow[fieldName] is DBNull) return 0;
+            return Convert.ToInt32(dataRow[fieldName], CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -820,17 +659,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             int result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetIntField(DataRow, string, int)", ex);
-                throw;
+                result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -841,17 +672,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             int result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetIntField(DbDataReader, string, int)", ex);
-                throw;
+                result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -878,17 +701,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Nullable<int> result = defaultValue;
-            try
+            if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
-                {
-                    result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableIntField(DataRow, string, Nullable<int>)", ex);
-                throw;
+                result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -899,17 +714,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Nullable<int> result = defaultValue;
-            try
+            if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
-                {
-                    result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableIntField(DbDataReader, string, Nullable<int>)", ex);
-                throw;
+                result = Convert.ToInt32(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -954,17 +761,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             short result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetShortField(DataRow, string, short)", ex);
-                throw;
+                result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -975,17 +774,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             short result = defaultValue;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetShortField(DbDataReader, string, short)", ex);
-                throw;
+                result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -1025,17 +816,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Nullable<short> result = defaultValue;
-            try
+            if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
-                {
-                    result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableShortField(DataRow, string, Nullable<short>)", ex);
-                throw;
+                result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -1046,17 +829,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Nullable<short> result = defaultValue;
-            try
+            if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
             {
-                if ((!(dr[field] is DBNull)) && !String.IsNullOrEmpty(dr[field].ToString()?.Trim()))
-                {
-                    result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetNullableShortField(DbDataReader, string, Nullable<short>)", ex);
-                throw;
+                result = Convert.ToInt16(dr[field], CultureInfo.InvariantCulture);
             }
             return result;
         }
@@ -1076,17 +851,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             Guid result = Guid.Empty;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = (Guid)(dr[field]);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetGuidField(DbDataReader, string)", ex);
-                throw;
+                result = (Guid)(dr[field]);
             }
             return result;
         }
@@ -1106,17 +873,9 @@ namespace StarThrower.DataUtilities
             ArgumentNullException.ThrowIfNull(field);
 
             byte[]? result = null;
-            try
+            if (!(dr[field] is DBNull))
             {
-                if (!(dr[field] is DBNull))
-                {
-                    result = (byte[])(dr[field]);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DataUtil.GetBinaryField(DbDataReader, string)", ex);
-                throw;
+                result = (byte[])(dr[field]);
             }
             return result;
         }
