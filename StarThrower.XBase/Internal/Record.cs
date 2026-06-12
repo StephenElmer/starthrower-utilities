@@ -4,7 +4,6 @@ using System;
 using System.Globalization;
 using System.Text;
 using StarThrower.ByteUtilities;
-using StarThrower.Logging;
 using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase.Internal
@@ -305,22 +304,14 @@ namespace StarThrower.XBase.Internal
         /// <exception cref="FailedItemCopyException"></exception>
         public void ItemCopy(object obj)
         {
-            try
+            ArgumentNullException.ThrowIfNull(obj);
+            StarThrower.XBase.Internal.Record other = (StarThrower.XBase.Internal.Record)obj;
+            _isDeleted = other.IsDeleted;
+            _data = other.Data;
+            _fields.Clear();
+            foreach (StarThrower.XBase.Internal.Field field in other.Fields)
             {
-                ArgumentNullException.ThrowIfNull(obj);
-                StarThrower.XBase.Internal.Record other = (StarThrower.XBase.Internal.Record)obj;
-                _isDeleted = other.IsDeleted;
-                _data = other.Data;
-                _fields.Clear();
-                foreach (StarThrower.XBase.Internal.Field field in other.Fields)
-                {
-                    _fields.Add((StarThrower.XBase.Internal.Field)(field.Clone()));
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".ItemCopy(object)", ex);
-                throw;
+                _fields.Add((StarThrower.XBase.Internal.Field)(field.Clone()));
             }
         }
 

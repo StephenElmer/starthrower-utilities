@@ -1,10 +1,9 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using StarThrower.Logging;
 
 namespace StarThrower.XBase
 {
@@ -45,16 +44,8 @@ namespace StarThrower.XBase
         {
             ArgumentNullException.ThrowIfNull(fieldName);
 
-            try
-            {
-                int index = -1;
-                return this.Find(fieldName, ref index);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Find(string)", ex);
-                throw;
-            }
+            int index = -1;
+            return this.Find(fieldName, ref index);
         }
 
         /// <summary>
@@ -68,48 +59,40 @@ namespace StarThrower.XBase
         {
             ArgumentNullException.ThrowIfNull(fieldName);
 
-            try
+            for (Int32 i = 0; i < this.Count; i++)
             {
-                for (Int32 i = 0; i < this.Count; i++)
+                string temp = this[i].Name;
+                if (this[i].Name.Length < fieldName.Length)
                 {
-                    string temp = this[i].Name;
-                    if (this[i].Name.Length < fieldName.Length)
-                    {
-                        continue;
-                    }
-                    else if (temp.Length == fieldName.Length)
-                    {
-                        temp = fieldName;
-                    }
-                    else //(temp.Length > fieldName.Length)
-                    {
-                        char[] buf = new char[this[i].Name.Length];
-                        int curIdx = 0;
-                        for (int j = 0; j < fieldName.Length; j++)
-                        {
-                            buf[curIdx++] = fieldName[j];
-                        }
-                        while (curIdx < temp.Length)
-                        {
-                            buf[curIdx++] = '\0';
-                        }
-                        temp = new string(buf);
-                    }
-
-                    if (this[i].Name.Equals(temp, StringComparison.Ordinal))
-                    {
-                        index = i;
-                        return true;
-                    }
+                    continue;
                 }
-                index = -1;
-                return false;
+                else if (temp.Length == fieldName.Length)
+                {
+                    temp = fieldName;
+                }
+                else //(temp.Length > fieldName.Length)
+                {
+                    char[] buf = new char[this[i].Name.Length];
+                    int curIdx = 0;
+                    for (int j = 0; j < fieldName.Length; j++)
+                    {
+                        buf[curIdx++] = fieldName[j];
+                    }
+                    while (curIdx < temp.Length)
+                    {
+                        buf[curIdx++] = '\0';
+                    }
+                    temp = new string(buf);
+                }
+
+                if (this[i].Name.Equals(temp, StringComparison.Ordinal))
+                {
+                    index = i;
+                    return true;
+                }
             }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Find(string, int)", ex);
-                throw;
-            }
+            index = -1;
+            return false;
         }
 
         public XBaseField this[string fieldName]
@@ -144,15 +127,7 @@ namespace StarThrower.XBase
         /// <returns>true if the XBaseFieldCollection contains the specified value; otherwise, false.</returns>
         public int IndexOf(StarThrower.XBase.XBaseField item)
         {
-            try
-            {
-                return _list.IndexOf(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".IndexOf(XBaseField)", ex);
-                throw;
-            }
+            return _list.IndexOf(item);
         }
 
         /// <summary>
@@ -162,15 +137,7 @@ namespace StarThrower.XBase
         /// <param name="item">The XBaseField to insert.</param>
         public void Insert(int index, StarThrower.XBase.XBaseField item)
         {
-            try
-            {
-                _list.Insert(index, item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Insert(int, XBaseField)", ex);
-                throw;
-            }
+            _list.Insert(index, item);
         }
 
         /// <summary>
@@ -179,15 +146,7 @@ namespace StarThrower.XBase
         /// <param name="index">Zero-based index of the XBaseField to remove.</param>
         public void RemoveAt(int index)
         {
-            try
-            {
-                _list.RemoveAt(index);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".RemoveAt(int)", ex);
-                throw;
-            }
+            _list.RemoveAt(index);
         }
 
         /// <summary>
@@ -212,15 +171,7 @@ namespace StarThrower.XBase
         /// <param name="item">The XBaseField to be added.</param>
         public void Add(StarThrower.XBase.XBaseField item)
         {
-            try
-            {
-                _list.Add(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Add(string)", ex);
-                throw;
-            }
+            _list.Add(item);
         }
 
         /// <summary>
@@ -228,15 +179,7 @@ namespace StarThrower.XBase
         /// </summary>
         public void Clear()
         {
-            try
-            {
-                _list.Clear();
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Clear()", ex);
-                throw;
-            }
+            _list.Clear();
         }
 
         /// <summary>
@@ -246,15 +189,7 @@ namespace StarThrower.XBase
         /// <returns>true if item is found in the XBaseFieldCollection; otherwise, false.</returns>
         public bool Contains(StarThrower.XBase.XBaseField item)
         {
-            try
-            {
-                return _list.Contains(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Contains(string)", ex);
-                throw;
-            }
+            return _list.Contains(item);
         }
 
         /// <summary>
@@ -264,15 +199,7 @@ namespace StarThrower.XBase
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(StarThrower.XBase.XBaseField[] array, int arrayIndex)
         {
-            try
-            {
-                _list.CopyTo(array, arrayIndex);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".CopyTo(string[], int)", ex);
-                throw;
-            }
+            _list.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -298,15 +225,7 @@ namespace StarThrower.XBase
         /// <returns>true if item is successfully removed; otherwise, false. This method also returns false if item was not found in the XBaseFieldCollection.</returns>
         public bool Remove(StarThrower.XBase.XBaseField item)
         {
-            try
-            {
-                return _list.Remove(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Remove(string)", ex);
-                throw;
-            }
+            return _list.Remove(item);
         }
 
         #endregion
@@ -337,15 +256,7 @@ namespace StarThrower.XBase
         /// <returns>An IEnumerator object that can be used to iterate through the XBaseFieldCollection.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            try
-            {
-                return new StarThrower.XBase.XBaseFieldCollectionEnumerator(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".GetEnumerator()", ex);
-                throw;
-            }
+            return new StarThrower.XBase.XBaseFieldCollectionEnumerator(this);
         }
 
         #endregion
@@ -360,17 +271,9 @@ namespace StarThrower.XBase
         /// <returns>The position into which the new element was inserted.</returns>
         public int Add(object? value)
         {
-            try
-            {
-                if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
-                _list.Add(item);
-                return _list.Count - 1;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Add(object)", ex);
-                throw;
-            }
+            if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
+            _list.Add(item);
+            return _list.Count - 1;
         }
 
         /// <summary>
@@ -380,15 +283,7 @@ namespace StarThrower.XBase
         /// <returns>true if the XBaseField is found in the XBaseFieldCollection; otherwise, false.</returns>
         public bool Contains(object? value)
         {
-            try
-            {
-                return value is StarThrower.XBase.XBaseField item && _list.Contains(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Contains(object)", ex);
-                throw;
-            }
+            return value is StarThrower.XBase.XBaseField item && _list.Contains(item);
         }
 
         /// <summary>
@@ -398,15 +293,7 @@ namespace StarThrower.XBase
         /// <returns>The index of value if found in the XBaseFieldCollection; otherwise, -1.</returns>
         public int IndexOf(object? value)
         {
-            try
-            {
-                return value is StarThrower.XBase.XBaseField item ? _list.IndexOf(item) : -1;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".IndexOf(object)", ex);
-                throw;
-            }
+            return value is StarThrower.XBase.XBaseField item ? _list.IndexOf(item) : -1;
         }
 
         /// <summary>
@@ -416,16 +303,8 @@ namespace StarThrower.XBase
         /// <param name="value">The XBaseField to insert into the XBaseFieldCollection.</param>
         public void Insert(int index, object? value)
         {
-            try
-            {
-                if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
-                _list.Insert(index, item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Insert(int, object)", ex);
-                throw;
-            }
+            if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
+            _list.Insert(index, item);
         }
 
         /// <summary>
@@ -442,15 +321,7 @@ namespace StarThrower.XBase
         /// <param name="value">The Object to remove from the IList.</param>
         public void Remove(object? value)
         {
-            try
-            {
-                if (value is StarThrower.XBase.XBaseField item) _list.Remove(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Remove(object)", ex);
-                throw;
-            }
+            if (value is StarThrower.XBase.XBaseField item) _list.Remove(item);
         }
 
         /// <summary>
@@ -463,16 +334,8 @@ namespace StarThrower.XBase
             get { return _list[index]; }
             set
             {
-                try
-                {
-                    if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
-                    _list[index] = item;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".this[int]", ex);
-                    throw;
-                }
+                if (value is not StarThrower.XBase.XBaseField item) throw new ArgumentException("value must be an XBaseField.", nameof(value));
+                _list[index] = item;
             }
         }
 
@@ -488,16 +351,8 @@ namespace StarThrower.XBase
         /// <param name="index">The zero-based index in array at which copying begins.</param>
         public void CopyTo(Array array, int index)
         {
-            try
-            {
-                if (array is not StarThrower.XBase.XBaseField[] typed) throw new ArgumentException("array must be XBaseField[].", nameof(array));
-                _list.CopyTo(typed, index);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".CopyTo(Array, int)", ex);
-                throw;
-            }
+            if (array is not StarThrower.XBase.XBaseField[] typed) throw new ArgumentException("array must be XBaseField[].", nameof(array));
+            _list.CopyTo(typed, index);
         }
 
         /// <summary>
@@ -659,20 +514,12 @@ namespace StarThrower.XBase
         /// <returns>true if the enumerator was successfully advanced to the next element; false if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            try
+            if (_cursor < _list.Count)
             {
-                if (_cursor < _list.Count)
-                {
-                    _cursor++;
-                }
+                _cursor++;
+            }
 
-                return (!(_cursor == _list.Count));
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".MoveNext()", ex);
-                throw;
-            }
+            return (!(_cursor == _list.Count));
         }
 
         /// <summary>

@@ -1,11 +1,10 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using StarThrower.Logging;
 
 namespace StarThrower.XBase.Internal
 {
@@ -95,15 +94,7 @@ namespace StarThrower.XBase.Internal
         /// <returns>true if the RecordCollection contains the specified value; otherwise, false.</returns>
         public int IndexOf(StarThrower.XBase.Internal.Record item)
         {
-            try
-            {
-                return _list.IndexOf(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".IndexOf(Record)", ex);
-                throw;
-            }
+            return _list.IndexOf(item);
         }
 
         /// <summary>
@@ -113,15 +104,7 @@ namespace StarThrower.XBase.Internal
         /// <param name="item">The Record to insert.</param>
         public void Insert(int index, StarThrower.XBase.Internal.Record item)
         {
-            try
-            {
-                _list.Insert(index, item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Insert(int, string)", ex);
-                throw;
-            }
+            _list.Insert(index, item);
         }
 
         /// <summary>
@@ -130,15 +113,7 @@ namespace StarThrower.XBase.Internal
         /// <param name="index">Zero-based index of the Record to remove.</param>
         public void RemoveAt(int index)
         {
-            try
-            {
-                _list.RemoveAt(index);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".RemoveAt(int)", ex);
-                throw;
-            }
+            _list.RemoveAt(index);
         }
 
         /// <summary>
@@ -163,15 +138,7 @@ namespace StarThrower.XBase.Internal
         /// <param name="item">The Record to be added.</param>
         public void Add(StarThrower.XBase.Internal.Record item)
         {
-            try
-            {
-                _list.Add(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Add(string)", ex);
-                throw;
-            }
+            _list.Add(item);
         }
 
         /// <summary>
@@ -179,15 +146,7 @@ namespace StarThrower.XBase.Internal
         /// </summary>
         public void Clear()
         {
-            try
-            {
-                _list.Clear();
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Clear()", ex);
-                throw;
-            }
+            _list.Clear();
         }
 
         /// <summary>
@@ -197,15 +156,7 @@ namespace StarThrower.XBase.Internal
         /// <returns>true if item is found in the RecordCollection; otherwise, false.</returns>
         public bool Contains(StarThrower.XBase.Internal.Record item)
         {
-            try
-            {
-                return _list.Contains(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Contains(string)", ex);
-                throw;
-            }
+            return _list.Contains(item);
         }
 
         /// <summary>
@@ -215,15 +166,7 @@ namespace StarThrower.XBase.Internal
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(StarThrower.XBase.Internal.Record[] array, int arrayIndex)
         {
-            try
-            {
-                _list.CopyTo(array, arrayIndex);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".CopyTo(string[], int)", ex);
-                throw;
-            }
+            _list.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -249,15 +192,7 @@ namespace StarThrower.XBase.Internal
         /// <returns>true if item is successfully removed; otherwise, false. This method also returns false if item was not found in the RecordCollection.</returns>
         public bool Remove(StarThrower.XBase.Internal.Record item)
         {
-            try
-            {
-                return _list.Remove(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Remove(string)", ex);
-                throw;
-            }
+            return _list.Remove(item);
         }
 
         #endregion
@@ -288,15 +223,7 @@ namespace StarThrower.XBase.Internal
         /// <returns>An IEnumerator object that can be used to iterate through the RecordCollection.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            try
-            {
-                return new StarThrower.XBase.Internal.RecordCollectionEnumerator(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".GetEnumerator()", ex);
-                throw;
-            }
+            return new StarThrower.XBase.Internal.RecordCollectionEnumerator(this);
         }
 
         #endregion
@@ -311,17 +238,9 @@ namespace StarThrower.XBase.Internal
         /// <returns>The position into which the new element was inserted.</returns>
         public int Add(object? value)
         {
-            try
-            {
-                if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
-                _list.Add(item);
-                return _list.Count - 1;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Add(object)", ex);
-                throw;
-            }
+            if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
+            _list.Add(item);
+            return _list.Count - 1;
         }
 
         /// <summary>
@@ -331,15 +250,7 @@ namespace StarThrower.XBase.Internal
         /// <returns>true if the Record is found in the RecordCollection; otherwise, false.</returns>
         public bool Contains(object? value)
         {
-            try
-            {
-                return value is StarThrower.XBase.Internal.Record item && _list.Contains(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Contains(object)", ex);
-                throw;
-            }
+            return value is StarThrower.XBase.Internal.Record item && _list.Contains(item);
         }
 
         /// <summary>
@@ -349,15 +260,7 @@ namespace StarThrower.XBase.Internal
         /// <returns>The index of value if found in the RecordCollection; otherwise, -1.</returns>
         public int IndexOf(object? value)
         {
-            try
-            {
-                return value is StarThrower.XBase.Internal.Record item ? _list.IndexOf(item) : -1;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".IndexOf(object)", ex);
-                throw;
-            }
+            return value is StarThrower.XBase.Internal.Record item ? _list.IndexOf(item) : -1;
         }
 
         /// <summary>
@@ -367,16 +270,8 @@ namespace StarThrower.XBase.Internal
         /// <param name="value">The Record to insert into the RecordCollection.</param>
         public void Insert(int index, object? value)
         {
-            try
-            {
-                if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
-                _list.Insert(index, item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Insert(int, object)", ex);
-                throw;
-            }
+            if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
+            _list.Insert(index, item);
         }
 
         /// <summary>
@@ -393,15 +288,7 @@ namespace StarThrower.XBase.Internal
         /// <param name="value">The Object to remove from the IList.</param>
         public void Remove(object? value)
         {
-            try
-            {
-                if (value is StarThrower.XBase.Internal.Record item) _list.Remove(item);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".Remove(object)", ex);
-                throw;
-            }
+            if (value is StarThrower.XBase.Internal.Record item) _list.Remove(item);
         }
 
         /// <summary>
@@ -414,16 +301,8 @@ namespace StarThrower.XBase.Internal
             get { return _list[index]; }
             set
             {
-                try
-                {
-                    if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
-                    _list[index] = item;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".this[int]", ex);
-                    throw;
-                }
+                if (value is not StarThrower.XBase.Internal.Record item) throw new ArgumentException("value must be a Record.", nameof(value));
+                _list[index] = item;
             }
         }
 
@@ -439,16 +318,8 @@ namespace StarThrower.XBase.Internal
         /// <param name="index">The zero-based index in array at which copying begins.</param>
         public void CopyTo(Array array, int index)
         {
-            try
-            {
-                if (array is not StarThrower.XBase.Internal.Record[] typed) throw new ArgumentException("array must be Record[].", nameof(array));
-                _list.CopyTo(typed, index);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".CopyTo(Array, int)", ex);
-                throw;
-            }
+            if (array is not StarThrower.XBase.Internal.Record[] typed) throw new ArgumentException("array must be Record[].", nameof(array));
+            _list.CopyTo(typed, index);
         }
 
         /// <summary>
@@ -612,20 +483,12 @@ namespace StarThrower.XBase.Internal
         /// <returns>true if the enumerator was successfully advanced to the next element; false if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            try
+            if (_cursor < _list.Count)
             {
-                if (_cursor < _list.Count)
-                {
-                    _cursor++;
-                }
+                _cursor++;
+            }
 
-                return (!(_cursor == _list.Count));
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".MoveNext()", ex);
-                throw;
-            }
+            return (!(_cursor == _list.Count));
         }
 
         /// <summary>

@@ -104,7 +104,6 @@ string xml = dbf.ToXml();
 ## Dependencies
 
 - [`StarThrower.ByteUtilities`](../StarThrower.ByteUtilities/README.md) — endian-aware byte/`Int16` conversions used internally for header and date fields.
-- [`StarThrower.Logging`](../StarThrower.Logging/README.md) — internal error reporting.
 - [`StarThrower.StringUtilities`](../StarThrower.StringUtilities/README.md) — string/byte array conversion and padding helpers.
 
 ---

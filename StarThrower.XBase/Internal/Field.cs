@@ -4,7 +4,6 @@ using System;
 using System.Globalization;
 using System.Text;
 using StarThrower.ByteUtilities;
-using StarThrower.Logging;
 using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase.Internal
@@ -207,108 +206,84 @@ namespace StarThrower.XBase.Internal
 
         internal bool ValidateData(string data)
         {
-            try
-            {
-                //TODO: write code to validate data against fieldType
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(this.GetType().Name + ".ValidateData()", ex);
-                throw;
-            }
+            //TODO: write code to validate data against fieldType
+            return true;
         }
 
         internal string ToXml()
         {
-            try
-            {
-                Encoding ascii = Encoding.ASCII;
+            Encoding ascii = Encoding.ASCII;
 
-                string fieldName = ascii.GetString(_name);
-                string fieldType = ascii.GetString(new byte[1] { _type });
+            string fieldName = ascii.GetString(_name);
+            string fieldType = ascii.GetString(new byte[1] { _type });
 
-                StringBuilder result = new StringBuilder(String.Empty);
-                result.Append("<field ");
-                result.Append("fieldName=\"" + StringUtil.XmlEncode(fieldName) + "\" ");
-                result.Append("fieldType=\"" + StringUtil.XmlEncode(fieldType) + "\" ");
-                result.Append("reserved1=\"" + _reserved1.ToString() + "\" ");
-                result.Append("fieldLength=\"" + _length.ToString(CultureInfo.InvariantCulture) + "\" ");
-                result.Append("decimalCount=\"" + _decimalCount.ToString(CultureInfo.InvariantCulture) + "\" ");
-                result.Append("reserved2=\"" + _reserved2.ToString() + "\" ");
-                result.Append("workAreaId=\"" + _workAreaId.ToString(CultureInfo.InvariantCulture) + "\" ");
-                result.Append("reserved3=\"" + _reserved3.ToString() + "\" ");
-                result.Append("setFieldsFlag=\"" + _setFieldsFlag.ToString(CultureInfo.InvariantCulture) + "\" ");
-                result.Append("reserved4=\"" + _reserved4.ToString() + "\" ");
-                result.Append("mdxFlag=\"" + _mdxFlag.ToString(CultureInfo.InvariantCulture) + "\" ");
-                result.AppendLine("/>");
-                return result.ToString();
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(this.GetType().Name + ".ToXml()", ex);
-                throw;
-            }
+            StringBuilder result = new StringBuilder(String.Empty);
+            result.Append("<field ");
+            result.Append("fieldName=\"" + StringUtil.XmlEncode(fieldName) + "\" ");
+            result.Append("fieldType=\"" + StringUtil.XmlEncode(fieldType) + "\" ");
+            result.Append("reserved1=\"" + _reserved1.ToString() + "\" ");
+            result.Append("fieldLength=\"" + _length.ToString(CultureInfo.InvariantCulture) + "\" ");
+            result.Append("decimalCount=\"" + _decimalCount.ToString(CultureInfo.InvariantCulture) + "\" ");
+            result.Append("reserved2=\"" + _reserved2.ToString() + "\" ");
+            result.Append("workAreaId=\"" + _workAreaId.ToString(CultureInfo.InvariantCulture) + "\" ");
+            result.Append("reserved3=\"" + _reserved3.ToString() + "\" ");
+            result.Append("setFieldsFlag=\"" + _setFieldsFlag.ToString(CultureInfo.InvariantCulture) + "\" ");
+            result.Append("reserved4=\"" + _reserved4.ToString() + "\" ");
+            result.Append("mdxFlag=\"" + _mdxFlag.ToString(CultureInfo.InvariantCulture) + "\" ");
+            result.AppendLine("/>");
+            return result.ToString();
         }
 
         internal byte[] GetBytes()
         {
-            try
+            byte[] result = new byte[Field.SIZE];
+
+            Int32 curIdx = 0;
+            for (Int32 i = 0; i < 11; i++)
             {
-                byte[] result = new byte[Field.SIZE];
-
-                Int32 curIdx = 0;
-                for (Int32 i = 0; i < 11; i++)
+                if (i < _name.Length)
                 {
-                    if (i < _name.Length)
-                    {
-                        result[curIdx++] = _name[i];
-                    }
-                    else
-                    {
-                        result[curIdx++] = 0;
-                    }
+                    result[curIdx++] = _name[i];
                 }
-
-                result[curIdx++] = _type;
-
-                for (Int32 i = 0; i < 4; i++)
+                else
                 {
-                    result[curIdx++] = _reserved1[i];
+                    result[curIdx++] = 0;
                 }
-
-                result[curIdx++] = _length;
-
-                result[curIdx++] = _decimalCount;
-
-                for (Int32 i = 0; i < 2; i++)
-                {
-                    result[curIdx++] = _reserved2[i];
-                }
-
-                result[curIdx++] = _workAreaId;
-
-                for (Int32 i = 0; i < 2; i++)
-                {
-                    result[curIdx++] = _reserved3[i];
-                }
-
-                result[curIdx++] = _setFieldsFlag;
-
-                for (Int32 i = 0; i < 7; i++)
-                {
-                    result[curIdx++] = _reserved4[i];
-                }
-
-                result[curIdx++] = _mdxFlag;
-
-                return result;
             }
-            catch (Exception ex)
+
+            result[curIdx++] = _type;
+
+            for (Int32 i = 0; i < 4; i++)
             {
-                Logger.ReportError(this.GetType().Name + ".GetBytes()", ex);
-                throw;
+                result[curIdx++] = _reserved1[i];
             }
+
+            result[curIdx++] = _length;
+
+            result[curIdx++] = _decimalCount;
+
+            for (Int32 i = 0; i < 2; i++)
+            {
+                result[curIdx++] = _reserved2[i];
+            }
+
+            result[curIdx++] = _workAreaId;
+
+            for (Int32 i = 0; i < 2; i++)
+            {
+                result[curIdx++] = _reserved3[i];
+            }
+
+            result[curIdx++] = _setFieldsFlag;
+
+            for (Int32 i = 0; i < 7; i++)
+            {
+                result[curIdx++] = _reserved4[i];
+            }
+
+            result[curIdx++] = _mdxFlag;
+
+            return result;
         }
 
         #endregion
@@ -333,27 +308,19 @@ namespace StarThrower.XBase.Internal
         /// <exception cref="FailedItemCopyException"></exception>
         public void ItemCopy(object obj)
         {
-            try
-            {
-                ArgumentNullException.ThrowIfNull(obj);
-                StarThrower.XBase.Internal.Field other = (StarThrower.XBase.Internal.Field)obj;
-                _name = other.Name;
-                _type = other.Type;
-                _reserved1 = other.Reserved1;
-                _length = other.Length;
-                _decimalCount = other.DecimalCount;
-                _reserved2 = other.Reserved2;
-                _workAreaId = other.WorkAreaId;
-                _reserved3 = other.Reserved3;
-                _setFieldsFlag = other.SetFieldsFlag;
-                _reserved4 = other.Reserved4;
-                _mdxFlag = other.MdxFlag;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".ItemCopy(object)", ex);
-                throw;
-            }
+            ArgumentNullException.ThrowIfNull(obj);
+            StarThrower.XBase.Internal.Field other = (StarThrower.XBase.Internal.Field)obj;
+            _name = other.Name;
+            _type = other.Type;
+            _reserved1 = other.Reserved1;
+            _length = other.Length;
+            _decimalCount = other.DecimalCount;
+            _reserved2 = other.Reserved2;
+            _workAreaId = other.WorkAreaId;
+            _reserved3 = other.Reserved3;
+            _setFieldsFlag = other.SetFieldsFlag;
+            _reserved4 = other.Reserved4;
+            _mdxFlag = other.MdxFlag;
         }
 
         #endregion
@@ -363,25 +330,17 @@ namespace StarThrower.XBase.Internal
 
         private void ParseBytes(byte[] bytes)
         {
-            try
-            {
-                _name = ByteUtil.ByteSubstring(bytes, 0, 11, true);
-                _type = bytes[11];
-                _reserved1 = ByteUtil.ByteSubstring(bytes, 12, 4);
-                _length = bytes[16];
-                _decimalCount = bytes[17];
-                _reserved2 = ByteUtil.ByteSubstring(bytes, 18, 2);
-                _workAreaId = bytes[20];
-                _reserved3 = ByteUtil.ByteSubstring(bytes, 21, 2);
-                _setFieldsFlag = bytes[23];
-                _reserved4 = ByteUtil.ByteSubstring(bytes, 24, 7);
-                _mdxFlag = bytes[31];
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(this.GetType().Name + ".ParseBytes()", ex);
-                throw;
-            }
+            _name = ByteUtil.ByteSubstring(bytes, 0, 11, true);
+            _type = bytes[11];
+            _reserved1 = ByteUtil.ByteSubstring(bytes, 12, 4);
+            _length = bytes[16];
+            _decimalCount = bytes[17];
+            _reserved2 = ByteUtil.ByteSubstring(bytes, 18, 2);
+            _workAreaId = bytes[20];
+            _reserved3 = ByteUtil.ByteSubstring(bytes, 21, 2);
+            _setFieldsFlag = bytes[23];
+            _reserved4 = ByteUtil.ByteSubstring(bytes, 24, 7);
+            _mdxFlag = bytes[31];
         }
 
         #endregion
