@@ -4,7 +4,6 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using StarThrower.Logging;
 using StarThrower.MathUtilities;
 
 namespace StarThrower.StringUtilities
@@ -108,26 +107,18 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
-            {
-                // Use Windows-1252 encoding to convert string to bytes,
-                // matching VB.NET's Chr/Hex behavior for characters 128-255
-                Encoding encoding = Encoding.GetEncoding("Windows-1252"); // Windows-1252
-                byte[] bytes = encoding.GetBytes(source);
+            // Use Windows-1252 encoding to convert string to bytes,
+            // matching VB.NET's Chr/Hex behavior for characters 128-255
+            Encoding encoding = Encoding.GetEncoding("Windows-1252"); // Windows-1252
+            byte[] bytes = encoding.GetBytes(source);
 
-                StringBuilder ret = new StringBuilder();
-                foreach (byte b in bytes)
-                {
-                    ret.Append(b.ToString("X2", CultureInfo.InvariantCulture)); // "X2" formats as hexadecimal with at least 2 digits, padding with zero if necessary
-                }
-
-                return ret.ToString();
-            }
-            catch (Exception ex)
+            StringBuilder ret = new StringBuilder();
+            foreach (byte b in bytes)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.ToHex(string)", ex);
-                throw;
+                ret.Append(b.ToString("X2", CultureInfo.InvariantCulture)); // "X2" formats as hexadecimal with at least 2 digits, padding with zero if necessary
             }
+
+            return ret.ToString();
         }
         //public static string ToHex_old(string source)
         //{
@@ -174,15 +165,7 @@ namespace StarThrower.StringUtilities
         /// </example>
         public static string ToHex(int source)
         {
-            try
-            {
-                return source.ToString("X", CultureInfo.InvariantCulture); // "X" formats as hexadecimal
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.ToHex(int)", ex);
-                throw;
-            }
+            return source.ToString("X", CultureInfo.InvariantCulture); // "X" formats as hexadecimal
         }
         //public static string ToHex_old(int source)
         //{
@@ -215,31 +198,23 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(delimiter);
 
-            try
-            {
-                string ret;
-                StringBuilder temp = new StringBuilder(source);
-                int pos = source.IndexOf(delimiter, StringComparison.Ordinal);
+            string ret;
+            StringBuilder temp = new StringBuilder(source);
+            int pos = source.IndexOf(delimiter, StringComparison.Ordinal);
 
-                if (pos > -1)
-                {
-                    ret = StringUtil.Left(source, pos);
-                    temp.Remove(0, pos + 1);
-                }
-                else
-                {
-                    ret = source;
-                    temp.Remove(0, temp.Length);
-                }
-
-                source = temp.ToString();
-                return ret;
-            }
-            catch (Exception ex)
+            if (pos > -1)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.ParseString(ref string, string)", ex);
-                throw;
+                ret = StringUtil.Left(source, pos);
+                temp.Remove(0, pos + 1);
             }
+            else
+            {
+                ret = source;
+                temp.Remove(0, temp.Length);
+            }
+
+            source = temp.ToString();
+            return ret;
         }
 
 
@@ -266,31 +241,23 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(delimiter);
 
-            try
-            {
-                string ret;
-                StringBuilder temp = new StringBuilder(source);
-                int pos = source.LastIndexOf(delimiter, StringComparison.Ordinal);
+            string ret;
+            StringBuilder temp = new StringBuilder(source);
+            int pos = source.LastIndexOf(delimiter, StringComparison.Ordinal);
 
-                if (pos > -1)
-                {
-                    ret = StringUtil.Right(source, source.Length - (pos + 1));
-                    temp.Remove(pos, ret.Length + 1);
-                }
-                else
-                {
-                    ret = source;
-                    temp.Remove(0, temp.Length);
-                }
-
-                source = temp.ToString();
-                return ret;
-            }
-            catch (Exception ex)
+            if (pos > -1)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.ParseStringFromRight(ref string, string)", ex);
-                throw;
+                ret = StringUtil.Right(source, source.Length - (pos + 1));
+                temp.Remove(pos, ret.Length + 1);
             }
+            else
+            {
+                ret = source;
+                temp.Remove(0, temp.Length);
+            }
+
+            source = temp.ToString();
+            return ret;
         }
 
 
@@ -310,15 +277,7 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(target);
             ArgumentNullException.ThrowIfNull(replacement);
 
-            try
-            {
-                return Substitute(source, target, replacement, ComparisonType.CaseSensitive);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.Substitute(string, string, string)", ex);
-                throw;
-            }
+            return Substitute(source, target, replacement, ComparisonType.CaseSensitive);
         }
 
 
@@ -339,39 +298,31 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(target);
             ArgumentNullException.ThrowIfNull(replacement);
 
-            try
+            if (target.Length <= 0) return source.ToString();
+
+            int pos = 0;
+            StringBuilder orig = new StringBuilder(source);
+            StringBuilder ret = new StringBuilder(String.Empty);
+
+            while (!orig.Equals(String.Empty))
             {
-                if (target.Length <= 0) return source.ToString();
+                //pos = Strings.InStr(orig.ToString(), target, 0, compare);
+                pos = orig.ToString().IndexOf(target, 0, ConvertComparisonType(compare));
 
-                int pos = 0;
-                StringBuilder orig = new StringBuilder(source);
-                StringBuilder ret = new StringBuilder(String.Empty);
-
-                while (!orig.Equals(String.Empty))
+                if (pos > -1)
                 {
-                    //pos = Strings.InStr(orig.ToString(), target, 0, compare);
-                    pos = orig.ToString().IndexOf(target, 0, ConvertComparisonType(compare));
-
-                    if (pos > -1)
-                    {
-                        StringBuilder temp = new StringBuilder(StringUtil.Left(orig.ToString(), pos));
-                        temp.Append(replacement);
-                        ret.Append(temp);
-                    }
-                    else
-                    {
-                        return ret.Append(orig).ToString();
-                    }
-                    orig.Remove(0, pos + target.Length);
+                    StringBuilder temp = new StringBuilder(StringUtil.Left(orig.ToString(), pos));
+                    temp.Append(replacement);
+                    ret.Append(temp);
                 }
+                else
+                {
+                    return ret.Append(orig).ToString();
+                }
+                orig.Remove(0, pos + target.Length);
+            }
 
-                return ret.Append(orig).ToString();
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.Substitute(string, string, string, ComparisonType)", ex);
-                throw;
-            }
+            return ret.Append(orig).ToString();
         }
 
 
@@ -410,34 +361,26 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(replacement);
 
-            try
-            {
-                StringBuilder result = new StringBuilder(String.Empty);
+            StringBuilder result = new StringBuilder(String.Empty);
 
-                if (startIndex == 0) //it is at the front
-                {
-                    result.Append(replacement);
-                    result.Append(source.AsSpan(startIndex + length, source.Length - (startIndex + length)));
-                }
-                else if ((startIndex + length) == source.Length) //it is at the end
-                {
-                    result.Append(source.AsSpan(0, startIndex));
-                    result.Append(replacement);
-                }
-                else //it is somewhere in the middle
-                {
-                    result.Append(source.AsSpan(0, startIndex));
-                    result.Append(replacement);
-                    result.Append(source.AsSpan(startIndex + length, source.Length - (startIndex + length)));
-                }
-
-                return result.ToString();
-            }
-            catch (Exception ex)
+            if (startIndex == 0) //it is at the front
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.Replace(string, string, int, int)", ex);
-                throw;
+                result.Append(replacement);
+                result.Append(source.AsSpan(startIndex + length, source.Length - (startIndex + length)));
             }
+            else if ((startIndex + length) == source.Length) //it is at the end
+            {
+                result.Append(source.AsSpan(0, startIndex));
+                result.Append(replacement);
+            }
+            else //it is somewhere in the middle
+            {
+                result.Append(source.AsSpan(0, startIndex));
+                result.Append(replacement);
+                result.Append(source.AsSpan(startIndex + length, source.Length - (startIndex + length)));
+            }
+
+            return result.ToString();
         }
 
 
@@ -453,26 +396,18 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
-            {
-                StringBuilder ret = new StringBuilder(source);
+            StringBuilder ret = new StringBuilder(source);
 
-                while (ret[ret.Length - 1].ToString().Equals("\u000A", StringComparison.Ordinal)) //Chr(10), LineFeed, LF
-                {
-                    ret.Remove(ret.Length - 1, 1);
-                }
-                while (ret[ret.Length - 1].ToString().Equals("\u000D", StringComparison.Ordinal)) //Chr(13), CarriageReturn, CR
-                {
-                    ret.Remove(ret.Length - 1, 1);
-                }
-
-                return ret.ToString();
-            }
-            catch (Exception ex)
+            while (ret[ret.Length - 1].ToString().Equals("\u000A", StringComparison.Ordinal)) //Chr(10), LineFeed, LF
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.TrmCrLf(string)", ex);
-                throw;
+                ret.Remove(ret.Length - 1, 1);
             }
+            while (ret[ret.Length - 1].ToString().Equals("\u000D", StringComparison.Ordinal)) //Chr(13), CarriageReturn, CR
+            {
+                ret.Remove(ret.Length - 1, 1);
+            }
+
+            return ret.ToString();
         }
 
 
@@ -487,15 +422,7 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
-            {
-                return source.Substring(0, length).ToString();
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.Left(string, int)", ex);
-                throw;
-            }
+            return source.Substring(0, length).ToString();
         }
 
 
@@ -510,15 +437,7 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
-            {
-                return source.Substring(source.Length - length, length).ToString();
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.Right(string, int)", ex);
-                throw;
-            }
+            return source.Substring(source.Length - length, length).ToString();
         }
 
 
@@ -535,23 +454,15 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
+            if (source[0].Equals('"') && source[source.Length - 1].Equals('"'))
             {
-                if (source[0].Equals('"') && source[source.Length - 1].Equals('"'))
-                {
-                    string result = new StringBuilder(source).ToString(1, source.Length - 2);
-                    return result;
-                    //return Microsoft.VisualBasic.Strings.Mid(source, 2, source.Length - 2); //note need to start at 2 here, because VB is 1-based
-                }
-                else
-                {
-                    return source;
-                }
+                string result = new StringBuilder(source).ToString(1, source.Length - 2);
+                return result;
+                //return Microsoft.VisualBasic.Strings.Mid(source, 2, source.Length - 2); //note need to start at 2 here, because VB is 1-based
             }
-            catch (Exception ex)
+            else
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.RemoveDoubleQuoteWrapper(string)", ex);
-                throw;
+                return source;
             }
         }
 
@@ -606,20 +517,12 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
+            string[] chars = new string[source.Length];
+            for (int i = 0; i < source.Length; i++)
             {
-                string[] chars = new string[source.Length];
-                for (int i = 0; i < source.Length; i++)
-                {
-                    chars[i] = source[i].ToString();
-                }
-                return chars;
+                chars[i] = source[i].ToString();
             }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.SplitStringIntoArray(string)", ex);
-                throw;
-            }
+            return chars;
         }
 
 
@@ -647,23 +550,15 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(test);
             ArgumentNullException.ThrowIfNull(validChars);
 
-            try
+            for (int i = 0; i < test.Length; i++)
             {
-                for (int i = 0; i < test.Length; i++)
+                if (!StringUtil.IsValidCharacter(test[i].ToString(), validChars))
                 {
-                    if (!StringUtil.IsValidCharacter(test[i].ToString(), validChars))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
+            }
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.IsValidString(string, string)", ex);
-                throw;
-            }
+            return true;
         }
 
 
@@ -679,16 +574,8 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(test);
             ArgumentNullException.ThrowIfNull(regularExpression);
 
-            try
-            {
-                Regex regEx = new Regex(regularExpression);
-                return regEx.IsMatch(test);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.IsValid(string, string)", ex);
-                throw;
-            }
+            Regex regEx = new Regex(regularExpression);
+            return regEx.IsMatch(test);
         }
 
 
@@ -713,26 +600,18 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(test);
             ArgumentNullException.ThrowIfNull(validChars);
 
-            try
+            if (test.Length <= 0 || test.Length > 1)
             {
-                if (test.Length <= 0 || test.Length > 1)
-                {
-                    return false;
-                }
-
-                if (validChars.IndexOf(test, 0, StringComparison.Ordinal) == -1)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return false;
             }
-            catch (Exception ex)
+
+            if (validChars.IndexOf(test, 0, StringComparison.Ordinal) == -1)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.IsValidCharacter(string, string)", ex);
-                throw;
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -763,29 +642,21 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(delimiter);
 
-            try
-            {
-                //Rule 1:
-                if (String.IsNullOrEmpty(source)) return 1;
+            //Rule 1:
+            if (String.IsNullOrEmpty(source)) return 1;
 
-                //Rule 2:
-                int pos = source.IndexOf(delimiter, StringComparison.Ordinal);
-                if (pos < 0) return 1; //delimiter does not exist
+            //Rule 2:
+            int pos = source.IndexOf(delimiter, StringComparison.Ordinal);
+            if (pos < 0) return 1; //delimiter does not exist
 
-                //Rule 3:
-                int delimiterCount = 1;
-                while (pos >= 0)
-                {
-                    pos = source.IndexOf(delimiter, pos + delimiter.Length, StringComparison.Ordinal);
-                    delimiterCount++;
-                }
-                return delimiterCount;
-            }
-            catch (Exception ex)
+            //Rule 3:
+            int delimiterCount = 1;
+            while (pos >= 0)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.NumTokens(string, string)", ex);
-                throw;
+                pos = source.IndexOf(delimiter, pos + delimiter.Length, StringComparison.Ordinal);
+                delimiterCount++;
             }
+            return delimiterCount;
         }
 
 
@@ -815,32 +686,24 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(delimiter);
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pos);
 
-            try
+            int delPos = -1;
+            StringBuilder temp = new StringBuilder(source);
+
+            for (int i = 1; i < pos; i++)
             {
-                int delPos = -1;
-                StringBuilder temp = new StringBuilder(source);
-
-                for (int i = 1; i < pos; i++)
-                {
-                    delPos = temp.ToString().IndexOf(delimiter, StringComparison.Ordinal);
-                    temp.Remove(0, delPos + delimiter.Length);
-                    if (delPos == -1) throw new ArgumentOutOfRangeException(nameof(delimiter));
-                }
-
                 delPos = temp.ToString().IndexOf(delimiter, StringComparison.Ordinal);
-                if (delPos < 0)
-                {
-                    return temp.ToString();
-                }
-                else
-                {
-                    return StringUtil.Left(temp.ToString(), delPos);
-                }
+                temp.Remove(0, delPos + delimiter.Length);
+                if (delPos == -1) throw new ArgumentOutOfRangeException(nameof(delimiter));
             }
-            catch (Exception ex)
+
+            delPos = temp.ToString().IndexOf(delimiter, StringComparison.Ordinal);
+            if (delPos < 0)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.GetToken(string, string, int)", ex);
-                throw;
+                return temp.ToString();
+            }
+            else
+            {
+                return StringUtil.Left(temp.ToString(), delPos);
             }
         }
 
@@ -869,26 +732,18 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(target);
             ArgumentNullException.ThrowIfNull(delimiter);
 
-            try
-            {
-                long num = StringUtil.CountTokens(source, delimiter);
+            long num = StringUtil.CountTokens(source, delimiter);
 
-                for (int i = 1; i <= num; i++)
+            for (int i = 1; i <= num; i++)
+            {
+                if (StringUtil.GetToken(source, delimiter, i).Equals(target, StringComparison.Ordinal))
                 {
-                    if (StringUtil.GetToken(source, delimiter, i).Equals(target, StringComparison.Ordinal))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
+            }
 
-                //if got to here then the target was not found in the string
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.IsToken(string, string, string)", ex);
-                throw;
-            }
+            //if got to here then the target was not found in the string
+            return false;
         }
 
 
@@ -904,16 +759,8 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(text);
 
-            try
-            {
-                StringBuilder ret = new StringBuilder(text);
-                return ret.Replace("\"", "\"\"").ToString();
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.SqlText(string)", ex);
-                throw;
-            }
+            StringBuilder ret = new StringBuilder(text);
+            return ret.Replace("\"", "\"\"").ToString();
         }
 
 
@@ -929,30 +776,22 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(text);
 
-            try
-            {
-                if (text.Length == 0) return text;
+            if (text.Length == 0) return text;
 
-                StringBuilder ret = new StringBuilder(text);
-                string quote = ToChar(34);
-                string firstChar = ret[0].ToString();
-                //while ((!ret.ToString().Equals(String.Empty)) && firstChar.Equals(quote))
-                while ((!(ret.Length == 0)) && firstChar.Equals(quote, StringComparison.Ordinal))
-                {
-                    // strip off the first character
-                    ret.Remove(0, 1);
-                    if (ret.Length > 0)
-                    {
-                        firstChar = ret[0].ToString();
-                    }
-                }
-                return ret.ToString();
-            }
-            catch (Exception ex)
+            StringBuilder ret = new StringBuilder(text);
+            string quote = ToChar(34);
+            string firstChar = ret[0].ToString();
+            //while ((!ret.ToString().Equals(String.Empty)) && firstChar.Equals(quote))
+            while ((!(ret.Length == 0)) && firstChar.Equals(quote, StringComparison.Ordinal))
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.StripLeadingDoubleQuotes(string)", ex);
-                throw;
+                // strip off the first character
+                ret.Remove(0, 1);
+                if (ret.Length > 0)
+                {
+                    firstChar = ret[0].ToString();
+                }
             }
+            return ret.ToString();
         }
 
 
@@ -1002,24 +841,16 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(target);
 
-            try
-            {
-                if (target.Length == 0) throw new ArgumentOutOfRangeException(nameof(target));
+            if (target.Length == 0) throw new ArgumentOutOfRangeException(nameof(target));
 
-                // Use the first character of the string
-                // Encode to Windows-1252 bytes to match VB.NET's Asc() behavior
-                Encoding encoding = Encoding.GetEncoding("Windows-1252");
-                byte[] bytes = encoding.GetBytes(target.Substring(0, 1));
+            // Use the first character of the string
+            // Encode to Windows-1252 bytes to match VB.NET's Asc() behavior
+            Encoding encoding = Encoding.GetEncoding("Windows-1252");
+            byte[] bytes = encoding.GetBytes(target.Substring(0, 1));
 
-                if (bytes.Length == 0) throw new ArgumentOutOfRangeException(nameof(target));
+            if (bytes.Length == 0) throw new ArgumentOutOfRangeException(nameof(target));
 
-                return (int)bytes[0];
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.ToAscii(string)", ex);
-                throw;
-            }
+            return (int)bytes[0];
         }
         //public static int ToAscii_old(string target)
         //{
@@ -1040,22 +871,14 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(text);
 
-            try
+            StringBuilder result = new StringBuilder(text);
+            for (int i = 0; i < _invalidXmlChars.Length; i++)
             {
-                StringBuilder result = new StringBuilder(text);
-                for (int i = 0; i < _invalidXmlChars.Length; i++)
-                {
-                    result.Replace(_invalidXmlChars[i].ToString(), "&#" + _invalidXmlCharInts[i].ToString(CultureInfo.InvariantCulture) + ";");
-                    result.Replace("\n", " ");
-                    result.Replace("\t", " ");
-                }
-                return result.ToString();
+                result.Replace(_invalidXmlChars[i].ToString(), "&#" + _invalidXmlCharInts[i].ToString(CultureInfo.InvariantCulture) + ";");
+                result.Replace("\n", " ");
+                result.Replace("\t", " ");
             }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.XmlEncode(string)", ex);
-                throw;
-            }
+            return result.ToString();
         }
 
 
@@ -1075,22 +898,14 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
-            {
-                byte[] result = new byte[source.Length];
+            byte[] result = new byte[source.Length];
 
-                for (int i = 0; i < source.Length; i++)
-                {
-                    result[i] = (byte)source[i];
-                }
-
-                return result;
-            }
-            catch (Exception ex)
+            for (int i = 0; i < source.Length; i++)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.ToByteArray(string)", ex);
-                throw;
+                result[i] = (byte)source[i];
             }
+
+            return result;
         }
 
 
@@ -1110,17 +925,9 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(target);
 
-            try
-            {
-                var encoding = Encoding.GetEncoding("ascii");
-                var chars = encoding.GetChars(target, 0, target.Length);
-                return new string(chars);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.FromByteArray(byte[])", ex);
-                throw;
-            }
+            var encoding = Encoding.GetEncoding("ascii");
+            var chars = encoding.GetChars(target, 0, target.Length);
+            return new string(chars);
         }
         //public static string FromByteArray_old(byte[] target)
         //{
@@ -1155,26 +962,18 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(original);
 
-            try
+            if (original.Length < finalLength)
             {
-                if (original.Length < finalLength)
+                char[] padding = new char[finalLength - original.Length];
+                for (int i = 0; i < padding.Length; i++)
                 {
-                    char[] padding = new char[finalLength - original.Length];
-                    for (int i = 0; i < padding.Length; i++)
-                    {
-                        padding[i] = ' ';
-                    }
-                    return original + new string(padding);
+                    padding[i] = ' ';
                 }
-                else
-                {
-                    return original;
-                }
+                return original + new string(padding);
             }
-            catch (Exception ex)
+            else
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.AppendSpaces(string, int)", ex);
-                throw;
+                return original;
             }
         }
 
@@ -1245,15 +1044,7 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(number);
             if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException(nameof(number));
 
-            try
-            {
-                return SqueezeNumber(number, length, ScientificNotationFormat.Exponential);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.SqueezeNumber(object, int)", ex);
-                throw;
-            }
+            return SqueezeNumber(number, length, ScientificNotationFormat.Exponential);
         }
 
 
@@ -1276,48 +1067,40 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(number);
             if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException(nameof(number));
 
-            try
+            // Format the number with thousand separators (e.g., "1,234,567")
+            string formatted = string.Format(CultureInfo.InvariantCulture, "{0:N0}", number);
+
+            if (formatted.Length <= length)
             {
-                // Format the number with thousand separators (e.g., "1,234,567")
-                string formatted = string.Format(CultureInfo.InvariantCulture, "{0:N0}", number);
-
-                if (formatted.Length <= length)
-                {
-                    return formatted;
-                }
-                else
-                {
-                    // Need to use scientific notation
-                    double numValue = Convert.ToDouble(number, CultureInfo.InvariantCulture);
-
-                    // Format with E2 (2 decimal places) to match VB.NET's "Scientific" format
-                    string eNotation = numValue.ToString("E2", CultureInfo.InvariantCulture);
-
-                    // VB.NET uses 2-digit exponent without leading zero padding
-                    // C# "E2" produces "1.00E+010", we need "1.00E+10"
-                    eNotation = Regex.Replace(eNotation, @"E([+-])0(\d)", "E$1$2");
-
-                    switch (format)
-                    {
-                        case ScientificNotationFormat.Exponential:
-                            return eNotation;
-                        case ScientificNotationFormat.Base10:
-                            return ENotationToBaseTenNotation(eNotation, false, false, true, true);
-                        case ScientificNotationFormat.Base10Spaced:
-                            return ENotationToBaseTenNotation(eNotation, false, true, true, true);
-                        case ScientificNotationFormat.Base10Superscript:
-                            return ENotationToBaseTenNotation(eNotation, true, false, true, true);
-                        case ScientificNotationFormat.Base10SuperscriptSpaced:
-                            return ENotationToBaseTenNotation(eNotation, true, true, true, true);
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(format));
-                    }
-                }
+                return formatted;
             }
-            catch (Exception ex)
+            else
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.SqueezeNumber(object, int, ScientificNotationFormat)", ex);
-                throw;
+                // Need to use scientific notation
+                double numValue = Convert.ToDouble(number, CultureInfo.InvariantCulture);
+
+                // Format with E2 (2 decimal places) to match VB.NET's "Scientific" format
+                string eNotation = numValue.ToString("E2", CultureInfo.InvariantCulture);
+
+                // VB.NET uses 2-digit exponent without leading zero padding
+                // C# "E2" produces "1.00E+010", we need "1.00E+10"
+                eNotation = Regex.Replace(eNotation, @"E([+-])0(\d)", "E$1$2");
+
+                switch (format)
+                {
+                    case ScientificNotationFormat.Exponential:
+                        return eNotation;
+                    case ScientificNotationFormat.Base10:
+                        return ENotationToBaseTenNotation(eNotation, false, false, true, true);
+                    case ScientificNotationFormat.Base10Spaced:
+                        return ENotationToBaseTenNotation(eNotation, false, true, true, true);
+                    case ScientificNotationFormat.Base10Superscript:
+                        return ENotationToBaseTenNotation(eNotation, true, false, true, true);
+                    case ScientificNotationFormat.Base10SuperscriptSpaced:
+                        return ENotationToBaseTenNotation(eNotation, true, true, true, true);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(format));
+                }
             }
         }
         //public static string SqueezeNumber_old(object number, int length, ScientificNotationFormat format)
@@ -1383,72 +1166,64 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
+            string temp = source.ToUpperInvariant();
+            if (!temp.Contains('E')) return temp;
+            int eIndex = temp.IndexOf('E', StringComparison.Ordinal);
+            string baseVal = temp.Substring(0, eIndex);
+            string power = temp.Substring(eIndex + 1);
+            int pow = 0;
+            if (!int.TryParse(power, out pow)) throw new ArgumentOutOfRangeException(nameof(source));
+            if (excludeZeroPower && pow == 0)
             {
-                string temp = source.ToUpperInvariant();
-                if (!temp.Contains('E')) return temp;
-                int eIndex = temp.IndexOf('E', StringComparison.Ordinal);
-                string baseVal = temp.Substring(0, eIndex);
-                string power = temp.Substring(eIndex + 1);
-                int pow = 0;
-                if (!int.TryParse(power, out pow)) throw new ArgumentOutOfRangeException(nameof(source));
-                if (excludeZeroPower && pow == 0)
+                return baseVal;
+            }
+            else
+            {
+                if (useSuperscript && spaced)
                 {
-                    return baseVal;
-                }
-                else
-                {
-                    if (useSuperscript && spaced)
-                    {
 
-                        if (excludePlusSign)
-                        {
-                            return baseVal + " x 10" + StringUtil.ToSuperscript(power.Replace("+", String.Empty));
-                        }
-                        else
-                        {
-                            return baseVal + " x 10" + StringUtil.ToSuperscript(power);
-                        }
-                    }
-                    else if (!useSuperscript && spaced)
+                    if (excludePlusSign)
                     {
-                        if (excludePlusSign)
-                        {
-                            return temp.Replace("E", " x 10^").Replace("+", String.Empty);
-                        }
-                        else
-                        {
-                            return temp.Replace("E", " x 10^");
-                        }
-                    }
-                    else if (useSuperscript && !spaced)
-                    {
-                        if (excludePlusSign)
-                        {
-                            return baseVal + "x10" + StringUtil.ToSuperscript(power.Replace("+", String.Empty));
-                        }
-                        else
-                        {
-                            return baseVal + "x10" + StringUtil.ToSuperscript(power);
-                        }
+                        return baseVal + " x 10" + StringUtil.ToSuperscript(power.Replace("+", String.Empty));
                     }
                     else
                     {
-                        if (excludePlusSign)
-                        {
-                            return temp.Replace("E", "x10^").Replace("+", String.Empty);
-                        }
-                        else
-                        {
-                            return temp.Replace("E", "x10^");
-                        }
+                        return baseVal + " x 10" + StringUtil.ToSuperscript(power);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.ENotationToPowerOfTenNotation(string, bool, bool, bool, bool)", ex);
-                throw;
+                else if (!useSuperscript && spaced)
+                {
+                    if (excludePlusSign)
+                    {
+                        return temp.Replace("E", " x 10^").Replace("+", String.Empty);
+                    }
+                    else
+                    {
+                        return temp.Replace("E", " x 10^");
+                    }
+                }
+                else if (useSuperscript && !spaced)
+                {
+                    if (excludePlusSign)
+                    {
+                        return baseVal + "x10" + StringUtil.ToSuperscript(power.Replace("+", String.Empty));
+                    }
+                    else
+                    {
+                        return baseVal + "x10" + StringUtil.ToSuperscript(power);
+                    }
+                }
+                else
+                {
+                    if (excludePlusSign)
+                    {
+                        return temp.Replace("E", "x10^").Replace("+", String.Empty);
+                    }
+                    else
+                    {
+                        return temp.Replace("E", "x10^");
+                    }
+                }
             }
         }
 
@@ -1473,62 +1248,54 @@ namespace StarThrower.StringUtilities
             ArgumentNullException.ThrowIfNull(target);
             if (!MathUtil.IsInteger(target)) throw new ArgumentOutOfRangeException(nameof(target));
 
-            try
-            {
-                StringBuilder result = new StringBuilder(String.Empty);
+            StringBuilder result = new StringBuilder(String.Empty);
 
-                for (int i = 0; i < target.Length; i++)
+            for (int i = 0; i < target.Length; i++)
+            {
+                switch (target[i])
                 {
-                    switch (target[i])
-                    {
-                        case '0':
-                            result.Append(OneChar(Superscript0));
-                            break;
-                        case '1':
-                            result.Append(OneChar(Superscript1));
-                            break;
-                        case '2':
-                            result.Append(OneChar(Superscript2));
-                            break;
-                        case '3':
-                            result.Append(OneChar(Superscript3));
-                            break;
-                        case '4':
-                            result.Append(OneChar(Superscript4));
-                            break;
-                        case '5':
-                            result.Append(OneChar(Superscript5));
-                            break;
-                        case '6':
-                            result.Append(OneChar(Superscript6));
-                            break;
-                        case '7':
-                            result.Append(OneChar(Superscript7));
-                            break;
-                        case '8':
-                            result.Append(OneChar(Superscript8));
-                            break;
-                        case '9':
-                            result.Append(OneChar(Superscript9));
-                            break;
-                        case '+':
-                            result.Append(OneChar(SuperscriptPlus));
-                            break;
-                        case '-':
-                            result.Append(OneChar(SuperscriptMinus));
-                            break;
-                        default:
-                            throw new NotSupportedException();
-                    }
+                    case '0':
+                        result.Append(OneChar(Superscript0));
+                        break;
+                    case '1':
+                        result.Append(OneChar(Superscript1));
+                        break;
+                    case '2':
+                        result.Append(OneChar(Superscript2));
+                        break;
+                    case '3':
+                        result.Append(OneChar(Superscript3));
+                        break;
+                    case '4':
+                        result.Append(OneChar(Superscript4));
+                        break;
+                    case '5':
+                        result.Append(OneChar(Superscript5));
+                        break;
+                    case '6':
+                        result.Append(OneChar(Superscript6));
+                        break;
+                    case '7':
+                        result.Append(OneChar(Superscript7));
+                        break;
+                    case '8':
+                        result.Append(OneChar(Superscript8));
+                        break;
+                    case '9':
+                        result.Append(OneChar(Superscript9));
+                        break;
+                    case '+':
+                        result.Append(OneChar(SuperscriptPlus));
+                        break;
+                    case '-':
+                        result.Append(OneChar(SuperscriptMinus));
+                        break;
+                    default:
+                        throw new NotSupportedException();
                 }
+            }
 
-                return result.ToString();
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Strings.ToSuperscript(string)", ex);
-                throw;
-            }
+            return result.ToString();
         }
 
 

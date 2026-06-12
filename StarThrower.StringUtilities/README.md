@@ -163,7 +163,6 @@ string xmlDuration = TimeSpan.FromMinutes(90).ToXmlString();
 
 ## Dependencies
 
-- [`StarThrower.Logging`](../StarThrower.Logging/README.md) — internal error reporting.
 - [`StarThrower.MathUtilities`](../StarThrower.MathUtilities/README.md) — numeric validation used by `SqueezeNumber` and `ToSuperscript`.
 
 ---
