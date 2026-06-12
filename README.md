@@ -79,6 +79,18 @@ The library has served as a foundation for projects spanning emergency managemen
 
 ---
 
+## Related Projects
+
+**[starthrower-providers-framework](https://github.com/StephenElmer/starthrower-providers-framework)** —
+Legacy .NET Framework 4.8 provider libraries (EF6 Database-First and WCF service
+abstractions), extracted from this repo during the .NET 10 modernization. These
+depend on `System.Web` and WCF with no clean migration path to .NET 10 and are
+preserved there for reference. A modern rebuild targeting .NET 10 / ASP.NET Core
+Identity / EF Core may appear under the `StarThrower.EfProviders` /
+`StarThrower.WcfProviders` namespaces in a future release.
+
+---
+
 ## Platform Notes
 
 ### Windows-1252 Encoding (StringUtilities)

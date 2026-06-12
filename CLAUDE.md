@@ -39,7 +39,8 @@ modernized, and carried forward through successive technology generations:
 - .NET 2 migration
 - .NET 3 migration
 - .NET 4 migration
-- .NET 4.8 (current, upgraded by VS 2026 on open)
+- .NET 4.8 (upgraded by VS 2026 on open)
+- .NET 10.0 (current)
 
 The library has served as a foundation for virtually every consulting project the author
 has worked on — growing organically as reusable pieces from new projects were folded back
@@ -62,7 +63,6 @@ to take only what they need.
 | `StarThrower.DataUtilities` | General data manipulation utilities |
 | `StarThrower.DateTimeUtilities` | Date/time helpers |
 | `StarThrower.EarleyParser` | Full Earley parser implementation with XML-defined grammars |
-| `StarThrower.EfProviders` | Entity Framework provider abstractions |
 | `StarThrower.FileUtilities` | File I/O helpers |
 | `StarThrower.Gis.EsriLibrary` | ESRI shapefile read/write |
 | `StarThrower.Gis.GeoUtilities` | Geographic/coordinate utilities |
@@ -70,20 +70,33 @@ to take only what they need.
 | `StarThrower.MathUtilities` | Math helpers |
 | `StarThrower.Matrices` | Matrix operations |
 | `StarThrower.StringUtilities` | String helpers |
-| `StarThrower.WcfProviders` | WCF service provider abstractions |
-| `StarThrower.WcfProviders.Contract` | WCF contract definitions |
 | `StarThrower.XBase` | dBASE (.dbf) file read/write |
+
+### Extracted Projects — StarThrower.Providers.Framework
+
+On 2026-06-11, three net48 projects (and their test/web projects) were extracted into
+a separate repo, **[starthrower-providers-framework](https://github.com/StephenElmer/starthrower-providers-framework)**,
+and removed from this solution:
+
+- `StarThrower.EfProviders` → `StarThrower.EfProviders.Framework`
+- `StarThrower.WcfProviders` → `StarThrower.WcfProviders.Framework`
+- `StarThrower.WcfProviders.Contract` → `StarThrower.WcfProviders.Contract.Framework`
+- `StarThrower.Providers.TestWebApp` → `StarThrower.Providers.Framework.TestWebApp` (ASP.NET MVC 4 reference app)
+
+Reasons: these projects depend on `System.Web` and WCF with no clean path to net10.0;
+they were causing net48/net10.0 mixed-TFM friction with xUnit v3 MTP test running; and
+extracting them reserves the clean `StarThrower.EfProviders` / `StarThrower.WcfProviders`
+namespaces for a future modern (.NET 10 / ASP.NET Core Identity / EF Core) rebuild.
+
+**This solution is now pure net10.0 / C# 14 — no net48 projects remain.**
 
 ### Test Projects
 
-Each library has a paired `*.Test` project. Groups 1–7 (net10.0) test projects use
-**xUnit v3 + AwesomeAssertions** (Step 6 complete). The net48 test projects
-(WcfProviders.Test, EfProviders.Test) remain on MSTest (VS Test) indefinitely.
+Each library has a paired `*.Test` project. All test projects use
+**xUnit v3 + AwesomeAssertions** (Step 6 complete).
 
 Additional projects:
 - `StarThrower.EarleyParser.TestApp` — WPF app for interactive parser testing (WinExe, not a console app)
-- `StarThrower.Providers.TestWebApp` — ASP.NET MVC 4 web app for provider testing (see
-  constraints below)
 
 ### Samples
 
@@ -130,29 +143,29 @@ Current/
 
 ## Current State
 
-- **Framework:**
-  - `net10.0` — Groups 1–7 complete (Logging, MathUtilities, Matrices, Collections,
-    ByteUtilities, DataUtilities, FileUtilities, StringUtilities, DateTimeUtilities,
-    EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
-  - `net48` retained indefinitely — WcfProviders.Contract, WcfProviders, EfProviders,
-    Providers.TestWebApp (System.Web blocker; see Step 2b notes)
-- **Language:**
-  - `C# 14` (modern idioms applied) — Groups 1–7 complete (Logging, MathUtilities, Matrices, Collections,
-    ByteUtilities, DataUtilities, FileUtilities, StringUtilities, DateTimeUtilities,
-    EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
+- **Framework:** `net10.0` — all 13 projects (Logging, MathUtilities, Matrices,
+  Collections, ByteUtilities, DataUtilities, FileUtilities, StringUtilities,
+  DateTimeUtilities, EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
+- **Language:** `C# 14` (modern idioms applied) — all 13 projects
 - **Source control:** Git / GitHub (TFS artifacts removed — Step 1 complete)
-- **Test framework:** xUnit v3 + AwesomeAssertions — Groups 1–7 complete (Step 6); net48
-  projects (WcfProviders.Test, EfProviders.Test) remain MSTest indefinitely
+- **Test framework:** xUnit v3 + AwesomeAssertions — all projects (Step 6 complete)
 - **NuGet:** PackageReference (packages.config removed — Step 2a complete)
 - **Code analysis:** Roslyn analyzers configured — `<AnalysisMode>Recommended</AnalysisMode>` (Step 3 complete)
 - **NuGet packages:** All core library projects updated to latest versions (Step 4 complete)
 - **Add NuGet package metadata:** Add metadata and associated additional files to prepare for NuGet publication (Step 5 complete)
-- **Steps complete:** 1, 2a, 2b (Groups 1–7), 2c (Groups 1–7), 2d, 3, 4, 5, 6 (Groups 1–7)
+- **Steps complete:** 1, 2a, 2b, 2c, 2d, 3, 4, 5, 6, 7, 8, 9 — Phase 1 complete
 - **All tests passing** on all migrated (net10.0) projects
 
 ---
 
 ## Migration Goals
+
+**Phase 1 is COMPLETE (2026-06-11).** The steps below are preserved as a historical
+record of the migration — including project groups 8–10 (EfProviders, WcfProviders,
+WcfProviders.Contract, Providers.TestWebApp), which were carried through Steps 1–2b on
+net48 before being extracted to **starthrower-providers-framework** on 2026-06-11 (see
+"Extracted Projects" above). References to those groups below describe what was actually
+done at the time and are kept for reference; they are no longer part of this solution.
 
 Migration proceeds in deliberate steps with developer review between each. Do not chain
 steps together autonomously.
@@ -563,16 +576,6 @@ Verified relative depth: build output is `Code/<Project>/bin/Debug/net10.0/`, wh
 ### Do not touch
 - `TestInput/` contents — read-only test fixtures; do not modify any files here
 
-### Special cases — discuss before touching
-- `StarThrower.EfProviders` — Entity Framework integration; the EF version story on
-  .NET 10 needs separate evaluation before touching this project
-- `StarThrower.WcfProviders` / `StarThrower.WcfProviders.Contract` — WCF on .NET 10
-  requires the `CoreWCF` package; this is a known breaking change requiring explicit
-  handling and is out of scope for Phase 1
-- `StarThrower.Providers.TestWebApp` — old ASP.NET MVC 4 web app; migration to ASP.NET
-  Core is out of scope for Phase 1 and this project may be temporarily excluded from the
-  solution
-
 ---
 
 ## C# 14 Style Preferences
@@ -593,32 +596,14 @@ working logic solely to apply them. Always explain the pattern when applying it.
 ```powershell
 # From Code/ directory
 dotnet build StarThrower.Utilities.sln
+dotnet test StarThrower.Utilities.sln
 ```
 
-A root `global.json` enables MTP mode for `dotnet test` (required for the net10/xUnit
-v3 projects). Because the solution still contains two net48/MSTest projects (which are
-not MTP-capable), `dotnet test` cannot be run against the whole solution — run the
-net10/xUnit v3 projects individually with `--project`, and the net48/MSTest projects
-from their own directories (where a project-local empty `global.json` shadows the root
-one and reverts to VSTest mode):
-
-```powershell
-# net10.0 / xUnit v3 projects (MTP mode, from Code/)
-dotnet test --project StarThrower.Logging.Test/StarThrower.Logging.Test.csproj
-dotnet test --project StarThrower.MathUtilities.Test/StarThrower.MathUtilities.Test.csproj
-dotnet test --project StarThrower.Matrices.Test/StarThrower.Matrices.Test.csproj
-dotnet test --project StarThrower.ByteUtilities.Test/StarThrower.ByteUtilities.Test.csproj
-dotnet test --project StarThrower.DataUtilities.Test/StarThrower.DataUtilities.Test.csproj
-dotnet test --project StarThrower.StringUtilities.Test/StarThrower.StringUtilities.Test.csproj
-dotnet test --project StarThrower.DateTimeUtilities.Test/StarThrower.DateTimeUtilities.Test.csproj
-dotnet test --project StarThrower.EarleyParser.Test/StarThrower.EarleyParser.Test.csproj
-dotnet test --project StarThrower.XBase.Test/StarThrower.XBase.Test.csproj
-dotnet test --project StarThrower.Gis.GeoUtilities.Test/StarThrower.Gis.GeoUtilities.Test.csproj
-
-# net48 / MSTest projects (VSTest mode, run from within each project directory)
-Push-Location StarThrower.WcfProviders.Test; dotnet test; Pop-Location
-Push-Location StarThrower.EfProviders.Test; dotnet test; Pop-Location
-```
+A root `global.json` enables MTP mode for `dotnet test`, required by the xUnit v3
+test projects. With the net48/MSTest projects extracted to
+`starthrower-providers-framework` (2026-06-11), the solution is now uniformly
+net10.0/xUnit v3/MTP, so the split per-project test commands and `global.json`
+shadowing workaround documented previously are no longer needed.
 
 ---
 
