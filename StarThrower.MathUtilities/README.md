@@ -69,7 +69,7 @@ double radians = 45 * MathUtil.Degree;
 
 ## Dependencies
 
-This package references [`StarThrower.Logging`](../StarThrower.Logging/README.md) for internal error reporting from a small number of methods.
+None.
 
 ---
 

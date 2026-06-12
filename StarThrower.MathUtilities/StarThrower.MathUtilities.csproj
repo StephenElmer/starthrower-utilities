@@ -72,11 +72,4 @@
     <!-- <PackageReference Include="Newtonsoft.Json" Version="13.*"/> -->
   </ItemGroup>
  
-  <!-- =========================================================== -->
-  <!-- Project references                                           -->
-  <!-- =========================================================== -->
-  <ItemGroup>
-    <ProjectReference Include="..\StarThrower.Logging\StarThrower.Logging.csproj" />
-  </ItemGroup>
-
 </Project>

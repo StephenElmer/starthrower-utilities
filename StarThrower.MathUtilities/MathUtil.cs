@@ -1,7 +1,6 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
-using StarThrower.Logging;
 
 namespace StarThrower.MathUtilities
 {
@@ -66,18 +65,10 @@ namespace StarThrower.MathUtilities
         {
             ArgumentNullException.ThrowIfNull(test);
 
-            try
-            {
-                double d = 0.0;
-                if (!double.TryParse(test, out d)) return false;
-                if (((d >= 0) ? Math.Floor(d) : Math.Ceiling(d)) != d) return false;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "MathUtil.IsWholeNumber(string)", ex);
-                throw;
-            }
+            double d = 0.0;
+            if (!double.TryParse(test, out d)) return false;
+            if (((d >= 0) ? Math.Floor(d) : Math.Ceiling(d)) != d) return false;
+            return true;
         }
 
         /// <summary>
@@ -90,17 +81,9 @@ namespace StarThrower.MathUtilities
         {
             ArgumentNullException.ThrowIfNull(test);
 
-            try
-            {
-                int result = 0;
-                if (!int.TryParse(test, out result)) return false;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "MathUtil.IsInteger(string)", ex);
-                throw;
-            }
+            int result = 0;
+            if (!int.TryParse(test, out result)) return false;
+            return true;
         }
 
         /// <summary>
@@ -113,17 +96,9 @@ namespace StarThrower.MathUtilities
         {
             ArgumentNullException.ThrowIfNull(test);
 
-            try
-            {
-                long result = 0;
-                if (!long.TryParse(test, out result)) return false;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "MathUtil.IsLong(string)", ex);
-                throw;
-            }
+            long result = 0;
+            if (!long.TryParse(test, out result)) return false;
+            return true;
         }
 
         /// <summary>
@@ -134,26 +109,18 @@ namespace StarThrower.MathUtilities
         /// <returns>The rounded value</returns>
         public static double RoundTo(double value, long digits)
         {
-            try
+            double rv = 0;
+            if (digits > 0)
             {
-                double rv = 0;
-                if (digits > 0)
-                {
-                    rv = Math.Floor(value * Math.Pow(10.0, (double)digits) + 0.5);
-                    rv = rv / Math.Pow(10.0, digits);
-                }
-                else
-                {
-                    rv = Math.Floor(value + 0.5);
-                }
+                rv = Math.Floor(value * Math.Pow(10.0, (double)digits) + 0.5);
+                rv = rv / Math.Pow(10.0, digits);
+            }
+            else
+            {
+                rv = Math.Floor(value + 0.5);
+            }
 
-                return rv;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "MathUtil.RoundTo(double, long)", ex);
-                throw;
-            }
+            return rv;
         }
     }
 }
