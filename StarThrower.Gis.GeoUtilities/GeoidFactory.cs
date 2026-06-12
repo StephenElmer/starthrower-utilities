@@ -3,7 +3,6 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using StarThrower.Logging;
 using StarThrower.StringUtilities;
 
 namespace StarThrower.Gis.GeoUtilities
@@ -91,27 +90,19 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, Geoid.ValidNamePattern)) throw new Exceptions.InvalidGeoidTypeException("Invalid format for geoid name.");
 
-            try
+            string key = typeof(Geoids.UserDefined).Name + name;
+            lock (_geoidListLock)
             {
-                string key = typeof(Geoids.UserDefined).Name + name;
-                lock (_geoidListLock)
+                if (!_geoidList.TryGetValue(key, out IGeoid? g))
                 {
-                    if (!_geoidList.TryGetValue(key, out IGeoid? g))
-                    {
-                        g = new Geoids.UserDefined(name);
-                        _geoidList.TryAdd(key, g);
-                        return g;
-                    }
-                    else
-                    {
-                        return g;
-                    }
+                    g = new Geoids.UserDefined(name);
+                    _geoidList.TryAdd(key, g);
+                    return g;
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "GeoidFactory.GetInstanceOfNewUserDefinedGeoid(string)", ex);
-                throw;
+                else
+                {
+                    return g;
+                }
             }
         }
     }

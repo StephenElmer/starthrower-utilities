@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using StarThrower.Logging;
 
 namespace StarThrower.Gis.GeoUtilities.Shapes
 {
@@ -82,21 +81,13 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         public virtual void ItemCopy(object value)
         {
-            try
+            ArgumentNullException.ThrowIfNull(value);
+            if (!(value is StarThrower.Gis.GeoUtilities.Shapes.Part)) throw new ArgumentException("Could not cast " + value.GetType().ToString() + " to " + this.GetType().ToString());
+            StarThrower.Gis.GeoUtilities.Shapes.Part other = (StarThrower.Gis.GeoUtilities.Shapes.Part)value;
+            _pointList.Clear();
+            foreach (StarThrower.Gis.GeoUtilities.Shapes.PointShape point in other._pointList)
             {
-                ArgumentNullException.ThrowIfNull(value);
-                if (!(value is StarThrower.Gis.GeoUtilities.Shapes.Part)) throw new ArgumentException("Could not cast " + value.GetType().ToString() + " to " + this.GetType().ToString());
-                StarThrower.Gis.GeoUtilities.Shapes.Part other = (StarThrower.Gis.GeoUtilities.Shapes.Part)value;
-                _pointList.Clear();
-                foreach (StarThrower.Gis.GeoUtilities.Shapes.PointShape point in other._pointList)
-                {
-                    _pointList.Add((PointShape)(point.Clone()));
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".ItemCopy(object)", ex);
-                throw;
+                _pointList.Add((PointShape)(point.Clone()));
             }
         }
 

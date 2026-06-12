@@ -4,7 +4,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using StarThrower.ByteUtilities;
-using StarThrower.Logging;
 
 namespace StarThrower.Gis.GeoUtilities.Geoids
 {
@@ -213,11 +212,8 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
 
         private void InitializeHeightGrid()
         {
-            Stream? stream = null;
-            try
+            using (Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StarThrower.Gis.GeoUtilities.Geoids.egm96.grd"))
             {
-                stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StarThrower.Gis.GeoUtilities.Geoids.egm96.grd");
-
                 if (stream == null || !stream.CanRead) throw new IOException("Stream is not in a readable mode.");
 
                 int pos = 0;
@@ -233,23 +229,6 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
                         this.HeightGrid[pos] = f;
                         pos++;
                     }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Egm96.InitializeHeightGrid()", ex);
-                throw;
-            }
-            finally
-            {
-
-                if (stream != null)
-                {
-                    stream.Close();
-                }
-                if (stream != null)
-                {
-                    stream.Dispose();
                 }
             }
         }

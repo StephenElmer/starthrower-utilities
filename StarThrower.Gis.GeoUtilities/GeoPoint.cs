@@ -1,7 +1,6 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
-using StarThrower.Logging;
 using StarThrower.Gis.GeoUtilities.Formatting;
 using StarThrower.Gis.GeoUtilities.Exceptions;
 
@@ -105,7 +104,6 @@ namespace StarThrower.Gis.GeoUtilities
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".ItemCopy(object)", ex);
                 throw new FailedItemCopyException("Failed to copy item.", ex);
             }
         }

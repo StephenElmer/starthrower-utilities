@@ -3,7 +3,6 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using StarThrower.Logging;
 using StarThrower.StringUtilities;
 
 namespace StarThrower.Gis.GeoUtilities
@@ -437,46 +436,38 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(south, north);
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(west, east);
 
-            try
+            string key = typeof(Datums.UserDefined).Name + name;
+            if (!_datumList.TryGetValue(key, out IDatum? value))
             {
-                string key = typeof(Datums.UserDefined).Name + name;
-                if (!_datumList.TryGetValue(key, out IDatum? value))
+                Datums.UserDefined d = new Datums.UserDefined(name, ellipsoid, deltaX, sigmaX, deltaY, sigmaY, deltaZ, sigmaZ, rotationX, rotationY, rotationZ, rotationScaleFactor, north, south, east, west);
+                lock (_datumListLock)
                 {
-                    Datums.UserDefined d = new Datums.UserDefined(name, ellipsoid, deltaX, sigmaX, deltaY, sigmaY, deltaZ, sigmaZ, rotationX, rotationY, rotationZ, rotationScaleFactor, north, south, east, west);
-                    lock (_datumListLock)
+                    if (!_datumList.ContainsKey(d.Key))
                     {
-                        if (!_datumList.ContainsKey(d.Key))
-                        {
-                            _datumList.Add(d.Key, d);
-                        }
+                        _datumList.Add(d.Key, d);
                     }
-                    return _datumList[d.Key];
                 }
-                else
-                {
-                    Datums.UserDefined d = (Datums.UserDefined)value;
-                    if (!((d.Ellipsoid.Equals(ellipsoid)) &&
-                           d.DeltaX.Equals(deltaX) &&
-                           d.SigmaX.Equals(sigmaX) &&
-                           d.DeltaY.Equals(deltaY) &&
-                           d.SigmaY.Equals(sigmaY) &&
-                           d.DeltaZ.Equals(deltaZ) &&
-                           d.SigmaZ.Equals(sigmaZ) &&
-                           d.RotationX.Equals(rotationX) &&
-                           d.RotationY.Equals(rotationY) &&
-                           d.RotationZ.Equals(rotationZ) &&
-                           d.RotationScaleFactor.Equals(rotationScaleFactor) &&
-                           d.Domain.Top.Equals(north) &&
-                           d.Domain.Bottom.Equals(south) &&
-                           d.Domain.Right.Equals(east) &&
-                           d.Domain.Left.Equals(west))) throw new Exceptions.AmbiguousDatumTypeException("Datum for name already exists with different Ellipsoid values.");
-                    return d;
-                }
+                return _datumList[d.Key];
             }
-            catch (Exception ex)
+            else
             {
-                Logger.ReportError(ErrorPolicy.Internal, "DatumFactory.GetInstanceOfNewUserDefinedDatum(string, Ellipsoid)", ex);
-                throw;
+                Datums.UserDefined d = (Datums.UserDefined)value;
+                if (!((d.Ellipsoid.Equals(ellipsoid)) &&
+                       d.DeltaX.Equals(deltaX) &&
+                       d.SigmaX.Equals(sigmaX) &&
+                       d.DeltaY.Equals(deltaY) &&
+                       d.SigmaY.Equals(sigmaY) &&
+                       d.DeltaZ.Equals(deltaZ) &&
+                       d.SigmaZ.Equals(sigmaZ) &&
+                       d.RotationX.Equals(rotationX) &&
+                       d.RotationY.Equals(rotationY) &&
+                       d.RotationZ.Equals(rotationZ) &&
+                       d.RotationScaleFactor.Equals(rotationScaleFactor) &&
+                       d.Domain.Top.Equals(north) &&
+                       d.Domain.Bottom.Equals(south) &&
+                       d.Domain.Right.Equals(east) &&
+                       d.Domain.Left.Equals(west))) throw new Exceptions.AmbiguousDatumTypeException("Datum for name already exists with different Ellipsoid values.");
+                return d;
             }
         }
 
@@ -492,17 +483,9 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Datum.ValidNamePattern)) throw new Exceptions.InvalidDatumTypeException("Invalid format for datum name.");
 
-            try
-            {
-                string key = typeof(Datums.UserDefined).Name + name;
-                if (!_datumList.TryGetValue(key, out IDatum? value)) throw new Exceptions.InvalidDatumTypeException("A UserDefined Datum could not be found for name.");
-                return value;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "DatumFactory.GetInstanceOfExitingUserDefinedDatum(string)", ex);
-                throw;
-            }
+            string key = typeof(Datums.UserDefined).Name + name;
+            if (!_datumList.TryGetValue(key, out IDatum? value)) throw new Exceptions.InvalidDatumTypeException("A UserDefined Datum could not be found for name.");
+            return value;
         }
     }
 }

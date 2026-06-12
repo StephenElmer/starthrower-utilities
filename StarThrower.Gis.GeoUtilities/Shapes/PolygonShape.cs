@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using StarThrower.Logging;
 
 namespace StarThrower.Gis.GeoUtilities.Shapes
 {
@@ -113,23 +112,15 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         public override void ItemCopy(object value)
         {
-            try
+            ArgumentNullException.ThrowIfNull(value);
+            if (!(value is StarThrower.Gis.GeoUtilities.Shapes.PolygonShape)) throw new ArgumentException("Could not cast " + value.GetType().ToString() + " to " + this.GetType().ToString());
+            StarThrower.Gis.GeoUtilities.Shapes.PolygonShape other = (StarThrower.Gis.GeoUtilities.Shapes.PolygonShape)value;
+            _partList.Clear();
+            foreach (StarThrower.Gis.GeoUtilities.Shapes.ClosedPart part in other._partList)
             {
-                ArgumentNullException.ThrowIfNull(value);
-                if (!(value is StarThrower.Gis.GeoUtilities.Shapes.PolygonShape)) throw new ArgumentException("Could not cast " + value.GetType().ToString() + " to " + this.GetType().ToString());
-                StarThrower.Gis.GeoUtilities.Shapes.PolygonShape other = (StarThrower.Gis.GeoUtilities.Shapes.PolygonShape)value;
-                _partList.Clear();
-                foreach (StarThrower.Gis.GeoUtilities.Shapes.ClosedPart part in other._partList)
-                {
-                    _partList.Add((ClosedPart)(part.Clone()));
-                }
-                base.ItemCopy(other);
+                _partList.Add((ClosedPart)(part.Clone()));
             }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".ItemCopy(object)", ex);
-                throw;
-            }
+            base.ItemCopy(other);
         }
 
         #endregion

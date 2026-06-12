@@ -1,7 +1,6 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
-using StarThrower.Logging;
 
 namespace StarThrower.Gis.GeoUtilities.Shapes
 {
@@ -41,18 +40,10 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         /// <exception cref="FailedItemCopyException"></exception>
         public override void ItemCopy(object value)
         {
-            try
-            {
-                ArgumentNullException.ThrowIfNull(value);
-                PolygonMShape other = (PolygonMShape)value;
+            ArgumentNullException.ThrowIfNull(value);
+            PolygonMShape other = (PolygonMShape)value;
 
-                base.ItemCopy(other);
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".ItemCopy(object)", ex);
-                throw;
-            }
+            base.ItemCopy(other);
         }
 
         #endregion

@@ -5,7 +5,6 @@ using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using StarThrower.Logging;
 using StarThrower.MathUtilities;
 using StarThrower.Gis.GeoUtilities.CoordinateSystems;
 using StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic;
@@ -67,56 +66,40 @@ namespace StarThrower.Gis.GeoUtilities
         {
             get
             {
-                try
-                {
-                    Collection<Type> result = new Collection<Type>();
+                Collection<Type> result = new Collection<Type>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(AngularUnits.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(AngularUnits.Undefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(AngularUnits.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(AngularUnits.Undefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i]);
-                        }
+                        result.Add(types[i]);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetAngularUnitTypes()", ex);
-                    throw;
-                }
+                return result;
             }
         }
         public static Collection<string> AngularUnitTypeNames
         {
             get
             {
-                try
-                {
-                    Collection<string> result = new Collection<string>();
+                Collection<string> result = new Collection<string>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(AngularUnits.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(AngularUnits.Undefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(AngularUnits.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(AngularUnits.Undefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i].Name);
-                        }
+                        result.Add(types[i].Name);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetAngularUnitTypeNames()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 
@@ -130,58 +113,42 @@ namespace StarThrower.Gis.GeoUtilities
         {
             get
             {
-                try
-                {
-                    Collection<Type> result = new Collection<Type>();
+                Collection<Type> result = new Collection<Type>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(Datums.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(Datums.Undefined).Name, StringComparison.Ordinal) &&
+                        !types[i].Name.Equals(typeof(Datums.UserDefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(Datums.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Datums.Undefined).Name, StringComparison.Ordinal) &&
-                            !types[i].Name.Equals(typeof(Datums.UserDefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i]);
-                        }
+                        result.Add(types[i]);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetDatumTypes()", ex);
-                    throw;
-                }
+                return result;
             }
         }
         public static Collection<string> DatumTypeNames
         {
             get
             {
-                try
-                {
-                    Collection<string> result = new Collection<string>();
+                Collection<string> result = new Collection<string>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(Datums.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(Datums.Undefined).Name, StringComparison.Ordinal) &&
+                        !types[i].Name.Equals(typeof(Datums.UserDefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(Datums.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Datums.Undefined).Name, StringComparison.Ordinal) &&
-                            !types[i].Name.Equals(typeof(Datums.UserDefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i].Name);
-                        }
+                        result.Add(types[i].Name);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetDatumTypeNames()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 
@@ -195,58 +162,42 @@ namespace StarThrower.Gis.GeoUtilities
         {
             get
             {
-                try
-                {
-                    Collection<Type> result = new Collection<Type>();
+                Collection<Type> result = new Collection<Type>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(Ellipsoids.Undefined).Name, StringComparison.Ordinal) &&
+                        !types[i].Name.Equals(typeof(Ellipsoids.UserDefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Ellipsoids.Undefined).Name, StringComparison.Ordinal) &&
-                            !types[i].Name.Equals(typeof(Ellipsoids.UserDefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i]);
-                        }
+                        result.Add(types[i]);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetEllipsoidTypes()", ex);
-                    throw;
-                }
+                return result;
             }
         }
         public static Collection<string> EllipsoidTypeNames
         {
             get
             {
-                try
-                {
-                    Collection<string> result = new Collection<string>();
+                Collection<string> result = new Collection<string>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(Ellipsoids.Undefined).Name, StringComparison.Ordinal) &&
+                        !types[i].Name.Equals(typeof(Ellipsoids.UserDefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(Ellipsoids.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Ellipsoids.Undefined).Name, StringComparison.Ordinal) &&
-                            !types[i].Name.Equals(typeof(Ellipsoids.UserDefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i].Name);
-                        }
+                        result.Add(types[i].Name);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetEllipsoidTypeNames()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 
@@ -260,56 +211,40 @@ namespace StarThrower.Gis.GeoUtilities
         {
             get
             {
-                try
-                {
-                    Collection<Type> result = new Collection<Type>();
+                Collection<Type> result = new Collection<Type>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(LinearUnits.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(LinearUnits.Undefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(LinearUnits.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(LinearUnits.Undefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i]);
-                        }
+                        result.Add(types[i]);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetLinearUnitTypes()", ex);
-                    throw;
-                }
+                return result;
             }
         }
         public static Collection<string> LinearUnitTypeNames
         {
             get
             {
-                try
-                {
-                    Collection<string> result = new Collection<string>();
+                Collection<string> result = new Collection<string>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(LinearUnits.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(LinearUnits.Undefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(LinearUnits.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(LinearUnits.Undefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i].Name);
-                        }
+                        result.Add(types[i].Name);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetLinearUnitTypeNames()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 
@@ -323,56 +258,40 @@ namespace StarThrower.Gis.GeoUtilities
         {
             get
             {
-                try
-                {
-                    Collection<Type> result = new Collection<Type>();
+                Collection<Type> result = new Collection<Type>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(PrimeMeridians.Undefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(PrimeMeridians.Undefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i]);
-                        }
+                        result.Add(types[i]);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetPrimeMeridianTypes()", ex);
-                    throw;
-                }
+                return result;
             }
         }
         public static Collection<string> PrimeMeridianTypeNames
         {
             get
             {
-                try
-                {
-                    Collection<string> result = new Collection<string>();
+                Collection<string> result = new Collection<string>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(PrimeMeridians.Undefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(PrimeMeridians.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(PrimeMeridians.Undefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i].Name);
-                        }
+                        result.Add(types[i].Name);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetPrimeMeridianTypeNames()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 
@@ -386,56 +305,40 @@ namespace StarThrower.Gis.GeoUtilities
         {
             get
             {
-                try
-                {
-                    Collection<Type> result = new Collection<Type>();
+                Collection<Type> result = new Collection<Type>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(Projections.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(Projections.Undefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(Projections.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Projections.Undefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i]);
-                        }
+                        result.Add(types[i]);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetProjectionTypes()", ex);
-                    throw;
-                }
+                return result;
             }
         }
         public static Collection<string> ProjectionTypeNames
         {
             get
             {
-                try
-                {
-                    Collection<string> result = new Collection<string>();
+                Collection<string> result = new Collection<string>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(Projections.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(Projections.Undefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(Projections.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(Projections.Undefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i].Name);
-                        }
+                        result.Add(types[i].Name);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetProjectionTypeNames()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 
@@ -449,58 +352,42 @@ namespace StarThrower.Gis.GeoUtilities
         {
             get
             {
-                try
-                {
-                    Collection<Type> result = new Collection<Type>();
+                Collection<Type> result = new Collection<Type>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name, StringComparison.Ordinal) &&
+                        !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name, StringComparison.Ordinal) &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i]);
-                        }
+                        result.Add(types[i]);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetGeographicCoordinateSystemTypes()", ex);
-                    throw;
-                }
+                return result;
             }
         }
         public static Collection<string> GeographicCoordinateSystemTypeNames
         {
             get
             {
-                try
-                {
-                    Collection<string> result = new Collection<string>();
+                Collection<string> result = new Collection<string>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name, StringComparison.Ordinal) &&
+                        !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(CoordinateSystems.Geographic.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.Undefined).Name, StringComparison.Ordinal) &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Geographic.UserDefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i].Name);
-                        }
+                        result.Add(types[i].Name);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetGeographicCoordinateSystemTypeNames()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 
@@ -510,55 +397,39 @@ namespace StarThrower.Gis.GeoUtilities
         /// from which a user can select a Projected Coordinate System type.
         /// </summary>
         /// <returns>A Collection of ProjectedCoordinateSystemType.</returns>
-        //public static List<ProjectedCoordinateSystemType> GetProjectedCoordinateSystemTypes()
-        //{
-        //    try
-        //    {
-        //        List<ProjectedCoordinateSystemType> result = new List<ProjectedCoordinateSystemType>();
-        //        Array vals = Enum.GetValues(typeof(ProjectedCoordinateSystemType));
-        //        for (int i = 0; i < vals.Length; i++)
-        //        {
-        //            ProjectedCoordinateSystemType t = (ProjectedCoordinateSystemType)(vals.GetValue(i));
-        //            if (t != ProjectedCoordinateSystemType.Undefined && t != ProjectedCoordinateSystemType.UserDefined)
-        //            {
-        //                result.Add(t);
-        //            }
-        //        }
-        //        return result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetProjectedCoordinateSystemTypes()", ex);
-        //        throw;
-        //    }
-        //}
+        // public static List<ProjectedCoordinateSystemType> GetProjectedCoordinateSystemTypes()
+        // {
+        //     List<ProjectedCoordinateSystemType> result = new List<ProjectedCoordinateSystemType>();
+        //     Array vals = Enum.GetValues(typeof(ProjectedCoordinateSystemType));
+        //     for (int i = 0; i < vals.Length; i++)
+        //     {
+        //         ProjectedCoordinateSystemType t = (ProjectedCoordinateSystemType)(vals.GetValue(i));
+        //         if (t != ProjectedCoordinateSystemType.Undefined && t != ProjectedCoordinateSystemType.UserDefined)
+        //         {
+        //             result.Add(t);
+        //         }
+        //     }
+        //     return result;
+        // }
         public static Collection<Type> ProjectedCoordinateSystemTypes
         {
             get
             {
-                try
-                {
-                    Collection<Type> result = new Collection<Type>();
+                Collection<Type> result = new Collection<Type>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(CoordinateSystems.Projected.Undefined).Name, StringComparison.Ordinal) &&
+                        !types[i].Name.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.Undefined).Name, StringComparison.Ordinal) &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i]);
-                        }
+                        result.Add(types[i]);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetProjectedCoordinateSystemTypes()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 
@@ -566,29 +437,21 @@ namespace StarThrower.Gis.GeoUtilities
         {
             get
             {
-                try
-                {
-                    Collection<string> result = new Collection<string>();
+                Collection<string> result = new Collection<string>();
 
-                    Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-                    for (int i = 0; i < types.Length; i++)
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
+                        types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace &&
+                        !types[i].Name.Equals(typeof(CoordinateSystems.Projected.Undefined).Name, StringComparison.Ordinal) &&
+                        !types[i].Name.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name, StringComparison.Ordinal))
                     {
-                        if (types[i] != null && types[i].Namespace != null && types[i].Name != null &&
-                            types[i].Namespace == typeof(CoordinateSystems.Projected.Undefined).Namespace &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.Undefined).Name, StringComparison.Ordinal) &&
-                            !types[i].Name.Equals(typeof(CoordinateSystems.Projected.UserDefined).Name, StringComparison.Ordinal))
-                        {
-                            result.Add(types[i].Name);
-                        }
+                        result.Add(types[i].Name);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.ReportError(ErrorPolicy.Internal, "CsUtil.GetProjectedCoordinateSystemTypeNames()", ex);
-                    throw;
-                }
+                return result;
             }
         }
 

@@ -3,7 +3,6 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using StarThrower.Logging;
 using StarThrower.StringUtilities;
 
 namespace StarThrower.Gis.GeoUtilities
@@ -102,27 +101,19 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.GeographicCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for coordinate system name.");
 
-            try
+            string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
+            lock (_geographicCoordinateSystemsLock)
             {
-                string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
-                lock (_geographicCoordinateSystemsLock)
+                if (!_geographicCoordinateSystems.TryGetValue(key, out IGeographicCoordinateSystem? gcs))
                 {
-                    if (!_geographicCoordinateSystems.TryGetValue(key, out IGeographicCoordinateSystem? gcs))
-                    {
-                        gcs = new CoordinateSystems.Geographic.UserDefined(name, datum, primeMeridian, angularUnit);
-                        _geographicCoordinateSystems.TryAdd(key, gcs);
-                        return gcs;
-                    }
-                    if (!(gcs.Datum.Equals(datum) &&
-                        gcs.PrimeMeridian.Equals(primeMeridian) &&
-                        gcs.AngularUnit.Equals(angularUnit))) throw new Exceptions.AmbiguousCoordinateSystemException("GeographicCoordinateSystem for name already exists but with different Datum, PrimeMeridian, and/or AngularUnit values.");
+                    gcs = new CoordinateSystems.Geographic.UserDefined(name, datum, primeMeridian, angularUnit);
+                    _geographicCoordinateSystems.TryAdd(key, gcs);
                     return gcs;
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "GeographicCoordinateSystemFactory.GetInstanceOfNewUserDefinedGeographicCoordinateSystem(string, IDatum, IPrimeMeridian, IAngularUnit)", ex);
-                throw;
+                if (!(gcs.Datum.Equals(datum) &&
+                    gcs.PrimeMeridian.Equals(primeMeridian) &&
+                    gcs.AngularUnit.Equals(angularUnit))) throw new Exceptions.AmbiguousCoordinateSystemException("GeographicCoordinateSystem for name already exists but with different Datum, PrimeMeridian, and/or AngularUnit values.");
+                return gcs;
             }
         }
 
@@ -131,17 +122,9 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.GeographicCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for coordinate system name.");
 
-            try
-            {
-                string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
-                if (!_geographicCoordinateSystems.TryGetValue(key, out IGeographicCoordinateSystem? value)) throw new Exceptions.InvalidCoordinateSystemException("A UserDefined Geographic Coordinate System could not be found for name.");
-                return value;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "GeographicCoordinateSystemFactory.GetInstanceOfExistingUserDefinedGeographicCoordinateSystem(string)", ex);
-                throw;
-            }
+            string key = typeof(CoordinateSystems.Geographic.UserDefined).Name + name;
+            if (!_geographicCoordinateSystems.TryGetValue(key, out IGeographicCoordinateSystem? value)) throw new Exceptions.InvalidCoordinateSystemException("A UserDefined Geographic Coordinate System could not be found for name.");
+            return value;
         }
     }
 }

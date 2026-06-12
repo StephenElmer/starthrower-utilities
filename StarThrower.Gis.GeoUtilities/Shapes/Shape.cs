@@ -1,7 +1,6 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
-using StarThrower.Logging;
 
 namespace StarThrower.Gis.GeoUtilities.Shapes
 {
@@ -59,17 +58,9 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         /// <exception cref="FailedItemCopyException"></exception>
         public virtual void ItemCopy(object value)
         {
-            try
-            {
-                ArgumentNullException.ThrowIfNull(value);
-                Shape other = (Shape)value;
-                _shapeType = other.ShapeType;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, this.GetType().Name + ".ItemCopy(object)", ex);
-                throw;
-            }
+            ArgumentNullException.ThrowIfNull(value);
+            Shape other = (Shape)value;
+            _shapeType = other.ShapeType;
         }
 
         #endregion

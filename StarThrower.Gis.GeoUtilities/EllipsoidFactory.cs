@@ -4,7 +4,6 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 using StarThrower.StringUtilities;
-using StarThrower.Logging;
 
 namespace StarThrower.Gis.GeoUtilities
 {
@@ -186,28 +185,20 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
 
-            try
+            string key = typeof(Ellipsoids.UserDefined).Name + name;
+            lock (_ellipsoidListLock)
             {
-                string key = typeof(Ellipsoids.UserDefined).Name + name;
-                lock (_ellipsoidListLock)
+                if (!_ellipsoidList.TryGetValue(key, out IEllipsoid? e))
                 {
-                    if (!_ellipsoidList.TryGetValue(key, out IEllipsoid? e))
-                    {
-                        e = new Ellipsoids.UserDefined(name, equatorialRadius, flattening, EllipsoidParamOrder.EquatorialRadiusFlattening);
-                        _ellipsoidList.Add(key, e);
-                        return e;
-                    }
-                    else
-                    {
-                        if (!(e.EquatorialRadius == equatorialRadius && e.Flattening == flattening)) throw new Exceptions.AmbiguousEllipsoidTypeException("Ellipsoid for name already exists with different EquatorialRadius and Flattening values.");
-                        return e;
-                    }
+                    e = new Ellipsoids.UserDefined(name, equatorialRadius, flattening, EllipsoidParamOrder.EquatorialRadiusFlattening);
+                    _ellipsoidList.Add(key, e);
+                    return e;
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "EllipsoidFactory.GetInstanceOfNewUserDefinedEllipsoid(string, double, double)", ex);
-                throw;
+                else
+                {
+                    if (!(e.EquatorialRadius == equatorialRadius && e.Flattening == flattening)) throw new Exceptions.AmbiguousEllipsoidTypeException("Ellipsoid for name already exists with different EquatorialRadius and Flattening values.");
+                    return e;
+                }
             }
         }
 
@@ -223,17 +214,9 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentNullException.ThrowIfNull(name);
             if (!StringUtil.IsValid(name, Ellipsoid.ValidNamePattern)) throw new Exceptions.InvalidEllipsoidTypeException("Invalid format for ellipsoid name.");
 
-            try
-            {
-                string key = typeof(Ellipsoids.UserDefined).Name + name;
-                if (!_ellipsoidList.TryGetValue(key, out IEllipsoid? value)) throw new Exceptions.InvalidEllipsoidTypeException("A UserDefined Ellipsoid could not be found for name.");
-                return value;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "EllipsoidFactory.GetInstanceOfExitingUserDefinedEllipsoid(string)", ex);
-                throw;
-            }
+            string key = typeof(Ellipsoids.UserDefined).Name + name;
+            if (!_ellipsoidList.TryGetValue(key, out IEllipsoid? value)) throw new Exceptions.InvalidEllipsoidTypeException("A UserDefined Ellipsoid could not be found for name.");
+            return value;
         }
     }
 }

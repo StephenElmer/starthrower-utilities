@@ -4,7 +4,6 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Collections.Generic;
-using StarThrower.Logging;
 using StarThrower.StringUtilities;
 
 namespace StarThrower.Gis.GeoUtilities
@@ -124,27 +123,19 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentNullException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.ProjectedCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for projected coordinate system name.");
 
-            try
+            string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
+            lock (_projectedCoordinateSystemsLock)
             {
-                string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
-                lock (_projectedCoordinateSystemsLock)
+                if (!_projectedCoordinateSystems.TryGetValue(key, out IProjectedCoordinateSystem? pcs))
                 {
-                    if (!_projectedCoordinateSystems.TryGetValue(key, out IProjectedCoordinateSystem? pcs))
-                    {
-                        pcs = new CoordinateSystems.Projected.UserDefined(name, geographicCoordinateSystem, projection, linearUnit);
-                        _projectedCoordinateSystems.TryAdd(key, pcs);
-                        return pcs;
-                    }
-                    if (!(pcs.GeographicCoordinateSystem.Equals(geographicCoordinateSystem) &&
-                        pcs.LinearUnit.Equals(linearUnit) &&
-                        pcs.Projection.Equals(projection))) throw new Exceptions.AmbiguousCoordinateSystemException("ProjectedCoordinateSystem for name already exists with different GeographicCoordinateSystem, Projection, and/or LinearUnit values.");
+                    pcs = new CoordinateSystems.Projected.UserDefined(name, geographicCoordinateSystem, projection, linearUnit);
+                    _projectedCoordinateSystems.TryAdd(key, pcs);
                     return pcs;
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "ProjectedCoordinateSystemFactory.GetInstanceOfNewUserDefinedProjectedCoordinateSystem(string, GeographicCoordinateSystem, ProjectionParameter[], LinearUnit)", ex);
-                throw;
+                if (!(pcs.GeographicCoordinateSystem.Equals(geographicCoordinateSystem) &&
+                    pcs.LinearUnit.Equals(linearUnit) &&
+                    pcs.Projection.Equals(projection))) throw new Exceptions.AmbiguousCoordinateSystemException("ProjectedCoordinateSystem for name already exists with different GeographicCoordinateSystem, Projection, and/or LinearUnit values.");
+                return pcs;
             }
         }
 
@@ -153,17 +144,9 @@ namespace StarThrower.Gis.GeoUtilities
             ArgumentNullException.ThrowIfNullOrEmpty(name);
             if (!StringUtil.IsValid(name, CoordinateSystems.ProjectedCoordinateSystem.ValidNamePattern)) throw new Exceptions.InvalidCoordinateSystemException("Invalid format for projected coordinate system name.");
 
-            try
-            {
-                string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
-                if (!_projectedCoordinateSystems.TryGetValue(key, out IProjectedCoordinateSystem? value)) throw new Exceptions.InvalidCoordinateSystemException("A UserDefined ProjectedCoordinateSystem could not be found for name.");
-                return value;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "ProjectedCoordinateSystemFactory.GetInstanceOfExistingUserDefinedProjectedCoordinateSystem(string, GeographicCoordinateSystem, ProjectionParameter[], LinearUnit)", ex);
-                throw;
-            }
+            string key = typeof(CoordinateSystems.Projected.UserDefined).Name + name;
+            if (!_projectedCoordinateSystems.TryGetValue(key, out IProjectedCoordinateSystem? value)) throw new Exceptions.InvalidCoordinateSystemException("A UserDefined ProjectedCoordinateSystem could not be found for name.");
+            return value;
         }
     }
 }

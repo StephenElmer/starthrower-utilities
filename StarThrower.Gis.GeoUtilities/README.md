@@ -279,7 +279,6 @@ int totalPoints = polygon.PointCount;
 ## Dependencies
 
 - [`StarThrower.ByteUtilities`](../StarThrower.ByteUtilities/README.md) — endian-aware byte conversions used by `Egm84`/`Egm96` to read binary geoid grid files.
-- [`StarThrower.Logging`](../StarThrower.Logging/README.md) — internal error reporting via `Logger.ReportError`.
 - [`StarThrower.MathUtilities`](../StarThrower.MathUtilities/README.md)
 - [`StarThrower.StringUtilities`](../StarThrower.StringUtilities/README.md)
 
