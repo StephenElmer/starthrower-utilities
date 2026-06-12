@@ -1,7 +1,6 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
-using StarThrower.Logging;
 
 namespace StarThrower.ByteUtilities
 {
@@ -41,34 +40,26 @@ namespace StarThrower.ByteUtilities
 
             bool isNullTerminated = false;
 
-            try
-            {
-                byte[] result = new byte[length];
+            byte[] result = new byte[length];
 
-                for (long i = 0; i < length; i++)
+            for (long i = 0; i < length; i++)
+            {
+                if (!isNullTerminated)
                 {
-                    if (!isNullTerminated)
+                    byte b = source[startIndex + i];
+                    result[i] = b;
+                    if (trimWithNulls && b == 0)
                     {
-                        byte b = source[startIndex + i];
-                        result[i] = b;
-                        if (trimWithNulls && b == 0)
-                        {
-                            isNullTerminated = true;
-                        }
-                    }
-                    else
-                    {
-                        result[i] = 0;
+                        isNullTerminated = true;
                     }
                 }
+                else
+                {
+                    result[i] = 0;
+                }
+            }
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ByteSubstring(byte[], long, long)", ex);
-                throw;
-            }
+            return result;
         }
 
         /// <summary>
@@ -81,22 +72,14 @@ namespace StarThrower.ByteUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
-            {
-                byte[] result = new byte[source.Length];
+            byte[] result = new byte[source.Length];
 
-                for (int i = 0, j = source.Length - 1; i < source.Length; i++, j--)
-                {
-                    result[i] = source[j];
-                }
-
-                return result;
-            }
-            catch (Exception ex)
+            for (int i = 0, j = source.Length - 1; i < source.Length; i++, j--)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ReverseBytes(byte[])", ex);
-                throw;
+                result[i] = source[j];
             }
+
+            return result;
         }
 
         /// <summary>
@@ -106,21 +89,13 @@ namespace StarThrower.ByteUtilities
         /// <returns>A byte with the bits in reverse order from the original.</returns>
         public static byte ReverseBits(byte value)
         {
-            try
+            byte result = 0;
+            for (int i = 0; i < 8; i++)
             {
-                byte result = 0;
-                for (int i = 0; i < 8; i++)
-                {
-                    result = (byte)((result << 1) | (value & 1));
-                    value >>= 1;
-                }
-                return result;
+                result = (byte)((result << 1) | (value & 1));
+                value >>= 1;
             }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ReverseBits(byte)", ex);
-                throw;
-            }
+            return result;
         }
 
         /// <summary>
@@ -133,20 +108,12 @@ namespace StarThrower.ByteUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            try
+            byte[] result = new byte[source.Length];
+            for (int i = 0; i < source.Length; i++)
             {
-                byte[] result = new byte[source.Length];
-                for (int i = 0; i < source.Length; i++)
-                {
-                    result[i] = ReverseBits(source[i]);
-                }
-                return result;
+                result[i] = ReverseBits(source[i]);
             }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ReverseBits(byte[])", ex);
-                throw;
-            }
+            return result;
         }
 
         /// <summary>
@@ -161,38 +128,30 @@ namespace StarThrower.ByteUtilities
         {
             ArgumentNullException.ThrowIfNull(value);
 
-            try
+            switch (byteEndian)
             {
-                switch (byteEndian)
-                {
-                    case ByteEndian.Little:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                return BitConverter.ToSingle(value, 0);
-                            case BitEndian.Big:
-                                return BitConverter.ToSingle(ReverseBits(value), 0);
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    case ByteEndian.Big:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                return BitConverter.ToSingle(ReverseBytes(value), 0);
-                            case BitEndian.Big:
-                                return BitConverter.ToSingle(ReverseBits(ReverseBytes(value)), 0);
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ByteArrayToInt32(byte[], ByteEndian, BitEndian)", ex);
-                throw;
+                case ByteEndian.Little:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            return BitConverter.ToSingle(value, 0);
+                        case BitEndian.Big:
+                            return BitConverter.ToSingle(ReverseBits(value), 0);
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                case ByteEndian.Big:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            return BitConverter.ToSingle(ReverseBytes(value), 0);
+                        case BitEndian.Big:
+                            return BitConverter.ToSingle(ReverseBits(ReverseBytes(value)), 0);
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -208,40 +167,32 @@ namespace StarThrower.ByteUtilities
         {
             ArgumentNullException.ThrowIfNull(value);
 
-            try
+            switch (byteEndian)
             {
-                switch (byteEndian)
-                {
-                    case ByteEndian.Little:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                //return bytes[3] << 32 | bytes[2] << 16 | bytes[1] << 8 | bytes[0];
-                                return BitConverter.ToInt32(value, 0);
-                            case BitEndian.Big:
-                                return BitConverter.ToInt32(ReverseBits(value), 0);
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    case ByteEndian.Big:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                //return bytes[0] << 32 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]; //This works for fileCode (9994) and version (1000)
-                                return BitConverter.ToInt32(ReverseBytes(value), 0);
-                            case BitEndian.Big:
-                                return BitConverter.ToInt32(ReverseBits(ReverseBytes(value)), 0);
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ByteArrayToInt32(byte[], ByteEndian, BitEndian)", ex);
-                throw;
+                case ByteEndian.Little:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            //return bytes[3] << 32 | bytes[2] << 16 | bytes[1] << 8 | bytes[0];
+                            return BitConverter.ToInt32(value, 0);
+                        case BitEndian.Big:
+                            return BitConverter.ToInt32(ReverseBits(value), 0);
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                case ByteEndian.Big:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            //return bytes[0] << 32 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]; //This works for fileCode (9994) and version (1000)
+                            return BitConverter.ToInt32(ReverseBytes(value), 0);
+                        case BitEndian.Big:
+                            return BitConverter.ToInt32(ReverseBits(ReverseBytes(value)), 0);
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -259,40 +210,32 @@ namespace StarThrower.ByteUtilities
             ArgumentNullException.ThrowIfNull(value);
             if (value.Length < 2) throw new ArgumentOutOfRangeException(nameof(value));
 
-            try
+            switch (byteEndian)
             {
-                switch (byteEndian)
-                {
-                    case ByteEndian.Little:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                //return bytes[1] << 8 | bytes[0];
-                                return BitConverter.ToInt16(value, 0);
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    case ByteEndian.Big:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                //return bytes[1] * 2 + bytes[0] * 4;
-                                return BitConverter.ToInt16(ReverseBytes(value), 0);
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ByteArrayToInt16(byte[], ByteEndian, BitEndian)", ex);
-                throw;
+                case ByteEndian.Little:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            //return bytes[1] << 8 | bytes[0];
+                            return BitConverter.ToInt16(value, 0);
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                case ByteEndian.Big:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            //return bytes[1] * 2 + bytes[0] * 4;
+                            return BitConverter.ToInt16(ReverseBytes(value), 0);
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -310,22 +253,14 @@ namespace StarThrower.ByteUtilities
         /// <exception cref="InvalidEndianException">Thrown if bitEndian is something other than Little or Big.</exception>
         public static Int16 ByteToInt16(byte bytes, BitEndian bitEndian)
         {
-            try
+            switch (bitEndian)
             {
-                switch (bitEndian)
-                {
-                    case BitEndian.Little:
-                        return (Int16)bytes;
-                    case BitEndian.Big:
-                        throw new NotImplementedException();
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ByteToInt16(byte, BitEndian)", ex);
-                throw;
+                case BitEndian.Little:
+                    return (Int16)bytes;
+                case BitEndian.Big:
+                    throw new NotImplementedException();
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -348,38 +283,30 @@ namespace StarThrower.ByteUtilities
         {
             ArgumentNullException.ThrowIfNull(value);
 
-            try
+            switch (byteEndian)
             {
-                switch (byteEndian)
-                {
-                    case ByteEndian.Little:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                return BitConverter.ToDouble(value, 0);
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    case ByteEndian.Big:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                return BitConverter.ToDouble(ReverseBytes(value), 0);
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.ByteArrayToDouble(byte[], ByteEndian, BitEndian)", ex);
-                throw;
+                case ByteEndian.Little:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            return BitConverter.ToDouble(value, 0);
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                case ByteEndian.Big:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            return BitConverter.ToDouble(ReverseBytes(value), 0);
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -399,42 +326,34 @@ namespace StarThrower.ByteUtilities
         /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static byte[] Int32ToByteArray(Int32 target, ByteEndian byteEndian, BitEndian bitEndian)
         {
-            try
+            switch (byteEndian)
             {
-                switch (byteEndian)
-                {
-                    case ByteEndian.Little:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                //result[0] = (byte)target;
-                                //result[1] = (byte)(target >> 8);
-                                //result[2] = (byte)(target >> 16);
-                                //result[3] = (byte)(target >> 24);
-                                return BitConverter.GetBytes(target);
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    case ByteEndian.Big:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                return ReverseBytes(BitConverter.GetBytes(target));
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.Int32ToByteArray(Int32, ByteEndian, BitEndian)", ex);
-                throw;
+                case ByteEndian.Little:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            //result[0] = (byte)target;
+                            //result[1] = (byte)(target >> 8);
+                            //result[2] = (byte)(target >> 16);
+                            //result[3] = (byte)(target >> 24);
+                            return BitConverter.GetBytes(target);
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                case ByteEndian.Big:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            return ReverseBytes(BitConverter.GetBytes(target));
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -454,40 +373,32 @@ namespace StarThrower.ByteUtilities
         /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static byte[] Int16ToByteArray(Int16 target, ByteEndian byteEndian, BitEndian bitEndian)
         {
-            try
+            switch (byteEndian)
             {
-                switch (byteEndian)
-                {
-                    case ByteEndian.Little:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                //result[0] = (byte)target;
-                                //result[1] = (byte)(target >> 8);
-                                return BitConverter.GetBytes(target);
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    case ByteEndian.Big:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                return ReverseBytes(BitConverter.GetBytes(target));
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.Int16ToByteArray(Int16, ByteEndian, BitEndian)", ex);
-                throw;
+                case ByteEndian.Little:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            //result[0] = (byte)target;
+                            //result[1] = (byte)(target >> 8);
+                            return BitConverter.GetBytes(target);
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                case ByteEndian.Big:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            return ReverseBytes(BitConverter.GetBytes(target));
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -505,22 +416,14 @@ namespace StarThrower.ByteUtilities
             ArgumentOutOfRangeException.ThrowIfNegative(target);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(target, 255);
 
-            try
+            switch (bitEndian)
             {
-                switch (bitEndian)
-                {
-                    case BitEndian.Little:
-                        return (byte)target;
-                    case BitEndian.Big:
-                        throw new NotImplementedException();
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.Int16ToByte(Int16, BitEndian)", ex);
-                throw;
+                case BitEndian.Little:
+                    return (byte)target;
+                case BitEndian.Big:
+                    throw new NotImplementedException();
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -540,38 +443,30 @@ namespace StarThrower.ByteUtilities
         /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static byte[] DoubleToByteArray(double target, ByteEndian byteEndian, BitEndian bitEndian)
         {
-            try
+            switch (byteEndian)
             {
-                switch (byteEndian)
-                {
-                    case ByteEndian.Little:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                return BitConverter.GetBytes(target);
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    case ByteEndian.Big:
-                        switch (bitEndian)
-                        {
-                            case BitEndian.Little:
-                                return ReverseBytes(BitConverter.GetBytes(target));
-                            case BitEndian.Big:
-                                throw new NotImplementedException();
-                            default:
-                                throw new InvalidEndianException();
-                        }
-                    default:
-                        throw new InvalidEndianException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.DoubleToByteArray(double, ByteEndian, BitEndian)", ex);
-                throw;
+                case ByteEndian.Little:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            return BitConverter.GetBytes(target);
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                case ByteEndian.Big:
+                    switch (bitEndian)
+                    {
+                        case BitEndian.Little:
+                            return ReverseBytes(BitConverter.GetBytes(target));
+                        case BitEndian.Big:
+                            throw new NotImplementedException();
+                        default:
+                            throw new InvalidEndianException();
+                    }
+                default:
+                    throw new InvalidEndianException();
             }
         }
 
@@ -602,58 +497,50 @@ namespace StarThrower.ByteUtilities
             ArgumentNullException.ThrowIfNull(value1);
             ArgumentNullException.ThrowIfNull(value2);
 
-            try
+            bool aIsLonger = false;
+            int maxLen = -1;
+            if (value1.Length >= value2.Length)
             {
-                bool aIsLonger = false;
-                int maxLen = -1;
-                if (value1.Length >= value2.Length)
+                maxLen = value1.Length;
+                aIsLonger = true;
+            }
+            else
+            {
+                maxLen = value2.Length;
+            }
+
+            int minLen = int.MaxValue;
+            if (value1.Length < value2.Length)
+            {
+                minLen = value1.Length;
+            }
+            else
+            {
+                minLen = value2.Length;
+            }
+
+            byte[] rval = new byte[maxLen];
+
+            for (int i = 0; i < maxLen; i++)
+            {
+                if (i < minLen)
                 {
-                    maxLen = value1.Length;
-                    aIsLonger = true;
+                    rval[i] = (byte)(value1[i] ^ value2[i]);
                 }
                 else
                 {
-                    maxLen = value2.Length;
-                }
-
-                int minLen = int.MaxValue;
-                if (value1.Length < value2.Length)
-                {
-                    minLen = value1.Length;
-                }
-                else
-                {
-                    minLen = value2.Length;
-                }
-
-                byte[] rval = new byte[maxLen];
-
-                for (int i = 0; i < maxLen; i++)
-                {
-                    if (i < minLen)
+                    if (aIsLonger)
                     {
-                        rval[i] = (byte)(value1[i] ^ value2[i]);
+                        rval[i] = (byte)(value1[i] ^ 0);
                     }
                     else
                     {
-                        if (aIsLonger)
-                        {
-                            rval[i] = (byte)(value1[i] ^ 0);
-                        }
-                        else
-                        {
-                            rval[i] = (byte)(value2[i] ^ 0);
-                        }
+                        rval[i] = (byte)(value2[i] ^ 0);
                     }
                 }
+            }
 
-                return rval;
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "Bytes.XorByteArray(byte[], byte[])", ex);
-                throw;
-            }
+            return rval;
         }
     }
 }
