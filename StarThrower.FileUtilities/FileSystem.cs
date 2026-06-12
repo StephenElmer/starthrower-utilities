@@ -3,7 +3,6 @@
 using System;
 using System.IO;
 using System.Text;
-using StarThrower.Logging;
 
 namespace StarThrower.FileUtilities
 {
@@ -25,54 +24,46 @@ namespace StarThrower.FileUtilities
             ArgumentNullException.ThrowIfNull(file1);
             ArgumentNullException.ThrowIfNull(file2);
 
-            try
+            // Determine if the same file was referenced two times.
+            if (file1.Equals(file2, StringComparison.Ordinal))
             {
-                // Determine if the same file was referenced two times.
-                if (file1.Equals(file2, StringComparison.Ordinal))
-                {
-                    // Return true to indicate that the files are the same.
-                    return true;
-                }
+                // Return true to indicate that the files are the same.
+                return true;
+            }
 
-                bool lengthsMatch = false;
-                int file1byte = 0;
-                int file2byte = 0;
+            bool lengthsMatch = false;
+            int file1byte = 0;
+            int file2byte = 0;
 
-                using (FileStream fs1 = new FileStream(file1, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs1 = new FileStream(file1, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                using (FileStream fs2 = new FileStream(file2, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (FileStream fs2 = new FileStream(file2, FileMode.Open, FileAccess.Read, FileShare.Read))
+
+                    // Check the file sizes. If they are not the same, the files
+                    // are not the same.
+                    lengthsMatch = (fs1.Length == fs2.Length);
+                    if (lengthsMatch)
                     {
 
-                        // Check the file sizes. If they are not the same, the files 
-                        // are not the same.
-                        lengthsMatch = (fs1.Length == fs2.Length);
-                        if (lengthsMatch)
+                        // Read and compare a byte from each file until either a
+                        // non-matching set of bytes is found or until the end of
+                        // file1 is reached.
+                        do
                         {
-
-                            // Read and compare a byte from each file until either a
-                            // non-matching set of bytes is found or until the end of
-                            // file1 is reached.
-                            do
-                            {
-                                // Read one byte from each file.
-                                file1byte = fs1.ReadByte();
-                                file2byte = fs2.ReadByte();
-                            }
-                            while ((file1byte == file2byte) && (file1byte != -1));
+                            // Read one byte from each file.
+                            file1byte = fs1.ReadByte();
+                            file2byte = fs2.ReadByte();
                         }
+                        while ((file1byte == file2byte) && (file1byte != -1));
                     }
                 }
+            }
 
-                // Return the success of the comparison. "file1byte" is 
-                // equal to "file2byte" at this point only if the files are 
-                // the same.
-                return (lengthsMatch && ((file1byte - file2byte) == 0));
-            }
-            catch (Exception ex)
-            {
-                Logger.ReportError(ErrorPolicy.Internal, "FileSystem.FileCompare(string, string)", ex);
-                throw;
-            }
+            // Return the success of the comparison. "file1byte" is
+            // equal to "file2byte" at this point only if the files are
+            // the same.
+            return (lengthsMatch && ((file1byte - file2byte) == 0));
         }
 
         /// <summary>

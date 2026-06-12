@@ -47,7 +47,7 @@ FileSystem.DeleteFiles(@"C:\temp\working");
 
 ## Dependencies
 
-This package references [`StarThrower.Logging`](../StarThrower.Logging/README.md).
+None.
 
 ---
 
