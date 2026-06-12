@@ -635,13 +635,4 @@ To be addressed in Step 2d. Do not modify these items during Steps 2b or 2c.
 
 ## Pending Analyzer Warnings Log
 
-Warnings surfaced during Step 2b/2c that are pre-existing issues (not introduced by the
-migration). To be addressed in Step 3. Do not fix these during Steps 2b or 2c.
-
-| Assembly | File | Rule | Description |
-|---|---|---|---|
-| `StarThrower.EarleyParser` | `Parser.cs:165` | CA2200 | `throw ex;` re-throws caught exception, losing original stack trace. Change to bare `throw;`. |
-| `StarThrower.XBase` | `Internal/Record.cs:317` | CA2200 | Same `throw ex;` pattern as above. |
-| `StarThrower.XBase` | `Internal/Field.cs:353` | CA2200 | Same `throw ex;` pattern as above. |
-| `StarThrower.XBase` | `Internal/File.cs:468, 479, 491` | CA2022 | `FileStream.Read()` may return fewer bytes than requested (partial read). Review whether the dBASE file format guarantees full reads; if not, replace with `ReadExactly()` (available in .NET 7+). |
-| `StarThrower.Gis.GeoUtilities` | `Shapes/*.cs` (18 occurrences) | CA2200 | `throw ex;` pattern in shape-parsing code across all shape type files (`Shape.cs:88`, `PointShape.cs:108`, `PolylineShape.cs:148`, `PolygonShape.cs:148`, `Part.cs:116`, `OpenPart.cs:68`, `ClosedPart.cs:68`, and 11 specialized shape files at line 71). Change to bare `throw;`. |
+No current analyzer warnings

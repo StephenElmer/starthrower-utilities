@@ -1198,7 +1198,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
             }
             catch (Exception ex)
             {
-                Logger.ReportError(ErrorPolicy.Internal, "UtmNsZone.GetLongitudinalZoneFromLongitudinalZoneString(string)", ex);
+                Logger.ReportError(ErrorPolicy.Internal, "UtmZone.GetLongitudinalZoneFromLongitudinalZoneString(string)", ex);
                 throw;
             }
         }
