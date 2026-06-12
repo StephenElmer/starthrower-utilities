@@ -82,7 +82,7 @@ byte[] reversed = ByteUtil.ReverseBytes(data);
 
 ## Dependencies
 
-This package references [`StarThrower.Logging`](../StarThrower.Logging/README.md).
+None.
 
 ---
 

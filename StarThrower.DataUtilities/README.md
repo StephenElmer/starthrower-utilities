@@ -90,7 +90,6 @@ If your code currently calls an `OleDbDataReader` overload (e.g. `DataUtil.GetIn
 
 ## Dependencies
 
-- [`StarThrower.Logging`](../StarThrower.Logging/README.md) — internal error reporting.
 - `System.Data.OleDb` — required for the obsolete `OleDbDataReader` overloads (Windows-only).
 
 ---

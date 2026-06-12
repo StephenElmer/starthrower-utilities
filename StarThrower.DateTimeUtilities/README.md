@@ -67,7 +67,6 @@ Used by `DateDiff` to specify the unit of the result. `Weekday` returns whole we
 
 ## Dependencies
 
-- [`StarThrower.Logging`](../StarThrower.Logging/README.md) — internal error reporting.
 - [`StarThrower.MathUtilities`](../StarThrower.MathUtilities/README.md) — `MathUtil.RoundTowardsZero` used by `DateDiff`.
 - [`StarThrower.StringUtilities`](../StarThrower.StringUtilities/README.md) — `StringUtil.Right` used by `ToMmddyyString`.
 
