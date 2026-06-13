@@ -204,7 +204,7 @@ namespace StarThrower.XBase.Internal
 
         #region Internal Methods
 
-        internal bool ValidateData(string data)
+        internal static bool ValidateData(string data)
         {
             //TODO: write code to validate data against fieldType
             return true;

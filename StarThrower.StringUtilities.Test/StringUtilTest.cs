@@ -648,6 +648,7 @@ namespace StarThrower.StringUtilities.Test
         [Fact(Skip = "this test has been ignored")]
         public void TestParseString20NullSource()
         {
+            //TODO: implement test for null source string - should throw exception
         }
 
         [Fact]
@@ -1030,6 +1031,7 @@ namespace StarThrower.StringUtilities.Test
         [Fact(Skip = "this test has been ignored")]
         public void TestParseStringFromRight20NullSource()
         {
+            //TODO: implement test for null source string - should throw exception
         }
 
         [Fact]

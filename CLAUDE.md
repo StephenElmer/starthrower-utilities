@@ -66,7 +66,6 @@ to take only what they need.
 | `StarThrower.FileUtilities` | File I/O helpers |
 | `StarThrower.Gis.EsriLibrary` | ESRI shapefile read/write |
 | `StarThrower.Gis.GeoUtilities` | Geographic/coordinate utilities |
-| `StarThrower.Logging` | Logging abstraction layer |
 | `StarThrower.MathUtilities` | Math helpers |
 | `StarThrower.Matrices` | Matrix operations |
 | `StarThrower.StringUtilities` | String helpers |
@@ -89,6 +88,33 @@ extracting them reserves the clean `StarThrower.EfProviders` / `StarThrower.WcfP
 namespaces for a future modern (.NET 10 / ASP.NET Core Identity / EF Core) rebuild.
 
 **This solution is now pure net10.0 / C# 14 — no net48 projects remain.**
+
+### Removed Projects — StarThrower.Logging
+
+On 2026-06-12, `StarThrower.Logging` and `StarThrower.Logging.Test` were removed from
+the solution entirely (project folders deleted, removed from `StarThrower.Utilities.sln`,
+removed from the root `README.md` package table).
+
+Background: as part of decoupling every consumer assembly from `StarThrower.Logging`'s
+catch-log-rethrow pattern (`Logger.ReportError(...)` followed by `throw;`, which adds
+nothing since `throw;` rethrows unchanged regardless), all 8 consuming assemblies
+(ByteUtilities, DataUtilities, DateTimeUtilities, MathUtilities, FileUtilities,
+StringUtilities, XBase, Gis.GeoUtilities) had their `using StarThrower.Logging;`
+directives, `ProjectReference`s, and try/catch wrappers removed. Once decoupling was
+complete, `StarThrower.Logging` had zero remaining consumers in this solution.
+
+Reasons for removal rather than continued publication:
+- Its own README acknowledged it predates `Microsoft.Extensions.Logging` and similar
+  modern abstractions — it was designed as a lighter-weight version of the old
+  Enterprise Library exception handling application block.
+- `StarThrower.Logging.Test` had all 3 tests skipped, with `dotnet test` exiting
+  non-zero ("Zero tests ran") — fixing this for a package with no remaining purpose
+  in this solution wasn't worth it.
+- Removing it gives a clean portfolio story: every library is now self-contained with
+  no internal cross-cutting dependency on a bespoke logging facade.
+
+If logging is ever genuinely needed by a library in this solution, prefer
+`Microsoft.Extensions.Logging.Abstractions` (discuss first — see "Do not add" below).
 
 ### Test Projects
 
@@ -143,10 +169,10 @@ Current/
 
 ## Current State
 
-- **Framework:** `net10.0` — all 13 projects (Logging, MathUtilities, Matrices,
+- **Framework:** `net10.0` — all 12 projects (MathUtilities, Matrices,
   Collections, ByteUtilities, DataUtilities, FileUtilities, StringUtilities,
   DateTimeUtilities, EarleyParser, XBase, Gis.GeoUtilities, Gis.EsriLibrary)
-- **Language:** `C# 14` (modern idioms applied) — all 13 projects
+- **Language:** `C# 14` (modern idioms applied) — all 12 projects
 - **Source control:** Git / GitHub (TFS artifacts removed — Step 1 complete)
 - **Test framework:** xUnit v3 + AwesomeAssertions — all projects (Step 6 complete)
 - **NuGet:** PackageReference (packages.config removed — Step 2a complete)
@@ -569,7 +595,9 @@ Verified relative depth: build output is `Code/<Project>/bin/Debug/net10.0/`, wh
 
 ### Do not add
 - New NuGet dependencies without asking first
-- Logging frameworks (the library has its own `StarThrower.Logging`)
+- Logging frameworks or dependencies without discussion — this library has no built-in
+  logging abstraction (see "Removed Projects — StarThrower.Logging" above); prefer
+  `Microsoft.Extensions.Logging.Abstractions` if logging is ever genuinely needed
 - Nullable suppression operators (`!`) to silence warnings — fix the root cause instead
 - `#pragma warning disable` suppression blocks
 
