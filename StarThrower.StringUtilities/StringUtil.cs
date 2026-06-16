@@ -120,33 +120,6 @@ namespace StarThrower.StringUtilities
 
             return ret.ToString();
         }
-        //public static string ToHex_old(string source)
-        //{
-        //    if (source == null) throw new ArgumentNullException("source");
-        //    try
-        //    {
-        //        StringBuilder ret = new StringBuilder(String.Empty);
-        //        for (int i = 0; i < source.Length; i++)
-        //        {
-        //            string c = "";
-        //            //TODO: implement StarThrower.StringUtil.ToHex(string)
-        //            //string c = Microsoft.VisualBasic.Conversion.Hex(Microsoft.VisualBasic.Strings.Asc(source[i]));
-        //            throw new NotImplementedException();
-        //            if (c.Length == 1)
-        //            {
-        //                //c = "0" + c;
-        //                ret.Append("0");
-        //            }
-        //            ret.Append(c);
-        //        }
-        //        return ret.ToString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.ReportError(ErrorPolicy.Internal, "Strings.ToHex(string)", ex);
-        //        throw;
-        //    }
-        //}
 
 
         /// <summary>
@@ -167,12 +140,6 @@ namespace StarThrower.StringUtilities
         {
             return source.ToString("X", CultureInfo.InvariantCulture); // "X" formats as hexadecimal
         }
-        //public static string ToHex_old(int source)
-        //{
-        //    //TODO: Imlement StarThrower.StringUtil.ToHex(int)
-        //    //return Microsoft.VisualBasic.Conversion.Hex(source);
-        //    throw new NotImplementedException();
-        //}
 
 
         /// <summary>
@@ -822,13 +789,6 @@ namespace StarThrower.StringUtilities
                 return new string(new[] { highSurrogate, lowSurrogate });
             }
         }
-        //public static string ToChar_old(int characterCode)
-        //{
-        //    if (characterCode < 0 || characterCode > 255) throw new ArgumentOutOfRangeException("characterCode");
-        //    //TODO: implement StarThrower.StringUtil.ToChar(int)
-        //    //return Microsoft.VisualBasic.Strings.ChrW(characterCode).ToString();
-        //    throw new NotImplementedException();
-        //}
 
 
         /// <summary>
@@ -852,13 +812,6 @@ namespace StarThrower.StringUtilities
 
             return (int)bytes[0];
         }
-        //public static int ToAscii_old(string target)
-        //{
-        //    if (target == null) throw new ArgumentNullException("target");
-        //    //TODO: implement StarThrower.StringUtil.ToAscii(string)
-        //    //return Microsoft.VisualBasic.Strings.Asc(target);
-        //    throw new NotImplementedException();
-        //}
 
 
         /// <summary>
@@ -929,21 +882,6 @@ namespace StarThrower.StringUtilities
             var chars = encoding.GetChars(target, 0, target.Length);
             return new string(chars);
         }
-        //public static string FromByteArray_old(byte[] target)
-        //{
-        //    if (target == null) throw new ArgumentNullException("target");
-        //    try
-        //    {
-        //        //TODO: implement StarThrower.StringUtil.FromByteArray(byte[])
-        //        //return Encoding.ASCII.GetString(target);
-        //        throw new NotImplementedException();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.ReportError(ErrorPolicy.Internal, "Strings.FromByteArray(byte[])", ex);
-        //        throw;
-        //    }
-        //}
 
 
         /// <summary>
@@ -1103,43 +1041,6 @@ namespace StarThrower.StringUtilities
                 }
             }
         }
-        //public static string SqueezeNumber_old(object number, int length, ScientificNotationFormat format)
-        //{
-        //    if (number == null) throw new ArgumentNullException("number");
-        //    if (!MathUtil.IsNumeric(number.ToString())) throw new ArgumentOutOfRangeException("number");
-        //    try
-        //    {
-        //        //TODO: implement StarThrower.StringUtil.SqueezeNumber(object, int, ScientificNotationFormat)
-        //        //if (Microsoft.VisualBasic.Strings.Format(number, "#,###,###").Length <= length)
-        //        //{
-        //        //    return Microsoft.VisualBasic.Strings.Format(number, "#,###,###");
-        //        //}
-        //        //else
-        //        //{
-        //        //    switch (format)
-        //        //    {
-        //        //        case ScientificNotationFormat.Exponential:
-        //        //            return Microsoft.VisualBasic.Strings.Format(number, "Scientific");
-        //        //        case ScientificNotationFormat.Base10:
-        //        //            return ENotationToBaseTenNotation(Microsoft.VisualBasic.Strings.Format(number, "Scientific"), false, false, true, true);
-        //        //        case ScientificNotationFormat.Base10Spaced:
-        //        //            return ENotationToBaseTenNotation(Microsoft.VisualBasic.Strings.Format(number, "Scientific"), false, true, true, true);
-        //        //        case ScientificNotationFormat.Base10Superscript:
-        //        //            return ENotationToBaseTenNotation(Microsoft.VisualBasic.Strings.Format(number, "Scientific"), true, false, true, true);
-        //        //        case ScientificNotationFormat.Base10SuperscriptSpaced:
-        //        //            return ENotationToBaseTenNotation(Microsoft.VisualBasic.Strings.Format(number, "Scientific"), true, true, true, true);
-        //        //        default:
-        //        //            throw new ArgumentOutOfRangeException("format");
-        //        //    }
-        //        //}
-        //        throw new NotImplementedException();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.ReportError(ErrorPolicy.Internal, "Strings.SqueezeNumber(object, int, ScientificNotationFormat)", ex);
-        //        throw;
-        //    }
-        //}
 
 
         /// <summary>
