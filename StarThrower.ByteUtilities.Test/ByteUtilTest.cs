@@ -1059,6 +1059,162 @@ namespace StarThrower.ByteUtilities.Test
             (actual).Should().Be(expected);
         }
 
+        [Fact]
+        public void TestByteArrayToInt16BigEndianLittleBitEndianZero()
+        {
+            byte[] bytes = new byte[] { 0x00, 0x00 };
+            short expected = 0;
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Big, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToInt16BigEndianLittleBitEndianOne()
+        {
+            // Big-endian { 0x00, 0x01 } → ReverseBytes → { 0x01, 0x00 } → BitConverter.ToInt16 → 1
+            byte[] bytes = new byte[] { 0x00, 0x01 };
+            short expected = 1;
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Big, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToInt16BigEndianLittleBitEndianAllOnes()
+        {
+            byte[] bytes = new byte[] { 0xFF, 0xFF };
+            short expected = -1;
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Big, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToInt16LittleEndianBigBitEndianZero()
+        {
+            byte[] bytes = new byte[] { 0x00, 0x00 };
+            short expected = 0;
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Little, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToInt16LittleEndianBigBitEndianAllOnes()
+        {
+            // ReverseBits(0xFF) = 0xFF, so all-ones stays -1
+            byte[] bytes = new byte[] { 0xFF, 0xFF };
+            short expected = -1;
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Little, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToInt16LittleEndianBigBitEndian()
+        {
+            // { 0x01, 0x00 } → ReverseBits each → { 0x80, 0x00 } → BitConverter.ToInt16 → 128
+            byte[] bytes = new byte[] { 0x01, 0x00 };
+            short expected = BitConverter.ToInt16(new byte[] { 0x80, 0x00 }, 0);
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Little, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToInt16BigEndianBigBitEndianZero()
+        {
+            byte[] bytes = new byte[] { 0x00, 0x00 };
+            short expected = 0;
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToInt16BigEndianBigBitEndianAllOnes()
+        {
+            byte[] bytes = new byte[] { 0xFF, 0xFF };
+            short expected = -1;
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToInt16BigEndianBigBitEndian()
+        {
+            // { 0x00, 0x01 } → ReverseBytes → { 0x01, 0x00 } → ReverseBits each → { 0x80, 0x00 } → BitConverter.ToInt16 → 128
+            byte[] bytes = new byte[] { 0x00, 0x01 };
+            short expected = BitConverter.ToInt16(new byte[] { 0x80, 0x00 }, 0);
+            short actual = ByteUtil.ByteArrayToInt16(bytes, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        #endregion
+
+
+        #region ByteToInt16() tests
+
+        [Fact]
+        public void TestByteToInt16LittleBitEndianZero()
+        {
+            byte b = 0x00;
+            short expected = 0;
+            short actual = ByteUtil.ByteToInt16(b, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteToInt16LittleBitEndianOne()
+        {
+            byte b = 0x01;
+            short expected = 1;
+            short actual = ByteUtil.ByteToInt16(b, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteToInt16LittleBitEndianMaxByte()
+        {
+            byte b = 0xFF;
+            short expected = 255;
+            short actual = ByteUtil.ByteToInt16(b, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteToInt16BigBitEndianZero()
+        {
+            byte b = 0x00;
+            short expected = 0;
+            short actual = ByteUtil.ByteToInt16(b, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteToInt16BigBitEndianOne()
+        {
+            // ReverseBits(0x01) = 0x80 = 128
+            byte b = 0x01;
+            short expected = 128;
+            short actual = ByteUtil.ByteToInt16(b, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteToInt16BigBitEndianMaxByte()
+        {
+            // ReverseBits(0xFF) = 0xFF = 255
+            byte b = 0xFF;
+            short expected = 255;
+            short actual = ByteUtil.ByteToInt16(b, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteToInt16BigBitEndianHighBitSet()
+        {
+            // ReverseBits(0x80) = 0x01 = 1
+            byte b = 0x80;
+            short expected = 1;
+            short actual = ByteUtil.ByteToInt16(b, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
         #endregion
 
 
@@ -1267,6 +1423,76 @@ namespace StarThrower.ByteUtilities.Test
             act.Should().Throw<ArgumentNullException>();
         }
 
+        [Fact]
+        public void TestByteArrayToSingleBigEndianLittleBitEndianPositiveHardCoded()
+        {
+            // big-endian bytes of 3.14f: ReverseBytes({ 0xC3, 0xF5, 0x48, 0x40 }) = { 0x40, 0x48, 0xF5, 0xC3 }
+            byte[] value = new byte[] { 0x40, 0x48, 0xF5, 0xC3 };
+            float expected = 3.14f;
+            float actual = ByteUtil.ByteArrayToSingle(value, ByteEndian.Big, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToSingleBigEndianLittleBitEndianNegativeHardCoded()
+        {
+            // big-endian bytes of -3.14f: ReverseBytes({ 0xC3, 0xF5, 0x48, 0xC0 }) = { 0xC0, 0x48, 0xF5, 0xC3 }
+            byte[] value = new byte[] { 0xC0, 0x48, 0xF5, 0xC3 };
+            float expected = -3.14f;
+            float actual = ByteUtil.ByteArrayToSingle(value, ByteEndian.Big, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToSingleLittleEndianBigBitEndianPositiveHardCoded()
+        {
+            // ReverseBits of each LE byte of 3.14f: { 0xC3, 0xF5, 0x48, 0x40 } → { 0xC3, 0xAF, 0x12, 0x02 }
+            byte[] value = new byte[] { 0xC3, 0xAF, 0x12, 0x02 };
+            float expected = 3.14f;
+            float actual = ByteUtil.ByteArrayToSingle(value, ByteEndian.Little, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToSingleLittleEndianBigBitEndianOneHardCoded()
+        {
+            // ReverseBits of each LE byte of 1.0f: { 0x00, 0x00, 0x80, 0x3F } → { 0x00, 0x00, 0x01, 0xFC }
+            byte[] value = new byte[] { 0x00, 0x00, 0x01, 0xFC };
+            float expected = 1.0f;
+            float actual = ByteUtil.ByteArrayToSingle(value, ByteEndian.Little, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToSingleBigEndianBigBitEndianPositiveHardCoded()
+        {
+            // ReverseBits of each BE byte of 3.14f: { 0x40, 0x48, 0xF5, 0xC3 } → { 0x02, 0x12, 0xAF, 0xC3 }
+            byte[] value = new byte[] { 0x02, 0x12, 0xAF, 0xC3 };
+            float expected = 3.14f;
+            float actual = ByteUtil.ByteArrayToSingle(value, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToSingleBigEndianBigBitEndianNegativeHardCoded()
+        {
+            // ReverseBits of each BE byte of -3.14f: { 0xC0, 0x48, 0xF5, 0xC3 } → { 0x03, 0x12, 0xAF, 0xC3 }
+            byte[] value = new byte[] { 0x03, 0x12, 0xAF, 0xC3 };
+            float expected = -3.14f;
+            float actual = ByteUtil.ByteArrayToSingle(value, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToSingleBigEndianBigBitEndianOneHardCoded()
+        {
+            // ReverseBits of each BE byte of 1.0f: { 0x3F, 0x80, 0x00, 0x00 } → { 0xFC, 0x01, 0x00, 0x00 }
+            byte[] value = new byte[] { 0xFC, 0x01, 0x00, 0x00 };
+            float expected = 1.0f;
+            float actual = ByteUtil.ByteArrayToSingle(value, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
         #endregion
 
 
@@ -1282,6 +1508,90 @@ namespace StarThrower.ByteUtilities.Test
             double expected = -257;
             double actual = ByteUtil.ByteArrayToDouble(bytes, byteEndian, bitEndian);
             (actual).Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleBigEndianLittleBitEndianZero()
+        {
+            byte[] bytes = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            double expected = 0.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Big, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleBigEndianLittleBitEndian()
+        {
+            byte[] bytes = ByteUtil.ReverseBytes(BitConverter.GetBytes(-257.0));
+            double expected = -257.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Big, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleLittleEndianBigBitEndianZero()
+        {
+            byte[] bytes = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            double expected = 0.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Little, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleLittleEndianBigBitEndian()
+        {
+            byte[] bytes = ByteUtil.ReverseBits(BitConverter.GetBytes(-257.0));
+            double expected = -257.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Little, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleBigEndianBigBitEndianZero()
+        {
+            byte[] bytes = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            double expected = 0.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleBigEndianBigBitEndian()
+        {
+            byte[] bytes = ByteUtil.ReverseBits(ByteUtil.ReverseBytes(BitConverter.GetBytes(-257.0)));
+            double expected = -257.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleBigEndianLittleBitEndianHardCoded()
+        {
+            // big-endian bytes of -257.0: ReverseBytes({ 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x70, 0xC0 }) = { 0xC0, 0x70, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00 }
+            byte[] bytes = new byte[] { 0xC0, 0x70, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            double expected = -257.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Big, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleLittleEndianBigBitEndianHardCoded()
+        {
+            // ReverseBits of each LE byte of -257.0: { 0x00,0x00,0x00,0x00,0x00,0x10,0x70,0xC0 } → { 0x00,0x00,0x00,0x00,0x00,0x08,0x0E,0x03 }
+            byte[] bytes = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x0E, 0x03 };
+            double expected = -257.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Little, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestByteArrayToDoubleBigEndianBigBitEndianHardCoded()
+        {
+            // ReverseBits of each BE byte of -257.0: { 0xC0,0x70,0x10,0x00,0x00,0x00,0x00,0x00 } → { 0x03,0x0E,0x08,0x00,0x00,0x00,0x00,0x00 }
+            byte[] bytes = new byte[] { 0x03, 0x0E, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            double expected = -257.0;
+            double actual = ByteUtil.ByteArrayToDouble(bytes, ByteEndian.Big, BitEndian.Big);
+            actual.Should().Be(expected);
         }
 
         #endregion
@@ -1305,6 +1615,90 @@ namespace StarThrower.ByteUtilities.Test
             }
         }
 
+        [Fact]
+        public void TestInt32ToByteArrayBigEndianLittleBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0, 0, 0 };
+            byte[] actual = ByteUtil.Int32ToByteArray(0, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt32ToByteArrayBigEndianLittleBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBytes(BitConverter.GetBytes(-257));
+            byte[] actual = ByteUtil.Int32ToByteArray(-257, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt32ToByteArrayLittleEndianBigBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0, 0, 0 };
+            byte[] actual = ByteUtil.Int32ToByteArray(0, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt32ToByteArrayLittleEndianBigBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBits(BitConverter.GetBytes(-257));
+            byte[] actual = ByteUtil.Int32ToByteArray(-257, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt32ToByteArrayBigEndianBigBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0, 0, 0 };
+            byte[] actual = ByteUtil.Int32ToByteArray(0, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt32ToByteArrayBigEndianBigBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBits(ByteUtil.ReverseBytes(BitConverter.GetBytes(-257)));
+            byte[] actual = ByteUtil.Int32ToByteArray(-257, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt32ToByteArrayBigEndianLittleBitEndianHardCoded()
+        {
+            // -257 = 0xFFFFFEFF LE; big-endian = { 0xFF, 0xFF, 0xFE, 0xFF }
+            byte[] expected = new byte[] { 0xFF, 0xFF, 0xFE, 0xFF };
+            byte[] actual = ByteUtil.Int32ToByteArray(-257, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt32ToByteArrayLittleEndianBigBitEndianHardCoded()
+        {
+            // -257 LE = { 0xFF, 0xFE, 0xFF, 0xFF }; ReverseBits each: { 0xFF, 0x7F, 0xFF, 0xFF }
+            byte[] expected = new byte[] { 0xFF, 0x7F, 0xFF, 0xFF };
+            byte[] actual = ByteUtil.Int32ToByteArray(-257, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt32ToByteArrayBigEndianBigBitEndianHardCoded()
+        {
+            // -257 BE = { 0xFF, 0xFF, 0xFE, 0xFF }; ReverseBits each: { 0xFF, 0xFF, 0x7F, 0xFF }
+            byte[] expected = new byte[] { 0xFF, 0xFF, 0x7F, 0xFF };
+            byte[] actual = ByteUtil.Int32ToByteArray(-257, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
         #endregion
 
 
@@ -1326,6 +1720,145 @@ namespace StarThrower.ByteUtilities.Test
             }
         }
 
+        [Fact]
+        public void TestInt16ToByteArrayBigEndianLittleBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0 };
+            byte[] actual = ByteUtil.Int16ToByteArray(0, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt16ToByteArrayBigEndianLittleBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBytes(BitConverter.GetBytes((Int16)(-257)));
+            byte[] actual = ByteUtil.Int16ToByteArray(-257, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt16ToByteArrayLittleEndianBigBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0 };
+            byte[] actual = ByteUtil.Int16ToByteArray(0, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt16ToByteArrayLittleEndianBigBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBits(BitConverter.GetBytes((Int16)(-257)));
+            byte[] actual = ByteUtil.Int16ToByteArray(-257, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt16ToByteArrayBigEndianBigBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0 };
+            byte[] actual = ByteUtil.Int16ToByteArray(0, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt16ToByteArrayBigEndianBigBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBits(ByteUtil.ReverseBytes(BitConverter.GetBytes((Int16)(-257))));
+            byte[] actual = ByteUtil.Int16ToByteArray(-257, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt16ToByteArrayBigEndianLittleBitEndianHardCoded()
+        {
+            // -257 as Int16 = 0xFEFF LE; big-endian = { 0xFE, 0xFF }
+            byte[] expected = new byte[] { 0xFE, 0xFF };
+            byte[] actual = ByteUtil.Int16ToByteArray(-257, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt16ToByteArrayLittleEndianBigBitEndianHardCoded()
+        {
+            // -257 as Int16 LE = { 0xFF, 0xFE }; ReverseBits each: { 0xFF, 0x7F }
+            byte[] expected = new byte[] { 0xFF, 0x7F };
+            byte[] actual = ByteUtil.Int16ToByteArray(-257, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestInt16ToByteArrayBigEndianBigBitEndianHardCoded()
+        {
+            // -257 as Int16 BE = { 0xFE, 0xFF }; ReverseBits each: { 0x7F, 0xFF }
+            byte[] expected = new byte[] { 0x7F, 0xFF };
+            byte[] actual = ByteUtil.Int16ToByteArray(-257, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        #endregion
+
+
+        #region Int16ToByte() tests
+
+        [Fact]
+        public void TestInt16ToByteLittleBitEndianZero()
+        {
+            byte expected = 0;
+            byte actual = ByteUtil.Int16ToByte(0, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestInt16ToByteLittleBitEndianOne()
+        {
+            byte expected = 1;
+            byte actual = ByteUtil.Int16ToByte(1, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestInt16ToByteLittleBitEndianMaxByte()
+        {
+            byte expected = 255;
+            byte actual = ByteUtil.Int16ToByte(255, BitEndian.Little);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestInt16ToByteBigBitEndianZero()
+        {
+            byte expected = 0;
+            byte actual = ByteUtil.Int16ToByte(0, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestInt16ToByteBigBitEndianOne()
+        {
+            // ReverseBits((byte)1) = ReverseBits(0x01) = 0x80 = 128
+            byte expected = 0x80;
+            byte actual = ByteUtil.Int16ToByte(1, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestInt16ToByteBigBitEndianMaxByte()
+        {
+            // ReverseBits(0xFF) = 0xFF = 255
+            byte expected = 0xFF;
+            byte actual = ByteUtil.Int16ToByte(255, BitEndian.Big);
+            actual.Should().Be(expected);
+        }
+
         #endregion
 
 
@@ -1345,6 +1878,90 @@ namespace StarThrower.ByteUtilities.Test
             {
                 (actual[i]).Should().Be(expected[i]);
             }
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayBigEndianLittleBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            byte[] actual = ByteUtil.DoubleToByteArray(0.0, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayBigEndianLittleBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBytes(BitConverter.GetBytes(-257.0));
+            byte[] actual = ByteUtil.DoubleToByteArray(-257.0, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayLittleEndianBigBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            byte[] actual = ByteUtil.DoubleToByteArray(0.0, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayLittleEndianBigBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBits(BitConverter.GetBytes(-257.0));
+            byte[] actual = ByteUtil.DoubleToByteArray(-257.0, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayBigEndianBigBitEndianZero()
+        {
+            byte[] expected = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            byte[] actual = ByteUtil.DoubleToByteArray(0.0, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayBigEndianBigBitEndian()
+        {
+            byte[] expected = ByteUtil.ReverseBits(ByteUtil.ReverseBytes(BitConverter.GetBytes(-257.0)));
+            byte[] actual = ByteUtil.DoubleToByteArray(-257.0, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayBigEndianLittleBitEndianHardCoded()
+        {
+            // -257.0 LE = { 0x00,0x00,0x00,0x00,0x00,0x10,0x70,0xC0 }; big-endian = { 0xC0,0x70,0x10,0x00,0x00,0x00,0x00,0x00 }
+            byte[] expected = new byte[] { 0xC0, 0x70, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            byte[] actual = ByteUtil.DoubleToByteArray(-257.0, ByteEndian.Big, BitEndian.Little);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayLittleEndianBigBitEndianHardCoded()
+        {
+            // -257.0 LE = { 0x00,0x00,0x00,0x00,0x00,0x10,0x70,0xC0 }; ReverseBits each: { 0x00,0x00,0x00,0x00,0x00,0x08,0x0E,0x03 }
+            byte[] expected = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x0E, 0x03 };
+            byte[] actual = ByteUtil.DoubleToByteArray(-257.0, ByteEndian.Little, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
+        }
+
+        [Fact]
+        public void TestDoubleToByteArrayBigEndianBigBitEndianHardCoded()
+        {
+            // -257.0 BE = { 0xC0,0x70,0x10,0x00,0x00,0x00,0x00,0x00 }; ReverseBits each: { 0x03,0x0E,0x08,0x00,0x00,0x00,0x00,0x00 }
+            byte[] expected = new byte[] { 0x03, 0x0E, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            byte[] actual = ByteUtil.DoubleToByteArray(-257.0, ByteEndian.Big, BitEndian.Big);
+            actual.Length.Should().Be(expected.Length);
+            for (int i = 0; i < expected.Length; i++) actual[i].Should().Be(expected[i]);
         }
 
         #endregion

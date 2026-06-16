@@ -219,7 +219,7 @@ namespace StarThrower.ByteUtilities
                             //return bytes[1] << 8 | bytes[0];
                             return BitConverter.ToInt16(value, 0);
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return BitConverter.ToInt16(ReverseBits(value), 0);
                         default:
                             throw new InvalidEndianException();
                     }
@@ -230,7 +230,7 @@ namespace StarThrower.ByteUtilities
                             //return bytes[1] * 2 + bytes[0] * 4;
                             return BitConverter.ToInt16(ReverseBytes(value), 0);
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return BitConverter.ToInt16(ReverseBits(ReverseBytes(value)), 0);
                         default:
                             throw new InvalidEndianException();
                     }
@@ -247,8 +247,6 @@ namespace StarThrower.ByteUtilities
         /// <returns>The resulting Int16.</returns>
         /// <remarks>
         /// It is possible to indicate the Endian of the byte array by specifying bitEndian.
-        /// 
-        /// NOTE: BitEndian.Big is not yet supported
         /// </remarks>
         /// <exception cref="InvalidEndianException">Thrown if bitEndian is something other than Little or Big.</exception>
         public static Int16 ByteToInt16(byte bytes, BitEndian bitEndian)
@@ -258,7 +256,7 @@ namespace StarThrower.ByteUtilities
                 case BitEndian.Little:
                     return (Int16)bytes;
                 case BitEndian.Big:
-                    throw new NotImplementedException();
+                    return (Int16)ReverseBits(bytes);
                 default:
                     throw new InvalidEndianException();
             }
@@ -273,12 +271,9 @@ namespace StarThrower.ByteUtilities
         /// <returns>The resulting double.</returns>
         /// <remarks>
         /// It is possible to indicate the Endian of the byte array by specifying byteEndian and bitEndian.
-        /// 
-        /// NOTE: BitEndian.Big is not yet supported
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
         /// <exception cref="InvalidEndianException">Thrown if byteEndian or bitEndian are something other than Little or Big.</exception>
-        /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static double ByteArrayToDouble(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
             ArgumentNullException.ThrowIfNull(value);
@@ -291,7 +286,7 @@ namespace StarThrower.ByteUtilities
                         case BitEndian.Little:
                             return BitConverter.ToDouble(value, 0);
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return BitConverter.ToDouble(ReverseBits(value), 0);
                         default:
                             throw new InvalidEndianException();
                     }
@@ -301,7 +296,7 @@ namespace StarThrower.ByteUtilities
                         case BitEndian.Little:
                             return BitConverter.ToDouble(ReverseBytes(value), 0);
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return BitConverter.ToDouble(ReverseBits(ReverseBytes(value)), 0);
                         default:
                             throw new InvalidEndianException();
                     }
@@ -319,11 +314,8 @@ namespace StarThrower.ByteUtilities
         /// <returns>The resulting byte array.</returns>
         /// <remarks>
         /// It is possible to indicate the Endian of the byte array by specifying byteEndian and bitEndian.
-        /// 
-        /// NOTE: BitEndian.Big is not yet supported
         /// </remarks>
         /// <exception cref="InvalidEndianException">Thrown if byteEndian or bitEndian are something other than Little or Big.</exception>
-        /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static byte[] Int32ToByteArray(Int32 target, ByteEndian byteEndian, BitEndian bitEndian)
         {
             switch (byteEndian)
@@ -338,7 +330,7 @@ namespace StarThrower.ByteUtilities
                             //result[3] = (byte)(target >> 24);
                             return BitConverter.GetBytes(target);
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return ReverseBits(BitConverter.GetBytes(target));
                         default:
                             throw new InvalidEndianException();
                     }
@@ -348,7 +340,7 @@ namespace StarThrower.ByteUtilities
                         case BitEndian.Little:
                             return ReverseBytes(BitConverter.GetBytes(target));
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return ReverseBits(ReverseBytes(BitConverter.GetBytes(target)));
                         default:
                             throw new InvalidEndianException();
                     }
@@ -366,11 +358,8 @@ namespace StarThrower.ByteUtilities
         /// <returns>The resulting byte array.</returns>
         /// <remarks>
         /// It is possible to indicate the Endian of the byte array by specifying byteEndian and bitEndian.
-        /// 
-        /// NOTE: BitEndian.Big is not yet supported
         /// </remarks>
         /// <exception cref="InvalidEndianException">Thrown if byteEndian or bitEndian are something other than Little or Big.</exception>
-        /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static byte[] Int16ToByteArray(Int16 target, ByteEndian byteEndian, BitEndian bitEndian)
         {
             switch (byteEndian)
@@ -383,7 +372,7 @@ namespace StarThrower.ByteUtilities
                             //result[1] = (byte)(target >> 8);
                             return BitConverter.GetBytes(target);
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return ReverseBits(BitConverter.GetBytes(target));
                         default:
                             throw new InvalidEndianException();
                     }
@@ -393,7 +382,7 @@ namespace StarThrower.ByteUtilities
                         case BitEndian.Little:
                             return ReverseBytes(BitConverter.GetBytes(target));
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return ReverseBits(ReverseBytes(BitConverter.GetBytes(target)));
                         default:
                             throw new InvalidEndianException();
                     }
@@ -410,7 +399,6 @@ namespace StarThrower.ByteUtilities
         /// <returns>The resulting byte.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if target is less than zero or greater than 255.</exception>
         /// <exception cref="InvalidEndianException">Thrown if byteEndian or bitEndian are something other than Little or Big.</exception>
-        /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static byte Int16ToByte(Int16 target, BitEndian bitEndian)
         {
             ArgumentOutOfRangeException.ThrowIfNegative(target);
@@ -421,7 +409,7 @@ namespace StarThrower.ByteUtilities
                 case BitEndian.Little:
                     return (byte)target;
                 case BitEndian.Big:
-                    throw new NotImplementedException();
+                    return ReverseBits((byte)target);
                 default:
                     throw new InvalidEndianException();
             }
@@ -436,11 +424,8 @@ namespace StarThrower.ByteUtilities
         /// <returns>The resulting byte array.</returns>
         /// <remarks>
         /// It is possible to indicate the Endian of the byte array by specifying byteEndian and bitEndian.
-        /// 
-        /// NOTE: BitEndian.Big is not yet supported
         /// </remarks>
         /// <exception cref="InvalidEndianException">Thrown if byteEndian or bitEndian are something other than Little or Big.</exception>
-        /// <exception cref="NotImplementedException">Thrown if dealing with a big endian bit order.</exception>
         public static byte[] DoubleToByteArray(double target, ByteEndian byteEndian, BitEndian bitEndian)
         {
             switch (byteEndian)
@@ -451,7 +436,7 @@ namespace StarThrower.ByteUtilities
                         case BitEndian.Little:
                             return BitConverter.GetBytes(target);
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return ReverseBits(BitConverter.GetBytes(target));
                         default:
                             throw new InvalidEndianException();
                     }
@@ -461,7 +446,7 @@ namespace StarThrower.ByteUtilities
                         case BitEndian.Little:
                             return ReverseBytes(BitConverter.GetBytes(target));
                         case BitEndian.Big:
-                            throw new NotImplementedException();
+                            return ReverseBits(ReverseBytes(BitConverter.GetBytes(target)));
                         default:
                             throw new InvalidEndianException();
                     }
