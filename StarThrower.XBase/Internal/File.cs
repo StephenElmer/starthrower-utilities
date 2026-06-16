@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using StarThrower.ByteUtilities;
+using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase.Internal
 {
@@ -263,63 +264,90 @@ namespace StarThrower.XBase.Internal
         }
 
         /* QueryString Language:
-         * 
+         *
          * <QueryString> = <FieldName><Operator><FieldValue>
          * <FieldName> = <String>
          * <Operator> = "=" | "<" | ">" | "<=" | ">=" | "<>"
-         * <FieldValue> = <StringValue> | <NumberValue> | <DateValue>
+         * <FieldValue> = <StringValue> | <NumberValue> | <DateValue> | <BooleanValue>
          * <StringValue> = '<String>'
          * <DateValue> = #MM/DD/YYYY#
          * <NumberValue> = valid numeric value including negative sign
-         * 
+         * <BooleanValue> = T | Y | F | N (case insensitive)
+         *
          * String comparisons are not case sensitive
          * Floating point number comparisons may not be true for equality comparison
-         * 
+         *
+         * NOTE: Only the "=" operator is currently implemented (see TODO below). The
+         * remaining comparison operators are reserved for a future LOCATE FOR / CONTINUE
+         * style implementation.
+         *
          * Examples:
          *      "BDate=#05/18/1968#"
          *      "Name='Steve Elmer'"
          *      "Age=38"
-         * 
+         *      "IsActive=T"
+         *
          */
+
+        /// <summary>
+        /// Searches for the first non-deleted record whose field value matches the given query
+        /// expression, and returns its index.
+        /// </summary>
+        /// <param name="queryText">A query expression in the form &lt;FieldName&gt;=&lt;FieldValue&gt;.
+        /// See the QueryString Language documentation above this method for the supported value syntax.</param>
+        /// <param name="index">Set to the zero-based index of the matching record if one is found;
+        /// otherwise -1.</param>
+        /// <returns>true if a matching record was found; otherwise false.</returns>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="queryText"/> cannot be parsed,
+        /// uses an operator other than "=", references a field that does not exist, or supplies a value
+        /// whose syntax does not match the target field's type.</exception>
+        /// <remarks>
+        /// Only the "=" (equality) operator is currently supported. The query language was designed with
+        /// dBase's LOCATE FOR / CONTINUE commands in mind - a future version may implement the remaining
+        /// comparison operators as a sequential-scan predicate match (akin to LOCATE FOR), with the
+        /// <paramref name="index"/> parameter doubling as the CONTINUE resume position. Deleted records
+        /// (IsDeleted == '*') are skipped.
+        /// </remarks>
         internal bool FindRecord(string queryText, ref Int32 index)
         {
-            throw new NotImplementedException();
-            //TODO: handle queryString
+            // TODO: implement the remaining comparison operators (<, >, <=, >=, <>) as a
+            // LOCATE FOR-style predicate scan, using `index` as the CONTINUE resume position.
 
-            //string fieldName = "Name";
-            //string op = "=";
-            //string fieldValue = "Steve Elmer";
+            if (!TryParseQuery(queryText, out string fieldName, out string op, out string valueText))
+            {
+                throw new ArgumentException("queryText is not a valid query expression.", nameof(queryText));
+            }
 
-            //Int32 index = -1;
-            //if (!_header.Fields.Find(Strings.ToByteArray(fieldName), ref index)) throw new ArgumentException();
-            //for (Int32 i = 0; i < _records.Count; i++)
-            //{
-            //    if ((op.Equals("=") || op.Equals("<=") || op.Equals(">=")) &&
-            //        (_records[i].GetData(fieldName).Compare(fieldValue) == 0))
-            //    {
-            //        return true;
-            //    }
-            //    else if ((op.Equals("<") || op.Equals("<=")) && 
-            //             (_records[i].GetData(fieldName).Compare(fieldValue) < 0))
-            //    {
-            //        return true;
-            //    }
-            //    else if ((op.Equals(">") || op.Equals(">=")) &&
-            //             (_records[i].GetData(fieldName).Compare(fieldValue) > 0))
-            //    {
-            //        return true;
-            //    }
-            //    else if (op.Equals("<>"))
-            //    {
-            //        return _records[i].GetData(fieldName).Equals(fieldValue);
-            //    }
-            //    else
-            //    {
-            //        throw new ArgumentException();
-            //    }
-            //}
+            if (!op.Equals("=", StringComparison.Ordinal))
+            {
+                throw new ArgumentException(
+                    "Only the \"=\" operator is currently implemented. See the TODO on FindRecord for planned LOCATE FOR-style support of the remaining operators.",
+                    nameof(queryText));
+            }
 
-            //return false;
+            byte[] fieldNameBytes = StringUtil.ToByteArray(fieldName);
+            Int32 fieldIndex = -1;
+            if (!_header.Fields.Find(fieldNameBytes, ref fieldIndex))
+            {
+                throw new ArgumentException("'" + fieldName + "' is not a valid field name.", nameof(queryText));
+            }
+
+            char fieldType = (char)_header.Fields[fieldIndex].Type;
+
+            for (Int32 i = 0; i < _records.Count; i++)
+            {
+                if (_records[i].IsDeleted == 42) continue; //(Hex 2a) skip deleted records
+
+                string rawFieldText = StringUtil.FromByteArray(_records[i][fieldNameBytes]);
+                if (ValueEquals(fieldType, rawFieldText, valueText))
+                {
+                    index = i;
+                    return true;
+                }
+            }
+
+            index = -1;
+            return false;
         }
 
         internal void DeleteRecord(Int32 index)
@@ -514,6 +542,132 @@ namespace StarThrower.XBase.Internal
             int eof = _stream.ReadByte();
             if (eof == -1) throw new EndOfStreamException("Expected DBF EOF marker byte.");
             _endOfFile = (byte)eof;
+        }
+
+        /// <summary>
+        /// Splits a FindRecord query expression into its field name, operator, and value components.
+        /// </summary>
+        private static bool TryParseQuery(string queryText, out string fieldName, out string op, out string valueText)
+        {
+            fieldName = String.Empty;
+            op = String.Empty;
+            valueText = String.Empty;
+
+            Int32 opStart = queryText.IndexOfAny(['=', '<', '>']);
+            if (opStart <= 0) return false;
+
+            Int32 opLength = 1;
+            if (opStart + 1 < queryText.Length)
+            {
+                char first = queryText[opStart];
+                char second = queryText[opStart + 1];
+                if ((first == '<' && (second == '=' || second == '>')) ||
+                    (first == '>' && second == '='))
+                {
+                    opLength = 2;
+                }
+            }
+
+            fieldName = queryText[..opStart].Trim();
+            op = queryText.Substring(opStart, opLength);
+            valueText = queryText[(opStart + opLength)..].Trim();
+
+            return fieldName.Length > 0 && valueText.Length > 0;
+        }
+
+        /// <summary>
+        /// Compares a record's raw field text against a parsed query value, using comparison rules
+        /// appropriate to the field's dBase type.
+        /// </summary>
+        private static bool ValueEquals(char fieldType, string rawFieldText, string valueText)
+        {
+            switch (fieldType)
+            {
+                case 'C':
+                    return StringValueEquals(rawFieldText, valueText);
+                case 'D':
+                    return DateValueEquals(rawFieldText, valueText);
+                case 'N':
+                case 'F':
+                    return NumericValueEquals(rawFieldText, valueText);
+                case 'L':
+                    return BooleanValueEquals(rawFieldText, valueText);
+                default:
+                    throw new ArgumentException("Querying fields of type '" + fieldType + "' is not supported.", nameof(valueText));
+            }
+        }
+
+        private static bool StringValueEquals(string rawFieldText, string valueText)
+        {
+            if (valueText.Length < 2 || valueText[0] != '\'' || valueText[^1] != '\'')
+            {
+                throw new ArgumentException("String field values must be enclosed in single quotes.", nameof(valueText));
+            }
+
+            string literal = valueText[1..^1];
+            return String.Equals(rawFieldText.TrimEnd(), literal.TrimEnd(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool DateValueEquals(string rawFieldText, string valueText)
+        {
+            if (valueText.Length != 12 || valueText[0] != '#' || valueText[^1] != '#')
+            {
+                throw new ArgumentException("Date field values must be in #MM/DD/YYYY# format.", nameof(valueText));
+            }
+
+            string dateLiteral = valueText[1..^1];
+            if (!DateTime.TryParseExact(dateLiteral, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime queryDate))
+            {
+                throw new ArgumentException("Date field values must be in #MM/DD/YYYY# format.", nameof(valueText));
+            }
+
+            if (!Int32.TryParse(rawFieldText.AsSpan(0, 4), out Int32 year) ||
+                !Int32.TryParse(rawFieldText.AsSpan(4, 2), out Int32 month) ||
+                !Int32.TryParse(rawFieldText.AsSpan(6, 2), out Int32 day))
+            {
+                return false; //stored data could not be parsed as a date; treat as no match
+            }
+
+            DateTime fieldDate = new DateTime(year, month, day);
+            return fieldDate == queryDate;
+        }
+
+        private static bool NumericValueEquals(string rawFieldText, string valueText)
+        {
+            const NumberStyles styles = NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite;
+
+            if (!Decimal.TryParse(valueText, styles, CultureInfo.InvariantCulture, out Decimal queryValue))
+            {
+                throw new ArgumentException("Numeric field values must be a valid number.", nameof(valueText));
+            }
+
+            if (!Decimal.TryParse(rawFieldText, styles, CultureInfo.InvariantCulture, out Decimal fieldValue))
+            {
+                return false; //stored data could not be parsed as a number; treat as no match
+            }
+
+            return queryValue == fieldValue;
+        }
+
+        private static bool BooleanValueEquals(string rawFieldText, string valueText)
+        {
+            if (valueText.Length != 1)
+            {
+                throw new ArgumentException("Boolean field values must be a single character: T, Y, F, or N.", nameof(valueText));
+            }
+
+            char queryChar = Char.ToUpperInvariant(valueText[0]);
+            if (queryChar != 'T' && queryChar != 'Y' && queryChar != 'F' && queryChar != 'N')
+            {
+                throw new ArgumentException("Boolean field values must be one of: T, Y, F, N.", nameof(valueText));
+            }
+
+            bool queryValue = (queryChar == 'T' || queryChar == 'Y');
+
+            char fieldChar = rawFieldText.Length > 0 ? Char.ToUpperInvariant(rawFieldText[0]) : '\0';
+            bool fieldValue = (fieldChar == 'T' || fieldChar == 'Y');
+
+            return queryValue == fieldValue;
         }
 
         #endregion
