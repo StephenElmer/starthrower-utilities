@@ -60,11 +60,12 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
         /// <summary>
         /// Gets the value of the Reference yLat associated with the zone.
         /// This will be a value that falls between the northern- and southern-most
-        /// latitudinal boundaries of the UTM zone.  An attempt to get the 
-        /// ReferenceLatitude for Zones A, B, Y, or Z will result in a NotSupportedException
-        /// being thrown, as these zones fall outside the boundary of the normal UTM 
-        /// projection.
+        /// latitudinal boundaries of the UTM zone.  An attempt to get the
+        /// ReferenceLatitude for Zones A, B, Y, or Z will result in a NotImplementedException
+        /// being thrown, as these zones fall outside the boundary of the normal UTM
+        /// projection and are not yet supported.
         /// </summary>
+        /// <exception cref="NotImplementedException">Thrown for Latitudinal Zones A, B, Y, or Z.</exception>
         public override double ReferenceLatitude
         {
             get { return GetReferenceLatitude(); }
@@ -577,6 +578,15 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
             }
         }
 
+        /// <summary>
+        /// Gets the reference latitude associated with <see cref="_latitudinalZone"/>.
+        /// </summary>
+        /// <returns>The reference latitude, in degrees.</returns>
+        /// <exception cref="NotImplementedException">
+        /// Thrown for Latitudinal Zones A, B, Y, or Z, which fall outside the boundary of
+        /// the normal UTM projection and are not yet supported.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown if <see cref="_latitudinalZone"/> is not a recognized value.</exception>
         private double GetReferenceLatitude()
         {
             switch (_latitudinalZone)
@@ -912,6 +922,17 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
             }
         }
 
+        /// <summary>
+        /// Gets the LatitudinalZone enumeration value that contains the given latitude.
+        /// </summary>
+        /// <param name="latitude">The latitude, in degrees, to find the LatitudinalZone for.</param>
+        /// <returns>The LatitudinalZone that contains <paramref name="latitude"/>.</returns>
+        /// <exception cref="NotImplementedException">
+        /// Thrown for latitudes in the ranges -90 through -80 and 84 through 90 degrees,
+        /// which correspond to Latitudinal Zones A, B, Y, or Z. These fall outside the
+        /// boundary of the normal UTM projection and are not yet supported.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="latitude"/> is outside the valid range of -90 through 90 degrees.</exception>
         private static LatitudinalZone GetLatitudinalZoneForLatitude(double latitude)
         {
             if (latitude >= -90.0 && latitude < -80.0)

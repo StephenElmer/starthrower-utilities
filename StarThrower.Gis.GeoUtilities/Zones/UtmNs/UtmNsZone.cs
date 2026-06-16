@@ -581,6 +581,17 @@ namespace StarThrower.Gis.GeoUtilities.Zones.UtmNs
             }
         }
 
+        /// <summary>
+        /// Gets the LatitudinalZone enumeration value (North or South) that contains the given latitude.
+        /// </summary>
+        /// <param name="latitude">The latitude, in degrees, to find the LatitudinalZone for.</param>
+        /// <returns>The LatitudinalZone that contains <paramref name="latitude"/>.</returns>
+        /// <exception cref="NotImplementedException">
+        /// Thrown for latitudes in the ranges -90 through -80 and 84 through 90 degrees,
+        /// which correspond to UTM Latitudinal Zones A, B, Y, or Z. These fall outside the
+        /// boundary of the normal UTM projection and are not yet supported.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="latitude"/> is outside the valid range of -90 through 90 degrees.</exception>
         private static LatitudinalZone GetLatitudinalZoneForLatitude(double latitude)
         {
             if (latitude >= -90.0 && latitude < -80.0)
