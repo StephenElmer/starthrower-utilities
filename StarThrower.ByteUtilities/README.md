@@ -44,7 +44,6 @@ These methods convert between byte arrays and numeric types, given the `ByteEndi
 | `DoubleToByteArray(double target, ByteEndian byteEndian, BitEndian bitEndian)` | Converts a `double` to a byte array. |
 | `Int16ToByte(Int16 target, BitEndian bitEndian)` | Converts an `Int16` in the range 0–255 to a single byte. |
 
-> **Note:** `BitEndian.Big` (non-default bit ordering within a byte) is only implemented for `ByteArrayToInt32` and `ByteArrayToSingle`. The remaining conversion methods throw `NotImplementedException` for `BitEndian.Big`.
 
 ### `ByteEndian` / `BitEndian`
 
