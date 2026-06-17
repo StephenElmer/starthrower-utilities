@@ -116,6 +116,13 @@ namespace StarThrower.Gis.EsriLibrary
             return true;
         }
 
+        private static StarThrower.Gis.GeoUtilities.Shapes.PointShape ReadPointShape(XmlNode pointNode, XmlDocument doc)
+        {
+            double lat = double.Parse(pointNode.Attributes?.GetNamedItem("lat")?.Value ?? throw new ArgumentException("Invalid XML: point lat attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
+            double lon = double.Parse(pointNode.Attributes?.GetNamedItem("lon")?.Value ?? throw new ArgumentException("Invalid XML: point lon attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
+            return new StarThrower.Gis.GeoUtilities.Shapes.PointShape(lon, lat);
+        }
+
         #endregion
 
 
@@ -559,6 +566,62 @@ namespace StarThrower.Gis.EsriLibrary
                     double bottom = double.Parse(extentNode.Attributes?.GetNamedItem("bottom")?.Value ?? throw new ArgumentException("Invalid XML: extent bottom attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
                     double right = double.Parse(extentNode.Attributes?.GetNamedItem("right")?.Value ?? throw new ArgumentException("Invalid XML: extent right attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
                     this.Extent = new StarThrower.Gis.GeoUtilities.GeoRectangle(left, top, right, bottom);
+
+                    if (recordsNode != null)
+                    {
+                        foreach (XmlNode recordNode in recordsNode.SelectNodes("record") ?? throw new ArgumentException("Invalid XML: record elements not found.", nameof(doc)))
+                        {
+                            StarThrower.Gis.EsriLibrary.Record record = this.CreateNewRecord();
+
+                            XmlNode dataNode = recordNode.SelectSingleNode("data") ?? throw new ArgumentException("Invalid XML: data element not found.", nameof(doc));
+                            for (int i = 0; i < this.FieldCount; i++)
+                            {
+                                string fieldName = this.GetField(i).Name;
+                                string dataStr = dataNode.SelectSingleNode(fieldName)?.Attributes?.GetNamedItem("value")?.Value ?? string.Empty;
+                                StarThrower.XBase.XBaseField xBaseField = record.GetFieldDescriptors()[i];
+                                record.SetData(fieldName, xBaseField.FieldType.Translate(dataStr));
+                            }
+
+                            XmlNode geographyNode = recordNode.SelectSingleNode("geography") ?? throw new ArgumentException("Invalid XML: geography element not found.", nameof(doc));
+                            switch (this.ShapeType)
+                            {
+                                case ShapeType.Point:
+                                    XmlNode pointNode = geographyNode.SelectSingleNode("point") ?? throw new ArgumentException("Invalid XML: point element not found.", nameof(doc));
+                                    record.SetShape(ReadPointShape(pointNode, doc));
+                                    break;
+                                case ShapeType.PolyLine:
+                                    StarThrower.Gis.GeoUtilities.Shapes.PolylineShape lineShape = new StarThrower.Gis.GeoUtilities.Shapes.PolylineShape();
+                                    XmlNode lineNode = geographyNode.SelectSingleNode("polyLine") ?? throw new ArgumentException("Invalid XML: polyLine element not found.", nameof(doc));
+                                    foreach (XmlNode partNode in lineNode.SelectSingleNode("partList")?.SelectNodes("part") ?? throw new ArgumentException("Invalid XML: part elements not found.", nameof(doc)))
+                                    {
+                                        lineShape.AddPart();
+                                        StarThrower.Gis.GeoUtilities.Shapes.OpenPart linePart = lineShape.GetPart(lineShape.PartCount - 1);
+                                        foreach (XmlNode linePointNode in partNode.SelectSingleNode("pointList")?.SelectNodes("point") ?? throw new ArgumentException("Invalid XML: point elements not found.", nameof(doc)))
+                                        {
+                                            linePart.AddPoint(ReadPointShape(linePointNode, doc));
+                                        }
+                                    }
+                                    record.SetShape(lineShape);
+                                    break;
+                                case ShapeType.Polygon:
+                                    StarThrower.Gis.GeoUtilities.Shapes.PolygonShape polygonShape = new StarThrower.Gis.GeoUtilities.Shapes.PolygonShape();
+                                    XmlNode polygonNode = geographyNode.SelectSingleNode("polygon") ?? throw new ArgumentException("Invalid XML: polygon element not found.", nameof(doc));
+                                    foreach (XmlNode partNode in polygonNode.SelectSingleNode("partList")?.SelectNodes("part") ?? throw new ArgumentException("Invalid XML: part elements not found.", nameof(doc)))
+                                    {
+                                        polygonShape.AddPart();
+                                        StarThrower.Gis.GeoUtilities.Shapes.ClosedPart polygonPart = polygonShape.GetPart(polygonShape.PartCount - 1);
+                                        foreach (XmlNode polygonPointNode in partNode.SelectSingleNode("pointList")?.SelectNodes("point") ?? throw new ArgumentException("Invalid XML: point elements not found.", nameof(doc)))
+                                        {
+                                            polygonPart.AddPoint(ReadPointShape(polygonPointNode, doc));
+                                        }
+                                    }
+                                    record.SetShape(polygonShape);
+                                    break;
+                            }
+
+                            this.AddRecord(record);
+                        }
+                    }
 
                     break;
                 case StarThrower.Gis.GeoUtilities.Formatting.XmlFormat.Gml:

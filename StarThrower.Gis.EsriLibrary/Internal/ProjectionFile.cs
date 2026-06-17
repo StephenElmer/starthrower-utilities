@@ -568,6 +568,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         private void ParseDataString(string data)
         {
+            if (string.IsNullOrWhiteSpace(data))
+            {
+                _cs = null;
+                return;
+            }
             if (!data.Contains("PROJCS[\"")) throw new FormatException("Invalid Projection File: could not find PROJCS tag.");
             if (!data.Contains("\"GEOGCS[")) throw new FormatException("Invalid Projection File: could not find GEOGCS tag.");
             int startIndex = 8; //index of first character after PROJCS"

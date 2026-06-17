@@ -114,7 +114,7 @@ namespace StarThrower.XBase
             StarThrower.XBase.XBaseField result = new StarThrower.XBase.XBaseField();
             result.DecimalCount = (int)(field.DecimalCount);
             result.Length = (int)(field.Length);
-            result.Name = StringUtil.FromByteArray(field.Name);
+            result.Name = StringUtil.FromByteArray(field.Name).TrimEnd('\0');
             result.FieldType = XBase.GetTypeFromByteCode(field.Type);
             return result;
         }

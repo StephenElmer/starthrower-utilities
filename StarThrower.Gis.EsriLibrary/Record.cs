@@ -30,13 +30,13 @@ namespace StarThrower.Gis.EsriLibrary
         internal void AddField(StarThrower.Gis.EsriLibrary.Field field)
         {
             _fields.Add(EsriLibrary.EsriFieldToXBaseField(field));
-            _data.Add(field.Name.Replace("\0", ""), null);
+            _data.Add(field.Name, null);
         }
 
         internal void AddField(StarThrower.XBase.XBaseField field)
         {
             _fields.Add(field);
-            _data.Add(field.Name.Replace("\0", ""), null);
+            _data.Add(field.Name, null);
         }
 
         internal XBaseFieldCollection GetFieldDescriptors()
@@ -98,7 +98,7 @@ namespace StarThrower.Gis.EsriLibrary
             //int length = _fields[index].Length;
             //int startIndex = CalculateStartIndex(index, length);
 
-            return _data[fieldName.Replace("\0", "")];
+            return _data[fieldName];
         }
 
         public void SetData(string fieldName, object newValue)
@@ -109,7 +109,7 @@ namespace StarThrower.Gis.EsriLibrary
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
-            _data[fieldName.Replace("\0", "")] = newValue;
+            _data[fieldName] = newValue;
         }
 
         public void SetData(string fieldName, bool newValue)
@@ -120,7 +120,7 @@ namespace StarThrower.Gis.EsriLibrary
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
-            _data[fieldName.Replace("\0", "")] = newValue;
+            _data[fieldName] = newValue;
         }
 
         public void SetData(string fieldName, DateTime newValue)
@@ -131,7 +131,7 @@ namespace StarThrower.Gis.EsriLibrary
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
-            _data[fieldName.Replace("\0", "")] = newValue;
+            _data[fieldName] = newValue;
         }
 
         public void SetData(string fieldName, string newValue)
@@ -142,7 +142,7 @@ namespace StarThrower.Gis.EsriLibrary
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
-            _data[fieldName.Replace("\0", "")] = newValue;
+            _data[fieldName] = newValue;
         }
 
         public void SetData(string fieldName, float newValue)
@@ -153,7 +153,7 @@ namespace StarThrower.Gis.EsriLibrary
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
-            _data[fieldName.Replace("\0", "")] = newValue;
+            _data[fieldName] = newValue;
         }
 
         public void SetData(string fieldName, double newValue)
@@ -164,7 +164,7 @@ namespace StarThrower.Gis.EsriLibrary
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
-            _data[fieldName.Replace("\0", "")] = newValue;
+            _data[fieldName] = newValue;
         }
 
         public void SetData(string fieldName, long newValue)
@@ -175,7 +175,7 @@ namespace StarThrower.Gis.EsriLibrary
             if (!_fields.Find(fieldName, ref index)) throw new ArgumentException(fieldName + " is not a valid field name for this record.", nameof(fieldName));
             string result = String.Empty;
             if (!_fields[index].IsValidData(newValue, out result)) throw new BadDataException(result);
-            _data[fieldName.Replace("\0", "")] = newValue;
+            _data[fieldName] = newValue;
         }
 
         public StarThrower.Gis.GeoUtilities.Shapes.Shape GetShape()
