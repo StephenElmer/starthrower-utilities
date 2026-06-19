@@ -1054,5 +1054,278 @@ namespace StarThrower.Matrices.Test
         }
 
         #endregion
+
+
+        #region [ Multi-Dimension Validation ]
+
+        [Fact]
+        public void Matrix2DGetItemAtNegativeIndexThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.GetItemAt(0, -1);
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetItemAtTooLargeIndexThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.GetItemAt(0, 3);
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Matrix2DSetItemAtNegativeIndexThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.SetItemAt(1, 0, -1);
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Matrix2DSetItemAtTooLargeIndexThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.SetItemAt(1, 0, 3);
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetIndexesAtNegativeIndexThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.GetIndexesAt(0, -1);
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetIndexesAtTooLargeIndexThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.GetIndexesAt(0, 3);
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetterUnknownKeyThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Func<int> act = () => m[1, 99];
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DSetterUnknownKeyThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m[1, 99] = 5;
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix3DGetItemAtNegativeIndexThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            List<int> d3indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices, d3indices);
+
+            Action act = () => m.GetItemAt(0, 0, -1);
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Matrix3DGetterUnknownKeyThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            List<int> d3indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices, d3indices);
+
+            Func<int> act = () => m[1, 1, 99];
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetterTooFewIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Func<int> act = () => m[1];
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetterTooManyIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Func<int> act = () => m[1, 2, 3];
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DSetterTooFewIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m[1] = 5;
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DSetterTooManyIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m[1, 2, 3] = 5;
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetItemAtTooFewIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Func<int> act = () => m.GetItemAt(0);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetItemAtTooManyIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Func<int> act = () => m.GetItemAt(0, 0, 0);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DSetItemAtTooFewIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.SetItemAt(5, 0);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DSetItemAtTooManyIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.SetItemAt(5, 0, 0, 0);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetIndexesAtTooFewIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.GetIndexesAt(0);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix2DGetIndexesAtTooManyIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices);
+
+            Action act = () => m.GetIndexesAt(0, 0, 0);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix3DGetterTooFewIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            List<int> d3indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices, d3indices);
+
+            Func<int> act = () => m[1, 1];
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Matrix3DGetItemAtTooManyIndexesThrows()
+        {
+            List<int> d1indices = new List<int> { 1, 2, 3 };
+            List<int> d2indices = new List<int> { 1, 2, 3 };
+            List<int> d3indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices, d3indices);
+
+            Func<int> act = () => m.GetItemAt(0, 0, 0, 0);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        #endregion
     }
 }

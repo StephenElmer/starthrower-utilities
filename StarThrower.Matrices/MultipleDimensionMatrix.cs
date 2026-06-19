@@ -10,76 +10,48 @@ namespace StarThrower.Matrices
     internal sealed class MultipleDimensionMatrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue> where TIndex : notnull
     {
         public Dictionary<TIndex, CompositeMatrix<TIndex, TValue>> _values;
+        private readonly int _dimensionCount;
 
         public override TValue? this[params TIndex[] indexes]
         {
             get
             {
                 ArgumentNullException.ThrowIfNull(indexes);
-
-                //TODO: requires still more validation
-
-                /*
-                TIndex[] idx = new TIndex[indexes.Length - 1];
-                for (int i = 1; i < indexes.Length; i++)
-                {
-                    idx[i - 1] = indexes[i];
-                }
-                return _values[indexes[0]][idx];
-                */
+                if (indexes.Length != _dimensionCount) throw new InvalidOperationException($"indexer for MultipleDimensionMatrix type expects exactly {_dimensionCount} index value(s) but received {indexes.Length}.");
 
                 TIndex[] idx = new TIndex[indexes.Length - 1];
                 for (int i = 0; i < indexes.Length - 1; i++)
                 {
                     idx[i] = indexes[i];
                 }
-                return _values[indexes[indexes.Length - 1]][idx];
+
+                TIndex key = indexes[indexes.Length - 1];
+                if (!_values.TryGetValue(key, out CompositeMatrix<TIndex, TValue>? matrix)) throw new InvalidOperationException("MultipleDimensionMatrix does not have an index associated with " + key.ToString());
+                return matrix[idx];
             }
             set
             {
                 ArgumentNullException.ThrowIfNull(indexes);
-
-                //TODO: requires still more validation
-
-                /*
-                TIndex[] idx = new TIndex[indexes.Length - 1];
-                for (int i = 1; i < indexes.Length; i++)
-                {
-                    idx[i - 1] = indexes[i];
-                }
-                _values[indexes[0]][idx] = value;
-                */
+                if (indexes.Length != _dimensionCount) throw new InvalidOperationException($"indexer for MultipleDimensionMatrix type expects exactly {_dimensionCount} index value(s) but received {indexes.Length}.");
 
                 TIndex[] idx = new TIndex[indexes.Length - 1];
                 for (int i = 0; i < indexes.Length - 1; i++)
                 {
                     idx[i] = indexes[i];
                 }
-                _values[indexes[indexes.Length - 1]][idx] = value;
+
+                TIndex key = indexes[indexes.Length - 1];
+                if (!_values.TryGetValue(key, out CompositeMatrix<TIndex, TValue>? matrix)) throw new InvalidOperationException("MultipleDimensionMatrix does not have an index associated with " + key.ToString());
+                matrix[idx] = value;
             }
         }
 
         public override Collection<TIndex> GetIndexesAt(params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
-
-            //TODO: requires still more validation
-
-
-            /*
-            int[] idx = new int[indexes.Length - 1];
-            for (int i = 1; i < indexes.Length; i++)
-            {
-                idx[i - 1] = indexes[i];
-            }
-            TIndex key = _values.Keys.ElementAt(indexes[0]);
-
-            Collection<TIndex> result = _values[key].GetIndexesAt(idx);
-            result.Insert(0, key);
-            return result;
-            */
-
-
+            if (indexes.Length != _dimensionCount) throw new InvalidOperationException($"GetIndexesAt for MultipleDimensionMatrix type expects exactly {_dimensionCount} index value(s) but received {indexes.Length}.");
+            ArgumentOutOfRangeException.ThrowIfNegative(indexes[indexes.Length - 1]);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(indexes[indexes.Length - 1], _values.Count);
 
             int[] idx = new int[indexes.Length - 1];
             for (int i = 0; i < indexes.Length - 1; i++)
@@ -89,7 +61,6 @@ namespace StarThrower.Matrices
             TIndex key = _values.Keys.ElementAt(indexes[indexes.Length - 1]);
 
             Collection<TIndex> result = _values[key].GetIndexesAt(idx);
-            //result.Insert(0, key);
             result.Add(key);
             return result;
         }
@@ -97,20 +68,9 @@ namespace StarThrower.Matrices
         public override TValue? GetItemAt(params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
-
-            //TODO: requires still more validation
-
-
-            /*
-            int[] idx = new int[indexes.Length - 1];
-            for (int i = 1; i < indexes.Length; i++)
-            {
-                idx[i - 1] = indexes[i];
-            }
-            TIndex key = _values.Keys.ElementAt(indexes[0]);
-            return _values[key].GetItemAt(idx);
-            */
-
+            if (indexes.Length != _dimensionCount) throw new InvalidOperationException($"GetItemAt for MultipleDimensionMatrix type expects exactly {_dimensionCount} index value(s) but received {indexes.Length}.");
+            ArgumentOutOfRangeException.ThrowIfNegative(indexes[indexes.Length - 1]);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(indexes[indexes.Length - 1], _values.Count);
 
             int[] idx = new int[indexes.Length - 1];
             for (int i = 0; i < indexes.Length - 1; i++)
@@ -124,20 +84,9 @@ namespace StarThrower.Matrices
         public override void SetItemAt(TValue? value, params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
-
-            //TODO: requires still more validation
-
-
-            /*
-            int[] idx = new int[indexes.Length - 1];
-            for (int i = 1; i < indexes.Length; i++)
-            {
-                idx[i - 1] = indexes[i];
-            }
-            TIndex key = _values.Keys.ElementAt(indexes[0]);
-            _values[key].SetItemAt(value, idx);
-            */
-
+            if (indexes.Length != _dimensionCount) throw new InvalidOperationException($"SetItemAt for MultipleDimensionMatrix type expects exactly {_dimensionCount} index value(s) but received {indexes.Length}.");
+            ArgumentOutOfRangeException.ThrowIfNegative(indexes[indexes.Length - 1]);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(indexes[indexes.Length - 1], _values.Count);
 
             int[] idx = new int[indexes.Length - 1];
             for (int i = 0; i < indexes.Length - 1; i++)
@@ -153,22 +102,10 @@ namespace StarThrower.Matrices
             ArgumentNullException.ThrowIfNull(indexes);
             if (indexes.Length < 2) throw new InvalidOperationException("MultipleDimensionMatrix must contain at least two values in its indices list");
 
+            _dimensionCount = indexes.Length;
+
             if (indexes.Length > 2)
             {
-                /*
-                _values = new Dictionary<TIndex, CompositeMatrix<TIndex, TValue>>();
-                foreach (TIndex i in indexes[2])
-                {
-                    IEnumerable<TIndex>[] idx = new IEnumerable<TIndex>[indexes.Length - 1];
-                    for (int n = 1; n < indexes.Length; n++)
-                    {
-                        idx[n - 1] = indexes[n];
-                    }
-                    _values.Add(i, new MatrixDN<TIndex, TValue>(idx));
-                }
-                */
-
-
                 _values = new Dictionary<TIndex, CompositeMatrix<TIndex, TValue>>();
                 foreach (TIndex i in indexes[2])
                 {
