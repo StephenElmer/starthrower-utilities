@@ -773,21 +773,22 @@ namespace StarThrower.StringUtilities
             ArgumentOutOfRangeException.ThrowIfNegative(characterCode);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(characterCode, 255);
 
-            //TODO: why is this line here?  Because the previous line ensures it can never be greater than 255, this line will never throw an exception.  Should we remove it?
-            if (characterCode < 0 || characterCode > 0x10FFFF) throw new ArgumentOutOfRangeException(nameof(characterCode));
+            return ((char)characterCode).ToString();
+        }
 
-            if (characterCode <= 0xFFFF) //TODO: again, why?
-            {
-                return ((char)characterCode).ToString();
-            }
-            else
-            {
-                // Encode as UTF-16 surrogate pair for characters outside BMP
-                characterCode -= 0x10000;
-                char highSurrogate = (char)(0xD800 + (characterCode >> 10));
-                char lowSurrogate = (char)(0xDC00 + (characterCode & 0x3FF));
-                return new string(new[] { highSurrogate, lowSurrogate });
-            }
+
+        /// <summary>
+        /// Returns a string representation of the Unicode code point provided.
+        /// </summary>
+        /// <param name="codePoint">a Unicode code point, from 0 to 0x10FFFF</param>
+        /// <returns>the string representation of the character at codePoint, encoded as a single
+        /// UTF-16 char or, for code points outside the Basic Multilingual Plane, a surrogate pair.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if codePoint is less than zero, greater
+        /// than 0x10FFFF, or falls within the surrogate range (0xD800-0xDFFF), which has no standalone
+        /// character representation.</exception>
+        public static string ToUnicodeChar(int codePoint)
+        {
+            return char.ConvertFromUtf32(codePoint);
         }
 
 

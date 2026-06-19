@@ -7905,6 +7905,82 @@ namespace StarThrower.StringUtilities.Test
         #endregion
 
 
+        #region ToUnicodeChar(int) tests
+
+        [Fact]
+        public void TestToUnicodeChar0()
+        {
+            (StringUtil.ToUnicodeChar(0)).Should().Be("\u0000");
+        }
+
+        [Fact]
+        public void TestToUnicodeChar65()
+        {
+            (StringUtil.ToUnicodeChar(65)).Should().Be("A");
+        }
+
+        [Fact]
+        public void TestToUnicodeChar255()
+        {
+            (StringUtil.ToUnicodeChar(255)).Should().Be("ÿ");
+        }
+
+        [Fact]
+        public void TestToUnicodeCharWithinBmp()
+        {
+            // U+20AC EURO SIGN - within the Basic Multilingual Plane, single UTF-16 char
+            (StringUtil.ToUnicodeChar(0x20AC)).Should().Be("€");
+        }
+
+        [Fact]
+        public void TestToUnicodeCharOutsideBmpEncodesAsSurrogatePair()
+        {
+            // U+1F600 GRINNING FACE - outside the BMP, requires a UTF-16 surrogate pair
+            (StringUtil.ToUnicodeChar(0x1F600)).Should().Be("😀");
+        }
+
+        [Fact]
+        public void TestToUnicodeCharMaxCodePoint()
+        {
+            (StringUtil.ToUnicodeChar(0x10FFFF)).Should().Be("􏿿");
+        }
+
+        #endregion
+
+
+        #region ToUnicodeChar(int) (exception) tests
+
+        [Fact]
+        public void TestToUnicodeCharTooSmall()
+        {
+            Action act = () => StringUtil.ToUnicodeChar(-1);
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void TestToUnicodeCharTooBig()
+        {
+            Action act = () => StringUtil.ToUnicodeChar(0x110000);
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void TestToUnicodeCharHighSurrogateRangeRejected()
+        {
+            Action act = () => StringUtil.ToUnicodeChar(0xD800);
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void TestToUnicodeCharLowSurrogateRangeRejected()
+        {
+            Action act = () => StringUtil.ToUnicodeChar(0xDFFF);
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        #endregion
+
+
         #region ToAscii(string) tests
 
         [Fact]
