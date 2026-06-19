@@ -163,6 +163,7 @@ namespace StarThrower.StringUtilities
         /// <exception cref="ArgumentNullException">Thrown if source or delimiter is null.</exception>
         public static string ParseString(ref string source, string? delimiter)
         {
+            ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(delimiter);
 
             string ret;
@@ -206,6 +207,7 @@ namespace StarThrower.StringUtilities
         /// <exception cref="ArgumentNullException">Thrown if source or delimiter is null.</exception>
         public static string ParseStringFromRight(ref string source, string? delimiter)
         {
+            ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(delimiter);
 
             string ret;

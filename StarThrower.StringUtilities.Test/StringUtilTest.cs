@@ -645,10 +645,13 @@ namespace StarThrower.StringUtilities.Test
             (s).Should().Be("line2\nline3");
         }
 
-        [Fact(Skip = "this test has been ignored")]
+        [Fact]
         public void TestParseString20NullSource()
         {
-            //TODO: implement test for null source string - should throw exception
+            // Test null source throws exception
+            string s = null!;
+            Action act = () => StringUtil.ParseString(ref s, "x");
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -1028,10 +1031,13 @@ namespace StarThrower.StringUtilities.Test
             (s).Should().Be("line1\nline2");
         }
 
-        [Fact(Skip = "this test has been ignored")]
+        [Fact]
         public void TestParseStringFromRight20NullSource()
         {
-            //TODO: implement test for null source string - should throw exception
+            // Test null source throws exception
+            string s = null!;
+            Action act = () => StringUtil.ParseStringFromRight(ref s, "x");
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
