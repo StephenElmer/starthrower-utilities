@@ -186,46 +186,15 @@ namespace StarThrower.DateTimeUtilities
         /// See http://www.w3.org/TR/NOTE-datetime for more information on the ISO 8601 standard.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if iso is null.</exception>
+        [Obsolete("Use DateTimeOffset.Parse(iso, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal).UtcDateTime instead.")]
         public static DateTime Iso8601ToDateTime(string? iso)
         {
             ArgumentNullException.ThrowIfNull(iso);
 
-            //TODO: this still needs some work -
-            //      it doesn't yet handle the TZD time zone designator correctly
-            //      nor do I think it handles the fractional seconds correctly - ISO8601 indicates that the fractional seconds is actually a fraction, not milliseconds
-            string strDelim1 = "T";
-            char[] chrDelim1 = strDelim1.ToCharArray();
-            string[] split1 = iso.Split(chrDelim1);
-
-            //DateTime outDate = DateTime.Parse(split1[0] + " " + split1[1]);
-            //return outDate;
-
-            string strDelim2 = String.Empty;
-            char[] chrDelim2;
-            string time = split1[1];
-            string newTime;
-            string[] split2;
-            if (time.Contains('+'))
-            {
-                strDelim2 = "+";
-                chrDelim2 = strDelim2.ToCharArray();
-                split2 = time.Split(chrDelim2);
-                newTime = split2[0];
-            }
-            else if (time.Contains('-'))
-            {
-                strDelim2 = "-";
-                chrDelim2 = strDelim2.ToCharArray();
-                split2 = time.Split(chrDelim2);
-                newTime = split2[0];
-            }
-            else
-            {
-                newTime = time;
-            }
-
-            DateTime outDate = DateTime.Parse(split1[0] + " " + newTime, CultureInfo.InvariantCulture);
-            return outDate;
+            return DateTimeOffset.Parse(
+                iso,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal).UtcDateTime;
         }
 
         public static DateTime RoundToSeconds(DateTime dt)

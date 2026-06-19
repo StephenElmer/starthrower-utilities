@@ -286,6 +286,41 @@ namespace StarThrower.DateTimeUtilities.Test
             act.Should().Throw<ArgumentNullException>();
         }
 
+        [Fact]
+        public void TestIso8601ToDateTimePositiveOffset()
+        {
+            string iso = "2007-06-24T08:13:15.0+05:00";
+            DateTime expected = new DateTime(2007, 6, 24, 3, 13, 15, DateTimeKind.Utc);
+            DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestIso8601ToDateTimeNegativeOffset()
+        {
+            string iso = "2007-06-24T08:13:15.0-08:00";
+            DateTime expected = new DateTime(2007, 6, 24, 16, 13, 15, DateTimeKind.Utc);
+            DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestIso8601ToDateTimeZuluDesignator()
+        {
+            string iso = "2007-06-24T08:13:15.0Z";
+            DateTime expected = new DateTime(2007, 6, 24, 8, 13, 15, DateTimeKind.Utc);
+            DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TestIso8601ToDateTimeReturnsUtcKind()
+        {
+            string iso = "2007-06-24T08:13:15.0";
+            DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            actual.Kind.Should().Be(DateTimeKind.Utc);
+        }
+
         #endregion
     }
 }
