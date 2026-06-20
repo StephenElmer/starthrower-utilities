@@ -146,20 +146,14 @@ namespace StarThrower.EarleyParser
             if (obj == null) return false;
             if (!(obj is DottedRule)) return false;
             DottedRule other = (DottedRule)obj;
-            return _position == other._position &&
-                //TODO: should we be looking at activeCategory here, too?
-                //_activeCategory.Equals(other._activeCategory) &&
-                base.Equals(other);
+            return _position == other._position && base.Equals(other);
         }
 
         public bool Equals(DottedRule? other)
         {
             if (other == this) return true;
             if (other == null) return false;
-            return _position == other._position &&
-                //TODO: should we be looking at activeCategory here, too?
-                //_activeCategory.Equals(other._activeCategory) &&
-                base.Equals(other);
+            return _position == other._position && base.Equals(other);
         }
 
         /// <summary>

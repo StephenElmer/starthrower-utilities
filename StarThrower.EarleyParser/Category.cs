@@ -104,10 +104,8 @@ namespace StarThrower.EarleyParser
         {
             ArgumentNullException.ThrowIfNull(name);
             
-            //TODO: hmm... this was originaly the other way around, but the other way around if fails the Ctor_ThrowsOnWHitespaceName() test.  Why was it made to allow whitespace?
             string temp = name.Trim();
-            //string temp = name;
-            
+
             if (!isTerminal && (temp.Length == 0)) throw new InvalidOperationException("empty name specified for Category");
 
             _name = temp;

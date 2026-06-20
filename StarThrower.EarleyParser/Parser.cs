@@ -155,19 +155,11 @@ namespace StarThrower.EarleyParser
             chart.AddEdge(index, seedEdge); //seed parser
             foreach (string token in tokens)
             {
-                try
-                {
-                    Predict(chart, index); //make predictions at this index
-                    parse.AddToken(token); //add to tokens in parse
-                    Scan(chart, index++, token); //scan and increment index
-                    Complete(chart, index); //complete for next index
-                    Predict(chart, index); //finish filling chart by predicting for final index
-                }
-                catch
-                {
-                    //TODO: log this
-                    throw;
-                }
+                Predict(chart, index); //make predictions at this index
+                parse.AddToken(token); //add to tokens in parse
+                Scan(chart, index++, token); //scan and increment index
+                Complete(chart, index); //complete for next index
+                Predict(chart, index); //finish filling chart by predicting for final index
             }
             return parse;
         }

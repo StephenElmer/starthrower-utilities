@@ -24,8 +24,6 @@ operate accordingly:
 - **Ask before adding anything new.** New packages, new files, new patterns — ask first.
 - **Do not run git commands.** Leave all source control operations (add, commit, push,
   branch) to the developer.
-- **Do not run dotnet test autonomously** unless explicitly asked to do so for a specific
-  project or the full solution.
 
 ---
 
@@ -642,7 +640,6 @@ shadowing workaround documented previously are no longer needed.
 - Do not change exception types thrown by existing public methods
 - Do not reorganize namespaces or move types between assemblies
 - Do not run git commands
-- Do not run dotnet test unless explicitly asked
 - Do not make multiple changes in one pass without developer review between them
 
 ---

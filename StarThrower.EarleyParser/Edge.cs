@@ -168,12 +168,6 @@ namespace StarThrower.EarleyParser
             if (!string.Equals(activeCategory.Name, token, StringComparison.OrdinalIgnoreCase)) { throw new InvalidOperationException("token " + token + " incompatible with " + edge.ToString()); }
 
 
-            //TODO: not so sure about the order of this.  The Java version is expressed as per this commented out code,
-            //      but the ReadOnlyCollection in C# complains, so I reworked it as per the uncommented
-            //      code below
-            //Edge scanEdge = new Edge(DottedRule.AdvanceDot(dr), edge.Origin);
-            //scanEdge.Bases = new ReadOnlyCollection<Edge>(Edge.AddBasisEdge(edge, edge));
-            //return scanEdge;
             Edge scanEdge = new Edge(DottedRule.AdvanceDot(dr), edge.Origin, new ReadOnlyCollection<Edge>(Edge.AddBasisEdge(edge, edge)));
             return scanEdge;
         }
