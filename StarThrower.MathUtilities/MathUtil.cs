@@ -77,6 +77,9 @@ namespace StarThrower.MathUtilities
         /// <param name="test">The string to be checked</param>
         /// <returns>true if the string represents an integer; otherwise false.</returns>
         /// <exception cref="ArgumentNullException"></exception>
+        /// <remarks>
+        /// This function is similar to IsWholeNumber, but it checks for integer values specifically, which are whole numbers that can be represented within the range of the int data type in C#.
+        /// </remarks>
         public static bool IsInteger(string? test)
         {
             ArgumentNullException.ThrowIfNull(test);

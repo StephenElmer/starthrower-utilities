@@ -364,12 +364,6 @@ namespace StarThrower.MathUtilities.Test
         [Fact]
         public void TestIsInteger10()
         {
-            //TODO: this test breaks.  But is it valid?  Should "+-124" be considered a valid integer?  What about "+-+-+-+++-1234"?
-            //      I'm going to say that such a case is not valid.  (See my comments for the similar test for IsNumeric(), above
-            //(MathUtil.IsInteger("+" + int.MinValue.ToString())).Should().Be(true);
-
-            //After examining how int.TryParse() works, it is clear that only one sign character is allowed.
-            //Therefore "+" + int.MinValue.ToString() should be invalid.
             (MathUtil.IsInteger("+" + int.MinValue.ToString(CultureInfo.InvariantCulture))).Should().Be(false);
         }
 
@@ -461,14 +455,9 @@ namespace StarThrower.MathUtilities.Test
         [Fact]
         public void TestIsInteger25()
         {
-            /* TODO: I'm not sure how these cases should be treated
-            (MathUtil.IsInteger("0.0")).Should().Be(false);
-            (MathUtil.IsInteger("1.0")).Should().Be(false);
-            (MathUtil.IsInteger("-1.0")).Should().Be(false);
             long one = 1;
             (MathUtil.IsInteger((int.MaxValue + one).ToString())).Should().Be(false);
             (MathUtil.IsInteger((int.MinValue - one).ToString())).Should().Be(false);
-            */
 
             //After examining the int.TryParse() function, it is clear that passing
             //any sort of decimal into it should fail.
