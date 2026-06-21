@@ -9,8 +9,7 @@
     Properties NOT set here (inherited from Directory.Build.props):
       Authors, Company, Product, Copyright, NeutralLanguage
       PackageProjectUrl, RepositoryUrl, RepositoryType
-      PackageLicenseExpression, PackageReleaseNotes
-      GenerateDocumentationFile, AnalysisMode, Nullable
+      PackageLicenseExpression, PackageReleaseNotes, AnalysisMode, Nullable
       IncludeSymbols, SymbolPackageFormat
       Microsoft.SourceLink.GitHub PackageReference
   -->
@@ -24,6 +23,7 @@
     <AssemblyName>StarThrower.ByteUtilities</AssemblyName>
     <RootNamespace>StarThrower.ByteUtilities</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->
@@ -41,11 +41,9 @@
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
-    <!-- TODO: Claude Code documentation pass                       -->
-    <PackageTags>$(PackageTags);bytes;bitwise;endianness</PackageTags>
+    <PackageTags>$(PackageTags);bytes;byte-array;bitwise;bit-manipulation;endianness;big-endian;little-endian;binary;byte-order;xor</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
-    <!-- TODO: Claude Code documentation pass                       -->
     <PackageReadme>README.md</PackageReadme>
   </PropertyGroup>
 

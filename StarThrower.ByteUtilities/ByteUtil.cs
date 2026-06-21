@@ -123,7 +123,7 @@ namespace StarThrower.ByteUtilities
         /// <param name="byteEndian">The Byte Endian of the byte array</param>
         /// <param name="bitEndian">The Bit Endian of each byte in the array.</param>
         /// <returns>The float value of the byte array.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if value is null.</exception>
         public static float ByteArrayToSingle(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
             ArgumentNullException.ThrowIfNull(value);
@@ -162,7 +162,7 @@ namespace StarThrower.ByteUtilities
         /// <param name="byteEndian">The Byte Endian of the byte array</param>
         /// <param name="bitEndian">The Bit Endian of each byte in the array.</param>
         /// <returns>The Integer value of the byte array.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if value is null.</exception>
         public static Int32 ByteArrayToInt32(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
             ArgumentNullException.ThrowIfNull(value);
@@ -203,7 +203,7 @@ namespace StarThrower.ByteUtilities
         /// <param name="byteEndian">The Byte Endian of the byte array</param>
         /// <param name="bitEndian">The Bit Endian of each byte in the array.</param>
         /// <returns>The short value of the byte array.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if value is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if there are not at least two bytes in the array.</exception>
         public static Int16 ByteArrayToInt16(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
@@ -246,7 +246,7 @@ namespace StarThrower.ByteUtilities
         /// <param name="bitEndian">Whether the bits of the byte should be treated as big or little endian.</param>
         /// <returns>The resulting Int16.</returns>
         /// <remarks>
-        /// It is possible to indicate the Endian of the byte array by specifying bitEndian.
+        /// It is possible to indicate the Endian of the byte by specifying bitEndian.
         /// </remarks>
         /// <exception cref="InvalidEndianException">Thrown if bitEndian is something other than Little or Big.</exception>
         public static Int16 ByteToInt16(byte bytes, BitEndian bitEndian)
@@ -272,7 +272,7 @@ namespace StarThrower.ByteUtilities
         /// <remarks>
         /// It is possible to indicate the Endian of the byte array by specifying byteEndian and bitEndian.
         /// </remarks>
-        /// <exception cref="ArgumentNullException">Thrown if bytes is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if value is null.</exception>
         /// <exception cref="InvalidEndianException">Thrown if byteEndian or bitEndian are something other than Little or Big.</exception>
         public static double ByteArrayToDouble(byte[]? value, ByteEndian byteEndian, BitEndian bitEndian)
         {
@@ -476,7 +476,7 @@ namespace StarThrower.ByteUtilities
         /// <param name="value1">The first byte array.</param>
         /// <param name="value2">The second byte array.</param>
         /// <returns>a xor b</returns>
-        /// <exception cref="ArgumentNullException">Thrown if a or b is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if value1 or value2 is null.</exception>
         public static byte[] XorByteArray(byte[]? value1, byte[]? value2)
         {
             ArgumentNullException.ThrowIfNull(value1);
