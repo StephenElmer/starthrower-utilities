@@ -58,6 +58,33 @@ namespace StarThrower.EarleyParser.Test
         }
 
         /// <summary>
+        /// A grammar with a unit-production cycle (X -> Y, Y -> X) that consumes no
+        /// input along the cyclic branch is, by CFG theory, infinitely ambiguous: a
+        /// derivation can loop around the cycle arbitrarily many times before
+        /// bottoming out. A correct, terminating implementation cannot enumerate all
+        /// of those derivations, but it must still recognize the string in finite
+        /// time. This test would hang or stack-overflow if the completer cycle guard
+        /// were removed.
+        /// </summary>
+        [Fact]
+        public void CyclicUnitProductionTerminatesAndAccepts()
+        {
+            Category x = new Category("X", false);
+            Category y = new Category("Y", false);
+            Category a = new Category("a", true);
+
+            Grammar g = new Grammar("cyclic");
+            g.AddRule(new Rule(x, new ReadOnlyCollection<Category>([y])));
+            g.AddRule(new Rule(y, new ReadOnlyCollection<Category>([x])));
+            g.AddRule(new Rule(y, new ReadOnlyCollection<Category>([a])));
+
+            Parser parser = new Parser(g);
+            Parse parse = parser.Parse(["a"], x);
+
+            parse.Status.Should().Be(Status.Accept);
+        }
+
+        /// <summary>
         /// The classic fully-ambiguous grammar S -> S S | a. The number of distinct
         /// binary parse trees over n leaves is the Catalan number C(n-1), a fact about
         /// the grammar itself rather than about any particular parser implementation.
@@ -170,22 +197,19 @@ namespace StarThrower.EarleyParser.Test
         }
 
         /// <summary>
-        /// KNOWN FAILING TEST - documents a real gap, not a regression guard.
-        ///
         /// Rule.cs's documentation states that empty (epsilon) productions are
         /// supported by giving a rule a right side consisting of a single terminal
         /// category with an empty name. By CFG theory, a nullable category B in
-        /// A -> B C should let A match the same span as C alone. But tracing the
-        /// algorithm: a predicted edge for "B -> <empty>" is active (its dot has not
-        /// reached the end of a 1-length right side) and is never advanced by Scan,
-        /// because Scan only matches edges against real, non-empty input tokens.
-        /// There is no completer step for nullable categories, so B can never
-        /// legitimately become passive without consuming a token that doesn't exist.
+        /// A -> B C should let A match the same span as C alone.
         ///
-        /// This test asserts the theoretically-correct result (Accept) and is
-        /// expected to fail against the current implementation. Left failing
-        /// intentionally per direction from the developer, to be addressed after the
-        /// rest of this test pass is complete.
+        /// This previously failed: a predicted edge for "B -> &lt;empty&gt;" is active
+        /// (its dot has not reached the end of a 1-length right side) and was never
+        /// advanced by Scan, since Scan only matches against real, non-empty input
+        /// tokens - there was no completer step for nullable categories. Fixed in
+        /// PredictForEdge, which now recognizes this direct-epsilon-rule convention
+        /// and immediately completes it via the existing Edge.Scan/CompleteForEdge
+        /// machinery at prediction time, with Predict looping to a fixed point so
+        /// cascading nullable categories resolve fully before scanning the next token.
         /// </summary>
         [Fact]
         public void EpsilonProductionAllowsNullableCategoryToBeSkipped()

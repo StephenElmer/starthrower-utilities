@@ -171,25 +171,38 @@ namespace StarThrower.EarleyParser
         /// <param name="index">The string index to make predictions at.</param>
         private void Predict(Chart chart, int index)
         {
-            if (chart.ContainsEdgesAt(index)) //if there are any edges at this index
+            //a nullable category (predicted via the empty-production convention - see
+            //PredictForEdge) can let some other edge advance with no token consumed,
+            //which can itself expose a brand new active category that still needs to
+            //be predicted at this same index. Loop until a full pass adds nothing new.
+            bool addedNewEdge;
+            do
             {
-                //get a separate list  to avoid concurrently modifying chart
-                List<Edge> l = new List<Edge>();
-                ReadOnlyCollection<Edge>? edgesAtIndex = chart.GetEdgesAt(index);
-                if (edgesAtIndex != null)
+                addedNewEdge = false;
+
+                if (chart.ContainsEdgesAt(index)) //if there are any edges at this index
                 {
-                    foreach (Edge edge in edgesAtIndex)
+                    //get a separate list  to avoid concurrently modifying chart
+                    List<Edge> l = new List<Edge>();
+                    ReadOnlyCollection<Edge>? edgesAtIndex = chart.GetEdgesAt(index);
+                    if (edgesAtIndex != null)
                     {
-                        l.Add(edge);
+                        foreach (Edge edge in edgesAtIndex)
+                        {
+                            l.Add(edge);
+                        }
+                    }
+                    ReadOnlyCollection<Edge> edges = new ReadOnlyCollection<Edge>(l);
+
+                    foreach (Edge edge in edges)
+                    {
+                        if (PredictForEdge(chart, edge, index))
+                        {
+                            addedNewEdge = true;
+                        }
                     }
                 }
-                ReadOnlyCollection<Edge> edges = new ReadOnlyCollection<Edge>(l);
-
-                foreach (Edge edge in edges)
-                {
-                    PredictForEdge(chart, edge, index);
-                }
-            }
+            } while (addedNewEdge);
         }
 
         /// <summary>
@@ -200,8 +213,10 @@ namespace StarThrower.EarleyParser
         /// <param name="chart">The chart to fill.</param>
         /// <param name="edge">The edge to make predictions for.</param>
         /// <param name="index">The index in the string under consideration.</param>
-        private void PredictForEdge(Chart chart, Edge edge, int index)
+        /// <returns>True if any new edge was added to the chart as a result.</returns>
+        private bool PredictForEdge(Chart chart, Edge edge, int index)
         {
+            bool addedNewEdge = false;
             Category? active = edge.DottedRule.ActiveCategory; //null, if passive
 
             if (active != null && _grammar.ContainsRules(active))
@@ -222,12 +237,42 @@ namespace StarThrower.EarleyParser
                     //only predict for edges that the chart did not already contain
                     if (chart.AddEdge(index, newEdge))
                     {
+                        addedNewEdge = true;
                         FireEdgePredicted(new EdgeEventArgs(index, newEdge));
                         //recursively predict for the new edge
-                        PredictForEdge(chart, newEdge, index);
+                        if (PredictForEdge(chart, newEdge, index))
+                        {
+                            addedNewEdge = true;
+                        }
+                    }
+
+                    //a rule of the form "X -> <empty>" (the documented convention for
+                    //an empty/epsilon production - see Rule.cs) derives no input at
+                    //all, so it can be treated as complete the instant it is
+                    //predicted, without waiting for a token to scan. This check runs
+                    //regardless of whether the predicted edge above was newly added,
+                    //so that every edge waiting on this nullable category gets the
+                    //chance to advance past it - not just whichever edge predicted it
+                    //first.
+                    if (rule.Right.Count == 1 && rule.Right[0].IsTerminal && rule.Right[0].Name.Length == 0)
+                    {
+                        Edge epsilonEdge = Edge.Scan(new Edge(new DottedRule(rule), index), string.Empty);
+
+                        if (chart.AddEdge(index, epsilonEdge))
+                        {
+                            addedNewEdge = true;
+                            FireEdgeScanned(new EdgeEventArgs(index, epsilonEdge));
+                        }
+
+                        if (CompleteForEdge(chart, epsilonEdge, index, new HashSet<(DottedRule, int)>()))
+                        {
+                            addedNewEdge = true;
+                        }
                     }
                 }
             }
+
+            return addedNewEdge;
         }
 
         /// <summary>
@@ -328,9 +373,15 @@ namespace StarThrower.EarleyParser
                 }
                 ReadOnlyCollection<Edge> edges = new ReadOnlyCollection<Edge>(l);
 
+                //tracks (rule+position, origin) items currently being completed on the
+                //current recursive chain, to detect zero-width unit-production cycles
+                //(e.g. X -> Y, Y -> X) that would otherwise re-derive the same item
+                //forever - see CompleteForEdge.
+                HashSet<(DottedRule, int)> inProgress = new HashSet<(DottedRule, int)>();
+
                 foreach (Edge edge in edges)
                 {
-                    CompleteForEdge(chart, edge, index); //complete for each edge
+                    CompleteForEdge(chart, edge, index, inProgress); //complete for each edge
                 }
             }
         }
@@ -344,37 +395,72 @@ namespace StarThrower.EarleyParser
         /// <param name="chart">The chart to fill.</param>
         /// <param name="edge">The edge to complete for.</param>
         /// <param name="index">The index to make completions at.</param>
-        private void CompleteForEdge(Chart chart, Edge edge, int index)
+        /// <param name="inProgress">Items currently being completed on this recursive
+        /// chain, used to detect zero-width unit-production cycles.</param>
+        /// <returns>True if any new edge was added to the chart as a result.</returns>
+        private bool CompleteForEdge(Chart chart, Edge edge, int index, HashSet<(DottedRule, int)> inProgress)
         {
+            bool addedNewEdge = false;
             int eo = edge.Origin;
 
             //can only make completions based on passive edges
             if (edge.IsPassive && chart.ContainsEdgesAt(eo))
             {
-                //get all edges at this edge's origin
-                ReadOnlyCollection<Edge>? edgesAtEo = chart.GetEdgesAt(eo);
-                if (edgesAtEo != null)
+                //get all edges at this edge's origin. Snapshot into a separate list -
+                //chart.GetEdgesAt wraps the chart's live underlying list, and when
+                //eo == index (a zero-width completion, e.g. from a nullable category)
+                //chart.AddEdge below mutates that same list while it's being iterated.
+                List<Edge> l = new List<Edge>();
+                ReadOnlyCollection<Edge>? edgesAtEoLive = chart.GetEdgesAt(eo);
+                if (edgesAtEoLive != null)
                 {
-                    foreach (Edge originEdge in edgesAtEo)
+                    foreach (Edge e in edgesAtEoLive)
                     {
-                        //compare each non-passive edge's active category with
-                        //the left side of the edge used to complete
-                        Category? activeCategory = originEdge.DottedRule.ActiveCategory;
-                        if (!originEdge.IsPassive && activeCategory != null && activeCategory.Equals(edge.DottedRule.Left))
-                        {
-                            //add new edge with dot advanced by one if same
-                            Edge newEdge = Edge.Complete(originEdge, edge);
+                        l.Add(e);
+                    }
+                }
+                ReadOnlyCollection<Edge> edgesAtEo = new ReadOnlyCollection<Edge>(l);
 
-                            if (chart.AddEdge(index, newEdge))
+                foreach (Edge originEdge in edgesAtEo)
+                {
+                    //compare each non-passive edge's active category with
+                    //the left side of the edge used to complete
+                    Category? activeCategory = originEdge.DottedRule.ActiveCategory;
+                    if (!originEdge.IsPassive && activeCategory != null && activeCategory.Equals(edge.DottedRule.Left))
+                    {
+                        //a grammar with a unit-production cycle (e.g. X -> Y, Y -> X)
+                        //would re-derive this exact item via the exact same zero-width
+                        //span forever - such a grammar is infinitely ambiguous by CFG
+                        //theory. Cut the cycle rather than recurse without bound.
+                        (DottedRule, int) key = (DottedRule.AdvanceDot(originEdge.DottedRule), originEdge.Origin);
+                        if (inProgress.Contains(key))
+                        {
+                            continue;
+                        }
+
+                        //add new edge with dot advanced by one if same
+                        Edge newEdge = Edge.Complete(originEdge, edge);
+
+                        if (chart.AddEdge(index, newEdge))
+                        {
+                            addedNewEdge = true;
+                            FireEdgeCompleted(new EdgeEventArgs(index, newEdge));
+                            //only recursively complete if the chart did not already contain this edge.
+                            inProgress.Add(key);
+                            try
                             {
-                                FireEdgeCompleted(new EdgeEventArgs(index, newEdge));
-                                //only recursively complete if the chart did not already contain this edge.
-                                CompleteForEdge(chart, newEdge, index);
+                                CompleteForEdge(chart, newEdge, index, inProgress);
+                            }
+                            finally
+                            {
+                                inProgress.Remove(key);
                             }
                         }
                     }
                 }
             }
+
+            return addedNewEdge;
         }
 
         #endregion
