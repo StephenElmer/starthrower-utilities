@@ -189,8 +189,30 @@ namespace StarThrower.XBase.Internal
             this.AlterField(index, field);
         }
 
+        /// <summary>
+        /// Alters the definition of the field at the given index - renaming it, resizing it
+        /// (changing <see cref="Field.Length"/> and/or <see cref="Field.DecimalCount"/>), or both.
+        /// Existing record data is preserved as raw bytes: shrinking the field truncates trailing
+        /// bytes, growing it pads with spaces.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="field"/>.Type differs from
+        /// the field's current type.</exception>
+        /// <remarks>
+        /// Changing a field's data type (e.g. Character to Numeric) is not currently supported.
+        /// Doing so correctly requires reinterpreting each record's stored value for the new type
+        /// (via the corresponding <see cref="FieldType.Translate"/> / <see cref="FieldType.IsValidData"/>
+        /// pair) rather than simply truncating/padding raw bytes, which is only valid when the type
+        /// is unchanged. This is tracked as a future enhancement.
+        /// </remarks>
         internal void AlterField(Int32 fieldIndex, StarThrower.XBase.Internal.Field field)
         {
+            if (field.Type != _header.Fields[fieldIndex].Type)
+            {
+                throw new ArgumentException(
+                    "Changing a field's data type is not currently supported by AlterField. Only renaming and/or resizing (Length/DecimalCount) of a field while keeping its existing Type is supported.",
+                    nameof(field));
+            }
+
             //Header length does not change
             Int16 oldLength = (Int16)_header.Fields[fieldIndex].Length;
             Int16 newLength = (Int16)field.Length;
@@ -207,8 +229,7 @@ namespace StarThrower.XBase.Internal
                 record.RemoveBytes(fieldIndex, (Int16)oldLength);
                 record.InsertBytes(fieldIndex, (Int16)newLength);
 
-                //TODO: handle conversions to/from field types other than Character!
-                //convert any type TO Character (C)
+                //Field type is unchanged (enforced above), so resizing is a simple truncate/pad of the raw bytes.
                 Int32 curIdx = startIndex;
                 if (oldLength > newLength)
                 {
@@ -277,8 +298,8 @@ namespace StarThrower.XBase.Internal
          * String comparisons are not case sensitive
          * Floating point number comparisons may not be true for equality comparison
          *
-         * NOTE: Only the "=" operator is currently implemented (see TODO below). The
-         * remaining comparison operators are reserved for a future LOCATE FOR / CONTINUE
+         * NOTE: Only the "=" operator is currently implemented (see remarks on FindRecord below).
+         * The remaining comparison operators are reserved for a future LOCATE FOR / CONTINUE
          * style implementation.
          *
          * Examples:
@@ -310,9 +331,6 @@ namespace StarThrower.XBase.Internal
         /// </remarks>
         internal bool FindRecord(string queryText, ref Int32 index)
         {
-            // TODO: implement the remaining comparison operators (<, >, <=, >=, <>) as a
-            // LOCATE FOR-style predicate scan, using `index` as the CONTINUE resume position.
-
             if (!TryParseQuery(queryText, out string fieldName, out string op, out string valueText))
             {
                 throw new ArgumentException("queryText is not a valid query expression.", nameof(queryText));
@@ -321,7 +339,7 @@ namespace StarThrower.XBase.Internal
             if (!op.Equals("=", StringComparison.Ordinal))
             {
                 throw new ArgumentException(
-                    "Only the \"=\" operator is currently implemented. See the TODO on FindRecord for planned LOCATE FOR-style support of the remaining operators.",
+                    "Only the \"=\" operator is currently implemented. See the remarks on FindRecord for planned LOCATE FOR-style support of the remaining operators.",
                     nameof(queryText));
             }
 
@@ -350,12 +368,17 @@ namespace StarThrower.XBase.Internal
             return false;
         }
 
+        /// <summary>
+        /// Flags the record at the given index as deleted (dBase's soft-delete semantics).
+        /// </summary>
+        /// <remarks>
+        /// <see cref="Header"/>.RecordCount is intentionally left unchanged here - a soft-deleted
+        /// record is still physically present in the file and remains part of the record count until
+        /// a PACK (<see cref="DestroyRecord"/>) physically removes it.
+        /// </remarks>
         internal void DeleteRecord(Int32 index)
         {
-            //TODO: Does record count get adjusted
-            //      when a dBase record is merely flagged for deletion???
             _records[index].IsDeleted = 42; //2Ah  (ASCII '*')
-            //_header.RecordCount -= 1;
             _header.LastUpdate = XBase.DateTimeToThreeByteArray(DateTime.Now);
         }
 

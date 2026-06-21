@@ -96,16 +96,6 @@ namespace StarThrower.XBase
             result.Name = StringUtil.ToByteArray(field.Name);
             result.Type = (byte)(field.FieldType.Code);
 
-            //TODO: should anything be done with these?
-            //result.MdxFlag =
-            //result.Reserved1 =
-            //result.Reserved2 =
-            //result.Reserved3 =
-            //result.Reserved4 =
-            //result.SetFieldsFlag =
-            //result.StartIndex =
-            //result.WorkAreaId = 
-
             return result;
         }
 

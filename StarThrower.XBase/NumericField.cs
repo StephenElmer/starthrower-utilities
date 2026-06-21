@@ -96,25 +96,36 @@ namespace StarThrower.XBase
             }
             else //treat it as if it were a double
             {
-                if (data is Single)
+                double value;
+                if (data is Single sgl)
                 {
-                    //TODO: parse data to confirm that it adheres to Lengh & DecimalCount for this Numeric field.
-                    //      also, check for overflow/underflow conditions
-                    result = String.Empty;
-                    return true;
+                    value = sgl;
                 }
-                else if (data is Double)
+                else if (data is Double dbl)
                 {
-                    //TODO: parse data to confirm that it adheres to Lengh & DecimalCount for this Numeric field
-                    //      also, check for overflow/underflow conditions
-                    result = String.Empty;
-                    return true;
+                    value = dbl;
                 }
                 else
                 {
                     result = "Invalid data type";
                     return false;
                 }
+
+                if (Double.IsNaN(value) || Double.IsInfinity(value))
+                {
+                    result = "Invalid data type";
+                    return false;
+                }
+
+                string dataStr = value.ToString("F" + this.Owner.DecimalCount.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture);
+                if (dataStr.Length > this.Owner.Length)
+                {
+                    result = "Data exceeds length defined for this field";
+                    return false;
+                }
+
+                result = StringUtil.AppendSpaces(dataStr, this.Owner.Length);
+                return true;
             }
         }
 

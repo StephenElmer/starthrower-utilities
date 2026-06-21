@@ -298,6 +298,23 @@ namespace StarThrower.XBase.Test
             FileSystem.FileCompare(inputFile, outputFile).Should().BeTrue();
         }
 
+        //Changing a field's data type via AlterField is not currently supported - see the
+        //remarks on StarThrower.XBase.Internal.File.AlterField.
+        [Fact]
+        public void TestAlterFieldTypeChangeThrows()
+        {
+            StarThrower.XBase.XBaseFile f = CreateRoot001XBaseFile();
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.Name = "FIELDTWO";
+            field.FieldType = new StarThrower.XBase.NumericField();
+            field.Length = 5;
+            field.DecimalCount = 0;
+
+            Action act = () => f.AlterField("FIELDTWO", field);
+            act.Should().Throw<ArgumentException>();
+        }
+
         //TEST018:
         //Open a dBase file w/ records, alter a field, save it, compare the saved file to a previous file which has had the same field altered via dBase IV
         //(reduces the length of the second field from 10 characters to 5 characters)

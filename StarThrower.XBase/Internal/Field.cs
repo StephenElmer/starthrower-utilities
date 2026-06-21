@@ -23,7 +23,7 @@ namespace StarThrower.XBase.Internal
         private byte[] _reserved2 = { 0, 0 }; //new byte[2]; //Reserved for multi-user dBase
         private byte _workAreaId; //Work area ID
         private byte[] _reserved3 = { 0, 0 }; //new byte[2]; //Reserved for multi-user dBase
-        private byte _setFieldsFlag; //Flag for SET FIELDS (Reserved???) //TODO: determine if this is actually a reserved field as the documents differ
+        private byte _setFieldsFlag; //Flag for SET FIELDS (Reserved???)
         private byte[] _reserved4 = new byte[7]; //Reserved
         private byte _mdxFlag; //Production MDX field flag; (Hex 01) if field has an index tag in the production MDX file, (Hex 00) if not.
 
@@ -203,12 +203,6 @@ namespace StarThrower.XBase.Internal
 
 
         #region Internal Methods
-
-        internal static bool ValidateData(string data)
-        {
-            //TODO: write code to validate data against fieldType
-            return true;
-        }
 
         internal string ToXml()
         {

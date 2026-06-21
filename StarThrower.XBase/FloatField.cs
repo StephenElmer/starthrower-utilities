@@ -2,6 +2,7 @@
 
 using System;
 using System.Globalization;
+using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase
 {
@@ -58,14 +59,43 @@ namespace StarThrower.XBase
 
         public override bool IsValidData(object data, out string result)
         {
-            //TODO: implement IsValidData for FloatField
-            result = String.Empty;
+            ArgumentNullException.ThrowIfNull(data);
+            if (this.Owner is null) throw new InvalidOperationException("Owner is not set.");
+
+            double value;
+            if (data is Single sgl)
+            {
+                value = sgl;
+            }
+            else if (data is Double dbl)
+            {
+                value = dbl;
+            }
+            else
+            {
+                result = "Invalid data type";
+                return false;
+            }
+
+            if (Double.IsNaN(value) || Double.IsInfinity(value))
+            {
+                result = "Invalid data type";
+                return false;
+            }
+
+            string dataStr = value.ToString("F" + this.Owner.DecimalCount.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture);
+            if (dataStr.Length > this.Owner.Length)
+            {
+                result = "Data exceeds length defined for this field";
+                return false;
+            }
+
+            result = StringUtil.AppendSpaces(dataStr, this.Owner.Length);
             return true;
         }
 
         public override object Translate(string data)
         {
-            //TODO: implement a more precise Translate method for FloatField
             return double.Parse(data, CultureInfo.InvariantCulture);
         }
 

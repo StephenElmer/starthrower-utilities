@@ -1,5 +1,6 @@
 // Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
+using System;
 using AwesomeAssertions;
 using StarThrower.XBase;
 using Xunit;
@@ -93,5 +94,180 @@ namespace StarThrower.XBase.Test
             f.FieldType = t;
             t.IsValidDecimalCount(20).Should().BeFalse();
         }
+
+
+        #region Double Tests
+
+        [Fact]
+        public void TestAddDoubleField1()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 4;
+            file.AddField(field);
+
+            double val = 3.14159;
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            record.SetData("MYFLT", val);
+            file.AddRecord(record);
+
+            file.GetRecord(0).GetData("MYFLT").Should().BeOfType<double>();
+            file.GetRecord(0).GetData("MYFLT").Should().Be(3.1416); //rounded to the field's DecimalCount
+        }
+
+        [Fact]
+        public void TestAddDoubleFieldNegative()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 2;
+            file.AddField(field);
+
+            double val = -3.14;
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            record.SetData("MYFLT", val);
+            file.AddRecord(record);
+
+            file.GetRecord(0).GetData("MYFLT").Should().Be(-3.14);
+        }
+
+        [Fact]
+        public void TestAddDoubleFieldExceedsLength()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 19; //max allowed DecimalCount - but Length is fixed at 20, so even "0" overflows it ("0." + 19 digits = 21 chars)
+            file.AddField(field);
+
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            Action act = () => record.SetData("MYFLT", 0.0);
+            act.Should().Throw<BadDataException>();
+        }
+
+        [Fact]
+        public void TestAddDoubleFieldOverflow()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 2;
+            file.AddField(field);
+
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            Action act = () => record.SetData("MYFLT", 1e20);
+            act.Should().Throw<BadDataException>();
+        }
+
+        [Fact]
+        public void TestAddDoubleFieldNaN()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 2;
+            file.AddField(field);
+
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            Action act = () => record.SetData("MYFLT", double.NaN);
+            act.Should().Throw<BadDataException>();
+        }
+
+        [Fact]
+        public void TestAddDoubleFieldPositiveInfinity()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 2;
+            file.AddField(field);
+
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            Action act = () => record.SetData("MYFLT", double.PositiveInfinity);
+            act.Should().Throw<BadDataException>();
+        }
+
+        #endregion
+
+
+        #region Single Tests
+
+        [Fact]
+        public void TestAddSingleField1()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 2;
+            file.AddField(field);
+
+            float val = 3.14f;
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            record.SetData("MYFLT", val);
+            file.AddRecord(record);
+
+            //FloatField.Translate always returns Double - even for fields originally set from a Single.
+            file.GetRecord(0).GetData("MYFLT").Should().BeOfType<double>();
+            file.GetRecord(0).GetData("MYFLT").Should().Be(3.14);
+        }
+
+        [Fact]
+        public void TestAddSingleFieldExceedsLength()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 19; //max allowed DecimalCount - but Length is fixed at 20, so even "0" overflows it
+            file.AddField(field);
+
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            Action act = () => record.SetData("MYFLT", 0.0f);
+            act.Should().Throw<BadDataException>();
+        }
+
+        [Fact]
+        public void TestAddSingleFieldNaN()
+        {
+            StarThrower.XBase.XBaseFile file = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
+
+            StarThrower.XBase.XBaseField field = new StarThrower.XBase.XBaseField();
+            field.FieldType = new StarThrower.XBase.FloatField();
+            field.Name = "MYFLT";
+            field.Length = 20;
+            field.DecimalCount = 2;
+            file.AddField(field);
+
+            StarThrower.XBase.XBaseRecord record = file.CreateRecord();
+            Action act = () => record.SetData("MYFLT", float.NaN);
+            act.Should().Throw<BadDataException>();
+        }
+
+        #endregion
     }
 }
