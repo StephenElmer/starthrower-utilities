@@ -417,7 +417,8 @@ namespace StarThrower.Gis.GeoUtilities.Test
             new UtmZones.UtmZone(5.9, 0.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm31);
 
 
-            //TODO: Need to fix this up to allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
+            //Note: the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V are latitude-dependent and are not exercised by this test
+            //(which fixes latitude at 0.0); see TestGetLongitudinalZoneForLongitudeAnomalies for those cases.
 
 
             new UtmZones.UtmZone(6.0, 0.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm32);
@@ -506,6 +507,59 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
             new UtmZones.UtmZone(174.0, 0.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm60);
             new UtmZones.UtmZone(179.9, 0.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm60);
+        }
+
+        [Fact]
+        public void TestGetLongitudinalZoneForLongitudeAnomalies()
+        {
+            //--latitudinal zone X (72.0 <= latitude <= 84.0): 31X spans 0°-9°, 33X spans 9°-21°
+            //  (32X doesn't exist), 35X spans 21°-33° (34X doesn't exist), 37X spans 33°-42°
+            //  (36X doesn't exist)--
+
+            new UtmZones.UtmZone(0.0, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm31);
+            new UtmZones.UtmZone(8.99, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm31);
+
+            new UtmZones.UtmZone(9.0, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm33);
+            new UtmZones.UtmZone(20.99, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm33);
+
+            new UtmZones.UtmZone(21.0, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm35);
+            new UtmZones.UtmZone(32.99, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm35);
+
+            new UtmZones.UtmZone(33.0, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm37);
+            new UtmZones.UtmZone(41.99, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm37);
+
+            //--zone X is bounded by latitude 72.0 thru 84.0 inclusive; longitude 42.0+ is unaffected--
+
+            new UtmZones.UtmZone(42.0, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm38);
+            new UtmZones.UtmZone(72.0, 78.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm43);
+
+            //--just below zone X (latitude 71.99): anomaly does not apply--
+
+            new UtmZones.UtmZone(10.0, 71.99).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm32);
+
+            //--latitude 84.0 is the inclusive upper boundary of zone X--
+
+            new UtmZones.UtmZone(10.0, 84.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm33);
+
+            //--latitudinal zone V (56.0 <= latitude < 64.0): 31V narrowed to 0°-3°, 32V widened to 3°-12°--
+
+            new UtmZones.UtmZone(0.0, 60.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm31);
+            new UtmZones.UtmZone(2.99, 60.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm31);
+
+            new UtmZones.UtmZone(3.0, 60.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm32);
+            new UtmZones.UtmZone(11.99, 60.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm32);
+
+            //--zone V is bounded by longitude 12.0; beyond that, zones are unaffected--
+
+            new UtmZones.UtmZone(12.0, 60.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm33);
+
+            //--just below zone V (latitude 55.99): anomaly does not apply--
+
+            new UtmZones.UtmZone(4.0, 55.99).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm31);
+
+            //--latitude 64.0 is exclusive; zone V anomaly no longer applies--
+
+            new UtmZones.UtmZone(4.0, 64.0).LongitudinalZone.Should().Be(UtmZones.LongitudinalZone.Utm31);
         }
 
         [Fact]
@@ -608,7 +662,7 @@ namespace StarThrower.Gis.GeoUtilities.Test
             new UtmNsZones.UtmNsZone(5.9, 0.0).LongitudinalZone.Should().Be(UtmNsZones.LongitudinalZone.Utm31);
 
 
-            //TODO: Need to fix this up to allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
+            //Note: the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V do not apply to the UTM/NS zones, so we can just continue on with the standard 6 degree zones for the rest of the world
 
 
             new UtmNsZones.UtmNsZone(6.0, 0.0).LongitudinalZone.Should().Be(UtmNsZones.LongitudinalZone.Utm32);

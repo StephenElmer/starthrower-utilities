@@ -767,61 +767,47 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
             {
                 return LongitudinalZone.Utm30;
             }
+            // The Norway/Svalbard anomalies only affect zones 31-37 (longitude 0°-42°), and only
+            // within latitudinal zones V (56°-64°) and X (72°-84°). These are 12°-wide zones that
+            // straddle two of the standard 6°-wide longitude blocks below, so they must be resolved
+            // before falling into that block-by-block chain rather than patched into each block.
+            else if (latitude >= 72.0 && latitude <= 84.0 && longitude >= 0.0 && longitude < 42.0)
+            {
+                if (longitude < 9.0) return LongitudinalZone.Utm31; // 31X spans 0°-9° (32X doesn't exist)
+                if (longitude < 21.0) return LongitudinalZone.Utm33; // 33X spans 9°-21° (32X doesn't exist)
+                if (longitude < 33.0) return LongitudinalZone.Utm35; // 35X spans 21°-33° (34X doesn't exist)
+                return LongitudinalZone.Utm37; // 37X spans 33°-42° (36X doesn't exist)
+            }
+            else if (latitude >= 56.0 && latitude < 64.0 && longitude >= 0.0 && longitude < 12.0)
+            {
+                return longitude < 3.0 ? LongitudinalZone.Utm31 : LongitudinalZone.Utm32; // 31V narrowed to 0°-3°; 32V widened to 3°-12°
+            }
             else if (longitude >= 0.0 && longitude < 6.0)
             {
-                //return LongitudinalZone.Utm31; 
-                // Allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
-                if (latitude >= 72.0 && latitude <= 84.0)
-                    return LongitudinalZone.Utm31; // 31X spans 0°-9°
-                if (latitude >= 56.0 && latitude < 64.0 && longitude >= 3.0)
-                    return LongitudinalZone.Utm32; // 32V starts at 3°
                 return LongitudinalZone.Utm31;
             }
             else if (longitude >= 6.0 && longitude < 12.0)
             {
-                //return LongitudinalZone.Utm32;
-                if (latitude >= 72.0 && latitude <= 84.0)
-                    return LongitudinalZone.Utm33; // 32X doesn't exist; 33X spans 9°-21°
-                if (latitude >= 56.0 && latitude < 64.0)
-                    return LongitudinalZone.Utm32; // 32V spans 3°-12°
                 return LongitudinalZone.Utm32;
             }
             else if (longitude >= 12.0 && longitude < 18.0)
             {
-                //return LongitudinalZone.Utm33; 
-                // Allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
-                if (latitude >= 72.0 && latitude <= 84.0)
-                    return LongitudinalZone.Utm33; // 33X spans 9°-21°
                 return LongitudinalZone.Utm33;
             }
             else if (longitude >= 18.0 && longitude < 24.0)
             {
-                //return LongitudinalZone.Utm34;
-                if (latitude >= 72.0 && latitude <= 84.0)
-                    return LongitudinalZone.Utm35; // 34X doesn't exist; 35X spans 21°-33°
                 return LongitudinalZone.Utm34;
             }
             else if (longitude >= 24.0 && longitude < 30.0)
             {
-                //return LongitudinalZone.Utm35; 
-                // Allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
-                if (latitude >= 72.0 && latitude <= 84.0)
-                    return LongitudinalZone.Utm35; // 35X spans 21°-33°
                 return LongitudinalZone.Utm35;
             }
             else if (longitude >= 30.0 && longitude < 36.0)
             {
-                //return LongitudinalZone.Utm36;
-                if (latitude >= 72.0 && latitude <= 84.0)
-                    return LongitudinalZone.Utm37; // 36X doesn't exist; 37X spans 33°-42°
                 return LongitudinalZone.Utm36;
             }
             else if (longitude >= 36.0 && longitude < 42.0)
             {
-                //return LongitudinalZone.Utm37; 
-                // Allow for the anomolies at 31X, 33X, 35X, 37X, 31V, & 32V
-                if (latitude >= 72.0 && latitude <= 84.0)
-                    return LongitudinalZone.Utm37; // 37X spans 33°-42°
                 return LongitudinalZone.Utm37;
             }
             else if (longitude >= 42.0 && longitude < 48.0)
