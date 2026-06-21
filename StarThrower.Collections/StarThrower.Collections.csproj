@@ -24,6 +24,7 @@
     <AssemblyName>StarThrower.Collections</AssemblyName>
     <RootNamespace>StarThrower.Collections</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->
@@ -41,11 +42,9 @@
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
-    <!-- TODO: Claude Code documentation pass                       -->
-    <PackageTags>$(PackageTags);collection;dictionary;readonly</PackageTags>
+    <PackageTags>$(PackageTags);collection;dictionary;readonly;read-only-dictionary;generic-collection;key-value;compatibility</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
-    <!-- TODO: Claude Code documentation pass                       -->
     <PackageReadme>README.md</PackageReadme>
   </PropertyGroup>
 
