@@ -1,6 +1,7 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -9,15 +10,14 @@ namespace StarThrower.FileUtilities
     public static class FileSystem
     {
         /// <summary>
-        /// This method accepts two strings the represent two files to 
-        /// compare. A return value of 0 indicates that the contents of the files
-        /// are the same. A return value of any other value indicates that the 
-        /// files are not the same.
+        /// Compares the contents of two files byte-for-byte.
         /// </summary>
-        /// <param name="file1"></param>
-        /// <param name="file2"></param>
-        /// <returns></returns>
-        /// <see>http://support.microsoft.com/kb/320348</see>
+        /// <param name="file1">The path of the first file.</param>
+        /// <param name="file2">The path of the second file.</param>
+        /// <returns><see langword="true"/> if the two files have identical length and contents, or refer to the same path; otherwise, <see langword="false"/>.</returns>
+        /// <remarks>
+        /// Adapted from https://support.microsoft.com/kb/320348.
+        /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if file1 or file2 is null.</exception>
         public static bool FileCompare(string? file1, string? file2)
         {
@@ -72,6 +72,10 @@ namespace StarThrower.FileUtilities
         /// </summary>
         /// <param name="fileName">The name of the file to be written</param>
         /// <param name="text">The content to write out to the file</param>
+        /// <remarks>
+        /// The text is encoded as ASCII, so any character outside the 7-bit ASCII range is
+        /// replaced with "?" rather than preserved.
+        /// </remarks>
         public static void WriteTextFile(string fileName, string text)
         {
             if (File.Exists(fileName)) File.Delete(fileName);
@@ -85,16 +89,42 @@ namespace StarThrower.FileUtilities
 
         /// <summary>
         /// Deletes all files contained in the folder specified by "directory"
-        /// 
+        ///
         /// NOTE: Only child files of the specified folder are removed.  Subfolders and their contents are not removed.
         /// </summary>
         /// <param name="directory">The directory from which all files should be deleted</param>
+        /// <exception cref="AggregateException">
+        /// Thrown after all files have been attempted if one or more files could not be deleted.
+        /// Each inner exception corresponds to one file that failed to delete.
+        /// </exception>
+        /// <remarks>
+        /// This is a change from the original behavior of this method, which stopped immediately
+        /// on the first file that failed to delete, leaving any remaining files untouched. This
+        /// method now attempts to delete every file in the directory on a best-effort basis —
+        /// a single locked or inaccessible file no longer prevents the rest from being deleted —
+        /// and reports any failures together via <see cref="AggregateException"/> once all files
+        /// have been attempted.
+        /// </remarks>
         public static void DeleteFiles(string directory)
         {
             string[] files = Directory.GetFiles(directory);
-            for (int i = 0; i < files.Length; i++)
+            List<Exception>? failures = null;
+
+            foreach (string file in files)
             {
-                File.Delete(files[i]);
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                    (failures ??= []).Add(new IOException($"Failed to delete file: {file}", ex));
+                }
+            }
+
+            if (failures is not null)
+            {
+                throw new AggregateException($"Failed to delete {failures.Count} of {files.Length} file(s) in directory: {directory}", failures);
             }
         }
     }
