@@ -29,7 +29,7 @@ A static class containing all of the library's functionality.
 | Method | Description |
 |---|---|
 | `RoundTowardsZero(double number)` | Rounds toward zero — truncates the fractional part for non-negative numbers, rounds up (toward zero) for negative numbers. `RoundTowardsZero(2.5) == 2`, `RoundTowardsZero(-2.5) == -2`. |
-| `RoundTo(double value, long digits)` | Rounds `value` to `digits` significant decimal places using "round half away from zero" (`Math.Floor(value * 10^digits + 0.5) / 10^digits`). If `digits <= 0`, rounds to the nearest whole number. |
+| `RoundTo(double value, long digits)` | Rounds `value` to `digits` decimal places using "round half away from zero" (`Math.Floor(value * 10^digits + 0.5) / 10^digits`). If `digits <= 0`, always rounds to the nearest whole number — it does not scale to round to the nearest power of ten for negative `digits`. |
 
 ### Numeric String Validation
 

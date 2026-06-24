@@ -41,11 +41,9 @@
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
-    <!-- TODO: Claude Code documentation pass                       -->
-    <PackageTags>$(PackageTags);math;utilities;numeric;statistics</PackageTags>
+    <PackageTags>$(PackageTags);math;utilities;numeric;rounding;numeric-validation;parsing</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
-    <!-- TODO: Claude Code documentation pass                       -->
     <PackageReadme>README.md</PackageReadme>
   </PropertyGroup>
 

@@ -25,7 +25,7 @@ namespace StarThrower.MathUtilities
         /// RoundTowardsZero(2.5) => 2
         /// RoundTowardsZero(0.5) => 0
         /// RoundTowardsZero(-0.5) => 0
-        /// RoundTowardsZero(-2.5) => 2
+        /// RoundTowardsZero(-2.5) => -2
         /// </example>
         public static long RoundTowardsZero(double number)
         {
@@ -40,7 +40,7 @@ namespace StarThrower.MathUtilities
         /// Given a string, this function checks to see if it is equivalent to a numeric value
         /// </summary>
         /// <param name="test">The string to be checked</param>
-        /// <returns>true if the string represents an integer; otherwise false.</returns>
+        /// <returns>true if the string represents a numeric value; otherwise false.</returns>
         public static bool IsNumeric(string? test)
         {
             if (string.IsNullOrEmpty(test))
@@ -60,7 +60,7 @@ namespace StarThrower.MathUtilities
         /// </summary>
         /// <param name="test">The string to be checked</param>
         /// <returns>true if the string represents a whole number; otherwise false.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown if test is null.</exception>
         public static bool IsWholeNumber(string? test)
         {
             ArgumentNullException.ThrowIfNull(test);
@@ -76,7 +76,7 @@ namespace StarThrower.MathUtilities
         /// </summary>
         /// <param name="test">The string to be checked</param>
         /// <returns>true if the string represents an integer; otherwise false.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown if test is null.</exception>
         /// <remarks>
         /// This function is similar to IsWholeNumber, but it checks for integer values specifically, which are whole numbers that can be represented within the range of the int data type in C#.
         /// </remarks>
@@ -90,11 +90,11 @@ namespace StarThrower.MathUtilities
         }
 
         /// <summary>
-        /// Given a string, this function checks to see if it is equivalent to an long value
+        /// Given a string, this function checks to see if it is equivalent to a long value
         /// </summary>
         /// <param name="test">The string to be checked</param>
-        /// <returns>True if the string represents an long, False if otherwise</returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns>true if the string represents a long; otherwise false.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if test is null.</exception>
         public static bool IsLong(string? test)
         {
             ArgumentNullException.ThrowIfNull(test);
@@ -105,11 +105,11 @@ namespace StarThrower.MathUtilities
         }
 
         /// <summary>
-        /// Rounds a number to a reasonable number of significant digits.
+        /// Rounds a number to a specified number of decimal places, rounding half away from zero.
         /// </summary>
-        /// <param name="value">the value to be rounded</param>
-        /// <param name="digits">the number of significant digits to round to</param>
-        /// <returns>The rounded value</returns>
+        /// <param name="value">The value to be rounded.</param>
+        /// <param name="digits">The number of decimal places to round to. Any value less than or equal to zero rounds to the nearest whole number.</param>
+        /// <returns>The rounded value.</returns>
         public static double RoundTo(double value, long digits)
         {
             double rv = 0;
