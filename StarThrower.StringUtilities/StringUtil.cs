@@ -10,6 +10,8 @@ namespace StarThrower.StringUtilities
 {
     public static class StringUtil
     {
+        // Parallel arrays used by XmlEncode: _invalidXmlCharInts[i] is the decimal character
+        // reference code point for the character _invalidXmlChars[i].
         private static char[] _invalidXmlChars = { '&', '<', '>', '\"', '=', '\'' };
         private static int[] _invalidXmlCharInts = { 38, 60, 62, 34, 61, 39 };
 
@@ -231,14 +233,14 @@ namespace StarThrower.StringUtilities
 
 
         /// <summary>
-        /// Performs a case-sensitive subtitution of a sub string (target) in a string (source) by a replacement
-        /// 
+        /// Performs a case-sensitive substitution of a substring (target) in a string (source) by a replacement
+        ///
         /// Formerly StrSub()
         /// </summary>
         /// <param name="source">input string</param>
         /// <param name="target">old sub string</param>
         /// <param name="replacement">new string</param>
-        /// <returns>string with substitution portioons</returns>
+        /// <returns>string with substitution portions</returns>
         /// <exception cref="ArgumentNullException">Thrown if source, target, or replacement is null.</exception>
         public static string Substitute(string? source, string? target, string? replacement)
         {
@@ -251,15 +253,20 @@ namespace StarThrower.StringUtilities
 
 
         /// <summary>
-        /// Subtitude a sub string (target) in a string (source) by a replacement
-        /// 
+        /// Substitutes a substring (target) in a string (source) by a replacement
+        ///
         /// Formerly StrSub()
         /// </summary>
         /// <param name="source">input string</param>
         /// <param name="target">old sub string</param>
         /// <param name="replacement">new string</param>
-        /// <param name="compare">0 is case-sensitive (default) = vbBinaryCompare; 1 is noncase-sensitive = vbTextCompare; 2 = vbDatabaseCompare</param>
-        /// <returns>string with substitution portioons</returns>
+        /// <param name="compare">
+        /// The comparison mode to use when locating <paramref name="target"/> within <paramref name="source"/>.
+        /// Only <see cref="ComparisonType.CaseSensitive"/> and <see cref="ComparisonType.CaseInsensitive"/> are
+        /// currently supported; <see cref="ComparisonType.Database"/> will cause an <see cref="ArgumentOutOfRangeException"/>
+        /// to propagate from the underlying comparison conversion.
+        /// </param>
+        /// <returns>string with substitution portions</returns>
         /// <exception cref="ArgumentNullException">Thrown if source, target, or replacement is null.</exception>
         public static string Substitute(string? source, string? target, string? replacement, ComparisonType compare)
         {
@@ -299,9 +306,9 @@ namespace StarThrower.StringUtilities
         /// Given a StarThrower.Utilities.ComparisonType, this method will return the
         /// equivalent StringComparison enumeration.
         /// </summary>
-        /// <param name="compare">The ComparisonType to be convereted.</param>
+        /// <param name="compare">The ComparisonType to be converted.</param>
         /// <returns>The equivalent, if any, StringComparison enumeration.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if compare is not CaseSensitieve or CaseInsensitive.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if compare is not <see cref="ComparisonType.CaseSensitive"/> or <see cref="ComparisonType.CaseInsensitive"/>. Note that <see cref="ComparisonType.Database"/> is not currently mapped and will also throw.</exception>
         public static StringComparison ConvertComparisonType(ComparisonType compare)
         {
             switch (compare)
@@ -354,8 +361,8 @@ namespace StarThrower.StringUtilities
 
 
         /// <summary>
-        /// Trims all newline characters (Chr(13) and Chr(10)) from the tail of a string
-        /// 
+        /// Trims trailing newline characters (Chr(13) and Chr(10)) from the end of a string.
+        ///
         /// Formerly StrTrimNewLine()
         /// </summary>
         /// <param name="source">The string to be trimmed</param>
@@ -367,11 +374,7 @@ namespace StarThrower.StringUtilities
 
             StringBuilder ret = new StringBuilder(source);
 
-            while (ret[ret.Length - 1].ToString().Equals("\u000A", StringComparison.Ordinal)) //Chr(10), LineFeed, LF
-            {
-                ret.Remove(ret.Length - 1, 1);
-            }
-            while (ret[ret.Length - 1].ToString().Equals("\u000D", StringComparison.Ordinal)) //Chr(13), CarriageReturn, CR
+            while (ret.Length > 0 && (ret[ret.Length - 1] == '\n' || ret[ret.Length - 1] == '\r')) //LineFeed/LF (Chr 10) or CarriageReturn/CR (Chr 13)
             {
                 ret.Remove(ret.Length - 1, 1);
             }
@@ -423,7 +426,7 @@ namespace StarThrower.StringUtilities
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            if (source[0].Equals('"') && source[source.Length - 1].Equals('"'))
+            if (source.Length >= 2 && source[0].Equals('"') && source[source.Length - 1].Equals('"'))
             {
                 string result = new StringBuilder(source).ToString(1, source.Length - 2);
                 return result;
@@ -634,9 +637,8 @@ namespace StarThrower.StringUtilities
         /// </summary>
         /// <param name="source">The string to search for the token</param>
         /// <param name="delimiter">The token delimiter</param>
-        /// <param name="pos">Which token to return</param>
+        /// <param name="pos">The 1-based position of the token to return.</param>
         /// <returns>Returns the token at pos from source separated by delimiter</returns>
-        /// <exception>ArgumentOutOfRangeException</exception>
         /// <remarks>
         /// In general:
         /// If there is a delimiter, a token is assumed to exist on both sides of it.  If there is no actual character
@@ -800,6 +802,7 @@ namespace StarThrower.StringUtilities
         /// <param name="target">The string to be converted.</param>
         /// <returns>The ASCII value of the string target.</returns>
         /// <exception cref="ArgumentNullException">Thrown if target is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if target is an empty string.</exception>
         public static int ToAscii(string? target)
         {
             ArgumentNullException.ThrowIfNull(target);
@@ -1147,6 +1150,11 @@ namespace StarThrower.StringUtilities
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if target is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if target is not a valid whole number (empty, contains invalid characters, or has improperly positioned signs).</exception>
+        /// <exception cref="NotSupportedException">
+        /// Thrown if target contains a character other than '0'-'9', '+', or '-'. This can occur even though
+        /// target passed the initial integer validation, because <c>int.TryParse</c> (used for that validation)
+        /// permits leading/trailing whitespace that this method's character-by-character conversion does not.
+        /// </exception>
         public static string ToSuperscript(string? target)
         {
             ArgumentNullException.ThrowIfNull(target);

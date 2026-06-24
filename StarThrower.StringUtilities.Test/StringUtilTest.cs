@@ -2739,43 +2739,36 @@ namespace StarThrower.StringUtilities.Test
         [Fact]
         public void TestTrimCrLf11EmptyString()
         {
-            // Test with empty string (edge case - may throw if length check fails)
-            // Actually this will likely throw because ret[ret.Length - 1] on empty StringBuilder
-            // Skip or handle appropriately
-            try
-            {
-                StringUtil.TrimCrLf("");
-            }
-            catch (Exception)
-            {
-                // Expected - empty string causes index out of range
-            }
+            // An empty string has nothing to trim and should be returned unchanged, not throw.
+            (StringUtil.TrimCrLf("")).Should().Be("");
         }
 
         [Fact]
         public void TestTrimCrLf12SingleLineFeed()
         {
-            // Test with just a single line feed character
-            // This will throw IndexOutOfRangeException because after removing LF,
-            // the string is empty and it tries to check CR
-            Action act = () => StringUtil.TrimCrLf("\n");
-            act.Should().Throw<IndexOutOfRangeException>();
+            // A string consisting only of a line feed should trim down to an empty string, not throw.
+            (StringUtil.TrimCrLf("\n")).Should().Be("");
         }
 
         [Fact]
         public void TestTrimCrLf13SingleCarriageReturn()
         {
-            // Test with just a single carriage return character
-            Action act = () => StringUtil.TrimCrLf("\r");
-            act.Should().Throw<IndexOutOfRangeException>();
+            // A string consisting only of a carriage return should trim down to an empty string, not throw.
+            (StringUtil.TrimCrLf("\r")).Should().Be("");
         }
 
         [Fact]
         public void TestTrimCrLf14SingleCRLF()
         {
-            // Test with just CRLF
-            Action act = () => StringUtil.TrimCrLf("\r\n");
-            act.Should().Throw<IndexOutOfRangeException>();
+            // A string consisting only of a CRLF pair should trim down to an empty string, not throw.
+            (StringUtil.TrimCrLf("\r\n")).Should().Be("");
+        }
+
+        [Fact]
+        public void TestTrimCrLf41MultipleAlternatingCRLFPairs()
+        {
+            // Multiple alternating CRLF pairs at the tail must all be trimmed, not just the outermost pair.
+            (StringUtil.TrimCrLf("asdf\r\n\r\n")).Should().Be("asdf");
         }
 
         [Fact]
@@ -3378,9 +3371,8 @@ namespace StarThrower.StringUtilities.Test
         [Fact]
         public void RemoveDoubleQuoteWrapper7EmptyString()
         {
-            // Empty string throws IndexOutOfRangeException when trying to access first character
-            Action act = () => StringUtil.RemoveDoubleQuoteWrapper("");
-            act.Should().Throw<IndexOutOfRangeException>();
+            // An empty string has no wrapping quotes to remove and should be returned unchanged, not throw.
+            (StringUtil.RemoveDoubleQuoteWrapper("")).Should().Be("");
         }
 
         [Fact]
@@ -3393,9 +3385,9 @@ namespace StarThrower.StringUtilities.Test
         [Fact]
         public void RemoveDoubleQuoteWrapper9SingleQuoteCharacter()
         {
-            // Single quote character will throw because ToString(1, -1) is invalid
-            Action act = () => StringUtil.RemoveDoubleQuoteWrapper("\"");
-            act.Should().Throw<ArgumentOutOfRangeException>();
+            // A single quote character is too short to be a wrapped pair (opening and closing quote
+            // would be the same character) and should be returned unchanged, not throw.
+            (StringUtil.RemoveDoubleQuoteWrapper("\"")).Should().Be("\"");
         }
 
         [Fact]
