@@ -250,7 +250,7 @@ namespace StarThrower.DateTimeUtilities.Test
         public void TestDateTimeToIso8601()
         {
             DateTime dt = new DateTime(2007, 6, 24, 8, 13, 15);
-            string expected = "2007-06-24T08:13:15.0+00:00";
+            string expected = "2007-06-24T08:13:15.0000000+00:00";
             string actual = DTUtil.DateTimeToIso8601(dt);
             actual.Should().Be(expected);
         }

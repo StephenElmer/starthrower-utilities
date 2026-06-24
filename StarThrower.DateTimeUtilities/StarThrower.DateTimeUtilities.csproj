@@ -41,10 +41,9 @@
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
-    <PackageTags>$(PackageTags);date;time;datetime;timespan;helper</PackageTags>
+    <PackageTags>$(PackageTags);date;time;datetime;timespan;helper;iso8601;date-diff;date-formatting</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
-    <!-- TODO: Claude Code documentation pass                       -->
     <PackageReadme>README.md</PackageReadme>
   </PropertyGroup>
 

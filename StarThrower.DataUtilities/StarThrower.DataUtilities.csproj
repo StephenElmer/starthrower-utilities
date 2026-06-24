@@ -41,10 +41,9 @@
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
-    <PackageTags>$(PackageTags);data;database;helper;oleDb;dbDataReader</PackageTags>
+    <PackageTags>$(PackageTags);data;database;helper;oleDb;dbDataReader;datarow;ado-net;type-conversion;dbnull</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
-    <!-- TODO: Claude Code documentation pass                       -->
     <PackageReadme>README.md</PackageReadme>
   </PropertyGroup>
 

@@ -20,9 +20,10 @@ dotnet add package StarThrower.DateTimeUtilities
 |---|---|
 | `ToMmddyyString(DateTime dt)` | Returns `dt` formatted as `MMDDYY` (e.g. `2026-06-09` → `"060926"`). |
 | `DateDiff(DateInterval interval, DateTime date1, DateTime date2)` | Returns `date2 - date1` expressed in the units specified by `interval` (`Year`, `Month`, `Weekday`, `Day`, `Hour`, `Minute`, or `Second`). Corrects rounding/calendar issues present in the classic VB `DateDiff` function. |
-| `DateTimeToIso8601(DateTime dt)` | Converts `dt` to an ISO 8601 string in the form `YYYY-MM-DDTHH:MM:SS.f+00:00` (always reports a `+00:00` time zone designator, regardless of `dt.Kind`). |
-| `Iso8601ToDateTime(string? iso)` | Parses an ISO 8601 string (as produced by `DateTimeToIso8601`) back into a `DateTime`. The time zone designator (`+`/`-` offset or `Z`) is discarded rather than applied. |
-| `RoundToSeconds(DateTime dt)` | Returns a new `DateTime` with the same year, month, day, hour, minute, and second as `dt`, with any sub-second component truncated. |
+| `DateTimeToIso8601(DateTime dt)` | **Obsolete** — use `new DateTimeOffset(DateTime.SpecifyKind(dt, DateTimeKind.Utc)).ToString("o", CultureInfo.InvariantCulture)` instead. Converts `dt` to an ISO 8601 string in the form `YYYY-MM-DDTHH:MM:SS.fffffff+00:00` (always reports a `+00:00` time zone designator, regardless of `dt.Kind`). |
+| `Iso8601ToDateTime(string? iso)` | **Obsolete** — use `DateTimeOffset.Parse(iso, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal \| DateTimeStyles.AdjustToUniversal).UtcDateTime` instead. Parses an ISO 8601 string back into a `DateTime`, converting any time zone designator (`+`/`-` offset or `Z`) present in the input to UTC. |
+| `TruncateToSeconds(DateTime dt)` | Returns a new `DateTime` with the same year, month, day, hour, minute, and second as `dt`, with any sub-second component discarded (floored, not rounded). |
+| `RoundToSeconds(DateTime dt)` | **Obsolete** — use `TruncateToSeconds(DateTime)` instead. Despite the name, this method truncates rather than rounds; it is kept only for backward compatibility. |
 
 ```csharp
 using StarThrower.DateTimeUtilities;
@@ -33,10 +34,12 @@ string mmddyy = DTUtil.ToMmddyyString(now); // e.g. "060926"
 
 long monthsApart = DTUtil.DateDiff(DateInterval.Month, new DateTime(2025, 1, 15), new DateTime(2026, 6, 9));
 
-string iso = DTUtil.DateTimeToIso8601(now);     // e.g. "2026-06-09T14:30:45.123+00:00"
-DateTime parsed = DTUtil.Iso8601ToDateTime(iso);
+string iso = new DateTimeOffset(DateTime.SpecifyKind(now, DateTimeKind.Utc)).ToString("o", CultureInfo.InvariantCulture);
+// e.g. "2026-06-09T14:30:45.1234567+00:00"
+DateTime parsed = DateTimeOffset.Parse(iso, CultureInfo.InvariantCulture,
+    DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal).UtcDateTime;
 
-DateTime truncated = DTUtil.RoundToSeconds(now); // milliseconds dropped
+DateTime truncated = DTUtil.TruncateToSeconds(now); // milliseconds dropped
 ```
 
 ### `DateInterval`
@@ -60,7 +63,7 @@ Used by `DateDiff` to specify the unit of the result. `Weekday` returns whole we
 
 ## Usage Notes
 
-- `DateTimeToIso8601` and `Iso8601ToDateTime` are not fully round-trip safe: the time zone designator written by `DateTimeToIso8601` is always `+00:00`, but `Iso8601ToDateTime` discards whatever offset (or `Z`) is present in the input rather than converting it. Both methods operate on local date/time components without performing UTC conversion.
+- `DateTimeToIso8601` always treats its input as UTC and writes a `+00:00` time zone designator, regardless of the input `DateTime`'s `Kind`. `Iso8601ToDateTime` correctly converts whatever offset (or `Z`) is present in the input to UTC, so round-tripping is safe provided the original `DateTime` was in fact UTC.
 - `DateDiff(DateInterval.Year, ...)` and `DateDiff(DateInterval.Month, ...)` use calendar-aware arithmetic (accounting for month/day boundaries), while `Day`, `Hour`, `Minute`, and `Second` are based on the total elapsed `TimeSpan`, truncated toward zero.
 
 ---

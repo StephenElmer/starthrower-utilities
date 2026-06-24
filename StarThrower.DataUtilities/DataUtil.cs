@@ -24,6 +24,12 @@ namespace StarThrower.DataUtilities
         /// </remarks>
         public readonly static DateTime DTNull = DateTime.MinValue;
 
+        /// <summary>
+        /// Determines whether a field with the specified name exists in the reader's result set.
+        /// </summary>
+        /// <param name="dr">The data reader to inspect.</param>
+        /// <param name="fieldName">The name of the field to look for. The comparison is case-sensitive.</param>
+        /// <returns><see langword="true"/> if a field named <paramref name="fieldName"/> exists; otherwise, <see langword="false"/>.</returns>
         public static bool CheckFieldExists(DbDataReader dr, string fieldName)
         {
             bool result = false;
@@ -38,6 +44,12 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Determines whether a field with the specified name exists in the reader's result set.
+        /// </summary>
+        /// <param name="dr">The data reader to inspect.</param>
+        /// <param name="fieldName">The name of the field to look for. The comparison is case-sensitive.</param>
+        /// <returns><see langword="true"/> if a field named <paramref name="fieldName"/> exists; otherwise, <see langword="false"/>.</returns>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static bool CheckFieldExists(OleDbDataReader dr, string fieldName)
             => CheckFieldExists((DbDataReader)dr, fieldName);
@@ -66,30 +78,50 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        ///
+        /// Safely retrieves a boolean value from a field in a DataRow, returning <see langword="false"/>
+        /// if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The boolean value of the field, or <see langword="false"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static bool GetBoolField(DataRow? dr, string? field)
         {
             return GetBoolField(dr, field, false);
         }
 
+        /// <summary>
+        /// Safely retrieves a boolean value from a field in a DbDataReader, returning <see langword="false"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The boolean value of the field, or <see langword="false"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static bool GetBoolField(DbDataReader? dr, string? field)
             => GetBoolField(dr, field, false);
 
+        /// <summary>
+        /// Safely retrieves a boolean value from a field in a DbDataReader, returning <see langword="false"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The boolean value of the field, or <see langword="false"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static bool GetBoolField(OleDbDataReader dr, string field)
             => GetBoolField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a boolean value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The boolean value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static bool GetBoolField(DataRow? dr, string? field, bool defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -103,6 +135,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a boolean value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The boolean value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static bool GetBoolField(DbDataReader? dr, string? field, bool defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -116,6 +157,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a boolean value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The boolean value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static bool GetBoolField(OleDbDataReader dr, string field, bool defaultValue)
             => GetBoolField((DbDataReader)dr, field, defaultValue);
@@ -126,30 +176,50 @@ namespace StarThrower.DataUtilities
         #region [ String ]
 
         /// <summary>
-        ///
+        /// Safely retrieves a string value from a field in a DataRow, returning <see cref="string.Empty"/>
+        /// if the field is null or DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The string value of the field, or <see cref="string.Empty"/> if the field is null or DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static string GetStringField(DataRow? dr, string? field)
         {
             return GetStringField(dr, field, String.Empty);
         }
 
+        /// <summary>
+        /// Safely retrieves a string value from a field in a DbDataReader, returning <see cref="string.Empty"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The string value of the field, or <see cref="string.Empty"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static string GetStringField(DbDataReader? dr, string? field)
             => GetStringField(dr, field, String.Empty);
 
+        /// <summary>
+        /// Safely retrieves a string value from a field in a DbDataReader, returning <see cref="string.Empty"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The string value of the field, or <see cref="string.Empty"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static string GetStringField(OleDbDataReader dr, string field)
             => GetStringField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a string value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is null or DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is null or DBNull.</param>
+        /// <returns>The string value of the field, or <paramref name="defaultValue"/> if the field is null or DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr, field, or defaultValue are null.</exception>
         public static string GetStringField(DataRow? dr, string? field, string defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -164,6 +234,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a string value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The string value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr, field, or defaultValue are null.</exception>
         public static string GetStringField(DbDataReader? dr, string? field, string defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -178,6 +257,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a string value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The string value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr, field, or defaultValue are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static string GetStringField(OleDbDataReader dr, string field, string defaultValue)
             => GetStringField((DbDataReader)dr, field, defaultValue);
@@ -188,10 +276,18 @@ namespace StarThrower.DataUtilities
         #region [ DateTime ]
 
         /// <summary>
-        /// See: http://www.sqlteam.com/article/working-with-time-spans-and-durations-in-sql-server
+        /// Converts a SQL Server "datetime as duration" value (a date/time offset from
+        /// 1900-01-01 used to represent a time span) into a <see cref="TimeSpan"/>.
         /// </summary>
-        /// <param name="sqlDateTime"></param>
-        /// <returns></returns>
+        /// <param name="sqlDateTime">The DateTime value retrieved from SQL Server, or <see langword="null"/>.</param>
+        /// <returns>
+        /// The equivalent <see cref="TimeSpan"/>, computed as the difference between
+        /// <paramref name="sqlDateTime"/> and 1900-01-01; or <see langword="null"/> if
+        /// <paramref name="sqlDateTime"/> is <see langword="null"/>.
+        /// </returns>
+        /// <remarks>
+        /// See: http://www.sqlteam.com/article/working-with-time-spans-and-durations-in-sql-server
+        /// </remarks>
         public static TimeSpan? GetTimeSpanFromSQLDateTime(DateTime? sqlDateTime)
         {
             TimeSpan? result;
@@ -208,6 +304,18 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Converts a <see cref="TimeSpan"/> into a SQL Server "datetime as duration" value
+        /// (a DateTime offset from 1900-01-01 used to represent a time span).
+        /// </summary>
+        /// <param name="timeSpan">The time span to convert, or <see langword="null"/>.</param>
+        /// <returns>
+        /// The equivalent DateTime, computed as 1900-01-01 plus <paramref name="timeSpan"/>;
+        /// or <see langword="null"/> if <paramref name="timeSpan"/> is <see langword="null"/>.
+        /// </returns>
+        /// <remarks>
+        /// See: http://www.sqlteam.com/article/working-with-time-spans-and-durations-in-sql-server
+        /// </remarks>
         public static DateTime? GetSQLDateTimeFromTimeSpan(TimeSpan? timeSpan)
         {
             DateTime? result;
@@ -226,32 +334,50 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        ///
+        /// Safely retrieves a DateTime value from a field in a DataRow, returning <see cref="DateTime.Now"/>
+        /// if the field is null or DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The DateTime value of the field, or <see cref="DateTime.Now"/> if the field is null or DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static DateTime GetDateTimeField(DataRow? dr, string? field)
         {
             return GetDateTimeField(dr, field, DateTime.Now);
         }
 
+        /// <summary>
+        /// Safely retrieves a DateTime value from a field in a DbDataReader, returning <see cref="DateTime.Now"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The DateTime value of the field, or <see cref="DateTime.Now"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static DateTime GetDateTimeField(DbDataReader? dr, string? field)
             => GetDateTimeField(dr, field, DateTime.Now);
 
+        /// <summary>
+        /// Safely retrieves a DateTime value from a field in a DbDataReader, returning <see cref="DateTime.Now"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The DateTime value of the field, or <see cref="DateTime.Now"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static DateTime GetDateTimeField(OleDbDataReader dr, string field)
             => GetDateTimeField((DbDataReader)dr, field);
 
         /// <summary>
-        /// Safely retrieves DateTime data from a field in  a DataRow
+        /// Safely retrieves a DateTime value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is null or DBNull.
         /// </summary>
-        /// <param name="dr">The DataRow object</param>
-        /// <param name="field">The name of the field</param>
-        /// <param name="defaultValue"></param>
-        /// <returns>The DateTime value of the field.  The value specified by defaultValue if the field is null, DBNull, or an error is thrown.</returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is null or DBNull.</param>
+        /// <returns>The DateTime value of the field, or <paramref name="defaultValue"/> if the field is null or DBNull.</returns>
         /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
-        /// <exception cref="DataAccessException">Thrown if there is an error with respect to database communications and/or execution.</exception>
         public static DateTime GetDateTimeField(DataRow? dr, string? field, DateTime defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -265,6 +391,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a DateTime value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The DateTime value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static DateTime GetDateTimeField(DbDataReader? dr, string? field, DateTime defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -278,35 +413,64 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a DateTime value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The DateTime value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static DateTime GetDateTimeField(OleDbDataReader dr, string field, DateTime defaultValue)
             => GetDateTimeField((DbDataReader)dr, field, defaultValue);
 
         /// <summary>
-        ///
+        /// Safely retrieves a nullable DateTime value from a field in a DataRow, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The DateTime value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<DateTime> GetNullableDateTimeField(DataRow? dr, string? field)
         {
             return GetNullableDateTimeField(dr, field, null);
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable DateTime value from a field in a DbDataReader, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The DateTime value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<DateTime> GetNullableDateTimeField(DbDataReader? dr, string? field)
             => GetNullableDateTimeField(dr, field, null);
 
+        /// <summary>
+        /// Safely retrieves a nullable DateTime value from a field in a DbDataReader, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The DateTime value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<DateTime> GetNullableDateTimeField(OleDbDataReader dr, string field)
             => GetNullableDateTimeField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a nullable DateTime value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The DateTime value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<DateTime> GetNullableDateTimeField(DataRow? dr, string? field, Nullable<DateTime> defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -320,6 +484,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable DateTime value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The DateTime value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<DateTime> GetNullableDateTimeField(DbDataReader? dr, string? field, Nullable<DateTime> defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -333,6 +506,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable DateTime value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The DateTime value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<DateTime> GetNullableDateTimeField(OleDbDataReader dr, string field, Nullable<DateTime> defaultValue)
             => GetNullableDateTimeField((DbDataReader)dr, field, defaultValue);
@@ -360,30 +542,47 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        ///
+        /// Safely retrieves a float value from a field in a DataRow, returning 0 if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The float value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static float GetFloatField(DataRow? dr, string? field)
         {
             return GetFloatField(dr, field, 0);
         }
 
+        /// <summary>
+        /// Safely retrieves a float value from a field in a DbDataReader, returning 0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The float value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static float GetFloatField(DbDataReader? dr, string? field)
             => GetFloatField(dr, field, 0);
 
+        /// <summary>
+        /// Safely retrieves a float value from a field in a DbDataReader, returning 0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The float value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static float GetFloatField(OleDbDataReader dr, string field)
             => GetFloatField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a float value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The float value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static float GetFloatField(DataRow? dr, string? field, float defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -397,6 +596,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a float value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The float value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static float GetFloatField(DbDataReader? dr, string? field, float defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -410,6 +618,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a float value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The float value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static float GetFloatField(OleDbDataReader dr, string field, float defaultValue)
             => GetFloatField((DbDataReader)dr, field, defaultValue);
@@ -420,30 +637,47 @@ namespace StarThrower.DataUtilities
         #region [ Double ]
 
         /// <summary>
-        ///
+        /// Safely retrieves a double value from a field in a DataRow, returning 0.0 if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The double value of the field, or 0.0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static double GetDoubleField(DataRow? dr, string? field)
         {
             return GetDoubleField(dr, field, 0.0);
         }
 
+        /// <summary>
+        /// Safely retrieves a double value from a field in a DbDataReader, returning 0.0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The double value of the field, or 0.0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static double GetDoubleField(DbDataReader? dr, string? field)
             => GetDoubleField(dr, field, 0.0);
 
+        /// <summary>
+        /// Safely retrieves a double value from a field in a DbDataReader, returning 0.0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The double value of the field, or 0.0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static double GetDoubleField(OleDbDataReader dr, string field)
             => GetDoubleField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a double value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The double value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static double GetDoubleField(DataRow? dr, string? field, double defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -457,6 +691,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a double value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The double value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static double GetDoubleField(DbDataReader? dr, string? field, double defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -470,35 +713,64 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a double value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The double value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static double GetDoubleField(OleDbDataReader dr, string field, double defaultValue)
             => GetDoubleField((DbDataReader)dr, field, defaultValue);
 
         /// <summary>
-        ///
+        /// Safely retrieves a nullable double value from a field in a DataRow, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The double value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<double> GetNullableDoubleField(DataRow? dr, string? field)
         {
             return GetNullableDoubleField(dr, field, null);
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable double value from a field in a DbDataReader, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The double value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<double> GetNullableDoubleField(DbDataReader? dr, string? field)
             => GetNullableDoubleField(dr, field, null);
 
+        /// <summary>
+        /// Safely retrieves a nullable double value from a field in a DbDataReader, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The double value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<double> GetNullableDoubleField(OleDbDataReader dr, string field)
             => GetNullableDoubleField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a nullable double value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The double value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<double> GetNullableDoubleField(DataRow? dr, string? field, Nullable<double> defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -512,6 +784,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable double value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The double value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<double> GetNullableDoubleField(DbDataReader? dr, string? field, Nullable<double> defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -525,6 +806,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable double value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The double value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<double> GetNullableDoubleField(OleDbDataReader dr, string field, Nullable<double> defaultValue)
             => GetNullableDoubleField((DbDataReader)dr, field, defaultValue);
@@ -535,7 +825,7 @@ namespace StarThrower.DataUtilities
         #region [ long / Int64 ]
 
         /// <summary>
-        /// Safely retrieves int data from a field in  a DataRow
+        /// Safely retrieves long data from a field in  a DataRow
         /// </summary>
         /// <param name="dataRow">The DataRow object</param>
         /// <param name="fieldName">The name of the field</param>
@@ -552,30 +842,47 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        ///
+        /// Safely retrieves a long value from a field in a DataRow, returning 0 if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The long value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static long GetLongField(DataRow? dr, string? field)
         {
             return GetLongField(dr, field, 0);
         }
 
+        /// <summary>
+        /// Safely retrieves a long value from a field in a DbDataReader, returning 0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The long value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static long GetLongField(DbDataReader? dr, string? field)
             => GetLongField(dr, field, 0);
 
+        /// <summary>
+        /// Safely retrieves a long value from a field in a DbDataReader, returning 0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The long value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static long GetLongField(OleDbDataReader dr, string field)
             => GetLongField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a long value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The long value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static long GetLongField(DataRow? dr, string? field, long defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -589,6 +896,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a long value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The long value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static long GetLongField(DbDataReader? dr, string? field, long defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -602,6 +918,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a long value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The long value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static long GetLongField(OleDbDataReader dr, string field, long defaultValue)
             => GetLongField((DbDataReader)dr, field, defaultValue);
@@ -629,30 +954,47 @@ namespace StarThrower.DataUtilities
         }
 
         /// <summary>
-        ///
+        /// Safely retrieves an int value from a field in a DataRow, returning 0 if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The int value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static int GetIntField(DataRow? dr, string? field)
         {
             return GetIntField(dr, field, 0);
         }
 
+        /// <summary>
+        /// Safely retrieves an int value from a field in a DbDataReader, returning 0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The int value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static int GetIntField(DbDataReader? dr, string? field)
             => GetIntField(dr, field, 0);
 
+        /// <summary>
+        /// Safely retrieves an int value from a field in a DbDataReader, returning 0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The int value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static int GetIntField(OleDbDataReader dr, string field)
             => GetIntField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves an int value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The int value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static int GetIntField(DataRow? dr, string? field, int defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -666,6 +1008,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves an int value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The int value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static int GetIntField(DbDataReader? dr, string? field, int defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -679,22 +1030,64 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves an int value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The int value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static int GetIntField(OleDbDataReader dr, string field, int defaultValue)
             => GetIntField((DbDataReader)dr, field, defaultValue);
 
+        /// <summary>
+        /// Safely retrieves a nullable int value from a field in a DataRow, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The int value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<int> GetNullableIntField(DataRow? dr, string? field)
         {
             return GetNullableIntField(dr, field, null);
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable int value from a field in a DbDataReader, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The int value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<int> GetNullableIntField(DbDataReader? dr, string? field)
             => GetNullableIntField(dr, field, null);
 
+        /// <summary>
+        /// Safely retrieves a nullable int value from a field in a DbDataReader, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The int value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<int> GetNullableIntField(OleDbDataReader dr, string field)
             => GetNullableIntField((DbDataReader)dr, field);
 
+        /// <summary>
+        /// Safely retrieves a nullable int value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The int value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<int> GetNullableIntField(DataRow? dr, string? field, Nullable<int> defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -708,6 +1101,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable int value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The int value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<int> GetNullableIntField(DbDataReader? dr, string? field, Nullable<int> defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -721,6 +1123,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable int value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The int value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<int> GetNullableIntField(OleDbDataReader dr, string field, Nullable<int> defaultValue)
             => GetNullableIntField((DbDataReader)dr, field, defaultValue);
@@ -731,30 +1142,47 @@ namespace StarThrower.DataUtilities
         #region [ short / Int16 ]
 
         /// <summary>
-        ///
+        /// Safely retrieves a short value from a field in a DataRow, returning 0 if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The short value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static short GetShortField(DataRow? dr, string? field)
         {
             return GetShortField(dr, field, 0);
         }
 
+        /// <summary>
+        /// Safely retrieves a short value from a field in a DbDataReader, returning 0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The short value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static short GetShortField(DbDataReader? dr, string? field)
             => GetShortField(dr, field, 0);
 
+        /// <summary>
+        /// Safely retrieves a short value from a field in a DbDataReader, returning 0 if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The short value of the field, or 0 if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static short GetShortField(OleDbDataReader dr, string field)
             => GetShortField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a short value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The short value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static short GetShortField(DataRow? dr, string? field, short defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -768,6 +1196,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a short value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The short value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static short GetShortField(DbDataReader? dr, string? field, short defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -781,35 +1218,64 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a short value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull.</param>
+        /// <returns>The short value of the field, or <paramref name="defaultValue"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static short GetShortField(OleDbDataReader dr, string field, short defaultValue)
             => GetShortField((DbDataReader)dr, field, defaultValue);
 
         /// <summary>
-        ///
+        /// Safely retrieves a nullable short value from a field in a DataRow, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The short value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<short> GetNullableShortField(DataRow? dr, string? field)
         {
             return GetNullableShortField(dr, field, null);
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable short value from a field in a DbDataReader, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The short value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<short> GetNullableShortField(DbDataReader? dr, string? field)
             => GetNullableShortField(dr, field, null);
 
+        /// <summary>
+        /// Safely retrieves a nullable short value from a field in a DbDataReader, returning <see langword="null"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The short value of the field, or <see langword="null"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<short> GetNullableShortField(OleDbDataReader dr, string field)
             => GetNullableShortField((DbDataReader)dr, field);
 
         /// <summary>
-        ///
+        /// Safely retrieves a nullable short value from a field in a DataRow, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="field"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="dr">The DataRow object.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The short value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<short> GetNullableShortField(DataRow? dr, string? field, Nullable<short> defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -823,6 +1289,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable short value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The short value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Nullable<short> GetNullableShortField(DbDataReader? dr, string? field, Nullable<short> defaultValue)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -836,6 +1311,15 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a nullable short value from a field in a DbDataReader, returning <paramref name="defaultValue"/>
+        /// if the field is DBNull or an empty/whitespace string.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <param name="defaultValue">The value to return if the field is DBNull or empty/whitespace.</param>
+        /// <returns>The short value of the field, or <paramref name="defaultValue"/> if the field is DBNull or empty/whitespace.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Nullable<short> GetNullableShortField(OleDbDataReader dr, string field, Nullable<short> defaultValue)
             => GetNullableShortField((DbDataReader)dr, field, defaultValue);
@@ -845,6 +1329,14 @@ namespace StarThrower.DataUtilities
 
         #region [ Guid ]
 
+        /// <summary>
+        /// Safely retrieves a <see cref="Guid"/> value from a field in a DbDataReader, returning
+        /// <see cref="Guid.Empty"/> if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The <see cref="Guid"/> value of the field, or <see cref="Guid.Empty"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static Guid GetGuidField(DbDataReader? dr, string? field)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -858,6 +1350,14 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a <see cref="Guid"/> value from a field in a DbDataReader, returning
+        /// <see cref="Guid.Empty"/> if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The <see cref="Guid"/> value of the field, or <see cref="Guid.Empty"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static Guid GetGuidField(OleDbDataReader dr, string field)
             => GetGuidField((DbDataReader)dr, field);
@@ -867,6 +1367,14 @@ namespace StarThrower.DataUtilities
 
         #region [ Binary ]
 
+        /// <summary>
+        /// Safely retrieves a binary (byte array) value from a field in a DbDataReader, returning
+        /// <see langword="null"/> if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The byte array value of the field, or <see langword="null"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         public static byte[]? GetBinaryField(DbDataReader? dr, string? field)
         {
             ArgumentNullException.ThrowIfNull(dr);
@@ -880,6 +1388,14 @@ namespace StarThrower.DataUtilities
             return result;
         }
 
+        /// <summary>
+        /// Safely retrieves a binary (byte array) value from a field in a DbDataReader, returning
+        /// <see langword="null"/> if the field is DBNull.
+        /// </summary>
+        /// <param name="dr">The data reader.</param>
+        /// <param name="field">The name of the field.</param>
+        /// <returns>The byte array value of the field, or <see langword="null"/> if the field is DBNull.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if dr or field are null.</exception>
         [Obsolete("Use the DbDataReader overload instead for provider-agnostic code.")]
         public static byte[]? GetBinaryField(OleDbDataReader dr, string field)
             => GetBinaryField((DbDataReader)dr, field);

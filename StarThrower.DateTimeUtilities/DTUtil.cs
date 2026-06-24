@@ -53,7 +53,7 @@ namespace StarThrower.DateTimeUtilities
         /// Corrects a problem in Microsoft's DateDiff method.
         /// Returns the result of subtracting date1 from date2 (date2 - date1) in the units specified by interval.
         /// </summary>
-        /// <param name="interval">The units (Year, Month, Day, Hour, Minutes, Seconds) in which you want the result.</param>
+        /// <param name="interval">The units (Year, Month, Weekday, Day, Hour, Minute, Second) in which you want the result.</param>
         /// <param name="date1">The first date.</param>
         /// <param name="date2">The second date.</param>
         /// <returns>date2 - date1 in the specified units.</returns>
@@ -80,101 +80,28 @@ namespace StarThrower.DateTimeUtilities
         }
 
         /// <summary>
-        /// Converts a DateTime into an ISO 8601 formatted string.
+        /// Converts a DateTime into an ISO 8601 formatted string, treating it as UTC and formatting
+        /// with a "+00:00" offset regardless of the DateTime's actual <see cref="DateTimeKind"/>.
         /// </summary>
         /// <param name="dt">The DateTime to be converted.</param>
-        /// <returns>An ISO 8601 string.</returns>
+        /// <returns>An ISO 8601 string with 7 fractional-second digits and a "+00:00" offset.</returns>
         /// <remarks>
         /// See http://www.w3.org/TR/NOTE-datetime for more information on the ISO 8601 standard.
+        /// <para>
+        /// The original (pre-2026-06) hand-rolled implementation of this method produced a malformed
+        /// fractional-seconds component for any DateTime with a nonzero Millisecond value: it formatted
+        /// the fraction as <c>(Millisecond / 1000.0).ToString()</c> (e.g. "0.5") and appended that whole
+        /// string after an already-appended decimal point, yielding a double decimal point such as
+        /// "...:30.0.5" instead of "...:30.500". The current implementation delegates to the BCL
+        /// round-trip ("o") format, which does not have this defect, but also always emits 7 fractional
+        /// digits rather than a variable-precision fraction — output strings from this method are
+        /// therefore longer than those produced before this change.
+        /// </para>
         /// </remarks>
+        [Obsolete("Use new DateTimeOffset(DateTime.SpecifyKind(dt, DateTimeKind.Utc)).ToString(\"o\", CultureInfo.InvariantCulture) instead.")]
         public static string DateTimeToIso8601(DateTime dt)
         {
-            string YYYY;
-            string MM;
-            string DD;
-            string hh;
-            string mm;
-            string ss;
-            string s;
-            string TZD = "+00:00";
-
-            if (dt.Year < 10)
-            {
-                YYYY = "000" + dt.Year.ToString(CultureInfo.InvariantCulture);
-            }
-            else if (dt.Year < 100)
-            {
-                YYYY = "00" + dt.Year.ToString(CultureInfo.InvariantCulture);
-            }
-            else if (dt.Year < 1000)
-            {
-                YYYY = "0" + dt.Year.ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                YYYY = dt.Year.ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (dt.Month < 10)
-            {
-                MM = "0" + dt.Month.ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                MM = dt.Month.ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (dt.Day < 10)
-            {
-                DD = "0" + dt.Day.ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                DD = dt.Day.ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (dt.Hour < 10)
-            {
-                hh = "0" + dt.Hour.ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                hh = dt.Hour.ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (dt.Minute < 10)
-            {
-                mm = "0" + dt.Minute.ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                mm = dt.Minute.ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (dt.Second < 10)
-            {
-                ss = "0" + dt.Second.ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                ss = dt.Second.ToString(CultureInfo.InvariantCulture);
-            }
-
-            double frac = dt.Millisecond / 1000.0;
-            s = frac.ToString(CultureInfo.InvariantCulture);
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.Append(YYYY + "-");
-            sb.Append(MM + "-");
-            sb.Append(DD + "T");
-            sb.Append(hh + ":");
-            sb.Append(mm + ":");
-            sb.Append(ss + ".");
-            sb.Append(s);
-            sb.Append(TZD);
-
-            return sb.ToString();
+            return new DateTimeOffset(DateTime.SpecifyKind(dt, DateTimeKind.Utc)).ToString("o", CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -197,9 +124,31 @@ namespace StarThrower.DateTimeUtilities
                 DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal).UtcDateTime;
         }
 
-        public static DateTime RoundToSeconds(DateTime dt)
+        /// <summary>
+        /// Truncates a DateTime to whole-second precision, discarding any fractional seconds.
+        /// </summary>
+        /// <param name="dt">The DateTime to be truncated.</param>
+        /// <returns>A new DateTime equal to <paramref name="dt"/> with the milliseconds component removed.</returns>
+        /// <remarks>
+        /// This method always discards (floors) the millisecond remainder; it does not round to the
+        /// nearest second. For example, 12:00:00.900 becomes 12:00:00, not 12:00:01.
+        /// </remarks>
+        public static DateTime TruncateToSeconds(DateTime dt)
         {
             return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
         }
+
+        /// <summary>
+        /// Truncates a DateTime to whole-second precision, discarding any fractional seconds.
+        /// </summary>
+        /// <param name="dt">The DateTime to be truncated.</param>
+        /// <returns>A new DateTime equal to <paramref name="dt"/> with the milliseconds component removed.</returns>
+        /// <remarks>
+        /// This method always discards (floors) the millisecond remainder; despite its name, it does not
+        /// round to the nearest second. For example, 12:00:00.900 becomes 12:00:00, not 12:00:01.
+        /// </remarks>
+        [Obsolete("Use TruncateToSeconds(DateTime) instead. This method truncates rather than rounds, despite its name.")]
+        public static DateTime RoundToSeconds(DateTime dt)
+            => TruncateToSeconds(dt);
     }
 }
