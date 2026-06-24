@@ -31,6 +31,24 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [Fact]
+        public void SetGrammarThrowsArgumentNullExceptionOnNull()
+        {
+            Fixture f = new Fixture();
+            Grammar? nullGrammar = null;
+            Action act = () => f.earleyParser.Grammar = nullGrammar!;
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void CtorThrowsArgumentNullExceptionOnNullOptions()
+        {
+            Fixture f = new Fixture();
+            ParserOptions? nullOptions = null;
+            Action act = () => new Parser(f.grammar, nullOptions!);
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
         public void Recognize()
         {
             Fixture f = new Fixture();

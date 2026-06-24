@@ -9,17 +9,17 @@ using System.Collections.ObjectModel;
 namespace StarThrower.EarleyParser
 {
     /// <summary>
-    /// An Earley parser named after the inventor of the algorithm is implements.
-    /// 
+    /// An Earley parser named after the inventor of the algorithm it implements.
+    ///
     /// Earley parsers are used to parse strings for conformance with a given
-    /// context-free grammar.  Once instantiated with a grammar, an instance of 
+    /// context-free grammar.  Once instantiated with a grammar, an instance of
     /// this class can be used to parse (or just recognize) strings (represented
     /// as a series of tokens).
-    /// 
-    /// This parser fills out a chart based on the specified tokens for a 
-    /// specified seed catgory.  Because of this, it can be used to recognize
+    ///
+    /// This parser fills out a chart based on the specified tokens for a
+    /// specified seed category.  Because of this, it can be used to recognize
     /// strings that represent any rule in the grammar.  The Parse() method
-    /// returns a Parse object that encapsulates teh completed chart, the tokens
+    /// returns a Parse object that encapsulates the completed chart, the tokens
     /// given and the seed category for that parse.
     /// 
     /// For example, if a grammar contains the following rules:
@@ -35,11 +35,29 @@ namespace StarThrower.EarleyParser
     /// </summary>
     public class Parser
     {
+        /// <summary>
+        /// Raised when a new edge is added to the chart during the prediction step.
+        /// Not raised if the predicted edge already exists in the chart.
+        /// </summary>
         public event EventHandler<EdgeEventArgs>? OnEdgePredicted;
+
+        /// <summary>
+        /// Raised when a new edge is added to the chart as a result of scanning an input token.
+        /// Not raised if the scanned edge already exists in the chart.
+        /// </summary>
         public event EventHandler<EdgeEventArgs>? OnEdgeScanned;
+
+        /// <summary>
+        /// Raised when a new edge is added to the chart during the completion step.
+        /// Not raised if the completed edge already exists in the chart.
+        /// </summary>
         public event EventHandler<EdgeEventArgs>? OnEdgeCompleted;
 
 
+        /// <summary>
+        /// Raises the <see cref="OnEdgePredicted"/> event.
+        /// </summary>
+        /// <param name="e">The event data describing the predicted edge.</param>
         protected virtual void FireEdgePredicted(EdgeEventArgs e)
         {
             EventHandler<EdgeEventArgs>? handler = OnEdgePredicted;
@@ -49,6 +67,10 @@ namespace StarThrower.EarleyParser
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="OnEdgeScanned"/> event.
+        /// </summary>
+        /// <param name="e">The event data describing the scanned edge.</param>
         protected virtual void FireEdgeScanned(EdgeEventArgs e)
         {
             EventHandler<EdgeEventArgs>? handler = OnEdgeScanned;
@@ -58,6 +80,10 @@ namespace StarThrower.EarleyParser
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="OnEdgeCompleted"/> event.
+        /// </summary>
+        /// <param name="e">The event data describing the completed edge.</param>
         protected virtual void FireEdgeCompleted(EdgeEventArgs e)
         {
             EventHandler<EdgeEventArgs>? handler = OnEdgeCompleted;
@@ -77,12 +103,16 @@ namespace StarThrower.EarleyParser
 
         #region [ Public Properties ]
 
+        /// <summary>
+        /// Gets or sets the grammar this parser uses to parse and recognize strings.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown on set if the value is null.</exception>
         public Grammar Grammar
         {
             get { return _grammar; }
             set
             {
-                if (value == null) throw new InvalidOperationException("null grammar");
+                ArgumentNullException.ThrowIfNull(value);
                 _grammar = value;
             }
         }
@@ -92,11 +122,23 @@ namespace StarThrower.EarleyParser
 
         #region [ Construction ]
 
+        /// <summary>
+        /// Creates a new parser for the specified grammar, using default parser options.
+        /// </summary>
+        /// <param name="grammar">The grammar this parser will use to parse and recognize strings.</param>
+        /// <exception cref="ArgumentNullException">Thrown if grammar is null.</exception>
         public Parser(Grammar grammar) : this(grammar, new ParserOptions()) { }
 
+        /// <summary>
+        /// Creates a new parser for the specified grammar and options.
+        /// </summary>
+        /// <param name="grammar">The grammar this parser will use to parse and recognize strings.</param>
+        /// <param name="options">The options controlling this parser's behavior.</param>
+        /// <exception cref="ArgumentNullException">Thrown if grammar or options is null.</exception>
         public Parser(Grammar grammar, ParserOptions options)
         {
             ArgumentNullException.ThrowIfNull(grammar);
+            ArgumentNullException.ThrowIfNull(options);
             _grammar = grammar;
             _options = options;
         }
@@ -206,7 +248,7 @@ namespace StarThrower.EarleyParser
         }
 
         /// <summary>
-        /// Makes predictions (adds edges) in the specified chart fo a given edge
+        /// Makes predictions (adds edges) in the specified chart for a given edge
         /// at a given index.  This method is recursively called whenever an edge
         /// is added to also make predictions for the newly added edge.
         /// </summary>
@@ -227,7 +269,7 @@ namespace StarThrower.EarleyParser
                     if (!_options.PredictPreterminals && rule.IsPreterminal)
                     {
                         //only predict for rules that aren't preterminals to avoid
-                        //villing up the chart with entries for every terminal
+                        //filling up the chart with entries for every terminal
                         continue;
                     }
 

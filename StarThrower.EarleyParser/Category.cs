@@ -21,6 +21,11 @@ namespace StarThrower.EarleyParser
     {
         #region [ Static Members ]
 
+        /// <summary>
+        /// The concrete type of the <see cref="Root"/> sentinel. Overrides equality to use reference
+        /// identity, so the root category is never considered equal to any other <see cref="Category"/>
+        /// instance, even one constructed with the same name and terminal status.
+        /// </summary>
         private sealed class RootCategory : Category
         {
             public RootCategory(string name) : base(name) { }
@@ -135,6 +140,13 @@ namespace StarThrower.EarleyParser
                 (string.Equals(_name, other._name, StringComparison.Ordinal));
         }
 
+        /// <summary>
+        /// Tests whether this category is equal to another.
+        /// Returns true if the specified category's name and terminal status are equal to this
+        /// category's name and terminal status.
+        /// </summary>
+        /// <param name="other">The category to test.</param>
+        /// <returns>True if the categories are equivalent.</returns>
         public bool Equals(Category? other)
         {
             if (other == this) return true;

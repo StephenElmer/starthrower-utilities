@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 namespace StarThrower.EarleyParser
 {
     /// <summary>
-    /// Estension of Rule that maintains a dot position within the rule.
+    /// Extension of Rule that maintains a dot position within the rule.
     /// 
     /// Dotted rules are used by Earley parsers to keep track of how far
     /// within a rule processing has succeeded.  In a dotted rule, the
@@ -60,7 +60,7 @@ namespace StarThrower.EarleyParser
         /// Creates a new dotted rule for the given rule, with a dot position
         /// at the beginning of the rule's right side (position 0).
         /// </summary>
-        /// <param name="rule"></param>
+        /// <param name="rule">The underlying rule.</param>
         public DottedRule(Rule rule) : this(rule, 0) { }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace StarThrower.EarleyParser
         /// </summary>
         /// <param name="rule">The underlying rule</param>
         /// <param name="position">The zero-based position within rule right
-        /// side categories where this dotted rule's dot is maintinated.</param>
+        /// side categories where this dotted rule's dot is maintained.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if position less than 0 or
         /// position is greater than the length of the right side sequence in rule.</exception>
         public DottedRule(Rule rule, int position)
@@ -101,7 +101,7 @@ namespace StarThrower.EarleyParser
         /// </summary>
         /// <param name="dottedRule">The dotted rule whose dot position should be advanced.</param>
         /// <returns>A new dotted rule wrapping this rule with it's position incremented.</returns>
-        /// <exception cref="ArgumentOfRangeException">Thrown if the dotted rule's dot 
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the dotted rule's dot
         /// position is already at the end of it's right side.</exception>
         public static DottedRule AdvanceDot(DottedRule dottedRule)
         {
@@ -149,6 +149,12 @@ namespace StarThrower.EarleyParser
             return _position == other._position && base.Equals(other);
         }
 
+        /// <summary>
+        /// Tests whether this dotted rule is equal to another dotted
+        /// rule by comparing their underlying rules and dot positions.
+        /// </summary>
+        /// <param name="other">The dotted rule to test.</param>
+        /// <returns>True if the other dotted rule's underlying rule and position are equal to this dotted rule's rule and position.</returns>
         public bool Equals(DottedRule? other)
         {
             if (other == this) return true;
@@ -160,7 +166,7 @@ namespace StarThrower.EarleyParser
         /// Computes a hash code for this dotted rule based on it's underlying
         /// rule and dot position.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code.</returns>
         public override int GetHashCode()
         {
             int result = 17;

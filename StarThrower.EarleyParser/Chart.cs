@@ -295,8 +295,8 @@ namespace StarThrower.EarleyParser
         /// <summary>
         /// Tests whether this chart is equal to another by comparing their internal data structures.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns>True if the specified object is an instance of Chart ant it
+        /// <param name="obj">The object to test.</param>
+        /// <returns>True if the specified object is an instance of Chart and it
         /// contains the same edges at the same indices as this chart.</returns>
         public override bool Equals(object? obj)
         {
@@ -318,6 +318,11 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
+        /// <summary>
+        /// Tests whether this chart is equal to another by comparing their internal data structures.
+        /// </summary>
+        /// <param name="other">The chart to test.</param>
+        /// <returns>True if the other chart contains the same edges at the same indices as this chart.</returns>
         public bool Equals(Chart? other)
         {
             if (other == this) return true;
@@ -339,7 +344,7 @@ namespace StarThrower.EarleyParser
         /// <summary>
         /// Computes a hash code for this chart based on its internal data structure.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -350,7 +355,7 @@ namespace StarThrower.EarleyParser
         /// <summary>
         /// Gets a string representation of this chart.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The string representation of this chart.</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(String.Empty);

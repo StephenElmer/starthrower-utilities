@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 namespace StarThrower.EarleyParser
 {
     /// <summary>
-    /// An edge in a chart producted by an Earley parser.  Edges consist of a
+    /// An edge in a chart produced by an Earley parser.  Edges consist of a
     /// dotted rule paired with an origin position within a string.
     /// 
     /// An edge is either active or passive depending on how far
@@ -29,8 +29,8 @@ namespace StarThrower.EarleyParser
     /// were used in completing the new edge.
     /// 
     /// Edges are immutable and cannot be altered once they have been
-    /// instantiated.  In an Earley parser, edges are only ever added, 
-    /// never removed or chnged.
+    /// instantiated.  In an Earley parser, edges are only ever added,
+    /// never removed or changed.
     /// </summary>
     public class Edge
     {
@@ -100,8 +100,8 @@ namespace StarThrower.EarleyParser
         /// Creates an edge for the specified dotted rule and origin position, 
         /// with the given set of edges as bases for it's completion.
         /// </summary>
-        /// <param name="dottedRule"></param>
-        /// <param name="origin"></param>
+        /// <param name="dottedRule">The dotted rule at origin.</param>
+        /// <param name="origin">The origin position within the string being parsed.</param>
         /// <param name="bases">The set of bases, in order, that completed this edge.
         /// If this is null, the empty set is used.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if origin is less than 0.</exception>
@@ -200,11 +200,9 @@ namespace StarThrower.EarleyParser
         }
 
         /// <summary>
-        /// Helper for Scan() and Complete()
+        /// Used by Scan() and Complete() to build the new edge's basis list: copies edge's
+        /// existing bases (if any) and appends basis.
         /// </summary>
-        /// <param name="edge"></param>
-        /// <param name="basis"></param>
-        /// <returns></returns>
         private static Collection<Edge> AddBasisEdge(Edge edge, Edge basis)
         {
             Collection<Edge> newBases;
@@ -230,6 +228,12 @@ namespace StarThrower.EarleyParser
 
         #region [ Object Overrides ]
 
+        /// <summary>
+        /// Tests whether this edge is equal to another, with the same origin, dotted rule,
+        /// and bases (in the same order).
+        /// </summary>
+        /// <param name="obj">The object to test.</param>
+        /// <returns>True if the objects are equivalent.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == this) return true;
@@ -247,15 +251,25 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
+        /// <summary>
+        /// Computes a hash code for this edge based on its origin, dotted rule, and bases.
+        /// </summary>
+        /// <returns>A hash code.</returns>
         public override int GetHashCode()
         {
             int result = 17;
             result = 31 * result + _origin.GetHashCode();
             result = 31 * result + _dottedRule.GetHashCode();
             result = 31 * result + _bases.GetHashCode();
+
             return result;
         }
 
+        /// <summary>
+        /// Gets a string representation of this edge expressed as "origin[dottedRule]",
+        /// e.g. "0[S -&gt; NP * VP]" for an edge at origin 0.
+        /// </summary>
+        /// <returns>The string representation of this edge.</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(_origin.ToString(CultureInfo.InvariantCulture));

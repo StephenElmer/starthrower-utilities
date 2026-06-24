@@ -103,10 +103,10 @@ namespace StarThrower.EarleyParser
         #region [ Object Overrides ]
 
         /// <summary>
-        /// Tests whether this rule is equal to another, with teh same left and right sides.
+        /// Tests whether this rule is equal to another, with the same left and right sides.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">The object to test.</param>
+        /// <returns>True if the objects are equivalent.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == this) return true;
@@ -123,6 +123,11 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
+        /// <summary>
+        /// Tests whether this rule is equal to another, with the same left and right sides.
+        /// </summary>
+        /// <param name="other">The rule to test.</param>
+        /// <returns>True if the rules are equivalent.</returns>
         public bool Equals(Rule? other)
         {
             if (other == this) return true;
@@ -140,7 +145,7 @@ namespace StarThrower.EarleyParser
         /// <summary>
         /// Computes a hash code for this rule based on its left and right side categories.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -153,7 +158,7 @@ namespace StarThrower.EarleyParser
         /// Gets a string representation of this rule expressed as "S -> NP VP" for a rule
         /// with left side category of S and a right side sequence of [NP, VP].
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The string representation of this rule.</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

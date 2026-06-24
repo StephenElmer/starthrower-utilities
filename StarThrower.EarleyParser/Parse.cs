@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 namespace StarThrower.EarleyParser
 {
     /// <summary>
-    /// Represents a parse comleted by an Earley parser.
+    /// Represents a parse completed by an Earley parser.
     /// 
     /// A parse contains the string list of tokens parsed, the
     /// seed category and completed chart.  The status of the completed
@@ -63,7 +63,7 @@ namespace StarThrower.EarleyParser
         ///     the left side of its dotted rule is the same as the start category that seeded the parse.
         ///    
         /// Returns Status.Accept for accepted strings, Status.Reject for rejected ones.
-        /// Status.Error is returned if an error occurred durign the parse.
+        /// Status.Error is returned if an error occurred during the parse.
         /// </summary>
         public Status Status
         {
@@ -126,8 +126,8 @@ namespace StarThrower.EarleyParser
         /// Creates a new parse for the given seed category and chart.  This constructor
         /// is used for the parses that complete without errors.
         /// </summary>
-        /// <param name="seed"></param>
-        /// <param name="chart"></param>
+        /// <param name="seed">The seed category for this parse.</param>
+        /// <param name="chart">The completed chart for this parse.</param>
         public Parse(Category seed, Chart chart) : this(seed, chart, false) { }
 
         /// <summary>
@@ -149,6 +149,10 @@ namespace StarThrower.EarleyParser
 
         #region [ Private Methods ]
 
+        /// <summary>
+        /// Gets the passive edges in the chart at index whose origin and dotted rule's left
+        /// category match the given origin and category.
+        /// </summary>
         private Collection<Edge> GetCompletedEdges(Category category, int origin, int index)
         {
             ReadOnlyCollection<Edge>? edges = _chart.GetEdgesAt(index);
@@ -175,6 +179,10 @@ namespace StarThrower.EarleyParser
 
         #region [ Public Methods ]
 
+        /// <summary>
+        /// Appends a token to this parse's list of tokens.
+        /// </summary>
+        /// <param name="token">The token to add.</param>
         public void AddToken(string token)
         {
             _tokens.Add(token);
@@ -239,8 +247,8 @@ namespace StarThrower.EarleyParser
         /// object is an instance of Parse and its tokens, seed category, and 
         /// chart are equal to those of this parse.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">The object to test.</param>
+        /// <returns>True if the objects are equivalent.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == this) return true;
@@ -268,6 +276,12 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
+        /// <summary>
+        /// Tests whether this parse equals another by comparing their tokens,
+        /// seed categories, and completed charts.
+        /// </summary>
+        /// <param name="other">The parse to test.</param>
+        /// <returns>True if the parses are equivalent.</returns>
         public bool Equals(Parse? other)
         {
             if (other == this) return true;
@@ -296,7 +310,7 @@ namespace StarThrower.EarleyParser
         /// <summary>
         /// Computes a hash code for this parse based on its tokens, seed category, and chart.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -316,10 +330,10 @@ namespace StarThrower.EarleyParser
         }
 
         /// <summary>
-        /// Gets a string representation of this chart, returning "Accept: S -> [the, boy, left] (1)" for
-        /// an accepted parse of "the boy left" with seed category S and one posible parse tree.
+        /// Gets a string representation of this parse, returning "Accept: S -> [the, boy, left] (1)" for
+        /// an accepted parse of "the boy left" with seed category S and one possible parse tree.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The string representation of this parse.</returns>
         public override string ToString()
         {
             Status status = this.Status;

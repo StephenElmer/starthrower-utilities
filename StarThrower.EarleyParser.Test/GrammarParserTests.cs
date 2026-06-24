@@ -78,6 +78,22 @@ namespace StarThrower.EarleyParser.Test
         }
 
         [Fact]
+        public void CtorThrowsWhenFileIsNotWellFormedXml()
+        {
+            string malformedFile = Path.GetTempFileName();
+            try
+            {
+                File.WriteAllText(malformedFile, "<grammar name=\"g\"><rule></grammar>");
+                Action act = () => new GrammarParser(malformedFile);
+                act.Should().Throw<XmlException>();
+            }
+            finally
+            {
+                File.Delete(malformedFile);
+            }
+        }
+
+        [Fact]
         public void ParseThrowsWhenRootElementMissingNameAttribute()
         {
             XmlDocument doc = new XmlDocument();

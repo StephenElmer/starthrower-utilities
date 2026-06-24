@@ -8,6 +8,10 @@ using System.Collections.ObjectModel;
 
 namespace StarThrower.EarleyParser
 {
+    /// <summary>
+    /// A named collection of production rules, grouped by their left-hand-side category, that
+    /// together define a context-free grammar for use by an Earley parser.
+    /// </summary>
     public class Grammar
     {
         #region [ Private Instance Variables ]
@@ -20,6 +24,9 @@ namespace StarThrower.EarleyParser
 
         #region [ Public Properties ]
 
+        /// <summary>
+        /// Gets the name of this grammar which was set during construction.
+        /// </summary>
         public string Name
         {
             get { return _name; }
@@ -30,6 +37,10 @@ namespace StarThrower.EarleyParser
 
         #region [ Construction ]
 
+        /// <summary>
+        /// Creates a new, empty grammar with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the new grammar.</param>
         public Grammar(string name)
         {
             _name = name;
@@ -41,6 +52,11 @@ namespace StarThrower.EarleyParser
 
         #region [ Public Methods ]
 
+        /// <summary>
+        /// Adds a rule to this grammar, grouped under its left-hand-side category.
+        /// </summary>
+        /// <param name="rule">The rule to add.</param>
+        /// <exception cref="ArgumentNullException">Thrown if rule is null.</exception>
         public void AddRule(Rule? rule)
         {
             ArgumentNullException.ThrowIfNull(rule);
@@ -57,16 +73,32 @@ namespace StarThrower.EarleyParser
             }
         }
 
+        /// <summary>
+        /// Determines whether this grammar contains any rules whose left-hand side is the
+        /// specified category.
+        /// </summary>
+        /// <param name="left">The left-hand-side category to look for.</param>
+        /// <returns>True if at least one rule with this left-hand-side category has been added.</returns>
         public bool ContainsRules(Category left)
         {
             return _rules.ContainsKey(left);
         }
 
+        /// <summary>
+        /// Gets all rules whose left-hand side is the specified category.
+        /// </summary>
+        /// <param name="left">The left-hand-side category to look up.</param>
+        /// <returns>The rules with this left-hand-side category.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown if no rule with this left-hand-side category has been added. Check with <see cref="ContainsRules"/> first if this is not guaranteed.</exception>
         public Collection<Rule> GetRules(Category left)
         {
             return _rules[left];
         }
 
+        /// <summary>
+        /// Gets every rule that has been added to this grammar, regardless of left-hand-side category.
+        /// </summary>
+        /// <returns>All rules in this grammar.</returns>
         public Collection<Rule> GetAllRules()
         {
             Collection<Rule> result = new Collection<Rule>();
@@ -80,6 +112,15 @@ namespace StarThrower.EarleyParser
             return result;
         }
 
+        /// <summary>
+        /// Finds a singleton preterminal rule (a rule whose right-hand side is a single terminal
+        /// category) under the specified left-hand-side category whose terminal name matches the
+        /// given token.
+        /// </summary>
+        /// <param name="left">The left-hand-side category to search under.</param>
+        /// <param name="token">The literal token text to match against each candidate rule's terminal.</param>
+        /// <param name="ignoreCase">Whether the token match should ignore case.</param>
+        /// <returns>The matching rule, or null if no rule with this left-hand-side category is a singleton preterminal matching token.</returns>
         public Rule? SingletonPreterminal(Category left, string token, bool ignoreCase)
         {
             if (_rules.TryGetValue(left, out Collection<Rule>? value))
@@ -101,6 +142,12 @@ namespace StarThrower.EarleyParser
 
         #region [ Object Overrides ]
 
+        /// <summary>
+        /// Tests whether this grammar is equal to another, with the same name and the same
+        /// set of rules under each left-hand-side category.
+        /// </summary>
+        /// <param name="obj">The object to test.</param>
+        /// <returns>True if the objects are equivalent.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == this) return true;
@@ -121,6 +168,12 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
+        /// <summary>
+        /// Tests whether this grammar is equal to another, with the same name and the same
+        /// set of rules under each left-hand-side category.
+        /// </summary>
+        /// <param name="other">The grammar to test.</param>
+        /// <returns>True if the grammars are equivalent.</returns>
         public bool Equals(Grammar? other)
         {
             if (other == this) return true;
@@ -139,6 +192,10 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
+        /// <summary>
+        /// Computes a hash code for this grammar based on its name and rules.
+        /// </summary>
+        /// <returns>A hash code.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -153,6 +210,11 @@ namespace StarThrower.EarleyParser
             return result;
         }
 
+        /// <summary>
+        /// Gets a string representation of this grammar, listing its name followed by every rule
+        /// it contains.
+        /// </summary>
+        /// <returns>The string representation of this grammar.</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(String.Empty);

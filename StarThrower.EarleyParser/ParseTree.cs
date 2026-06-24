@@ -17,7 +17,7 @@ namespace StarThrower.EarleyParser
     /// Parse trees are essentially partial views of a chart from a given
     /// edge or category.  They represent the completed categories at a
     /// given string index and origin position.  The special Root category
-    /// is not included in a parse tree at the root (only ategories that
+    /// is not included in a parse tree at the root (only categories that
     /// are actually specified in the corresponding grammar are represented).
     /// </summary>
     public class ParseTree
@@ -109,7 +109,7 @@ namespace StarThrower.EarleyParser
         /// <summary>
         /// Creates a new parse tree based on the specified edge and parent tree.
         /// </summary>
-        /// <param name="edge">The edge to use to create a parse tree.  FOr a parse
+        /// <param name="edge">The edge to use to create a parse tree.  For a parse
         /// tree that is the root, this should be null.</param>
         /// <param name="parent">The parent tree of the new parse tree.</param>
         /// <returns>A new parse tree whose node is the specified edge's dotted rule's
@@ -165,8 +165,8 @@ namespace StarThrower.EarleyParser
         /// Tests whether this parse tree is equal to another by comparing
         /// it's node, parent, and child parse trees.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">The object to test.</param>
+        /// <returns>True if the objects are equivalent.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == this) return true;
@@ -190,6 +190,12 @@ namespace StarThrower.EarleyParser
             return true;
         }
 
+        /// <summary>
+        /// Tests whether this parse tree is equal to another by comparing
+        /// it's node, parent, and child parse trees.
+        /// </summary>
+        /// <param name="other">The parse tree to test.</param>
+        /// <returns>True if the parse trees are equivalent.</returns>
         public bool Equals(ParseTree? other)
         {
             if (other == this) return true;
@@ -212,10 +218,10 @@ namespace StarThrower.EarleyParser
         }
 
         /// <summary>
-        /// Computes a hash code for this parse tree based on its underlying edge and child 
+        /// Computes a hash code for this parse tree based on its node, parent, and child
         /// parse trees.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code.</returns>
         public override int GetHashCode()
         {
             int result = 17;
