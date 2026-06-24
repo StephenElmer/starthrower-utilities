@@ -5,7 +5,7 @@ using System;
 namespace StarThrower.XBase
 {
     /// <summary>
-    /// The exception that is thrown when a database with an incompatible schema is encountered.
+    /// The exception that is thrown when a named field cannot be found in a field collection.
     /// </summary>
     public class FieldNotFoundException : Exception
     {

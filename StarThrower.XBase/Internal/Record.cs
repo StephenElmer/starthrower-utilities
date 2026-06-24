@@ -116,6 +116,10 @@ namespace StarThrower.XBase.Internal
             _fields = new FieldCollection();
         }
 
+        /// <summary>
+        /// Creates a new record by parsing its raw binary representation (deleted flag byte
+        /// followed by field data), against the given field schema.
+        /// </summary>
         internal Record(byte[] bytes, StarThrower.XBase.Internal.FieldCollection fields)
             : this()
         {
@@ -123,6 +127,10 @@ namespace StarThrower.XBase.Internal
             ParseBytes(bytes);
         }
 
+        /// <summary>
+        /// Creates a new, empty record sized to fit the given field schema, with every byte
+        /// (including the deleted flag) initialized to zero.
+        /// </summary>
         internal Record(StarThrower.XBase.Internal.FieldCollection fields)
             : this()
         {
@@ -148,6 +156,10 @@ namespace StarThrower.XBase.Internal
 
         #region Internal Methods
 
+        /// <summary>
+        /// Gets an XML representation of this record, including the value of each field per
+        /// the given schema.
+        /// </summary>
         internal string ToXml()
         {
             Encoding ascii = Encoding.ASCII;
@@ -174,6 +186,9 @@ namespace StarThrower.XBase.Internal
             return result.ToString();
         }
 
+        /// <summary>
+        /// Gets or sets the raw byte value of the field with the specified name within this record's data.
+        /// </summary>
         internal byte[] this[byte[] fieldName]
         {
             get { return GetFieldValue(fieldName); }
@@ -220,6 +235,10 @@ namespace StarThrower.XBase.Internal
             _data = temp;
         }
 
+        /// <summary>
+        /// Shifts the bytes at and after the field at fieldIndex rightward by length bytes,
+        /// opening up a length-byte gap for that field's data to grow into.
+        /// </summary>
         internal void InsertBytes(Int32 fieldIndex, Int16 length)
         {
             Int32 dataIndex = GetDataIndexForField(fieldIndex);
@@ -241,18 +260,29 @@ namespace StarThrower.XBase.Internal
 
         #region Private Methods
 
+        /// <summary>
+        /// Gets the byte offset within <see cref="Data"/> where the field at fieldIndex begins.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if fieldIndex is out of range for <see cref="Fields"/>.</exception>
         private Int32 GetDataIndexForField(Int32 fieldIndex)
         {
             if (fieldIndex < 0 || fieldIndex > (_fields.Count - 1)) throw new ArgumentOutOfRangeException(nameof(fieldIndex));
             return _fields.CalculateStartIndex(fieldIndex);
         }
 
+        /// <summary>
+        /// Populates <see cref="IsDeleted"/> and <see cref="Data"/> by parsing the raw binary
+        /// representation of a record (deleted flag byte followed by field data).
+        /// </summary>
         private void ParseBytes(byte[] bytes)
         {
             _isDeleted = bytes[0];
             _data = ByteUtil.ByteSubstring(bytes, 1, bytes.Length - 1);
         }
 
+        /// <summary>
+        /// Extracts the raw byte value of the named field from <see cref="Data"/>.
+        /// </summary>
         private byte[] GetFieldValue(byte[] fieldName)
         {
             Int32 startIndex = -1;
@@ -261,6 +291,11 @@ namespace StarThrower.XBase.Internal
             return ByteUtil.ByteSubstring(_data, startIndex, length);
         }
 
+        /// <summary>
+        /// Overwrites the portion of <see cref="Data"/> occupied by the named field, zero-padding
+        /// any remaining bytes if value is shorter than the field's length.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if value is longer than the named field's length.</exception>
         private void SetFieldValue(byte[] fieldName, byte[] value)
         {
             Int32 startIndex = -1;
@@ -287,6 +322,9 @@ namespace StarThrower.XBase.Internal
 
         #region ICloneable Members
 
+        /// <summary>
+        /// Creates a copy of this record, including a deep copy of each of its fields.
+        /// </summary>
         public object Clone()
         {
             return new StarThrower.XBase.Internal.Record(this);
@@ -301,7 +339,8 @@ namespace StarThrower.XBase.Internal
         /// Sets the state of the current instance equal to a copy of the state of some other instance.
         /// </summary>
         /// <param name="obj">The instance you wish this to be a copy of.  Must be of the same type as this object.</param>
-        /// <exception cref="FailedItemCopyException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown if obj is null.</exception>
+        /// <exception cref="InvalidCastException">Thrown if obj is not a <see cref="Record"/>.</exception>
         public void ItemCopy(object obj)
         {
             ArgumentNullException.ThrowIfNull(obj);

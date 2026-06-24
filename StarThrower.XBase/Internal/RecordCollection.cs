@@ -23,6 +23,10 @@ namespace StarThrower.XBase.Internal
 
         #region Internal Properties
 
+        /// <summary>
+        /// Gets or sets the header of the file this collection's records belong to. Used by
+        /// <see cref="GetBytes"/> to determine the fixed record length when serializing.
+        /// </summary>
         internal StarThrower.XBase.Internal.FileHeader? FileHeader
         {
             get { return _fileHeader; }
@@ -42,6 +46,9 @@ namespace StarThrower.XBase.Internal
             _list = new List<StarThrower.XBase.Internal.Record>();
         }
 
+        /// <summary>
+        /// Creates a new, empty collection of records belonging to the file with the given header.
+        /// </summary>
         internal RecordCollection(StarThrower.XBase.Internal.FileHeader fileHeader)
             : this()
         {
@@ -53,6 +60,9 @@ namespace StarThrower.XBase.Internal
 
         #region Internal Custom Methods
 
+        /// <summary>
+        /// Gets an XML representation of this record list.
+        /// </summary>
         internal string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);
@@ -65,6 +75,11 @@ namespace StarThrower.XBase.Internal
             return result.ToString();
         }
 
+        /// <summary>
+        /// Serializes every record in this collection (deleted flag byte followed by field data)
+        /// to a single concatenated byte array, in the format written to a .dbf file.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if <see cref="FileHeader"/> has not been set.</exception>
         internal byte[] GetBytes()
         {
             if (_fileHeader == null) throw new InvalidOperationException("FileHeader is not set.");
@@ -430,7 +445,7 @@ namespace StarThrower.XBase.Internal
         /// Constructor
         /// </summary>
         /// <param name="list">The RecordCollection over which this IEnumerator is to iterate.</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown if list is null.</exception>
         internal RecordCollectionEnumerator(StarThrower.XBase.Internal.RecordCollection list)
         {
             ArgumentNullException.ThrowIfNull(list);
@@ -447,7 +462,7 @@ namespace StarThrower.XBase.Internal
         /// <summary>
         /// Gets the current element in the RecordCollection.
         /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">Thrown if the enumerator is positioned before the first element or after the last element.</exception>
         object IEnumerator.Current
         {
             get
@@ -464,7 +479,7 @@ namespace StarThrower.XBase.Internal
         /// <summary>
         /// Gets the current element in the RecordCollection.
         /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">Thrown if the enumerator is positioned before the first element or after the last element.</exception>
         public StarThrower.XBase.Internal.Record Current
         {
             get

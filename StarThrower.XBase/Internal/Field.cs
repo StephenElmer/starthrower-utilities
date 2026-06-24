@@ -8,6 +8,10 @@ using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase.Internal
 {
+    /// <summary>
+    /// The 32-byte binary field descriptor format used in an XBase (.dbf) file header. See the
+    /// individual property docs for the byte layout of each part.
+    /// </summary>
     internal sealed class Field : ICloneable
     {
         internal const Int32 SIZE = 32;
@@ -187,12 +191,18 @@ namespace StarThrower.XBase.Internal
 
         internal Field() { }
 
+        /// <summary>
+        /// Creates a new field descriptor by parsing its 32-byte binary representation.
+        /// </summary>
         internal Field(byte[] bytes)
             : this()
         {
             ParseBytes(bytes);
         }
 
+        /// <summary>
+        /// Creates a new field descriptor as a copy of another.
+        /// </summary>
         internal Field(Field other)
             : this()
         {
@@ -204,6 +214,9 @@ namespace StarThrower.XBase.Internal
 
         #region Internal Methods
 
+        /// <summary>
+        /// Gets an XML representation of this field descriptor.
+        /// </summary>
         internal string ToXml()
         {
             Encoding ascii = Encoding.ASCII;
@@ -228,6 +241,9 @@ namespace StarThrower.XBase.Internal
             return result.ToString();
         }
 
+        /// <summary>
+        /// Serializes this field descriptor to its 32-byte binary representation.
+        /// </summary>
         internal byte[] GetBytes()
         {
             byte[] result = new byte[Field.SIZE];
@@ -285,6 +301,9 @@ namespace StarThrower.XBase.Internal
 
         #region ICloneable Members
 
+        /// <summary>
+        /// Creates a copy of this field descriptor.
+        /// </summary>
         public object Clone()
         {
             return new Field(this);
@@ -299,7 +318,8 @@ namespace StarThrower.XBase.Internal
         /// Sets the state of the current instance equal to a copy of the state of some other instance.
         /// </summary>
         /// <param name="obj">The instance you wish this to be a copy of.  Must be of the same type as this object.</param>
-        /// <exception cref="FailedItemCopyException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown if obj is null.</exception>
+        /// <exception cref="InvalidCastException">Thrown if obj is not a <see cref="Field"/>.</exception>
         public void ItemCopy(object obj)
         {
             ArgumentNullException.ThrowIfNull(obj);
@@ -322,6 +342,9 @@ namespace StarThrower.XBase.Internal
 
         #region Private Methods
 
+        /// <summary>
+        /// Populates this field descriptor's properties by parsing its 32-byte binary representation.
+        /// </summary>
         private void ParseBytes(byte[] bytes)
         {
             _name = ByteUtil.ByteSubstring(bytes, 0, 11, true);

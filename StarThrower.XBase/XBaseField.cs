@@ -5,6 +5,10 @@ using System.Globalization;
 
 namespace StarThrower.XBase
 {
+    /// <summary>
+    /// Describes a single field (column) in an XBase (.dbf) file: its name, data type, length,
+    /// and decimal count.
+    /// </summary>
     public class XBaseField
     {
         #region Private Member Variables
@@ -19,12 +23,22 @@ namespace StarThrower.XBase
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets or sets the name of this field.
+        /// </summary>
         public string Name
         {
             get { return _name; }
             set { _name = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the data type of this field. Setting this property assigns this field
+        /// as the new value's <see cref="FieldType.Owner"/>; some field types (e.g. <see cref="DateField"/>,
+        /// <see cref="BooleanField"/>) respond by forcing this field's <see cref="Length"/> and
+        /// <see cref="DecimalCount"/> to the fixed values they require.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown on set if the value is null.</exception>
         public FieldType FieldType
         {
             get { return _fieldType; }
@@ -37,6 +51,10 @@ namespace StarThrower.XBase
             }
         }
 
+        /// <summary>
+        /// Gets or sets the length, in characters, of this field.
+        /// </summary>
+        /// <exception cref="InvalidFieldLengthException">Thrown on set if the value is not valid for this field's <see cref="FieldType"/>.</exception>
         public int Length
         {
             get { return _length; }
@@ -47,6 +65,10 @@ namespace StarThrower.XBase
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of decimal places stored in this field.
+        /// </summary>
+        /// <exception cref="InvalidDecimalCountException">Thrown on set if the value is not valid for this field's <see cref="FieldType"/>.</exception>
         public int DecimalCount
         {
             get { return _decimalCount; }
@@ -62,12 +84,25 @@ namespace StarThrower.XBase
 
         #region Public Methods
 
+        /// <summary>
+        /// Tests whether the specified value is valid for this field's data type and, if so,
+        /// converts it to its fixed-width text representation for storage in a .dbf record.
+        /// </summary>
+        /// <param name="data">The in-memory value to validate and convert.</param>
+        /// <param name="result">If data is valid, its fixed-width text representation. If data is not valid, a message describing why.</param>
+        /// <returns>True if data is valid for this field's data type; otherwise, false.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "1#")]
         public bool IsValidData(object data, out string result)
         {
             return _fieldType.IsValidData(data, out result);
         }
 
+        /// <summary>
+        /// Converts the fixed-width text representation of this field's data, as stored in a
+        /// .dbf record, into its corresponding in-memory .NET value.
+        /// </summary>
+        /// <param name="data">The fixed-width text representation to convert.</param>
+        /// <returns>The in-memory value represented by data.</returns>
         public object Translate(string data)
         {
             return _fieldType.Translate(data);

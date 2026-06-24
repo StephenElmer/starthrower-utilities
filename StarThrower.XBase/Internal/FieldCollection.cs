@@ -102,6 +102,10 @@ namespace StarThrower.XBase.Internal
             return false;
         }
 
+        /// <summary>
+        /// Computes the byte offset within a record's data where the field at the given
+        /// position begins, based on the cumulative length of the preceding fields.
+        /// </summary>
         internal Int32 CalculateStartIndex(int index)
         {
             Int32 result = 0;
@@ -112,6 +116,9 @@ namespace StarThrower.XBase.Internal
             return result;
         }
 
+        /// <summary>
+        /// Gets an XML representation of this field list.
+        /// </summary>
         internal string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);
@@ -124,6 +131,11 @@ namespace StarThrower.XBase.Internal
             return result.ToString();
         }
 
+        /// <summary>
+        /// Gets the byte offset and length, within a record's data, of the field with the
+        /// specified name.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if no field named fieldName exists in this collection.</exception>
         internal void GetFieldBounds(byte[] fieldName, ref Int32 startIndex, ref Int32 length)
         {
             Int32 index = -1;
@@ -132,6 +144,11 @@ namespace StarThrower.XBase.Internal
             startIndex = CalculateStartIndex(index);
         }
 
+        /// <summary>
+        /// Gets the byte offset and length, within a record's data, of the field at the
+        /// specified position.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if fieldIndex is out of range for this collection.</exception>
         internal void GetFieldBounds(Int32 fieldIndex, ref Int32 startIndex, ref Int32 length)
         {
             if (fieldIndex < 0 || fieldIndex > (this.Count - 1)) throw new ArgumentOutOfRangeException(nameof(fieldIndex));
@@ -139,6 +156,10 @@ namespace StarThrower.XBase.Internal
             startIndex = CalculateStartIndex(fieldIndex);
         }
 
+        /// <summary>
+        /// Gets or sets the field with the specified name.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if no field named fieldName exists in this collection.</exception>
         internal StarThrower.XBase.Internal.Field this[byte[] fieldName]
         {
             get
@@ -503,7 +524,7 @@ namespace StarThrower.XBase.Internal
         /// Constructor
         /// </summary>
         /// <param name="list">The FieldCollection over which this IEnumerator is to iterate.</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown if list is null.</exception>
         internal FieldCollectionEnumerator(StarThrower.XBase.Internal.FieldCollection list)
         {
             ArgumentNullException.ThrowIfNull(list);
@@ -520,7 +541,7 @@ namespace StarThrower.XBase.Internal
         /// <summary>
         /// Gets the current element in the FieldCollection.
         /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">Thrown if the enumerator is positioned before the first element or after the last element.</exception>
         object IEnumerator.Current
         {
             get
@@ -537,7 +558,7 @@ namespace StarThrower.XBase.Internal
         /// <summary>
         /// Gets the current element in the FieldCollection.
         /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">Thrown if the enumerator is positioned before the first element or after the last element.</exception>
         public StarThrower.XBase.Internal.Field Current
         {
             get

@@ -21,6 +21,9 @@ namespace StarThrower.XBase
     /// </remarks>
     public class NumericField : FieldType
     {
+        /// <summary>
+        /// Initializes a new instance of the NumericField class.
+        /// </summary>
         public NumericField()
             : base()
         {
@@ -28,36 +31,74 @@ namespace StarThrower.XBase
             this.Code = 'N';
         }
 
+        /// <summary>
+        /// Gets the minimum field length, in characters: 1.
+        /// </summary>
         public override int MinLength
         {
             get { return 1; }
         }
 
+        /// <summary>
+        /// Gets the maximum field length, in characters: 17.
+        /// </summary>
         public override int MaxLength
         {
             get { return 17; }
         }
 
+        /// <summary>
+        /// Gets the minimum decimal count: 0.
+        /// </summary>
         public override int MinDecimalCount
         {
             get { return 0; }
         }
 
+        /// <summary>
+        /// Gets the maximum decimal count: 15.
+        /// </summary>
         public override int MaxDecimalCount
         {
             get { return 15; }
         }
 
+        /// <summary>
+        /// Tests whether the specified field length is within the range 1-17.
+        /// </summary>
+        /// <param name="length">The field length, in characters, to test.</param>
+        /// <returns>True if length is between <see cref="MinLength"/> and <see cref="MaxLength"/>, inclusive.</returns>
         public override bool IsValidLength(int length)
         {
             return (length >= MinLength && length <= MaxLength);
         }
 
+        /// <summary>
+        /// Tests whether the specified decimal count is within the range 0-15.
+        /// </summary>
+        /// <param name="decimalCount">The decimal count to test.</param>
+        /// <returns>True if decimalCount is between <see cref="MinDecimalCount"/> and <see cref="MaxDecimalCount"/>, inclusive.</returns>
         public override bool IsValidDecimalCount(int decimalCount)
         {
             return (decimalCount >= MinDecimalCount && decimalCount <= MaxDecimalCount);
         }
 
+        /// <summary>
+        /// Tests whether the specified value is valid for this field. If the owning field's
+        /// decimal count is 0, the value must be an <see cref="short"/>, <see cref="int"/>, or
+        /// <see cref="long"/> within the range -9999999999999999 to 99999999999999999; otherwise,
+        /// the value must be a finite <see cref="float"/> or <see cref="double"/>. In either case,
+        /// the value must fit within this field's defined length once formatted.
+        /// </summary>
+        /// <param name="data">The numeric value to validate and convert.</param>
+        /// <param name="result">
+        /// If data is valid, data formatted and right-padded with spaces to this field's length.
+        /// If data is not valid, a message describing why ("Invalid data type" or "Overflow").
+        /// </param>
+        /// <returns>True if data is valid for this field's configured decimal count; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if data is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if this field type has not been assigned to an <see cref="XBaseField"/>.</exception>
+        /// <exception cref="BadDataException">Thrown if the owning field's decimal count is 0 and the formatted integer value exceeds this field's defined length.</exception>
         public override bool IsValidData(object data, out string result)
         {
             ArgumentNullException.ThrowIfNull(data);
@@ -129,6 +170,14 @@ namespace StarThrower.XBase
             }
         }
 
+        /// <summary>
+        /// Converts the fixed-width text representation of a Numeric field to its in-memory value:
+        /// a <see cref="long"/> if the owning field's decimal count is 0, or a <see cref="double"/> otherwise.
+        /// </summary>
+        /// <param name="data">The fixed-width text representation to convert.</param>
+        /// <returns>The long or double represented by data.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if this field type has not been assigned to an <see cref="XBaseField"/>.</exception>
+        /// <exception cref="BadDataException">Thrown if data cannot be parsed as the expected numeric type.</exception>
         public override object Translate(string data)
         {
             if (this.Owner is null) throw new InvalidOperationException("Owner is not set.");

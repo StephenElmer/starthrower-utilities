@@ -95,6 +95,13 @@ namespace StarThrower.XBase
             return false;
         }
 
+        /// <summary>
+        /// Gets or sets the XBaseField with the specified name.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to get or set.</param>
+        /// <returns>The XBaseField with the specified name.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if fieldName is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if no field with fieldName exists in this collection.</exception>
         public XBaseField this[string fieldName]
         {
             get
@@ -463,7 +470,7 @@ namespace StarThrower.XBase
         /// Constructor
         /// </summary>
         /// <param name="list">The XBaseFieldCollection over which this IEnumerator is to iterate.</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown if list is null.</exception>
         public XBaseFieldCollectionEnumerator(StarThrower.XBase.XBaseFieldCollection list)
         {
             ArgumentNullException.ThrowIfNull(list);
@@ -479,7 +486,7 @@ namespace StarThrower.XBase
         /// <summary>
         /// Gets the current element in the XBaseFieldCollection.
         /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">Thrown if the enumerator is positioned before the first element or after the last element.</exception>
         object IEnumerator.Current
         {
             get
@@ -495,7 +502,7 @@ namespace StarThrower.XBase
         /// <summary>
         /// Gets the current element in the XBaseFieldCollection.
         /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">Thrown if the enumerator is positioned before the first element or after the last element.</exception>
         public StarThrower.XBase.XBaseField Current
         {
             get

@@ -7,6 +7,11 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.XBase.Internal
 {
+    /// <summary>
+    /// The binary header of an XBase (.dbf) file: file metadata (signature, last-update date,
+    /// record count and length, etc.) plus the field descriptor list. See the individual property
+    /// docs for the byte layout of each part.
+    /// </summary>
     internal sealed class FileHeader
     {
         internal const Int32 MAXSIZE = 4129; //maximum size in bytes possible for the header (note this includes XBaseFieldDescriptor.MAXLENGTH * XBaseFieldDescriptorList.MAX)
@@ -263,6 +268,10 @@ namespace StarThrower.XBase.Internal
 
         #region Internal Methods
 
+        /// <summary>
+        /// Populates this header's fields, including its field descriptor list, by parsing the
+        /// raw bytes of a .dbf file header.
+        /// </summary>
         internal void ParseBytes(byte[] bytes)
         {
             _signature = bytes[0];
@@ -320,6 +329,10 @@ namespace StarThrower.XBase.Internal
             _terminator = bytes[_headerLength - 1];
         }
 
+        /// <summary>
+        /// Serializes this header, including its field descriptor list, to the raw byte layout
+        /// of a .dbf file header.
+        /// </summary>
         internal byte[] GetBytes()
         {
             Int32 curIdx = 0;
@@ -391,6 +404,9 @@ namespace StarThrower.XBase.Internal
             return result;
         }
 
+        /// <summary>
+        /// Gets an XML representation of this header's metadata and field descriptor list.
+        /// </summary>
         internal string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);

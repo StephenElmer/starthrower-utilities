@@ -41,11 +41,9 @@
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
-    <!-- TODO: Claude Code documentation pass                       -->
-    <PackageTags>$(PackageTags);xbase;dbf;dBASE;database;utilities</PackageTags>
+    <PackageTags>$(PackageTags);xbase;dbf;dBASE;database;utilities;foxpro;clipper;file-format</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
-    <!-- TODO: Claude Code documentation pass                       -->
     <PackageReadme>README.md</PackageReadme>
   </PropertyGroup>
 

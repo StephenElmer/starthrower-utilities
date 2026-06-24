@@ -89,12 +89,18 @@ namespace StarThrower.XBase.Internal
 
         internal File() { }
 
+        /// <summary>
+        /// Creates a new File instance and immediately opens and reads the specified .dbf file with the given sharing mode.
+        /// </summary>
         internal File(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess, System.IO.FileShare fileShare)
             : this()
         {
             this.Open(fileName, fileMode, fileAccess, fileShare);
         }
 
+        /// <summary>
+        /// Creates a new File instance and immediately opens and reads the specified .dbf file.
+        /// </summary>
         internal File(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
             : this()
         {
@@ -106,6 +112,9 @@ namespace StarThrower.XBase.Internal
 
         #region IDisposable Members
 
+        /// <summary>
+        /// Releases the underlying file stream, if one is open.
+        /// </summary>
         public void Dispose()
         {
             if (_stream != null)
@@ -134,6 +143,10 @@ namespace StarThrower.XBase.Internal
             return this.GetField(index);
         }
 
+        /// <summary>
+        /// Appends a new field descriptor to the header and extends every existing record's data
+        /// to make room for it.
+        /// </summary>
         internal void AddField(StarThrower.XBase.Internal.Field field)
         {
             _header.Fields.Add(field);
@@ -164,6 +177,10 @@ namespace StarThrower.XBase.Internal
             this.DeleteField(index);
         }
 
+        /// <summary>
+        /// Removes the field descriptor at the given index from the header and removes the
+        /// corresponding bytes from every existing record's data.
+        /// </summary>
         internal void DeleteField(Int32 fieldIndex)
         {
             Int32 fieldLength = _header.Fields[fieldIndex].Length;
@@ -260,6 +277,9 @@ namespace StarThrower.XBase.Internal
 
         #region Record Related
 
+        /// <summary>
+        /// Creates a new, empty record sized to fit this file's current field schema.
+        /// </summary>
         internal StarThrower.XBase.Internal.Record CreateRecord()
         {
             return new StarThrower.XBase.Internal.Record(_header.Fields);
@@ -400,6 +420,10 @@ namespace StarThrower.XBase.Internal
 
         #region File Related
 
+        /// <summary>
+        /// Opens the specified .dbf file and reads its header and records.
+        /// </summary>
+        /// <exception cref="FileNotFoundException">Thrown if fileName does not exist.</exception>
         internal void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
         {
             if (!(System.IO.File.Exists(fileName))) throw new FileNotFoundException();
@@ -407,6 +431,10 @@ namespace StarThrower.XBase.Internal
             Read();
         }
 
+        /// <summary>
+        /// Opens the specified .dbf file with the given sharing mode and reads its header and records.
+        /// </summary>
+        /// <exception cref="FileNotFoundException">Thrown if fileName does not exist.</exception>
         internal void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess, System.IO.FileShare fileShare)
         {
             if (!(System.IO.File.Exists(fileName))) throw new FileNotFoundException();
@@ -442,6 +470,11 @@ namespace StarThrower.XBase.Internal
             }
         }
 
+        /// <summary>
+        /// Writes this file's header, records, and EOF marker to the currently open stream,
+        /// overwriting its previous contents from the beginning.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if no file is currently open.</exception>
         internal void Save()
         {
             if (_stream == null) throw new InvalidOperationException("FileStream has not yet been assigned.");
@@ -457,6 +490,11 @@ namespace StarThrower.XBase.Internal
             _stream.WriteByte(_endOfFile);
         }
 
+        /// <summary>
+        /// Saves this file's contents to the specified path. If a different file is currently
+        /// open, that stream is closed and replaced; if fileName already exists, it is
+        /// overwritten. If fileName matches the currently open file, this is equivalent to <see cref="Save"/>.
+        /// </summary>
         internal void SaveAs(string fileName)
         {
             if (_stream != null)
@@ -495,6 +533,9 @@ namespace StarThrower.XBase.Internal
             }
         }
 
+        /// <summary>
+        /// Gets an XML representation of this file's header, records, and EOF marker.
+        /// </summary>
         internal string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);
@@ -513,6 +554,13 @@ namespace StarThrower.XBase.Internal
 
         #region Private Methods
 
+        /// <summary>
+        /// Reads the header (including field descriptors) and every record from the currently
+        /// open stream, replacing this instance's current contents.
+        /// </summary>
+        /// <exception cref="IOException">Thrown if the stream is not open or not readable.</exception>
+        /// <exception cref="InvalidDataException">Thrown if the header's declared length is outside valid DBF bounds.</exception>
+        /// <exception cref="EndOfStreamException">Thrown if the stream ends before the expected EOF marker byte.</exception>
         internal void Read()
         {
             if (_stream == null || !_stream.CanRead) throw new IOException("Stream is not in a readable mode.");

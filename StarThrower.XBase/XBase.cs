@@ -8,6 +8,11 @@ using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase
 {
+    /// <summary>
+    /// Conversion helpers bridging the public <see cref="StarThrower.XBase"/> types
+    /// (<see cref="XBaseField"/>, <see cref="XBaseRecord"/>, <see cref="FieldType"/>) and their
+    /// internal, file-format-oriented counterparts in <see cref="StarThrower.XBase.Internal"/>.
+    /// </summary>
     internal static class XBase
     {
         /// <summary>
@@ -45,6 +50,10 @@ namespace StarThrower.XBase
             return result;
         }
 
+        /// <summary>
+        /// Converts a DateTime to the 3-byte (year-1900, month, day) representation stored in a
+        /// .dbf header, via the same "mm-dd-yyyy" intermediate format as <see cref="TenCharDateStringToThreeByteArray"/>.
+        /// </summary>
         internal static byte[] DateTimeToThreeByteArray(DateTime dt)
         {
             StringBuilder temp = new StringBuilder(String.Empty);
@@ -79,6 +88,9 @@ namespace StarThrower.XBase
             return TenCharDateStringToThreeByteArray(temp.ToString());
         }
 
+        /// <summary>
+        /// Converts the 3-byte (year-1900, month, day) representation stored in a .dbf header to a DateTime.
+        /// </summary>
         internal static DateTime ThreeByteArrayToDateTime(byte[] bytes)
         {
             Int16 year = ByteUtil.ByteToInt16(bytes[0], BitEndian.Little);
@@ -88,6 +100,9 @@ namespace StarThrower.XBase
             return new DateTime(year, month, day);
         }
 
+        /// <summary>
+        /// Converts a public <see cref="XBaseField"/> to its internal, file-format representation.
+        /// </summary>
         internal static StarThrower.XBase.Internal.Field XBaseFieldToInternalField(StarThrower.XBase.XBaseField field)
         {
             StarThrower.XBase.Internal.Field result = new StarThrower.XBase.Internal.Field();
@@ -99,6 +114,11 @@ namespace StarThrower.XBase
             return result;
         }
 
+        /// <summary>
+        /// Converts an internal, file-format field representation to a public <see cref="XBaseField"/>,
+        /// resolving its type code via <see cref="GetTypeFromByteCode"/> and trimming the
+        /// null-padding from its fixed-width name.
+        /// </summary>
         internal static StarThrower.XBase.XBaseField InternalFieldToXBaseField(StarThrower.XBase.Internal.Field field)
         {
             StarThrower.XBase.XBaseField result = new StarThrower.XBase.XBaseField();
@@ -109,6 +129,11 @@ namespace StarThrower.XBase
             return result;
         }
 
+        /// <summary>
+        /// Converts a public <see cref="XBaseRecord"/> to its internal, file-format representation.
+        /// The deleted-record marker is stored as the ASCII byte for '*' (42/0x2A) if deleted, or
+        /// a space (32/0x20) otherwise, per the XBase record format.
+        /// </summary>
         internal static StarThrower.XBase.Internal.Record XBaseRecordToInternalRecord(StarThrower.XBase.XBaseRecord record, StarThrower.XBase.Internal.File file)
         {
             StarThrower.XBase.Internal.Record result = file.CreateRecord();
@@ -124,6 +149,9 @@ namespace StarThrower.XBase
             return result;
         }
 
+        /// <summary>
+        /// Converts an internal, file-format record representation to a public <see cref="XBaseRecord"/>.
+        /// </summary>
         internal static StarThrower.XBase.XBaseRecord InternalRecordToXBaseRecord(StarThrower.XBase.Internal.Record record)
         {
             StarThrower.XBase.XBaseRecord result = new StarThrower.XBase.XBaseRecord();
@@ -137,6 +165,10 @@ namespace StarThrower.XBase
             return result;
         }
 
+        /// <summary>
+        /// Maps a single-character XBase field type code (e.g. 'C', 'N', 'D') to its corresponding
+        /// <see cref="FieldType"/> instance. Any unrecognized code maps to <see cref="UndefinedField"/>.
+        /// </summary>
         internal static StarThrower.XBase.FieldType GetTypeFromByteCode(byte code)
         {
             FieldType result = new StarThrower.XBase.UndefinedField();

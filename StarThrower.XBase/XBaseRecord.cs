@@ -6,6 +6,10 @@ using StarThrower.StringUtilities;
 
 namespace StarThrower.XBase
 {
+    /// <summary>
+    /// A single record (row) in an XBase (.dbf) file: a fixed-width data string interpreted
+    /// according to the field definitions in <see cref="Fields"/>, plus an <see cref="IsDeleted"/> flag.
+    /// </summary>
     public class XBaseRecord
     {
         #region Private Member Variables
@@ -41,6 +45,10 @@ namespace StarThrower.XBase
 
         #region Construction
 
+        /// <summary>
+        /// Initializes a new, empty record with no fields and no data. Instances are created by
+        /// <see cref="XBaseFile"/>, which populates <see cref="Fields"/> and <see cref="Data"/>.
+        /// </summary>
         internal XBaseRecord() { }
 
         #endregion
@@ -48,6 +56,9 @@ namespace StarThrower.XBase
 
         #region Internal Properties
 
+        /// <summary>
+        /// Gets or sets the raw fixed-width record text, as stored in (or to be written to) the .dbf file.
+        /// </summary>
         internal string Data
         {
             get { return _data; }
@@ -59,6 +70,10 @@ namespace StarThrower.XBase
 
         #region Private Methods
 
+        /// <summary>
+        /// Computes the character offset within <see cref="Data"/> where the field at the given
+        /// position begins, based on the cumulative length of the preceding fields.
+        /// </summary>
         private int CalculateStartIndex(int index, int length)
         {
             int result = 0;
@@ -83,6 +98,10 @@ namespace StarThrower.XBase
             return result;
         }
 
+        /// <summary>
+        /// Overwrites the portion of <see cref="Data"/> occupied by the field at the given
+        /// position with its already-converted fixed-width text representation.
+        /// </summary>
         private void SetDataAtIndex(int index, string data)
         {
             int length = _fields[index].Length;
@@ -90,6 +109,10 @@ namespace StarThrower.XBase
             _data = StringUtil.Replace(_data, data, startIndex, length);
         }
 
+        /// <summary>
+        /// Extracts the portion of <see cref="Data"/> occupied by the field at the given
+        /// position and translates it to its in-memory .NET value.
+        /// </summary>
         private object GetDataAtIndex(int index)
         {
             int length = _fields[index].Length;
@@ -103,6 +126,12 @@ namespace StarThrower.XBase
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets the value of the named field in this record, translated to its in-memory .NET type.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to retrieve.</param>
+        /// <returns>The in-memory value of the named field.</returns>
+        /// <exception cref="FieldNotFoundException">Thrown if no field named fieldName exists in <see cref="Fields"/>.</exception>
         public object GetData(string fieldName)
         {
             int index = -1;
@@ -110,6 +139,13 @@ namespace StarThrower.XBase
             return GetDataAtIndex(index);
         }
 
+        /// <summary>
+        /// Sets the value of the named field in this record.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to set.</param>
+        /// <param name="data">The value to store. Must be a type valid for the field's data type (e.g. bool, DateTime, string, or a numeric type).</param>
+        /// <exception cref="FieldNotFoundException">Thrown if no field named fieldName exists in <see cref="Fields"/>.</exception>
+        /// <exception cref="BadDataException">Thrown if data is not valid for this field's data type.</exception>
         public void SetData(string fieldName, object data)
         {
             int index = -1;
@@ -118,6 +154,13 @@ namespace StarThrower.XBase
             SetDataAtIndex(index, result);
         }
 
+        /// <summary>
+        /// Sets the value of the named field in this record to a string.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to set.</param>
+        /// <param name="data">The string value to store.</param>
+        /// <exception cref="FieldNotFoundException">Thrown if no field named fieldName exists in <see cref="Fields"/>.</exception>
+        /// <exception cref="BadDataException">Thrown if data is not valid for this field's data type.</exception>
         public void SetData(string fieldName, string data)
         {
             int index = -1;
@@ -126,6 +169,13 @@ namespace StarThrower.XBase
             SetDataAtIndex(index, result);
         }
 
+        /// <summary>
+        /// Sets the value of the named field in this record to a boolean.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to set.</param>
+        /// <param name="data">The boolean value to store.</param>
+        /// <exception cref="FieldNotFoundException">Thrown if no field named fieldName exists in <see cref="Fields"/>.</exception>
+        /// <exception cref="BadDataException">Thrown if data is not valid for this field's data type.</exception>
         public void SetData(string fieldName, bool data)
         {
             int index = -1;
@@ -134,6 +184,13 @@ namespace StarThrower.XBase
             SetDataAtIndex(index, result);
         }
 
+        /// <summary>
+        /// Sets the value of the named field in this record to a date.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to set.</param>
+        /// <param name="data">The date value to store.</param>
+        /// <exception cref="FieldNotFoundException">Thrown if no field named fieldName exists in <see cref="Fields"/>.</exception>
+        /// <exception cref="BadDataException">Thrown if data is not valid for this field's data type.</exception>
         public void SetData(string fieldName, DateTime data)
         {
             int index = -1;
@@ -142,6 +199,13 @@ namespace StarThrower.XBase
             SetDataAtIndex(index, result);
         }
 
+        /// <summary>
+        /// Sets the value of the named field in this record to a double.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to set.</param>
+        /// <param name="data">The double value to store.</param>
+        /// <exception cref="FieldNotFoundException">Thrown if no field named fieldName exists in <see cref="Fields"/>.</exception>
+        /// <exception cref="BadDataException">Thrown if data is not valid for this field's data type.</exception>
         public void SetData(string fieldName, double data)
         {
             int index = -1;
@@ -150,6 +214,13 @@ namespace StarThrower.XBase
             SetDataAtIndex(index, result);
         }
 
+        /// <summary>
+        /// Sets the value of the named field in this record to a long.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to set.</param>
+        /// <param name="data">The long value to store.</param>
+        /// <exception cref="FieldNotFoundException">Thrown if no field named fieldName exists in <see cref="Fields"/>.</exception>
+        /// <exception cref="BadDataException">Thrown if data is not valid for this field's data type.</exception>
         public void SetData(string fieldName, long data)
         {
             int index = -1;
