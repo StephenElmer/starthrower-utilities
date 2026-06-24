@@ -77,7 +77,7 @@ Collection<int> keys = grid.GetIndexesAt(0, 1); // returns [10, 200]
 
 ## Dependencies
 
-This package references [`StarThrower.Logging`](../StarThrower.Logging/README.md).
+None.
 
 ---
 

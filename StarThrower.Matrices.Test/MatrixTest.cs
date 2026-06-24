@@ -1327,5 +1327,86 @@ namespace StarThrower.Matrices.Test
         }
 
         #endregion
+
+
+        #region [ 4-D Matrix ]
+
+        [Fact]
+        public void Matrix4DSetterAndGetterRoundTrip()
+        {
+            // Each dimension uses a disjoint value range so that a constructor bug which
+            // associates the wrong dimension's values with the outer dictionary key is
+            // guaranteed to surface as either a thrown InvalidOperationException or an
+            // incorrect round-tripped value, rather than silently succeeding by coincidence.
+            List<int> d1indices = new List<int> { 1, 2 };
+            List<int> d2indices = new List<int> { 11, 12 };
+            List<int> d3indices = new List<int> { 21, 22 };
+            List<int> d4indices = new List<int> { 31, 32 };
+
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices, d3indices, d4indices);
+
+            int counter = 1;
+            foreach (int a in d1indices)
+            {
+                foreach (int b in d2indices)
+                {
+                    foreach (int c in d3indices)
+                    {
+                        foreach (int d in d4indices)
+                        {
+                            m[a, b, c, d] = counter++;
+                        }
+                    }
+                }
+            }
+
+            counter = 1;
+            foreach (int a in d1indices)
+            {
+                foreach (int b in d2indices)
+                {
+                    foreach (int c in d3indices)
+                    {
+                        foreach (int d in d4indices)
+                        {
+                            (m[a, b, c, d]).Should().Be(counter++);
+                        }
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void Matrix4DGetItemAtRoundTrip()
+        {
+            List<int> d1indices = new List<int> { 1, 2 };
+            List<int> d2indices = new List<int> { 11, 12 };
+            List<int> d3indices = new List<int> { 21, 22 };
+            List<int> d4indices = new List<int> { 31, 32 };
+
+            Matrix<int, int> m = new Matrix<int, int>(d1indices, d2indices, d3indices, d4indices);
+
+            m.SetItemAt(42, 0, 1, 0, 1);
+
+            (m.GetItemAt(0, 1, 0, 1)).Should().Be(42);
+        }
+
+        #endregion
+
+
+        #region [ 1-D SetItemAt Validation ]
+
+        [Fact]
+        public void Matrix1DSetItemAtTooManyIndexesThrows()
+        {
+            List<int> indices = new List<int> { 1, 2, 3 };
+            Matrix<int, int> m = new Matrix<int, int>(indices);
+
+            Action act = () => m.SetItemAt(5, 0, 0);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        #endregion
     }
 }

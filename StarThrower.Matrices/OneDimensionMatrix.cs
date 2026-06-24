@@ -7,10 +7,23 @@ using System.Linq;
 
 namespace StarThrower.Matrices
 {
+    /// <summary>
+    /// The innermost dimension of a <see cref="Matrix{TIndex, TValue}"/>: a single dimension of
+    /// index-keyed values with no further nesting.
+    /// </summary>
     internal sealed class OneDimensionMatrix<TIndex, TValue> : CompositeMatrix<TIndex, TValue> where TIndex : notnull
     {
+        /// <summary>
+        /// Maps each index key in this dimension to its stored value. Entries are created (with
+        /// a default value) for every key passed to the constructor and never added to or removed
+        /// from afterward, so the key set is fixed for the lifetime of the instance.
+        /// </summary>
         public Dictionary<TIndex, TValue?> _values;
 
+        /// <summary>
+        /// Gets or sets the value associated with a single index key. <paramref name="indexes"/> must
+        /// contain exactly one element.
+        /// </summary>
         public override TValue? this[params TIndex[] indexes]
         {
             get
@@ -32,6 +45,10 @@ namespace StarThrower.Matrices
             }
         }
 
+        /// <summary>
+        /// Resolves the index key at the given ordinal position within this dimension's key set.
+        /// <paramref name="indexes"/> must contain exactly one element.
+        /// </summary>
         public override Collection<TIndex> GetIndexesAt(params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
@@ -46,6 +63,10 @@ namespace StarThrower.Matrices
             return result;
         }
 
+        /// <summary>
+        /// Gets the value at the given ordinal position within this dimension's key set.
+        /// <paramref name="indexes"/> must contain exactly one element.
+        /// </summary>
         public override TValue? GetItemAt(params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
@@ -57,9 +78,14 @@ namespace StarThrower.Matrices
             return _values[key];
         }
 
+        /// <summary>
+        /// Sets the value at the given ordinal position within this dimension's key set.
+        /// <paramref name="indexes"/> must contain exactly one element.
+        /// </summary>
         public override void SetItemAt(TValue? value, params int[] indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
+            if (indexes.Length != 1) throw new InvalidOperationException("indexer for OneDimensionMatrix type expects indices with only a single value.");
             ArgumentOutOfRangeException.ThrowIfNegative(indexes[0]);
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(indexes[0], _values.Count);
 
@@ -67,6 +93,10 @@ namespace StarThrower.Matrices
             _values[key] = value;
         }
 
+        /// <summary>
+        /// Initializes a new dimension whose key set is the given index values, each initially
+        /// mapped to the default value of <typeparamref name="TValue"/>.
+        /// </summary>
         public OneDimensionMatrix(IEnumerable<TIndex> indexes)
         {
             ArgumentNullException.ThrowIfNull(indexes);
