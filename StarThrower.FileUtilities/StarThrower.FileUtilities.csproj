@@ -24,6 +24,7 @@
     <AssemblyName>StarThrower.FileUtilities</AssemblyName>
     <RootNamespace>StarThrower.FileUtilities</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->

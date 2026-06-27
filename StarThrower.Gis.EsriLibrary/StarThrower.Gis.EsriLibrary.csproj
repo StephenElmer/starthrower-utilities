@@ -24,6 +24,7 @@
     <AssemblyName>StarThrower.Gis.EsriLibrary</AssemblyName>
     <RootNamespace>StarThrower.Gis.EsriLibrary</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->

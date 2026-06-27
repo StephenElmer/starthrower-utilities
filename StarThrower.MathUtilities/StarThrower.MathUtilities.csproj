@@ -24,6 +24,7 @@
     <AssemblyName>StarThrower.MathUtilities</AssemblyName>
     <RootNamespace>StarThrower.MathUtilities</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->

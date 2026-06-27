@@ -4,6 +4,9 @@ using System;
 
 namespace StarThrower.ByteUtilities
 {
+    /// <summary>
+    /// Provides utility methods for working with byte arrays.
+    /// </summary>
     public static class ByteUtil
     {
 

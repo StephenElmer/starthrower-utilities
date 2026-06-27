@@ -24,6 +24,7 @@
     <AssemblyName>StarThrower.Matrices</AssemblyName>
     <RootNamespace>StarThrower.Matrices</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->

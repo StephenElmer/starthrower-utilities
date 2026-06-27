@@ -24,7 +24,8 @@
     <AssemblyName>StarThrower.StringUtilities</AssemblyName>
     <RootNamespace>StarThrower.StringUtilities</RootNamespace>
     <Nullable>enable</Nullable>
-</PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
 
   <!-- =========================================================== -->
   <!-- NuGet package identity — unique per package                  -->

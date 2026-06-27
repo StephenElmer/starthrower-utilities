@@ -24,6 +24,7 @@
     <AssemblyName>StarThrower.DateTimeUtilities</AssemblyName>
     <RootNamespace>StarThrower.DateTimeUtilities</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->

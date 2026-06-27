@@ -26,8 +26,8 @@ namespace StarThrower.Gis.GeoUtilities
     /// code     name                               ellipsoid    p[0]    p[1]    p[2]       p[3]       p[4]       p[5]                 p[6]
     /// EUR-7  * "EUROPEAN 1950, Mean (7 Param)"    IN           -102    -102    -129      0.413     -0.184      0.385         0.0000024664
     /// OGB-7  * "ORDNANCE GB 1936, Mean (7 Para)"  AA            446     -99     544     -0.945     -0.261     -0.435        -0.0000208927
-
-
+    /// 
+    /// 
     /// code     name                               ellipsoid    p[0], sigmaX,    p[1],  sigmaY,    p[2],  sigmaZ,  rotationX,  rotationY,  rotationZ,  rotationScaleFactor,    N,    S,    E,    w
     /// ADI-M  * "ADINDAN, Mean"                    CD           -166,      5,     -15,       5,     204,       3,          0,          0,          0,                    1,   31,   -5,   55,   15
     /// ADI-A  * "ADINDAN, Ethiopia"                CD           -165,      3,     -11,       3,     206,       3,          0,          0,          0,                    1,   25,   -3,   50,   26
@@ -51,7 +51,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// ARF-F  * "ARC 1950, Zambia"                 CD           -147,     21,     -74,      21,    -283,      27,          0,          0,          0,                    1,   -1,  -24,   40,   15
     /// ARF-G  * "ARC 1950, Zimbabwe"               CD           -142,      5,     -96,       8,    -293,      11,          0,          0,          0,                    1,   -9,  -29,   39,   19
     /// ARF-H  * "ARC 1950, Burundi"                CD           -153,     20,      -5,      20,    -292,      20,          0,          0,          0,                    1,    4,  -11,   37,   21
-    /// ARS-M  * "ARC 1960, Kenya & Tanzania"       CD           -160,     20,      -6,      20,    -302,      20,          0,          0,          0,                    1,    8,  -18,   47,   23
+    /// ARS-M  * "ARC 1960, Kenya, Tanzania"        CD           -160,     20,      -6,      20,    -302,      20,          0,          0,          0,                    1,    8,  -18,   47,   23
     /// ARS-A  * "ARC 1960, Kenya"                  CD           -157,      4,      -2,       3,    -299,       3,          0,          0,          0,                    1,    8,  -11,   47,   28
     /// ARS-B  * "ARC 1960, Tanzania"               CD           -175,      6,     -23,       9,    -303,      10,          0,          0,          0,                    1,    5,  -18,   47,   23
     /// ASC      "ASCENSION ISLAND 1958"            IN           -205,     25,     107,      25,      53,      25,          0,          0,          0,                    1,   -6,   -9,  -13,  -16
@@ -66,10 +66,10 @@ namespace StarThrower.Gis.GeoUtilities
     /// BER    * "BERMUDA 1957, Bermuda Islands"    CC            -73,     20,     213,      20,     296,      20,          0,          0,          0,                    1,   34,   31,  -63,  -66
     /// BID    * "BISSAU, Guinea-Bissau"            IN           -173,     25,     253,      25,      27,      25,          0,          0,          0,                    1,   19,    5,   -7,  -23
     /// BOO    * "BOGOTA OBSERVATORY, Colombia"     IN            307,      6,     304,       5,    -318,       6,          0,          0,          0,                    1,   16,  -10,  -61,  -85
-    /// BUR      "BUKIT RIMPAH, Banka & Belitung"   BR           -384,     -1,     664,      -1,     -48,      -1,          0,          0,          0,                    1,    0,   -6,  110,  103
+    /// BUR      "BUKIT RIMPAH, Banka, Belitung"    BR           -384,     -1,     664,      -1,     -48,      -1,          0,          0,          0,                    1,    0,   -6,  110,  103
     /// CAI    * "CAMPO INCHAUSPE 1969, Arg."       IN           -148,      5,     136,       5,      90,       5,          0,          0,          0,                    1,  -20,  -62,  -47,  -76
     /// CAZ      "CAMP AREA ASTRO, Camp McMurdo"    IN           -104,     -1,    -129,      -1,     239,      -1,          0,          0,          0,                    1,  -70,  -85,  180,  135
-    /// CAC      "CAPE CANAVERAL, Fla & Bahamas"    CC             -2,      3,     151,       3,     181,       3,          0,          0,          0,                    1,   38,   15,  -58,  -94
+    /// CAC      "CAPE CANAVERAL, Fla, Bahamas"     CC             -2,      3,     151,       3,     181,       3,          0,          0,          0,                    1,   38,   15,  -58,  -94
     /// CAP    * "CAPE, South Africa"               CD           -136,      3,    -108,       6,    -292,       6,          0,          0,          0,                    1,  -15,  -43,   40,   10
     /// CAO      "CANTON ASTRO 1966, Phoenix Is."   IN            298,     15,    -304,      15,    -375,      15,          0,          0,          0,                    1,    3,  -13, -165, -180
     /// CGE    * "CARTHAGE, Tunisia"                CD           -263,      6,       6,       9,     431,       8,          0,          0,          0,                    1,   43,   24,   18,    2
@@ -85,8 +85,8 @@ namespace StarThrower.Gis.GeoUtilities
     /// EUR-M    "EUROPEAN 1950, Mean (3 Param)"    IN            -87,      3,     -98,       8,    -121,       5,          0,          0,          0,                    1,   80,   30,   33,    5
     /// EUR-A    "EUROPEAN 1950, Western Europe"    IN            -87,      3,     -96,       3,    -120,       3,          0,          0,          0,                    1,   78,   30,   25,  -15
     /// EUR-B    "EUROPEAN 1950, Greece"            IN            -84,     25,     -95,      25,    -130,      25,          0,          0,          0,                    1,   48,   30,   34,   14
-    /// EUR-C    "EUROPEAN 1950, Norway & Finland"  IN            -87,      3,     -95,       5,    -120,       3,          0,          0,          0,                    1,   80,   52,   38,   -2
-    /// EUR-D    "EUROPEAN 1950, Portugal & Spain"  IN            -84,      5,    -107,       6,    -120,       3,          0,          0,          0,                    1,   49,   30,   10,  -15
+    /// EUR-C    "EUROPEAN 1950, Norway, Finland"   IN            -87,      3,     -95,       5,    -120,       3,          0,          0,          0,                    1,   80,   52,   38,   -2
+    /// EUR-D    "EUROPEAN 1950, Portugal, Spain"   IN            -84,      5,    -107,       6,    -120,       3,          0,          0,          0,                    1,   49,   30,   10,  -15
     /// EUR-E    "EUROPEAN 1950, Cyprus"            IN           -104,     15,    -101,      15,    -140,      15,          0,          0,          0,                    1,   37,   33,   36,   31
     /// EUR-F    "EUROPEAN 1950, Egypt"             IN           -130,      6,    -117,       8,    -151,       8,          0,          0,          0,                    1,   38,   16,   42,   19
     /// EUR-G    "EUROPEAN 1950, England, Channel"  IN            -86,      3,     -96,       3,    -120,       3,          0,          0,          0,                    1,   62,   48,    3,  -10
@@ -111,7 +111,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// HKD      "HONG KONG 1963"                   IN           -156,     25,    -271,      25,    -189,      25,          0,          0,          0,                    1,   24,   21,  116,  112
     /// HTN      "HU-TZU-SHAN, Taiwan"              IN           -637,     15,    -549,      15,    -203,      15,          0,          0,          0,                    1,   28,   20,  124,  117
     /// IND-B    "INDIAN, Bangladesh"               EA            282,     10,     726,       8,     254,      12,          0,          0,          0,                    1,   33,   15,  100,   80
-    /// IND-I    "INDIAN, India & Nepal"            EC            295,     12,     736,      10,     257,      15,          0,          0,          0,                    1,   44,    2,  105,   62
+    /// IND-I    "INDIAN, India, Nepal"             EC            295,     12,     736,      10,     257,      15,          0,          0,          0,                    1,   44,    2,  105,   62
     /// IND-P    "INDIAN, Pakistan"                 EF            283,     -1,     682,      -1,     231,      -1,          0,          0,          0,                    1,   44,   17,   81,   55
     /// INF-A    "INDIAN 1954, Thailand"            EA            217,     15,     823,       6,     299,      12,          0,          0,          0,                    1,   27,    0,  111,   91
     /// ING-A    "INDIAN 1960, Vietnam 16N"         EA            198,     25,     881,      25,     317,      25,          0,          0,          0,                    1,   30,    2,  115,  101
@@ -126,7 +126,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// KAN      "KANDAWALA, Sri Lanka"             EA            -97,     20,     787,      20,      86,      20,          0,          0,          0,                    1,   12,    4,   85,   77
     /// KEG      "KERGUELEN ISLAND 1949"            IN            145,     25,    -187,      25,     103,      25,          0,          0,          0,                    1,  -47,  -52,   74,   65
     /// KGS      "KOREAN GEO DATUM 1995, S Korea"   WE              0,      1,       0,       1,       0,       1,          0,          0,          0,                    1,   45,   27,  139,  120
-    /// KEA      "KERTAU 1948, w Malaysia & Sing."  EE            -11,     10,     851,       8,       5,       6,          0,          0,          0,                    1,   12,   -5,  112,   94
+    /// KEA      "KERTAU 1948, w Malaysia, Sing."   EE            -11,     10,     851,       8,       5,       6,          0,          0,          0,                    1,   12,   -5,  112,   94
     /// KUS      "KUSAIE ASTRO 1951, Caroline Is."  IN            647,     25,    1777,      25,   -1124,      25,          0,          0,          0,                    1,   12,   -1,  167,  134
     /// LCF      "L.C. 5 ASTRO 1961, Cayman Brac"   CC             42,     25,     124,      25,     147,      25,          0,          0,          0,                    1,   21,   18,  -78,  -83
     /// LEH      "LEIGON, Ghana"                    CD           -130,      2,      29,       3,     364,       2,          0,          0,          0,                    1,   17,   -1,    7,   -9
@@ -144,7 +144,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// NAH-A    "NAHRWAN, Masirah Island (Oman)"   CD           -247,     25,    -148,      25,     369,      25,          0,          0,          0,                    1,   22,   19,   60,   57
     /// NAH-B    "NAHRWAN, United Arab Emirates"    CD           -249,     25,    -156,      25,     381,      25,          0,          0,          0,                    1,   32,   17,   62,   45
     /// NAH-C    "NAHRWAN, Saudi Arabia"            CD           -243,     20,    -192,      20,     477,      20,          0,          0,          0,                    1,   38,    8,   62,   28
-    /// NAP      "NAPARIMA, Trinidad & Tobago"      IN            -10,     15,     375,      15,     165,      15,          0,          0,          0,                    1,   13,    8,  -59,  -64
+    /// NAP      "NAPARIMA, Trinidad, Tobago"       IN            -10,     15,     375,      15,     165,      15,          0,          0,          0,                    1,   13,    8,  -59,  -64
     /// NAR-A    "NORTH AMERICAN 1983, Alaska"      RF              0,      2,       0,       2,       0,       2,          0,          0,          0,                    1,   78,   48, -135, -175
     /// NAR-B    "NORTH AMERICAN 1983, Canada"      RF              0,      2,       0,       2,       0,       2,          0,          0,          0,                    1,   90,   36,  -50, -150
     /// NAR-C  * "NORTH AMERICAN 1983, CONUS"       RF              0,      2,       0,       2,       0,       2,          0,          0,          0,                    1,   60,   15,  -60, -135
@@ -203,10 +203,10 @@ namespace StarThrower.Gis.GeoUtilities
     /// PRP-G    "PROV. S AMERICAN 1956, Peru"      IN           -279,      6,     175,       8,    -379,      12,          0,          0,          0,                    1,    5,  -24,  -63,  -87
     /// PRP-H    "PROV. S AMERICAN 1956, Venez"     IN           -295,      9,     173,      14,    -371,      15,          0,          0,          0,                    1,   18,   -5,  -54,  -79
     /// PRP-M    "PROV. S AMERICAN 1956, Mean"      IN           -288,     17,     175,      27,    -376,      27,          0,          0,          0,                    1,   18,  -64,  -51,  -87
-    /// PTB      "POINT 58, Burkina Faso & Niger"   CD           -106,     25,    -129,      25,     165,      25,          0,          0,          0,                    1,   10,    0,   25,  -15
+    /// PTB      "POINT 58, Burkina Faso, Niger"    CD           -106,     25,    -129,      25,     165,      25,          0,          0,          0,                    1,   10,    0,   25,  -15
     /// PTN      "POINT NOIRE 1948, Congo"          CD           -148,     25,      51,      25,    -291,      25,          0,          0,          0,                    1,   10,  -11,   25,    5
     /// PUK      "PULKOVO 1942, Russia"             KA             28,     -1,    -130,      -1,     -95,      -1,          0,          0,          0,                    1,   89,   36,  180, -180
-    /// PUR      "PUERTO RICO & Virgin Is."         CC             11,      3,      72,       3,    -101,       3,          0,          0,          0,                    1,   20,   16,  -63,  -69
+    /// PUR      "PUERTO RICO, Virgin Is."          CC             11,      3,      72,       3,    -101,       3,          0,          0,          0,                    1,   20,   16,  -63,  -69
     /// QAT      "QATAR NATIONAL"                   IN           -128,     20,    -283,      20,      22,      20,          0,          0,          0,                    1,   32,   19,   57,   45
     /// QUO      "QORNOQ, South Greenland"          IN            164,     25,     138,      25,    -189,      32,          0,          0,          0,                    1,   85,   57,   -7,  -77
     /// REU      "REUNION, Mascarene Is."           IN             94,     25,    -948,      25,   -1262,      25,          0,          0,          0,                    1,  -12,  -27,   65,   47
@@ -241,7 +241,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// SIR      "SIRGAS, South America"            RF              0,      1,       0,       1,       0,       1,          0,          0,          0,                    1,  -50,  -65,  -25,  -90
     /// SRL      "SIERRA LEONE 1960"                CD            -88,     15,       4,      15,     101,      15,          0,          0,          0,                    1,   16,    1,   -4,  -19
     /// TAN      "TANANARIVE OBSERVATORY 1925"      IN           -189,     -1,    -242,      -1,     -91,      -1,          0,          0,          0,                    1,   -8,  -34,   53,   40
-    /// TIL      "TIMBALAI 1948, Brunei & E Malay"  EB           -679,     10,     669,      10,     -48,      12,          0,          0,          0,                    1,   15,   -5,  125,  101
+    /// TIL      "TIMBALAI 1948, Brunei, E Malay"   EB           -679,     10,     669,      10,     -48,      12,          0,          0,          0,                    1,   15,   -5,  125,  101
     /// TOY-M    "TOKYO, Mean"                      BR           -148,     20,     507,       5,     685,      20,          0,          0,          0,                    1,   53,   23,  155,  120
     /// TOY-A    "TOKYO, Japan"                     BR           -148,      8,     507,       5,     685,       8,          0,          0,          0,                    1,   51,   19,  156,  119
     /// TOY-B    "TOKYO, South Korea"               BR           -146,      8,     507,       5,     687,       8,          0,          0,          0,                    1,   45,   27,  139,  120

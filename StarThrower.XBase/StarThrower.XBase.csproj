@@ -24,6 +24,7 @@
     <AssemblyName>StarThrower.XBase</AssemblyName>
     <RootNamespace>StarThrower.XBase</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->

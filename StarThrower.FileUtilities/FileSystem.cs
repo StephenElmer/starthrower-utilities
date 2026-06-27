@@ -7,6 +7,9 @@ using System.Text;
 
 namespace StarThrower.FileUtilities
 {
+    /// <summary>
+    /// Provides file system helper methods.
+    /// </summary>
     public static class FileSystem
     {
         /// <summary>

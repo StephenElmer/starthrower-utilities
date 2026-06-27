@@ -28,7 +28,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// Everest (E. Malasia, Brunei)   EB 6377298.556 6356097.5500 300.801700000  Everest_Definition_1967
     /// Everest 1956 (India)           EC 6377301.243 6356100.2280 300.801700000  Everest_1956_India
     /// Everest 1969 (West Malasia)    ED 6377295.664 6356094.6680 300.801700000  Everest_Modified_1969 
-    /// Everest 1948(w.Mals. & Sing.)  EE 6377304.063 6356103.0390 300.801700000  Everest_1830_Modified
+    /// Everest 1948(w.Mals., Sing.)   EE 6377304.063 6356103.0390 300.801700000  Everest_1830_Modified
     /// Everest (Pakistan)             EF 6377309.613 6356109.5710 300.801700000  Everest_Pakistan
     /// Mod. Fischer 1960(South Asia)  FA 6378155.000 6356773.3200 298.300000000  Fischer_1960_Modified
     /// Helmert 1906                   HE 6378200.000 6356818.1700 298.300000000  Helmert_1906
@@ -44,9 +44,9 @@ namespace StarThrower.Gis.GeoUtilities
     /// The original list of EllipsoidTypes and values was obtained be examining some ESRI data (http://edndoc.esri.com/arcims/9.1/elements/pcs.htm).
     /// There appears to be some indiscrepancies between the ESRI data and the National Geospatial Intelligency Agency data.
     /// Indiscrepancies were as follows:
-    /// Everest_1956_India, Everest_Pakistan, Fischer_1960_Modified, Hough_1969, & South_American_1969 did not appear to have any matches
+    /// Everest_1956_India, Everest_Pakistan, Fischer_1960_Modified, Hough_1969, and South_American_1969 did not appear to have any matches
     /// NGIA's Clarke 1880 mapped to ESRI's Clarke_1880_RGS [it was NOT consistent with ESRI's Clarke_1880]
-    /// NGIA's Everest 1948(w.Mals. & Sing.) mapped to ESRI's Everest_1830_Modified
+    /// NGIA's Everest 1948(w.Mals. and Sing.) mapped to ESRI's Everest_1830_Modified
     /// NGIA's Everest (India 1830) mapped to ESRI's Everest_Adjustment_1937
     /// NGIA's Everest (E. Malasia, Brunei) mapped to ESRI's Everest_Definition_1967
     /// NGIA's Everest 1969 (West Malasia) mapped to ESRI's Everest_Modified_1969

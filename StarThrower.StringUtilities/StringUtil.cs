@@ -8,6 +8,9 @@ using StarThrower.MathUtilities;
 
 namespace StarThrower.StringUtilities
 {
+    /// <summary>
+    /// Provides string utility methods and constants.
+    /// </summary>
     public static class StringUtil
     {
         // Parallel arrays used by XmlEncode: _invalidXmlCharInts[i] is the decimal character

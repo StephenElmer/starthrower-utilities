@@ -24,6 +24,7 @@
     <AssemblyName>StarThrower.Gis.GeoUtilities</AssemblyName>
     <RootNamespace>StarThrower.Gis.GeoUtilities</RootNamespace>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->

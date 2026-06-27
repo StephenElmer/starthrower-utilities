@@ -4,7 +4,7 @@ using System;
 
 namespace StarThrower.Gis.GeoUtilities.Translations
 {
-    /// <summary>
+
     public class StringResult : TranslationResult
     {
         #region Private Instance Variables

@@ -4,6 +4,9 @@ using System;
 
 namespace StarThrower.MathUtilities
 {
+    /// <summary>
+    /// Provides math-related utility functions.
+    /// </summary>
     public static class MathUtil
     {
         /// <summary>
