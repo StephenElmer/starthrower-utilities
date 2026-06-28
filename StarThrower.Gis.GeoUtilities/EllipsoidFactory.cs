@@ -90,15 +90,31 @@ namespace StarThrower.Gis.GeoUtilities
             }
             return _ellipsoidList[ellipsoidType.Name];
         }
+        /// <summary>
+        /// Gets the instance of the Ellipsoid specified by ellipsoidTypeName.
+        /// If an instance does not exist, one is created.
+        /// </summary>
+        /// <param name="ellipsoidTypeName">The name of the ellipsoid type you want. Undefined and UserDefined are considered invalid.</param>
+        /// <returns>The ellipsoid instance associated with ellipsoidTypeName.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if ellipsoidTypeName is null.</exception>
+        /// <exception cref="Exceptions.AmbiguousEllipsoidTypeException">Thrown on the UserDefined ellipsoid type name.</exception>
+        /// <exception cref="Exceptions.InvalidEllipsoidTypeException">Thrown if ellipsoidTypeName does not exist.</exception>
         public static IEllipsoid GetInstanceOfEllipsoid(string ellipsoidTypeName)
         {
-            ArgumentNullException.ThrowIfNull(ellipsoidTypeName);            
+            ArgumentNullException.ThrowIfNull(ellipsoidTypeName);
             if (ellipsoidTypeName.Equals(typeof(Ellipsoids.UserDefined).Name, StringComparison.Ordinal)) throw new Exceptions.AmbiguousEllipsoidTypeException();
             if (!EllipsoidTypeExists(ellipsoidTypeName)) throw new Exceptions.InvalidEllipsoidTypeException();
 
             Type ellipsoidType = GetEllipsoidType(ellipsoidTypeName);
             return GetInstanceOfEllipsoid(ellipsoidType);
         }
+
+        /// <summary>
+        /// Determines whether a type named ellipsoidTypeName exists in the <c>Ellipsoids</c> namespace.
+        /// </summary>
+        /// <param name="ellipsoidTypeName">The name of the ellipsoid type to look for.</param>
+        /// <returns>True if the type exists (other than <c>Undefined</c>); otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if ellipsoidTypeName is null.</exception>
         public static bool EllipsoidTypeExists(string ellipsoidTypeName)
         {
             ArgumentNullException.ThrowIfNull(ellipsoidTypeName);
@@ -113,6 +129,13 @@ namespace StarThrower.Gis.GeoUtilities
             }
             return false;
         }
+
+        /// <summary>
+        /// Gets the <see cref="Type"/> named ellipsoidTypeName.
+        /// </summary>
+        /// <param name="ellipsoidTypeName">The name of the type to look for.</param>
+        /// <returns>The matching type, or <see cref="Ellipsoids.Undefined"/> if no type named ellipsoidTypeName exists.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if ellipsoidTypeName is null.</exception>
         public static Type GetEllipsoidType(string ellipsoidTypeName)
         {
             ArgumentNullException.ThrowIfNull(ellipsoidTypeName);
@@ -142,7 +165,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// be using the more precise version of this function.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
-        /// <exception cref="Exceptions.InvalidEllipsoidException">Thrown if name is incorrectly formatted.</exception>
+        /// <exception cref="Exceptions.InvalidEllipsoidTypeException">Thrown if name is incorrectly formatted.</exception>
         public static bool UserDefinedEllipsoidExists(string name)
         {
             ArgumentNullException.ThrowIfNull(name);
@@ -159,7 +182,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <param name="flattening">The Flattening of the Ellipsoid you are looking for.</param>
         /// <returns>True if a UserDefined Ellipsoid has been intantiated with this name, equatorialRadius, and flattening; otherwise, false.</returns>
         /// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
-        /// <exception cref="Exceptions.InvalidEllipsoidException">Thrown if name is incorrectly formatted.</exception>
+        /// <exception cref="Exceptions.InvalidEllipsoidTypeException">Thrown if name is incorrectly formatted.</exception>
         public static bool UserDefinedEllipsoidExists(string name, double equatorialRadius, double flattening)
         {
             ArgumentNullException.ThrowIfNull(name);

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace StarThrower.Gis.GeoUtilities
 {
+    /// <summary>
+    /// Creates and returns instances of PrimeMeridians (e.g. Greenwich) based upon a specified prime meridian type.
+    /// </summary>
     public static class PrimeMeridianFactory
     {
         private static Dictionary<string, IPrimeMeridian> _pmList = new Dictionary<string, IPrimeMeridian>();
@@ -37,6 +40,14 @@ namespace StarThrower.Gis.GeoUtilities
             return _pmList[primeMeridianType.Name];
         }
         
+        /// <summary>
+        /// Gets the instance of the PrimeMeridian specified by primeMeridianTypeName.
+        /// If an instance does not exist, one is created.
+        /// </summary>
+        /// <param name="primeMeridianTypeName">The name of the prime meridian type you want.</param>
+        /// <returns>An instance of the specified type.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if primeMeridianTypeName is null or empty.</exception>
+        /// <exception cref="Exceptions.InvalidPrimeMeridianTypeException">Thrown if primeMeridianTypeName does not exist.</exception>
         public static IPrimeMeridian GetInstanceOfPrimeMeridian(string primeMeridianTypeName)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(primeMeridianTypeName);
@@ -46,6 +57,12 @@ namespace StarThrower.Gis.GeoUtilities
             return GetInstanceOfPrimeMeridian(primeMeridianType);
         }
 
+        /// <summary>
+        /// Determines whether a type named primeMeridianTypeName exists in the <c>PrimeMeridians</c> namespace.
+        /// </summary>
+        /// <param name="primeMeridianTypeName">The name of the prime meridian type to look for.</param>
+        /// <returns>True if the type exists (other than <c>Undefined</c>); otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if primeMeridianTypeName is null or empty.</exception>
         public static bool PrimeMeridianTypeExists(string primeMeridianTypeName)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(primeMeridianTypeName);
@@ -61,6 +78,12 @@ namespace StarThrower.Gis.GeoUtilities
             return false;
         }
 
+        /// <summary>
+        /// Gets the <see cref="Type"/> named primeMeridianTypeName.
+        /// </summary>
+        /// <param name="primeMeridianTypeName">The name of the type to look for.</param>
+        /// <returns>The matching type, or <see cref="PrimeMeridians.Undefined"/> if no type named primeMeridianTypeName exists.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if primeMeridianTypeName is null.</exception>
         public static Type GetPrimeMeridianType(string primeMeridianTypeName)
         {
             ArgumentNullException.ThrowIfNull(primeMeridianTypeName);

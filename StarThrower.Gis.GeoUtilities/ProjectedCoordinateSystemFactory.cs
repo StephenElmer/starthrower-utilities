@@ -8,6 +8,10 @@ using StarThrower.StringUtilities;
 
 namespace StarThrower.Gis.GeoUtilities
 {
+    /// <summary>
+    /// Creates and returns instances of ProjectedCoordinateSystems based upon a specified type,
+    /// optionally with an associated zone (e.g. for UTM).
+    /// </summary>
     public static class ProjectedCoordinateSystemFactory
     {
         //A static Dictionary of ProjectedCoordinateSystems keyed by ProjectedCoordinateSystemType | ProjectedCoordinateSystemType + Name | ProjectedCoordinateSystemType,longitudinalZone,latitudinalZone
@@ -42,6 +46,15 @@ namespace StarThrower.Gis.GeoUtilities
             }
             return _projectedCoordinateSystems[projectedCoordinateSystemType.Name];
         }
+        /// <summary>
+        /// Gets the instance of the ProjectedCoordinateSystem specified by projectedCoordinateSystemTypeName.
+        /// If an instance does not exist, one is created.
+        /// </summary>
+        /// <param name="projectedCoordinateSystemTypeName">The name of the projected coordinate system type you want. UserDefined is not allowed.</param>
+        /// <returns>The coordinate system instance associated with projectedCoordinateSystemTypeName.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if projectedCoordinateSystemTypeName is null or empty.</exception>
+        /// <exception cref="Exceptions.AmbiguousCoordinateSystemException">Thrown if projectedCoordinateSystemTypeName is UserDefined.</exception>
+        /// <exception cref="Exceptions.InvalidCoordinateSystemException">Thrown if projectedCoordinateSystemTypeName does not exist.</exception>
         public static IProjectedCoordinateSystem GetInstanceOfProjectedCoordinateSystem(string projectedCoordinateSystemTypeName)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(projectedCoordinateSystemTypeName);
@@ -51,6 +64,17 @@ namespace StarThrower.Gis.GeoUtilities
             Type projectedCoordinateSystemType = GetProjectedCoordinateSystemType(projectedCoordinateSystemTypeName);
             return GetInstanceOfProjectedCoordinateSystem(projectedCoordinateSystemType);
         }
+
+        /// <summary>
+        /// Gets the instance of the ProjectedCoordinateSystem specified by projectedCoordinateSystemType and zone.
+        /// If an instance does not exist, one is created. Used for zoned coordinate systems (e.g. UTM).
+        /// </summary>
+        /// <param name="projectedCoordinateSystemType">The type of projected coordinate system you want. Must implement <see cref="IProjectedCoordinateSystem"/> and accept an <see cref="IZone"/> constructor parameter; UserDefined is not allowed.</param>
+        /// <param name="zone">The zone the coordinate system instance is associated with.</param>
+        /// <returns>The coordinate system instance associated with projectedCoordinateSystemType and zone.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if projectedCoordinateSystemType or zone is null.</exception>
+        /// <exception cref="Exceptions.AmbiguousCoordinateSystemException">Thrown if projectedCoordinateSystemType is UserDefined.</exception>
+        /// <exception cref="Exceptions.InvalidCoordinateSystemException">Thrown if projectedCoordinateSystemType does not exist or does not implement <see cref="IProjectedCoordinateSystem"/>.</exception>
         public static IProjectedCoordinateSystem GetInstanceOfProjectedCoordinateSystem(Type projectedCoordinateSystemType, IZone zone)
         {
             ArgumentNullException.ThrowIfNull(zone);
@@ -69,6 +93,12 @@ namespace StarThrower.Gis.GeoUtilities
             }
             return _projectedCoordinateSystems[projectedCoordinateSystemType.Name + "_" + zone.Name];
         }
+        /// <summary>
+        /// Determines whether a type named projectedCoordinateSystemTypeName exists in the <c>CoordinateSystems.Projected</c> namespace.
+        /// </summary>
+        /// <param name="projectedCoordinateSystemTypeName">The name of the projected coordinate system type to look for.</param>
+        /// <returns>True if the type exists (other than <c>Undefined</c>); otherwise, false.</returns>
+        /// <exception cref="ArgumentException">Thrown if projectedCoordinateSystemTypeName is null or empty.</exception>
         public static bool ProjectedCoordinateSystemTypeExists(string projectedCoordinateSystemTypeName)
         {
             ArgumentException.ThrowIfNullOrEmpty(projectedCoordinateSystemTypeName);
@@ -83,6 +113,13 @@ namespace StarThrower.Gis.GeoUtilities
             }
             return false;
         }
+
+        /// <summary>
+        /// Gets the <see cref="Type"/> named projectedCoordinateSystemTypeName.
+        /// </summary>
+        /// <param name="projectedCoordinateSystemTypeName">The name of the type to look for.</param>
+        /// <returns>The matching type, or <see cref="CoordinateSystems.Projected.Undefined"/> if no type named projectedCoordinateSystemTypeName exists.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if projectedCoordinateSystemTypeName is null or empty.</exception>
         public static Type GetProjectedCoordinateSystemType(string projectedCoordinateSystemTypeName)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(projectedCoordinateSystemTypeName);
@@ -97,6 +134,14 @@ namespace StarThrower.Gis.GeoUtilities
             return typeof(CoordinateSystems.Projected.Undefined);
         }
 
+        /// <summary>
+        /// Checks to see if a UserDefined ProjectedCoordinateSystem has been instantiated for name.
+        /// This version of the function is agnostic of the GeographicCoordinateSystem, Projection, and LinearUnit of the coordinate system.
+        /// </summary>
+        /// <param name="name">The name of the UserDefined ProjectedCoordinateSystem you are looking for.</param>
+        /// <returns>True if a ProjectedCoordinateSystem has been instantiated with this name; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if name is null or empty.</exception>
+        /// <exception cref="Exceptions.InvalidCoordinateSystemException">Thrown if name is incorrectly formatted.</exception>
         public static bool UserDefinedProjectedCoordinateSystemExists(string name)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(name);
@@ -105,6 +150,16 @@ namespace StarThrower.Gis.GeoUtilities
             return _projectedCoordinateSystems.ContainsKey(typeof(CoordinateSystems.Projected.UserDefined).Name + name);
         }
 
+        /// <summary>
+        /// Checks to see if a UserDefined ProjectedCoordinateSystem has been instantiated for name, geographicCoordinateSystem, projection, and linearUnit.
+        /// </summary>
+        /// <param name="name">The name of the UserDefined ProjectedCoordinateSystem you are looking for.</param>
+        /// <param name="geographicCoordinateSystem">The GeographicCoordinateSystem of the coordinate system you are looking for.</param>
+        /// <param name="projection">The Projection of the coordinate system you are looking for.</param>
+        /// <param name="linearUnit">The LinearUnit of the coordinate system you are looking for.</param>
+        /// <returns>True if a UserDefined ProjectedCoordinateSystem has been instantiated with these values; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if name is null or empty.</exception>
+        /// <exception cref="Exceptions.InvalidCoordinateSystemException">Thrown if name is incorrectly formatted.</exception>
         public static bool UserDefinedProjectedCoordinateSystemExists(string name, IGeographicCoordinateSystem geographicCoordinateSystem, IProjection projection, ILinearUnit linearUnit)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(name);
@@ -118,6 +173,17 @@ namespace StarThrower.Gis.GeoUtilities
             return true;
         }
 
+        /// <summary>
+        /// Instantiates a UserDefined ProjectedCoordinateSystem.
+        /// </summary>
+        /// <param name="name">The name of the new ProjectedCoordinateSystem.</param>
+        /// <param name="geographicCoordinateSystem">The GeographicCoordinateSystem of the new coordinate system.</param>
+        /// <param name="projection">The Projection of the new coordinate system.</param>
+        /// <param name="linearUnit">The LinearUnit of the new coordinate system.</param>
+        /// <returns>The instance of the new coordinate system.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if name is null or empty.</exception>
+        /// <exception cref="Exceptions.InvalidCoordinateSystemException">Thrown if name is incorrectly formatted.</exception>
+        /// <exception cref="Exceptions.AmbiguousCoordinateSystemException">Thrown if a coordinate system already exists for name with different GeographicCoordinateSystem, Projection, and/or LinearUnit values.</exception>
         public static IProjectedCoordinateSystem GetInstanceOfNewUserDefinedProjectedCoordinateSystem(string name, IGeographicCoordinateSystem geographicCoordinateSystem, IProjection projection, ILinearUnit linearUnit)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(name);
@@ -139,6 +205,13 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
 
+        /// <summary>
+        /// Gets the instance of the specified UserDefined ProjectedCoordinateSystem.
+        /// </summary>
+        /// <param name="name">The name of the coordinate system you are looking for.</param>
+        /// <returns>The coordinate system you are looking for.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if name is null or empty.</exception>
+        /// <exception cref="Exceptions.InvalidCoordinateSystemException">Thrown if name is incorrectly formatted OR if the instance could not be found.</exception>
         public static IProjectedCoordinateSystem GetInstanceOfExistingUserDefinedProjectedCoordinateSystem(string name)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(name);

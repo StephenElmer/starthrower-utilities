@@ -15,8 +15,14 @@ namespace StarThrower.Gis.GeoUtilities
         /// </summary>
         string Name { get; }
 
+        /// <summary>
+        /// Gets whether this zone lies in the southern hemisphere.
+        /// </summary>
         bool IsSouthernHemisphere { get; }
 
+        /// <summary>
+        /// Gets the standard string designation of this zone (e.g. "31N" for a UTM zone).
+        /// </summary>
         string ZoneString { get; }
 
         /// <summary>

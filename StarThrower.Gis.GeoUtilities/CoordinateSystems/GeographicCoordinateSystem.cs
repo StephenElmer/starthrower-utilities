@@ -5,7 +5,11 @@ using System.Text;
 
 namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
 {
-    public abstract class GeographicCoordinateSystem : IGeographicCoordinateSystem 
+    /// <summary>
+    /// Base class for a geographic (latitude/longitude) coordinate system tied to a datum,
+    /// prime meridian, and angular unit.
+    /// </summary>
+    public abstract class GeographicCoordinateSystem : IGeographicCoordinateSystem
     {
         /// <summary>
         /// The regular expression pattern to which the Ellipsoid's Name field must match.
@@ -61,11 +65,18 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
             protected set { _angularUnit = value; }
         }
 
+        /// <summary>
+        /// Gets the name of this coordinate system.
+        /// </summary>
         public virtual string Name
         {
             get { return this.GetType().Name; }
         }
 
+        /// <summary>
+        /// Gets the key value of this coordinate system, used to distinguish it from others
+        /// (particularly user-defined coordinate systems).
+        /// </summary>
         public string Key
         {
             get
@@ -81,6 +92,10 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
             }
         }
 
+        /// <summary>
+        /// Gets how this coordinate system's vertical (height) component should be interpreted.
+        /// This base implementation always returns <see cref="HeightType.NoHeight"/>.
+        /// </summary>
         public virtual HeightType HeightType
         {
             get { return HeightType.NoHeight; }
@@ -91,6 +106,10 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
 
         #region Construction
 
+        /// <summary>
+        /// Initializes a new geographic coordinate system with 7 significant digits (sufficient
+        /// to resolve to centimeters).
+        /// </summary>
         protected GeographicCoordinateSystem()
         {
             _significantDigits = 7; // 7 significant digits gets us to Centimeters
@@ -101,14 +120,29 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
 
         #region Public Methods
 
+        /// <summary>
+        /// Converts a coordinate expressed in this coordinate system to geodetic
+        /// (latitude/longitude/height) coordinates.
+        /// </summary>
+        /// <param name="xLon">The longitude.</param>
+        /// <param name="yLat">The latitude.</param>
+        /// <param name="zAlt">The vertical (height/altitude) coordinate.</param>
+        /// <returns>The resulting geodetic coordinates, along with estimated accumulated error.</returns>
         public abstract ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt);
 
+        /// <summary>
+        /// Converts a geodetic (latitude/longitude/height) coordinate to this coordinate system.
+        /// </summary>
+        /// <param name="xLon">The longitude.</param>
+        /// <param name="yLat">The latitude.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>The resulting coordinates in this coordinate system, along with estimated accumulated error.</returns>
         public abstract ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt);
 
         /// <summary>
-        /// Gets the XML representation of the GeographicCoordainteSystem
+        /// Gets the XML representation of the GeographicCoordinateSystem
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An XML formatted string.</returns>
         public virtual string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);
@@ -147,7 +181,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
         /// <summary>
         /// Serves as a hash function for a particular type. GetHashCode is suitable for use in hashing algorithms and data structures like a hash table.
         /// </summary>
-        /// <returns>A hash code for the current Datum.</returns>
+        /// <returns>A hash code for the current GeographicCoordinateSystem.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -158,7 +192,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
         }
 
         /// <summary>
-        /// Returns the string representation of this Ellipsoid.
+        /// Returns the string representation of this GeographicCoordinateSystem.
         /// </summary>
         /// <returns>A string describing this object.</returns>
         /// <remarks>

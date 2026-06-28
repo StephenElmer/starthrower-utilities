@@ -6,8 +6,23 @@ using System.Text;
 
 namespace StarThrower.Gis.GeoUtilities.Projections
 {
+    /// <summary>
+    /// The Equidistant Cylindrical map projection: a cylindrical projection that preserves
+    /// distances along meridians, parameterized by a standard parallel, central meridian, and
+    /// false easting/northing.
+    /// </summary>
     public class EquidistantCylindrical : IProjection
     {
+        /// <summary>
+        /// Validates that the given array of parameters matches the names and order required
+        /// by the <see cref="EquidistantCylindrical"/> projection.
+        /// </summary>
+        /// <param name="parameters">The parameters to validate.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="parameters"/> is non-null, has exactly 4
+        /// elements, and the elements are named, in order, "False_Easting", "False_Northing",
+        /// "Central_Meridian", and "Standard_Parallel"; otherwise, <see langword="false"/>.
+        /// </returns>
         public static bool ValidateParameters(ProjectionParameter[] parameters)
         {
             if (parameters == null) return false;
@@ -32,26 +47,44 @@ namespace StarThrower.Gis.GeoUtilities.Projections
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the False_Easting parameter value.
+        /// </summary>
         public double FalseEasting
         {
             get { return _falseEasting; }
         }
 
+        /// <summary>
+        /// Gets the False_Northing parameter value.
+        /// </summary>
         public double FalseNorthing
         {
             get { return _falseNorthing; }
         }
 
+        /// <summary>
+        /// Gets the Central_Meridian parameter value.
+        /// </summary>
         public double CentralMeridian
         {
             get { return _centralMeridian; }
         }
 
+        /// <summary>
+        /// Gets the Standard_Parallel parameter value.
+        /// </summary>
         public double StandardParallel
         {
             get { return _standardParallel; }
         }
 
+        /// <summary>
+        /// Gets the value of the named projection parameter (e.g. "False_Easting", "Central_Meridian").
+        /// </summary>
+        /// <param name="parameterName">The name of the projection parameter to retrieve.</param>
+        /// <returns>The value of the named parameter.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="parameterName"/> is not a recognized parameter name.</exception>
         public double this[string parameterName]
         {
             get
@@ -99,6 +132,10 @@ namespace StarThrower.Gis.GeoUtilities.Projections
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets an XML representation of the projection and its parameters.
+        /// </summary>
+        /// <returns>An XML formatted string.</returns>
         public string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);

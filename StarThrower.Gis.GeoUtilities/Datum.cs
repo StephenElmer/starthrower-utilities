@@ -7,6 +7,9 @@ using StarThrower.Gis.GeoUtilities.Datums;
 
 namespace StarThrower.Gis.GeoUtilities
 {
+    /// <summary>
+    /// The abstract base class for implementations of the <see cref="IDatum"/> interface.
+    /// </summary>
     public abstract class Datum : IDatum
     {
         /// <summary>
@@ -36,7 +39,12 @@ namespace StarThrower.Gis.GeoUtilities
 
 
         #region Public Properties
-       
+
+        /// <summary>
+        /// Gets whether this datum's shift to/from WGS84 uses the full seven-parameter
+        /// (3 translation + 3 rotation + scale) transformation rather than the simpler
+        /// three-parameter (translation-only) Molodensky shift.
+        /// </summary>
         public abstract bool IsSevenParamDatum { get; }
 
         /// <summary>
@@ -198,14 +206,14 @@ namespace StarThrower.Gis.GeoUtilities
         /// coordinates (X, Y, Z) to geodetic coordinates (yLat, xLon, and height), 
         /// according to the current ellipsoid parameters.
         /// </summary>
-        /// <param name="wgs84X">Geocentric X coordinate, in meters.</param>
-        /// <param name="wgs84Y">Geocentric Y coordinate, in meters.</param>
-        /// <param name="wgs84Z">Geocentric Z coordinate, in meters.</param>
-        /// <param name="xLon">Calculated xLon value in radians.</param>
-        /// <param name="yLat">Calculated yLat value in radians.</param>
-        /// <param name="zAlt">Calculated height value, in meters.</param>
+        /// <param name="X">Geocentric X coordinate, in meters.</param>
+        /// <param name="Y">Geocentric Y coordinate, in meters.</param>
+        /// <param name="Z">Geocentric Z coordinate, in meters.</param>
+        /// <param name="longitude">Calculated xLon value in radians.</param>
+        /// <param name="latitude">Calculated yLat value in radians.</param>
+        /// <param name="height">Calculated height value, in meters.</param>
         /// <remarks>
-        /// The method used here is derived from 'An Improved Algorithm for 
+        /// The method used here is derived from 'An Improved Algorithm for
         /// Geocentric to Geodetic Coordinate Conversion', by Ralph Toms, Feb 1996.
         /// </remarks>
         private void Convert_Geocentric_To_Geodetic(double X, double Y, double Z, ref double longitude, ref double latitude, ref double height)
@@ -312,9 +320,9 @@ namespace StarThrower.Gis.GeoUtilities
         /// <param name="xLon">xLon in radians.</param>
         /// <param name="yLat">yLat in radians.</param>
         /// <param name="zAlt">Height in meters.</param>
-        /// <param name="xLon">Calculated xLon in radians.</param>
-        /// <param name="yLat">Calculated yLat in radians.</param>
-        /// <param name="zAlt">Calculated height in meters.</param>
+        /// <param name="wgs84XLon">Calculated xLon in radians.</param>
+        /// <param name="wgs84YLat">Calculated yLat in radians.</param>
+        /// <param name="wgs84ZAlt">Calculated height in meters.</param>
         private static void Molodensky_Shift(double a, double da, double f, double df, double dx, double dy, double dz, double xLon, double yLat, double zAlt, ref double wgs84XLon, ref double wgs84YLat, ref double wgs84ZAlt)
         {
             double tLon_in; // temp xLon
@@ -385,6 +393,14 @@ namespace StarThrower.Gis.GeoUtilities
 
 
 
+        /// <summary>
+        /// Shifts a geocentric coordinate in this datum to the equivalent geocentric coordinate in
+        /// WGS84, as the middle step of <see cref="ToWgs84"/>'s three-step geocentric method.
+        /// </summary>
+        /// <remarks>
+        /// This base implementation is a pass-through (no shift applied); seven-parameter datums
+        /// are expected to override this method to apply their translation, rotation, and scale parameters.
+        /// </remarks>
         protected virtual void GeocentricShiftToWgs84(double localX, double localY, double localZ, ref double wgs84X, ref double wgs84Y, ref double wgs84Z)
         {
             wgs84X = localX;
@@ -394,6 +410,20 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region Public Methods
 
+        /// <summary>
+        /// Shifts a geodetic coordinate in this datum to the equivalent coordinate in the WGS84 datum.
+        /// </summary>
+        /// <param name="xLon">Longitude, in radians, in this datum.</param>
+        /// <param name="yLat">Latitude, in radians, in this datum.</param>
+        /// <param name="zAlt">Height, in meters, in this datum.</param>
+        /// <param name="wgs84XLon">The resulting longitude, in radians, in WGS84.</param>
+        /// <param name="wgs84YLat">The resulting latitude, in radians, in WGS84.</param>
+        /// <param name="wgs84ZAlt">The resulting height, in meters, in WGS84.</param>
+        /// <remarks>
+        /// Uses the three-step geocentric method (via <see cref="GeocentricShiftToWgs84"/>) for
+        /// seven-parameter datums or latitudes outside the valid range for Molodensky's method;
+        /// otherwise uses the simpler Molodensky shift.
+        /// </remarks>
         public virtual void ToWgs84(double xLon, double yLat, double zAlt, ref double wgs84XLon, ref double wgs84YLat, ref double wgs84ZAlt)
         {
             IEllipsoid wgs84 = EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Wgs1984));
@@ -431,6 +461,22 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
 
+        /// <summary>
+        /// Shifts a geodetic coordinate in the WGS84 datum to the equivalent coordinate in this datum.
+        /// </summary>
+        /// <param name="wgs84XLon">Longitude, in radians, in WGS84.</param>
+        /// <param name="wgs84YLat">Latitude, in radians, in WGS84.</param>
+        /// <param name="wgs84ZAlt">Height, in meters, in WGS84.</param>
+        /// <param name="xLon">The resulting longitude, in radians, in this datum.</param>
+        /// <param name="yLat">The resulting latitude, in radians, in this datum.</param>
+        /// <param name="zAlt">The resulting height, in meters, in this datum.</param>
+        /// <remarks>
+        /// This base implementation is a pass-through: it copies the WGS84 coordinate unchanged
+        /// rather than applying the inverse of <see cref="ToWgs84"/>'s shift. Only <c>Wgs1972</c>
+        /// and <c>Wgs1984</c> override this method; every other datum inherits this pass-through
+        /// behavior, so converting a coordinate from WGS84 into one of those other datums does
+        /// not actually apply that datum's shift.
+        /// </remarks>
         public virtual void FromWgs84(double wgs84XLon, double wgs84YLat, double wgs84ZAlt, ref double xLon, ref double yLat, ref double zAlt)
         {
             xLon = wgs84XLon;
@@ -438,16 +484,31 @@ namespace StarThrower.Gis.GeoUtilities
             zAlt = wgs84ZAlt;
         }
 
+        /// <summary>
+        /// Tests whether the specified geodetic coordinate falls within this datum's valid domain.
+        /// </summary>
+        /// <param name="xLon">Longitude, in radians.</param>
+        /// <param name="yLat">Latitude, in radians.</param>
+        /// <returns>True if the coordinate falls within <see cref="Domain"/>; otherwise, false.</returns>
+        /// <remarks>
+        /// <see cref="Domain"/> bounds are stored in decimal degrees, so <paramref name="xLon"/> and
+        /// <paramref name="yLat"/> are converted from radians before comparison. Because that
+        /// conversion is not always an exact round-trip in floating point (e.g. exactly -60.0
+        /// degrees in, then back out, of radians can come back as -59.99999999999999), a coordinate
+        /// that lies precisely on a domain edge may occasionally evaluate as just outside it.
+        /// </remarks>
         public virtual bool Validate(double xLon, double yLat)
         {
-            //TODO: implement Datum.Validate(double, double)
-            return true;
+            double lonDeg = xLon * GeoUtil.RadiansToDegrees;
+            double latDeg = yLat * GeoUtil.RadiansToDegrees;
+            return latDeg >= this._domain.Bottom && latDeg <= this._domain.Top &&
+                   lonDeg >= this._domain.Left && lonDeg <= this._domain.Right;
         }
 
         /// <summary>
         /// Gets an XML representation of the Datum.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An XML formatted string.</returns>
         public virtual string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);

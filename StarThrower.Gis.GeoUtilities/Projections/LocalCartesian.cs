@@ -6,8 +6,22 @@ using System.Text;
 
 namespace StarThrower.Gis.GeoUtilities.Projections
 {
+    /// <summary>
+    /// The Local Cartesian projection: a local tangent-plane projection centered on an origin
+    /// point, parameterized by the origin's latitude, longitude, and height, plus an orientation angle.
+    /// </summary>
     public class LocalCartesian : IProjection
     {
+        /// <summary>
+        /// Validates that the given array of parameters matches the names and order required
+        /// by the <see cref="LocalCartesian"/> projection.
+        /// </summary>
+        /// <param name="parameters">The parameters to validate.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="parameters"/> is non-null, has exactly 4
+        /// elements, and the elements are named, in order, "Latitude_of_Origin",
+        /// "Longitude_of_Origin", "Origin_Height", and "Orientation"; otherwise, <see langword="false"/>.
+        /// </returns>
         public static bool ValidateParameters(ProjectionParameter[] parameters)
         {
             if (parameters == null) return false;
@@ -32,26 +46,44 @@ namespace StarThrower.Gis.GeoUtilities.Projections
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the Latitude_of_Origin parameter value.
+        /// </summary>
         public double LatitudeOfOrigin
         {
             get { return _latitudeOfOrigin; }
         }
 
+        /// <summary>
+        /// Gets the Longitude_of_Origin parameter value.
+        /// </summary>
         public double LongitudeOfOrigin
         {
             get { return _longitudeOfOrigin; }
         }
 
+        /// <summary>
+        /// Gets the Origin_Height parameter value.
+        /// </summary>
         public double OriginHeight
         {
             get { return _originHeight; }
         }
 
+        /// <summary>
+        /// Gets the Orientation parameter value.
+        /// </summary>
         public double Orientation
         {
             get { return _orientation; }
         }
 
+        /// <summary>
+        /// Gets the value of the named projection parameter (e.g. "Latitude_of_Origin", "Orientation").
+        /// </summary>
+        /// <param name="parameterName">The name of the projection parameter to retrieve.</param>
+        /// <returns>The value of the named parameter.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="parameterName"/> is not a recognized parameter name.</exception>
         public double this[string parameterName]
         {
             get
@@ -99,6 +131,10 @@ namespace StarThrower.Gis.GeoUtilities.Projections
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets an XML representation of the projection and its parameters.
+        /// </summary>
+        /// <returns>An XML formatted string.</returns>
         public string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);

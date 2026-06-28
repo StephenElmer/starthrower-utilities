@@ -7,6 +7,10 @@ using StarThrower.Gis.GeoUtilities.Geoids;
 
 namespace StarThrower.Gis.GeoUtilities
 {
+    /// <summary>
+    /// A gravity-model geoid height grid (e.g. EGM96, EGM84), used to convert between
+    /// ellipsoid height and mean-sea-level (geoid) height at a given geodetic location.
+    /// </summary>
     public abstract class Geoid : IGeoid
     {
         /// <summary>
@@ -53,23 +57,36 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
 
+        /// <summary>
+        /// Gets the number of rows in this geoid's height grid.
+        /// </summary>
         public int Rows
         {
             get { return _rows; }
             protected set { _rows = value; }
         }
 
+        /// <summary>
+        /// Gets the number of columns in this geoid's height grid.
+        /// </summary>
         public int Columns
         {
             get { return _columns; }
             protected set { _columns = value; }
         }
 
+        /// <summary>
+        /// Gets the total number of height posts in this geoid's height grid (<see cref="Rows"/> times <see cref="Columns"/>).
+        /// </summary>
         public int Elevations
         {
             get { return _rows * _columns; }
         }
 
+        /// <summary>
+        /// Gets the flattened (row-major) grid of geoid height adjustments, in meters, used by
+        /// <see cref="NsInterpolate"/> and <see cref="BlInterpolate"/>.
+        /// </summary>
         public float[] HeightGrid
         {
             get { return _heightGrid; }
@@ -81,21 +98,53 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region Public Methods
 
+        /// <summary>
+        /// Converts a geoid (mean-sea-level) height to an ellipsoid height, using natural-spline interpolation.
+        /// </summary>
+        /// <param name="xLon">Geodetic longitude, in radians.</param>
+        /// <param name="yLat">Geodetic latitude, in radians.</param>
+        /// <param name="geoidHeight">The geoid height to convert, in meters.</param>
+        /// <param name="ellipsoidHeight">The resulting ellipsoid height, in meters.</param>
+        /// <exception cref="NotSupportedException">Thrown unless overridden by a derived class.</exception>
         public virtual void ToEllipsoidHeightNs(double xLon, double yLat, double geoidHeight, ref double ellipsoidHeight)
         {
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// Converts an ellipsoid height to a geoid (mean-sea-level) height, using natural-spline interpolation.
+        /// </summary>
+        /// <param name="xLon">Geodetic longitude, in radians.</param>
+        /// <param name="yLat">Geodetic latitude, in radians.</param>
+        /// <param name="ellipsoidHeight">The ellipsoid height to convert, in meters.</param>
+        /// <param name="geoidHeight">The resulting geoid height, in meters.</param>
+        /// <exception cref="NotSupportedException">Thrown unless overridden by a derived class.</exception>
         public virtual void FromEllipsoidHeightNs(double xLon, double yLat, double ellipsoidHeight, ref double geoidHeight)
         {
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// Converts a geoid (mean-sea-level) height to an ellipsoid height, using bilinear interpolation.
+        /// </summary>
+        /// <param name="xLon">Geodetic longitude, in radians.</param>
+        /// <param name="yLat">Geodetic latitude, in radians.</param>
+        /// <param name="geoidHeight">The geoid height to convert, in meters.</param>
+        /// <param name="ellipsoidHeight">The resulting ellipsoid height, in meters.</param>
+        /// <exception cref="NotSupportedException">Thrown unless overridden by a derived class.</exception>
         public virtual void ToEllipsoidHeightBl(double xLon, double yLat, double geoidHeight, ref double ellipsoidHeight)
         {
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// Converts an ellipsoid height to a geoid (mean-sea-level) height, using bilinear interpolation.
+        /// </summary>
+        /// <param name="xLon">Geodetic longitude, in radians.</param>
+        /// <param name="yLat">Geodetic latitude, in radians.</param>
+        /// <param name="ellipsoidHeight">The ellipsoid height to convert, in meters.</param>
+        /// <param name="geoidHeight">The resulting geoid height, in meters.</param>
+        /// <exception cref="NotSupportedException">Thrown unless overridden by a derived class.</exception>
         public virtual void FromEllipsoidHeightBl(double xLon, double yLat, double ellipsoidHeight, ref double geoidHeight)
         {
             throw new NotSupportedException();
@@ -103,16 +152,13 @@ namespace StarThrower.Gis.GeoUtilities
 
 
         /// <summary>
-        /// returns the height of the WGS84 geoid above or below the WGS84 ellipsoid, at the specified geodetic coordinates, using a grid of height adjustments and the natural spline interpolation method.
+        /// Returns the height of the WGS84 geoid above or below the WGS84 ellipsoid, at the specified geodetic coordinates, using this geoid's height grid and the natural spline interpolation method.
         /// </summary>
-        /// <param name="xLon">Geodetic xLon in radians</param>
-        /// <param name="yLat">Geodetic yLat in radians</param>
-        /// <param name="scaleFactor">Grid scale factor</param>
-        /// <param name="num_cols">Number of columns in grid</param>
-        /// <param name="num_rows">Number of rows in grid</param>
-        /// <param name="max_index"></param>
-        /// <param name="height_buffer">Grid of height adjustments</param>
-        /// <param name="deltaHeight">Height Adjustment, in meters.</param>
+        /// <param name="longitude">Geodetic longitude, in radians.</param>
+        /// <param name="latitude">Geodetic latitude, in radians.</param>
+        /// <param name="scaleFactor">Grid scale factor (the angular spacing, in degrees, between grid posts).</param>
+        /// <param name="deltaHeight">Height adjustment, in meters.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if latitude or longitude is out of range.</exception>
         public void NsInterpolate(double longitude, double latitude, double scaleFactor, ref double deltaHeight)
         {
             int num_cols = _columns;
@@ -306,15 +352,13 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// returns the height of the WGS84 geoid above or below the WGS84 ellipsoid, at the specified geodetic coordinates, using a grid of height adjustments and the bilinear interpolation method.
+        /// Returns the height of the WGS84 geoid above or below the WGS84 ellipsoid, at the specified geodetic coordinates, using this geoid's height grid and the bilinear interpolation method.
         /// </summary>
-        /// <param name="xLon">Geodetic xLon in radians</param>
-        /// <param name="yLat">Geodetic yLat in radians</param>
-        /// <param name="scaleFactor">Grid scale factor</param>
-        /// <param name="num_cols">Number of columns in grid</param>
-        /// <param name="num_rows">Number of rows in grid</param>
-        /// <param name="height_buffer"></param>
-        /// <param name="deltaHeight">Height Adjustment, in meters</param>
+        /// <param name="longitude">Geodetic longitude, in radians.</param>
+        /// <param name="latitude">Geodetic latitude, in radians.</param>
+        /// <param name="scaleFactor">Grid scale factor (the angular spacing, in degrees, between grid posts).</param>
+        /// <param name="deltaHeight">Height adjustment, in meters.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if latitude or longitude is out of range.</exception>
         public void BlInterpolate(double longitude, double latitude, double scaleFactor, ref double deltaHeight)
         {
             int num_cols = _columns;
@@ -455,7 +499,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <summary>
         /// Gets an XML representation of the Geoid.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An XML formatted string.</returns>
         public virtual string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);

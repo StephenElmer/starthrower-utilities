@@ -47,7 +47,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <summary>
         /// Gets the XML representation of the PrimeMeridian
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An XML formatted string.</returns>
         public string ToXml()
         {
             return "<primeMeridian name=\"" + this.GetType().Name + "\" value=\"" + _value.ToString(CultureInfo.InvariantCulture) + "\"/>\n";

@@ -5,21 +5,22 @@ using System;
 namespace StarThrower.Gis.GeoUtilities
 {
     /// <summary>
-    /// An enumeration of the types of Ellipsoids which are supported by the StarThrower Utilities.
+    /// Represents a reference ellipsoid: the geometric model of the Earth's shape used by a
+    /// geodetic datum.
     /// </summary>
     /// <remarks>
-    /// Except for two special cases (described below), Ellipsoid types for StarThrower Utilities have been obtained from two sources:
+    /// Except for two special cases (described below), Ellipsoid implementations in StarThrower Utilities have been obtained from two sources:
     /// The majority have been obtained by reviewing ESRI's ArcIMS documentation (http://edndoc.esri.com/arcims/9.1/elements/pcs.htm)
-    /// and parsing out the various Spheroid data.  In addition to the ESRI data, Ellipsoid Type data has also been obtained by
+    /// and parsing out the various Spheroid data.  In addition to the ESRI data, Ellipsoid data has also been obtained by
     /// examination of the source code for the National Geospatial-Intelligence Agency's GeoTran tool (http://earth-info.nga.mil/GandG/geotrans/).
-    /// There are several indiscrepancies between the ESRI and NGIA data which are described in the notes for each enumeration.
-    /// 
-    /// The special cases of EllipsoidType are as follows:
-    /// 1) Undefined which is the default type of the cref="Ellipsoid" class and represents sort of a Null Object pattern.
-    /// In most cases, when this EllipsoidType is encountered, and exception will be thrown.
-    /// 2) UserDefined which is provided to allow for dynamic creation of Ellipsoids in those cases where you want to define
-    /// your own EllipsoidType.  In the case of UserDefined ellipsoid types, the associated Ellipsoid MUST also have a
-    /// Name associated with it, as the Ellipsoid's Name will be used to distinguish between different UserDefined Ellipsoids.
+    /// There are several discrepancies between the ESRI and NGIA data which are described in the notes for each implementation.
+    ///
+    /// The special cases are as follows:
+    /// 1) <see cref="Ellipsoids.Undefined"/>, which is the default type of the <see cref="Ellipsoid"/> class and represents sort of a Null Object pattern.
+    /// In most cases, when this is encountered, an exception will be thrown.
+    /// 2) <see cref="Ellipsoids.UserDefined"/>, which is provided to allow for dynamic creation of Ellipsoids in those cases where you want to define
+    /// your own ellipsoid. In the case of user-defined ellipsoids, the associated Ellipsoid MUST also have a
+    /// Name associated with it, as the Ellipsoid's Name will be used to distinguish between different user-defined Ellipsoids.
     /// </remarks>
     public interface IEllipsoid
     {
@@ -56,7 +57,7 @@ namespace StarThrower.Gis.GeoUtilities
         double Flattening { get; }
 
         /// <summary>
-        /// Gets the Invers Flattening (1/f).
+        /// Gets the Inverse Flattening (1/f).
         /// </summary>
         double InverseFlattening { get; }
 

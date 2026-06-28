@@ -7,6 +7,14 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.GeoUtilities.Geoids
 {
+    /// <summary>
+    /// A <see cref="Geoid"/> implementation backed by the EGM96 (Earth Gravitational Model 1996)
+    /// undulation grid, at a 15-minute by 15-minute base spacing with finer-resolution variable
+    /// grids over certain inset areas. Supports only natural-spline interpolation
+    /// (<see cref="Geoid.ToEllipsoidHeightNs"/>/<see cref="Geoid.FromEllipsoidHeightNs"/>); the
+    /// bilinear methods are not overridden and fall back to the <see cref="Geoid"/> base
+    /// implementation, which throws <see cref="NotSupportedException"/>.
+    /// </summary>
     public class Egm96 : Geoid
     {
         private sealed class VariableGrid

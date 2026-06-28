@@ -6,8 +6,24 @@ using System.Text;
 
 namespace StarThrower.Gis.GeoUtilities.Projections
 {
+    /// <summary>
+    /// The Oblique Mercator (two-point) map projection: a conformal cylindrical projection
+    /// whose central line is defined by two points, parameterized by a latitude of origin,
+    /// two latitude/longitude point pairs, a scale factor, and false easting/northing.
+    /// </summary>
     public class ObliqueMercator : IProjection
     {
+        /// <summary>
+        /// Validates that the given array of parameters matches the names and order required
+        /// by the <see cref="ObliqueMercator"/> projection.
+        /// </summary>
+        /// <param name="parameters">The parameters to validate.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="parameters"/> is non-null, has exactly 8
+        /// elements, and the elements are named, in order, "False_Easting", "False_Northing",
+        /// "Latitude_of_Origin", "Latitude_1", "Longitude_1", "Latitude_2", "Longitude_2", and
+        /// "Scale_Factor"; otherwise, <see langword="false"/>.
+        /// </returns>
         public static bool ValidateParameters(ProjectionParameter[] parameters)
         {
             if (parameters == null) return false;
@@ -40,46 +56,76 @@ namespace StarThrower.Gis.GeoUtilities.Projections
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the False_Easting parameter value.
+        /// </summary>
         public double FalseEasting
         {
             get { return _falseEasting; }
         }
 
+        /// <summary>
+        /// Gets the False_Northing parameter value.
+        /// </summary>
         public double FalseNorthing
         {
             get { return _falseNorthing; }
         }
 
+        /// <summary>
+        /// Gets the Latitude_of_Origin parameter value.
+        /// </summary>
         public double LatitudeOfOrigin
         {
             get { return _latitudeOfOrigin; }
         }
 
+        /// <summary>
+        /// Gets the Latitude_1 parameter value.
+        /// </summary>
         public double Latitude1
         {
             get { return _latitude1; }
         }
 
+        /// <summary>
+        /// Gets the Longitude_1 parameter value.
+        /// </summary>
         public double Longitude1
         {
             get { return _longitude1; }
         }
 
+        /// <summary>
+        /// Gets the Latitude_2 parameter value.
+        /// </summary>
         public double Latitude2
         {
             get { return _latitude2; }
         }
 
+        /// <summary>
+        /// Gets the Longitude_2 parameter value.
+        /// </summary>
         public double Longitude2
         {
             get { return _longitude2; }
         }
 
+        /// <summary>
+        /// Gets the Scale_Factor parameter value.
+        /// </summary>
         public double ScaleFactor
         {
             get { return _scaleFactor; }
         }
 
+        /// <summary>
+        /// Gets the value of the named projection parameter (e.g. "False_Easting", "Latitude_1").
+        /// </summary>
+        /// <param name="parameterName">The name of the projection parameter to retrieve.</param>
+        /// <returns>The value of the named parameter.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="parameterName"/> is not a recognized parameter name.</exception>
         public double this[string parameterName]
         {
             get
@@ -143,6 +189,10 @@ namespace StarThrower.Gis.GeoUtilities.Projections
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets an XML representation of the projection and its parameters.
+        /// </summary>
+        /// <returns>An XML formatted string.</returns>
         public string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);

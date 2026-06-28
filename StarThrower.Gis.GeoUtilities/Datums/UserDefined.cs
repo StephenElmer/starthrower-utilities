@@ -31,10 +31,17 @@ namespace StarThrower.Gis.GeoUtilities.Datums
             get { return _name; }
         }
 
+        /// <remarks>
+        /// True if any of <see cref="Datum.RotationX"/>, <see cref="Datum.RotationY"/>, or
+        /// <see cref="Datum.RotationZ"/> is non-zero. Rotation alone (not <see cref="Datum.RotationScaleFactor"/>)
+        /// is used to decide this because the built-in seven-parameter datums (e.g. <see cref="European1950"/>,
+        /// <see cref="Osgb1936"/>) all have non-zero rotation, whereas the "no scaling" value of
+        /// <see cref="Datum.RotationScaleFactor"/> is inconsistent across datums sourced from different
+        /// references (1 in some, 0 in others), making it unreliable as a signal on its own.
+        /// </remarks>
         public override bool IsSevenParamDatum
         {
-            //TODO: Implement IsSevenParamDatum for UserDefined datum.
-            get { return false; }
+            get { return this.RotationX != 0.0 || this.RotationY != 0.0 || this.RotationZ != 0.0; }
         }
 
         #endregion

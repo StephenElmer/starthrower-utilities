@@ -6,6 +6,12 @@ using StarThrower.StringUtilities;
 
 namespace StarThrower.Gis.GeoUtilities.Formatting
 {
+    /// <summary>
+    /// An <see cref="IDmsFormatter"/> implementation using the <see cref="DmsFormat.Dms1"/>
+    /// style: <c>[-]d[d]d&#176; [m]m' ss.ss"</c>, e.g. <c>31&#176; 56' 31.13"</c> or
+    /// <c>-31&#176; 56' 31.13"</c>. This formatter does not include an N/S/E/W designation;
+    /// sign alone indicates direction.
+    /// </summary>
     public class DefaultDmsFormatter : IDmsFormatter
     {
         private static DefaultDmsFormatter? _formatter;
@@ -15,6 +21,10 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
 
         private DefaultDmsFormatter() { }
 
+        /// <summary>
+        /// Gets the singleton instance of <see cref="DefaultDmsFormatter"/>.
+        /// </summary>
+        /// <returns>The singleton <see cref="DefaultDmsFormatter"/> instance.</returns>
         internal static DefaultDmsFormatter GetInstance()
         {
             if (_formatter == null)
@@ -87,21 +97,43 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
             return deg.ToString(CultureInfo.InvariantCulture) + StringUtil.DegreeSymbol + " " + min.ToString(CultureInfo.InvariantCulture) + "' " + sec.ToString(CultureInfo.InvariantCulture) + "." + dec.ToString(CultureInfo.InvariantCulture) + "\"";
         }
 
+        /// <summary>
+        /// Converts a north/south DMS string (<c>[-]d[d]d&#176; [m]m' ss.ss"</c>) to its
+        /// decimal-degree equivalent.
+        /// </summary>
+        /// <param name="dmsNs">The north/south coordinate, formatted as DMS.</param>
+        /// <returns>The decimal-degree value (negative for south).</returns>
         public double DmsToDdNs(string dmsNs)
         {
             return DMSToDD(dmsNs);
         }
 
+        /// <summary>
+        /// Converts an east/west DMS string (<c>[-]d[d]d&#176; [m]m' ss.ss"</c>) to its
+        /// decimal-degree equivalent.
+        /// </summary>
+        /// <param name="dmsEw">The east/west coordinate, formatted as DMS.</param>
+        /// <returns>The decimal-degree value (negative for west).</returns>
         public double DmsToDdEw(string dmsEw)
         {
             return DMSToDD(dmsEw);
         }
 
+        /// <summary>
+        /// Converts a decimal-degree north/south coordinate to its <c>d[d]d&#176; [m]m' ss.ss"</c> DMS representation.
+        /// </summary>
+        /// <param name="ddNs">The decimal-degree value (negative for south).</param>
+        /// <returns>The coordinate formatted as DMS. No N/S designation is included; sign alone indicates direction.</returns>
         public string DdToDmsNs(double ddNs)
         {
             return DDToDMS(ddNs);
         }
 
+        /// <summary>
+        /// Converts a decimal-degree east/west coordinate to its <c>d[d]d&#176; [m]m' ss.ss"</c> DMS representation.
+        /// </summary>
+        /// <param name="ddEw">The decimal-degree value (negative for west).</param>
+        /// <returns>The coordinate formatted as DMS. No E/W designation is included; sign alone indicates direction.</returns>
         public string DdToDmsEw(double ddEw)
         {
             return DDToDMS(ddEw);

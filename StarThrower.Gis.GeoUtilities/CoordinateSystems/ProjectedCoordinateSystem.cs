@@ -5,6 +5,10 @@ using System.Text;
 
 namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
 {
+    /// <summary>
+    /// Base class for a projected (planar x/y) coordinate system, built from an underlying
+    /// geographic coordinate system, a map projection, and a linear unit.
+    /// </summary>
     public abstract class ProjectedCoordinateSystem : IProjectedCoordinateSystem
     {
         /// <summary>
@@ -94,10 +98,10 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
         }
 
         /// <summary>
-        /// Gets the value of the ProjectionParameter specified by parameterName
+        /// Gets the value of the named projection parameter (e.g. "False_Easting", "Central_Meridian").
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <returns></returns>
+        /// <param name="parameterName">The name of the projection parameter to retrieve.</param>
+        /// <returns>The value of the named parameter.</returns>
         public double this[string parameterName]
         {
             get
@@ -106,11 +110,18 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
             }
         }
 
+        /// <summary>
+        /// Gets the name of this coordinate system.
+        /// </summary>
         public virtual string Name
         {
             get { return this.GetType().Name; }
         }
 
+        /// <summary>
+        /// Gets the key value of this coordinate system, used to distinguish it from others
+        /// (particularly user-defined coordinate systems).
+        /// </summary>
         public virtual string Key
         {
             get
@@ -126,9 +137,13 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
             }
         }
 
-        public virtual HeightType HeightType 
+        /// <summary>
+        /// Gets how this coordinate system's vertical (height) component should be interpreted.
+        /// This base implementation always returns <see cref="HeightType.NoHeight"/>.
+        /// </summary>
+        public virtual HeightType HeightType
         {
-            get { return HeightType.NoHeight; } 
+            get { return HeightType.NoHeight; }
         }
 
         #endregion
@@ -136,6 +151,10 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
 
         #region Construction
 
+        /// <summary>
+        /// Initializes a new projected coordinate system with 2 significant digits (sufficient
+        /// to resolve to centimeters for typical projected units).
+        /// </summary>
         protected ProjectedCoordinateSystem()
         {
             _significantDigits = 2; // 2 significant digits gets to Centimeters
@@ -146,14 +165,29 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
 
         #region Public Methods
 
+        /// <summary>
+        /// Converts a coordinate expressed in this coordinate system to geodetic
+        /// (latitude/longitude/height) coordinates.
+        /// </summary>
+        /// <param name="xLon">The x (easting) coordinate.</param>
+        /// <param name="yLat">The y (northing) coordinate.</param>
+        /// <param name="zAlt">The vertical (height/altitude) coordinate.</param>
+        /// <returns>The resulting geodetic coordinates, along with estimated accumulated error.</returns>
         public abstract ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt);
 
+        /// <summary>
+        /// Converts a geodetic (latitude/longitude/height) coordinate to this coordinate system.
+        /// </summary>
+        /// <param name="xLon">The longitude.</param>
+        /// <param name="yLat">The latitude.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>The resulting coordinates in this coordinate system, along with estimated accumulated error.</returns>
         public abstract ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt);
 
         /// <summary>
         /// Gets the XML representation of the ProjectedCoordinateSystem
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An XML formatted string.</returns>
         public virtual string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);
@@ -203,7 +237,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems
         }
 
         /// <summary>
-        /// Returns the string representation of this Ellipsoid.
+        /// Returns the string representation of this ProjectedCoordinateSystem.
         /// </summary>
         /// <returns>A string describing this object.</returns>
         /// <remarks>

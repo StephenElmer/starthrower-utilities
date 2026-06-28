@@ -12,32 +12,69 @@ using StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected;
 
 namespace StarThrower.Gis.GeoUtilities
 {
+    /// <summary>
+    /// The central entry point for converting coordinates between coordinate systems, plus
+    /// shared constants and reflection-based discovery of the supported types
+    /// (angular/linear units, datums, ellipsoids, prime meridians, projections, and coordinate systems).
+    /// </summary>
     public static class GeoUtil
     {
         #region Public Constants
 
+        /// <summary>The maximum valid latitude, in decimal degrees.</summary>
         public const int MaxLat = 90;
+
+        /// <summary>The minimum valid latitude, in decimal degrees.</summary>
         public const int MinLat = -90;
+
+        /// <summary>The maximum valid longitude, in decimal degrees.</summary>
         public const int MaxLon = 180;
+
+        /// <summary>The minimum valid longitude, in decimal degrees.</summary>
         public const int MinLon = -180;
 
 
 
+        /// <summary>Pi divided by 2 (90 degrees, in radians).</summary>
         public const double PiOver2 = Math.PI / 2.0;
 
+        /// <summary>The multiplier to convert decimal degrees to radians.</summary>
         public const double DegreesToRadians = (Math.PI / 180.0);
+
+        /// <summary>The multiplier to convert radians to decimal degrees.</summary>
         public const double RadiansToDegrees = (180.0 / Math.PI);
+
+        /// <summary>The cosine of 67.5 degrees, used as a threshold in geocentric-to-geodetic coordinate conversion.</summary>
         public const double Cos67P5 = 0.38268343236508977; // cosine of 67.5 degrees
+
+        /// <summary>A correction constant (Toms region 1) used in geocentric-to-geodetic coordinate conversion.</summary>
         public const double ADC = 1.0026000; // Toms region 1 constant
 
+        /// <summary>Two times Pi (360 degrees, in radians).</summary>
         public const double TwoPi = Math.PI * 2.0;
+
+        /// <summary>The multiplier to convert radians to decimal degrees. Equivalent to <see cref="RadiansToDegrees"/>.</summary>
         public const double PiUnder180 = (180.0 / Math.PI);
+
+        /// <summary>The number of arcseconds in one radian.</summary>
         public const double SecondsPerRadian = 206264.8062471; // Seconds in a radian
+
+        /// <summary>The maximum absolute latitude, in radians, for which Molodensky's datum shift method remains valid; beyond this, the three-step geocentric method is used instead.</summary>
         public const double MolodenskyMax = (89.75 * Math.PI / 180.0); // Polar limit
+
+        /// <summary>The geoid height grid scale factor for a 15-minute grid spacing (4 grid cells per degree).</summary>
         public const double ScaleFactor15Minutes = .25; // 4 grid cells per degree at 15 minute spacing
+
+        /// <summary>The geoid height grid scale factor for a 10-degree grid spacing (1/10 grid cell per degree).</summary>
         public const double ScaleFactor10Degrees = 10; //1 / 10.0 grid cells per degree at 10 degree spacing
+
+        /// <summary>The geoid height grid scale factor for a 30-minute grid spacing (2 grid cells per degree).</summary>
         public const double ScaleFactor30Minutes = .5; //2 grid cells per degree at 30 minute spacing
+
+        /// <summary>The geoid height grid scale factor for a 1-degree grid spacing (1 grid cell per degree).</summary>
         public const double ScaleFactor1Degree = 1; //1 grid cell per degree at 1 degree spacing
+
+        /// <summary>The geoid height grid scale factor for a 2-degree grid spacing (1/2 grid cell per degree).</summary>
         public const double ScaleFactor2Degrees = 2; //1 / 2 grid cells per degree at 2 degree spacing
 
 
@@ -46,11 +83,21 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region Public Methods
 
+        /// <summary>
+        /// Tests whether the specified latitude is within the valid range (<see cref="MinLat"/> to <see cref="MaxLat"/>).
+        /// </summary>
+        /// <param name="lat">The latitude, in decimal degrees, to test.</param>
+        /// <returns>True if lat is between <see cref="MinLat"/> and <see cref="MaxLat"/>, inclusive.</returns>
         public static bool IsValidLat(double lat)
         {
             return (lat <= MaxLat && lat >= MinLat);
         }
 
+        /// <summary>
+        /// Tests whether the specified longitude is within the valid range (<see cref="MinLon"/> to <see cref="MaxLon"/>).
+        /// </summary>
+        /// <param name="lon">The longitude, in decimal degrees, to test.</param>
+        /// <returns>True if lon is between <see cref="MinLon"/> and <see cref="MaxLon"/>, inclusive.</returns>
         public static bool IsValidLon(double lon)
         {
             return (lon <= MaxLon && lon >= MinLon);
@@ -82,6 +129,11 @@ namespace StarThrower.Gis.GeoUtilities
                 return result;
             }
         }
+        /// <summary>
+        /// Gets a collection of the names of the available angular unit types.
+        /// This method is intended to be used for populating a list or combo box
+        /// from which a user can select an Angular Unit.
+        /// </summary>
         public static Collection<string> AngularUnitTypeNames
         {
             get
@@ -130,6 +182,11 @@ namespace StarThrower.Gis.GeoUtilities
                 return result;
             }
         }
+        /// <summary>
+        /// Gets a collection of the names of the available datum types.
+        /// This method is intended to be used for populating a list or combo box
+        /// from which a user can select a Datum.
+        /// </summary>
         public static Collection<string> DatumTypeNames
         {
             get
@@ -179,6 +236,11 @@ namespace StarThrower.Gis.GeoUtilities
                 return result;
             }
         }
+        /// <summary>
+        /// Gets a collection of the names of the available ellipsoid types.
+        /// This method is intended to be used for populating a list or combo box
+        /// from which a user can select an Ellipsoid.
+        /// </summary>
         public static Collection<string> EllipsoidTypeNames
         {
             get
@@ -227,6 +289,11 @@ namespace StarThrower.Gis.GeoUtilities
                 return result;
             }
         }
+        /// <summary>
+        /// Gets a collection of the names of the available linear unit types.
+        /// This method is intended to be used for populating a list or combo box
+        /// from which a user can select a Linear Unit.
+        /// </summary>
         public static Collection<string> LinearUnitTypeNames
         {
             get
@@ -274,6 +341,11 @@ namespace StarThrower.Gis.GeoUtilities
                 return result;
             }
         }
+        /// <summary>
+        /// Gets a collection of the names of the available prime meridian types.
+        /// This method is intended to be used for populating a list or combo box
+        /// from which a user can select a Prime Meridian.
+        /// </summary>
         public static Collection<string> PrimeMeridianTypeNames
         {
             get
@@ -321,6 +393,11 @@ namespace StarThrower.Gis.GeoUtilities
                 return result;
             }
         }
+        /// <summary>
+        /// Gets a collection of the names of the available projection types.
+        /// This method is intended to be used for populating a list or combo box
+        /// from which a user can select a Projection Type.
+        /// </summary>
         public static Collection<string> ProjectionTypeNames
         {
             get
@@ -369,6 +446,11 @@ namespace StarThrower.Gis.GeoUtilities
                 return result;
             }
         }
+        /// <summary>
+        /// Gets a collection of the names of the available geographic coordinate system types.
+        /// This method is intended to be used for populating a list or combo box
+        /// from which a user can select a Geographic Coordinate System type.
+        /// </summary>
         public static Collection<string> GeographicCoordinateSystemTypeNames
         {
             get
@@ -433,6 +515,11 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
 
+        /// <summary>
+        /// Gets a collection of the names of the available projected coordinate system types.
+        /// This method is intended to be used for populating a list or combo box
+        /// from which a user can select a Projected Coordinate System type.
+        /// </summary>
         public static Collection<string> ProjectedCoordinateSystemTypeNames
         {
             get
@@ -455,6 +542,24 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
 
+        /// <summary>
+        /// Converts a coordinate from one coordinate system to another.
+        /// </summary>
+        /// <param name="csFrom">The coordinate system the input coordinate is expressed in.</param>
+        /// <param name="csTo">The coordinate system to convert the coordinate to.</param>
+        /// <param name="xLon">The x (or longitude/easting-equivalent) coordinate, in csFrom.</param>
+        /// <param name="yLat">The y (or latitude/northing-equivalent) coordinate, in csFrom.</param>
+        /// <param name="zAlt">The vertical (height/altitude) coordinate, in csFrom.</param>
+        /// <returns>
+        /// The resulting coordinate in csTo, along with the estimated accumulated computational error.
+        /// </returns>
+        /// <remarks>
+        /// Converts csFrom's coordinate to geodetic coordinates, shifts to WGS84 if csFrom and csTo
+        /// use different datums or height interpretations, adjusts the height component per
+        /// <see cref="HeightType"/> (using the EGM96 or EGM84 geoid models where required), shifts
+        /// from WGS84 to csTo's datum, and finally converts to csTo's coordinate system.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown if csFrom or csTo is null.</exception>
         public static ITranslationResult Translate(ICoordinateSystem csFrom, ICoordinateSystem csTo, double xLon, double yLat, double zAlt)
         {
             ArgumentNullException.ThrowIfNull(csFrom);
@@ -841,9 +946,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// </summary>
         /// <param name="x">easting from lon0 (in meters) (NOTE: assumed to have false eastings and northings already removed)</param>
         /// <param name="y">northing from lat0 (in meters) (NOTE: assumed to have false eastings and northings already removed)</param>
-        /// <param name="lat0">the reference latitidue (typically zero for UTMs)</param>
-        /// <param name="lon0">the central meridian of zone</param>
-        /// <param name="k0">the scale factor (typically 0,9996 for UTMs)</param>
+        /// <param name="utmCoordSys">the UTM coordinate system supplying the reference latitude, central meridian, scale factor, and datum/ellipsoid.</param>
         /// <param name="lon">the returned xLon for UTM(x,y)</param>
         /// <param name="lat">the returned yLat for UTM(x,y)</param>
         /// <returns>This function always returns true, for now.</returns>
@@ -886,9 +989,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// </summary>
         /// <param name="lon">xLon</param>
         /// <param name="lat">yLat</param>
-        /// <param name="lat0">the reference latitidue (typically zero for UTMs)</param>
-        /// <param name="lon0">the central meridian of zone</param>
-        /// <param name="k0">the scale factor (typically 0.9996 for UTMs)</param>
+        /// <param name="utmCoordSys">the UTM coordinate system supplying the reference latitude, central meridian, scale factor, and datum/ellipsoid.</param>
         /// <param name="x">the returned easting(x) for UTM(lon,lat) (NOTE: these returned coordinates will requires the false eastings and northings to be added.)</param>
         /// <param name="y">the returned northing(y) for UTM(lon,lat) (NOTE: these returned coordinates will requires the false eastings and northings to be added.)</param>
         /// <returns>This function always returns true, for now.</returns>
@@ -953,17 +1054,11 @@ namespace StarThrower.Gis.GeoUtilities
         /// the southern hemisphere. All other parameters for the conversion are assumed to be the defaults
         /// for UTMs.
         /// </summary>
-        /// <param name="x">easting</param>
-        /// <param name="y">northing</param>
-        /// <param name="lat0">reference yLat</param>
-        /// <param name="lon0">the central meridian</param>
-        /// <param name="false_Northing">false northing</param>
-        /// <param name="false_Easting">false easting</param>
-        /// <param name="SouthernHemisphere">true if the UTM is in the southern hemisphere</param>
-        /// <param name="k0">the scale factor</param>
-        /// <param name="lat">the returned lat</param>
-        /// <param name="lon">the returned lon</param>
-        /// <returns></returns>
+        /// <param name="xLon1">The UTM easting.</param>
+        /// <param name="yLat1">The UTM northing.</param>
+        /// <param name="utmCoordSys">The UTM coordinate system the input is expressed in, supplying the false easting/northing, scale factor, and (if zoned) southern-hemisphere flag.</param>
+        /// <param name="xLon2">The resulting longitude.</param>
+        /// <param name="yLat2">The resulting latitude.</param>
         internal static void UtmToLatLonDetail(double xLon1, double yLat1, IProjectedCoordinateSystem utmCoordSys, ref double xLon2, ref double yLat2)
         {
             // Check if this is a southern hemisphere zone
@@ -1008,16 +1103,11 @@ namespace StarThrower.Gis.GeoUtilities
         /// southern hemisphere. All other parameters for the conversion are assumed to be the defaults
         /// for UTMs.
         /// </summary>
-        /// <param name="lat">yLat</param>
-        /// <param name="lon">xLon</param>
-        /// <param name="lat0">the reference yLat</param>
-        /// <param name="lon0">the reference xLon</param>
-        /// <param name="false_Northing">false northing</param>
-        /// <param name="false_Easting">false easting</param>
-        /// <param name="k0">the scale factor</param>
-        /// <param name="x">the returned easting(x)</param>
-        /// <param name="y">the returned northing(y)</param>
-        /// <returns></returns>
+        /// <param name="xLon1">The longitude.</param>
+        /// <param name="yLat1">The latitude.</param>
+        /// <param name="utmCoordSys">The UTM coordinate system to convert to, supplying the false easting/northing and scale factor.</param>
+        /// <param name="xLon2">The resulting UTM easting.</param>
+        /// <param name="yLat2">The resulting UTM northing.</param>
         internal static void LatLonToUtmDetail(double xLon1, double yLat1, IProjectedCoordinateSystem utmCoordSys, ref double xLon2, ref double yLat2)
         {
             if (yLat1 > 84.0 || yLat1 < -80.0)

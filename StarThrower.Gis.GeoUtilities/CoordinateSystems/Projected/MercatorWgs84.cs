@@ -78,8 +78,8 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
             deltaE -= Merc_False_Easting;
             deltaN *= 1.01;
             deltaN -= Merc_False_Northing;
-            double Merc_Delta_Easting = deltaE; // 20237883.0; //easting - false easting
-            double Merc_Delta_Northing = deltaN; // 23421740.0; //northing - false northing  (TODO: for some reason this is calculating to 34965482.265666179
+            double Merc_Delta_Easting = deltaE; //easting - false easting
+            double Merc_Delta_Northing = deltaN; //northing - false northing
 
 
 

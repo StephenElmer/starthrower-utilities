@@ -6,6 +6,10 @@ using StarThrower.Gis.GeoUtilities.Exceptions;
 
 namespace StarThrower.Gis.GeoUtilities
 {
+    /// <summary>
+    /// A single geodetic point, exposing both decimal-degree and degrees-minutes-seconds
+    /// representations of its longitude and latitude.
+    /// </summary>
     public class GeoPoint : IGeoPoint, ICloneable
     {
         #region Private Member Variables
@@ -20,7 +24,7 @@ namespace StarThrower.Gis.GeoUtilities
         #region Public Properties
 
         /// <summary>
-        /// Sets/Gets yLat in decimal degrees (DD format)
+        /// Gets or sets the latitude, in decimal degrees (DD format).
         /// </summary>
         public double yLat
         {
@@ -29,7 +33,7 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Sets/Gets xLon in decimal degrees (DD format)
+        /// Gets or sets the longitude, in decimal degrees (DD format).
         /// </summary>
         public double xLon
         {
@@ -38,7 +42,7 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Sets/Gets yLat in a DMS format
+        /// Gets or sets the latitude as a degrees-minutes-seconds formatted string.
         /// </summary>
         public string yLatDms
         {
@@ -47,7 +51,7 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Sets/Gets xLon in a DMS format
+        /// Gets or sets the longitude as a degrees-minutes-seconds formatted string.
         /// </summary>
         public string xLonDms
         {
@@ -60,14 +64,26 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region Construction
 
+        /// <summary>
+        /// Initializes a new instance of the GeoPoint class at (0, 0).
+        /// </summary>
         public GeoPoint() : this(0, 0) { }
-        
+
+        /// <summary>
+        /// Initializes a new instance of the GeoPoint class at the specified longitude and latitude.
+        /// </summary>
+        /// <param name="xLon">The longitude, in decimal degrees.</param>
+        /// <param name="yLat">The latitude, in decimal degrees.</param>
         public GeoPoint(double xLon, double yLat)
         {
             _yLat = yLat;
             _xLon = xLon;
         }
-        
+
+        /// <summary>
+        /// Initializes a new instance of the GeoPoint class as a copy of another.
+        /// </summary>
+        /// <param name="other">The GeoPoint to copy.</param>
         public GeoPoint(GeoPoint other) : this()
         {
             this.ItemCopy(other);
@@ -78,6 +94,10 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region ICloneable Members
 
+        /// <summary>
+        /// Creates a copy of this point.
+        /// </summary>
+        /// <returns>A new GeoPoint with the same longitude and latitude as this instance.</returns>
         public virtual object Clone()
         {
             return new GeoPoint(this);
@@ -92,7 +112,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// Sets the state of the current instance equal to a copy of the state of some other instance.
         /// </summary>
         /// <param name="value">This instance you wish this to be a copy of.  Must be of type GeoPoint.</param>
-        /// <exception cref="FailedItemCopyException"></exception>
+        /// <exception cref="FailedItemCopyException">Thrown if value is null, is not a GeoPoint, or copying otherwise fails.</exception>
         public void ItemCopy(object value)
         {
             try
@@ -113,6 +133,11 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region Object Overrides
 
+        /// <summary>
+        /// Tests whether the given object is equal to this object.
+        /// </summary>
+        /// <param name="obj">The object to compare to this object.</param>
+        /// <returns>true if obj is a GeoPoint with the same xLon and yLat as this object; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
@@ -122,6 +147,10 @@ namespace StarThrower.Gis.GeoUtilities
             return this.xLon == other.xLon && this.yLat == other.yLat;
         }
 
+        /// <summary>
+        /// Serves as a hash function for a particular type. GetHashCode is suitable for use in hashing algorithms and data structures like a hash table.
+        /// </summary>
+        /// <returns>A hash code for the current GeoPoint.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -130,6 +159,10 @@ namespace StarThrower.Gis.GeoUtilities
             return result;
         }
 
+        /// <summary>
+        /// Returns the string representation of this GeoPoint.
+        /// </summary>
+        /// <returns>A string describing this object.</returns>
         public override string ToString()
         {
             return "[GeoPoint:  x=" + this.xLon + ", y=" + this.yLat + "]";

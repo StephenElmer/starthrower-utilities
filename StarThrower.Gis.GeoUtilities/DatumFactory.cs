@@ -294,6 +294,15 @@ namespace StarThrower.Gis.GeoUtilities
             }
             return _datumList[datumType.Name];
         }
+        /// <summary>
+        /// Gets the instance of the Datum specified by datumTypeName.
+        /// If an instance does not exist, one is created.
+        /// </summary>
+        /// <param name="datumTypeName">The name of the datum type you want. Undefined and UserDefined are considered invalid.</param>
+        /// <returns>The datum instance associated with datumTypeName.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if datumTypeName is null.</exception>
+        /// <exception cref="Exceptions.AmbiguousDatumTypeException">Thrown on the UserDefined datum type name.</exception>
+        /// <exception cref="Exceptions.InvalidDatumTypeException">Thrown if datumTypeName does not exist.</exception>
         public static IDatum GetInstanceOfDatum(string datumTypeName)
         {
             ArgumentNullException.ThrowIfNull(datumTypeName);
@@ -304,6 +313,13 @@ namespace StarThrower.Gis.GeoUtilities
             Type datumType = GetDatumType(datumTypeName);
             return GetInstanceOfDatum(datumType);
         }
+
+        /// <summary>
+        /// Determines whether a type named datumTypeName exists in the <c>Datums</c> namespace.
+        /// </summary>
+        /// <param name="datumTypeName">The name of the datum type to look for.</param>
+        /// <returns>True if the type exists (other than <c>Undefined</c>); otherwise, false.</returns>
+        /// <exception cref="ArgumentException">Thrown if datumTypeName is null or empty.</exception>
         public static bool DatumTypeExists(string datumTypeName)
         {
             ArgumentException.ThrowIfNullOrEmpty(datumTypeName);
@@ -318,6 +334,13 @@ namespace StarThrower.Gis.GeoUtilities
             }
             return false;
         }
+
+        /// <summary>
+        /// Gets the <see cref="Type"/> named datumTypeName.
+        /// </summary>
+        /// <param name="datumTypeName">The name of the type to look for.</param>
+        /// <returns>The matching type, or <see cref="Datums.Undefined"/> if no type named datumTypeName exists.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if datumTypeName is null.</exception>
         public static Type GetDatumType(string datumTypeName)
         {
             ArgumentNullException.ThrowIfNull(datumTypeName);
@@ -347,7 +370,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// be using the more precise version of this function.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
-        /// <exception cref="Exceptions.InvalidDatumException">Thrown if name is incorrectly formatted.</exception>
+        /// <exception cref="Exceptions.InvalidDatumTypeException">Thrown if name is incorrectly formatted.</exception>
         public static bool UserDefinedDatumExists(string name)
         {
             ArgumentNullException.ThrowIfNull(name);
@@ -377,7 +400,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// <param name="west"></param>
         /// <returns>True if a UserDefined Datum has been intantiated with this name and ellipsoid; otherwise, false.</returns>
         /// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
-        /// <exception cref="Exceptions.InvalidDatumException">Thrown if name is incorrectly formatted.</exception>
+        /// <exception cref="Exceptions.InvalidDatumTypeException">Thrown if name is incorrectly formatted.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if west is not less than east or if south is not less than north.</exception>
         public static bool UserDefinedDatumExists(string name, IEllipsoid ellipsoid, double deltaX, double sigmaX, double deltaY, double sigmaY, double deltaZ, double sigmaZ, double rotationX, double rotationY, double rotationZ, double rotationScaleFactor, double north, double south, double east, double west)
         {

@@ -47,11 +47,22 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
             }
         }
 
+        /// <summary>
+        /// Gets the Central Meridian used for the TransverseMercator projection calculation.
+        /// For special zones (31X, 33X, 35X, 37X, 31V, 32V) this is the standard
+        /// longitudinal zone CM, not the geometric center of the zone's actual boundary.
+        /// </summary>
         public override double CentralMeridian
         {
             get { return GetCentralMeridian(); }
         }
 
+        /// <summary>
+        /// Gets the geometric center of the zone's actual boundary extent.
+        /// For standard zones this equals <see cref="CentralMeridian"/>. For special zones
+        /// (31X, 33X, 35X, 37X, 31V, 32V) these will differ due to non-standard
+        /// zone widths in the Norway (V) and Svalbard (X) regions.
+        /// </summary>
         public override double GeometricCenter
         {
             get { return GetGeometricCenter(); }
@@ -130,6 +141,11 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
             }
         }
 
+        /// <summary>
+        /// Gets the standard string designation of this zone (e.g. "31N"), combining the
+        /// numeric longitudinal zone and the letter latitudinal zone with their "Utm" prefixes
+        /// stripped.
+        /// </summary>
         public override string ZoneString
         {
             get
@@ -172,18 +188,41 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
 
         #region Construction
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="UtmZone"/> from explicit longitudinal and latitudinal zone values.
+        /// </summary>
+        /// <param name="longitudinalZone">The longitudinal (numeric) zone.</param>
+        /// <param name="latitudinalZone">The latitudinal (letter) zone.</param>
         public UtmZone(LongitudinalZone longitudinalZone, LatitudinalZone latitudinalZone)
         {
             _longitudinalZone = longitudinalZone;
             _latitudinalZone = latitudinalZone;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="UtmZone"/> by determining the longitudinal and
+        /// latitudinal zones that contain the given coordinate.
+        /// </summary>
+        /// <param name="longitude">The longitude, in degrees, used to determine the longitudinal zone.</param>
+        /// <param name="latitude">The latitude, in degrees, used to determine the latitudinal zone.</param>
+        /// <exception cref="NotImplementedException">
+        /// Thrown if <paramref name="latitude"/> falls within Latitudinal Zones A, B, Y, or Z,
+        /// which are not yet supported.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="latitude"/> or <paramref name="longitude"/> is out of range.</exception>
         public UtmZone(double longitude, double latitude)
         {
             _longitudinalZone = GetLongitudinalZoneForLongitude(longitude, latitude);
             _latitudinalZone = GetLatitudinalZoneForLatitude(latitude);
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="UtmZone"/> by parsing a combined zone
+        /// string (e.g. "31N").
+        /// </summary>
+        /// <param name="zone">The combined numeric longitudinal zone and letter latitudinal zone designation.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="zone"/> is <see langword="null"/>.</exception>
+        /// <exception cref="FormatException"><paramref name="zone"/> is not a recognized zone designation.</exception>
         public UtmZone(string zone)
         {
             ArgumentNullException.ThrowIfNull(zone);
@@ -222,6 +261,14 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="UtmZone"/> from separate longitudinal and
+        /// latitudinal zone strings.
+        /// </summary>
+        /// <param name="longitudinalZone">The numeric longitudinal zone designation (e.g. "31").</param>
+        /// <param name="latitudinalZone">The letter latitudinal zone designation (e.g. "N").</param>
+        /// <exception cref="ArgumentNullException"><paramref name="longitudinalZone"/> or <paramref name="latitudinalZone"/> is <see langword="null"/>.</exception>
+        /// <exception cref="FormatException"><paramref name="longitudinalZone"/> or <paramref name="latitudinalZone"/> is not a recognized zone designation.</exception>
         public UtmZone(string longitudinalZone, string latitudinalZone)
         {
             _longitudinalZone = GetLongitudinalZoneFromLongitudinalZoneString(longitudinalZone);

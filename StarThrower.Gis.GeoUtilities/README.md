@@ -47,15 +47,15 @@ The library ships with a large catalog of concrete implementations, organized on
 
 | Folder | Contents |
 |---|---|
-| `Datums/` | 140+ geodetic datums (e.g. `Wgs1984`, `Nad27`, `European1950` and its regional variants, `Tokyo`, `Arc1960Kenya`, plus county-adjustment datums for Wisconsin/Minnesota). |
-| `Ellipsoids/` | 150+ reference ellipsoids (e.g. `Grs1980`, `Clarke1866`, `Bessel1841`, `International1924`, plus many `Grs1980AdjWiXxx`/`SGrs1980AdjMnXxx` county-specific adjustments). |
+| `Datums/` | 230+ geodetic datums (e.g. `Wgs1984`, `Nad27`, `European1950` and its regional variants, `Tokyo`, `Arc1960Kenya`, plus county-adjustment datums for Wisconsin/Minnesota). |
+| `Ellipsoids/` | 190+ reference ellipsoids (e.g. `Grs1980`, `Clarke1866`, `Bessel1841`, `International1924`, plus many `Grs1980AdjWiXxx`/`SGrs1980AdjMnXxx` county-specific adjustments). |
 | `Geoids/` | `Egm84`, `Egm96` gravity-model height grids, plus `Undefined`/`UserDefined`. |
 | `AngularUnits/` | `Degree`, `Grad`, `Undefined`. |
-| `LinearUnits/` | `Meter`, `FootUs`, `FootClarke`, `FootGoldCoast`, `FootSears`, `ChainSears`, `ChainBenoit1895B`, `LinkClarke`, `YardIndian`, `YardIndian1937`, `YardSears`, `Kilometers50`, `Kilometers150`, `Undefined`. |
+| `LinearUnits/` | `Meter`, `Foot`, `FootUs`, `FootClarke`, `FootGoldCoast`, `FootSears`, `ChainSears`, `ChainBenoit1895B`, `LinkClarke`, `YardIndian`, `YardIndian1937`, `YardSears`, `Kilometers50`, `Kilometers150`, `Undefined`. |
 | `PrimeMeridians/` | `Greenwich`, `Paris`, `Bern`, `Brussels`, `Ferro`, `Lisbon`, `Madrid`, `Oslo`, `Rome`, `Stockholm`, `Undefined`. |
 | `Projections/` | 26 map projections (e.g. `TransverseMercator`, `LambertConformalConic1`/`2`, `Mercator`, `AlbersEqualAreaConic`, `Polyconic`, `Stereographic`, `VanDerGrinten`, `Undefined`). |
 | `CoordinateSystems/Geographic/` | 15 geographic coordinate systems (e.g. `GeodeticWgs84`, `GeodeticNad27`, `GeodeticNad83`, `GeodeticWgs72`, `GeocentricWgs84`, `MgrsWgs84`, `UsngWgs84`, `GarsWgs84`, `Undefined`/`UserDefined`). |
-| `CoordinateSystems/Projected/` | 31 projected coordinate systems, including `UtmWgs84`/`UtmWgs84Ns`/`UtmWgs72`/`UtmWgs72Ns`, `Bng` (British National Grid), and one Wgs84-based system per projection (e.g. `MercatorWgs84`, `LambertConformalConic1Wgs84`), plus `Undefined`/`UserDefined`. |
+| `CoordinateSystems/Projected/` | 32 projected coordinate systems, including `UtmWgs84`/`UtmWgs84Ns`/`UtmWgs72`/`UtmWgs72Ns`, `Bng` (British National Grid), and one Wgs84-based system per projection (e.g. `MercatorWgs84`, `LambertConformalConic1Wgs84`), plus `Undefined`/`UserDefined`. |
 | `Zones/` | `UndefinedZone`, and UTM/UTM-NS latitudinal and longitudinal zone definitions used by the zoned UTM coordinate systems. |
 
 ---
@@ -249,10 +249,10 @@ int totalPoints = polygon.PointCount;
 | `InvalidLinearUnitTypeException` | An `ILinearUnit` type name is not found. |
 | `InvalidPrimeMeridianTypeException` | An `IPrimeMeridian` type name is not found. |
 | `InvalidProjectionTypeException`, `InvalidProjectionParametersException` | An `IProjection` type name is not found, or its required parameters are missing/invalid. |
-| `FailedGeoTranslationException` | `GeoUtil.Translate` cannot complete a coordinate conversion. |
+| `FailedGeoTranslationException` | Defined for use when `GeoUtil.Translate` cannot complete a coordinate conversion; not currently thrown anywhere in the library ([#14](https://github.com/StephenElmer/starthrower-utilities/issues/14)). |
 | `FailedItemCopyException` | `ItemCopy(object)` is called with an incompatible or null source object. |
 | `PrecisionException` | A computed value exceeds the precision supported by a coordinate system or unit. |
-| `ValueOutOfRangeException` | A coordinate or parameter value falls outside its valid domain (e.g. latitude/longitude out of range, or outside a datum's `Domain`). |
+| `ValueOutOfRangeException` | A coordinate or parameter value falls outside its valid domain (e.g. latitude/longitude out of range). |
 
 ---
 
@@ -273,6 +273,27 @@ int totalPoints = polygon.PointCount;
 - **DMS formatting.** `DmsFormatterFactory.Create(DmsFormat)` returns a singleton
   `IDmsFormatter`: `DmsFormat.Default`/`Dms1` produces `[°][d][d]d° [m]m' ss.ss"`-style strings;
   `Dms2` produces `{N|S|E|W}[d]d{D}[m]m{M}[s]s[.ss]{S}`-style strings.
+- **Datum domain validation.** `GeoUtil.Translate` throws `InvalidOperationException` if the
+  translated coordinate falls outside the destination datum's valid region (`Datum.Domain`,
+  checked via `Datum.Validate`).
+
+---
+
+## Known Limitations
+
+- **Most non-UTM projected coordinate systems do not yet project.** Of the 32 types in
+  `CoordinateSystems/Projected/`, only `MercatorWgs84` and the four UTM variants
+  (`UtmWgs84`/`UtmWgs84Ns`/`UtmWgs72`/`UtmWgs72Ns`) have working `ToGeodetic`/`FromGeodetic`
+  implementations. The other 26 (e.g. `LambertConformalConic1Wgs84`, `MollweideWgs84`,
+  `TransverseMercatorWgs84`) currently pass the input coordinate through unchanged. The
+  underlying projection math for all of these already exists in `Projections/` — the
+  coordinate-system wrapper classes just don't call into it yet. See
+  [#11](https://github.com/StephenElmer/starthrower-utilities/issues/11).
+- **`Datum.FromWgs84` is a no-op for almost every datum.** Converting a coordinate from WGS84
+  into any datum other than `Wgs1972`/`Wgs1984` currently returns the input unchanged. The
+  seven-parameter/geocentric shift path (`GeocentricShiftToWgs84`) is similarly unimplemented,
+  affecting `Osgb1936`, `European1950`, and `UserDefined` datums specifically. See
+  [#12](https://github.com/StephenElmer/starthrower-utilities/issues/12).
 
 ---
 

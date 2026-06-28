@@ -6,6 +6,9 @@ using StarThrower.Gis.GeoUtilities.Ellipsoids;
 
 namespace StarThrower.Gis.GeoUtilities
 {
+    /// <summary>
+    /// A reference ellipsoid: the geometric model of the Earth's shape used by a geodetic datum.
+    /// </summary>
     public abstract class Ellipsoid : IEllipsoid
     {
         /// <summary>
@@ -18,7 +21,7 @@ namespace StarThrower.Gis.GeoUtilities
 
         private double _equatorialRadius; //aka Semi-Major Axis
         private double _polarRadius; //aka Semi-Minor Axis
-        private double _flattening; //TODO: or should this be inverseFlattening  (1/flattening) ???
+        private double _flattening; //true flattening (f), not inverse flattening (1/f) - confirmed by all Ellipsoid subclasses dividing before assignment
 
         #endregion
 

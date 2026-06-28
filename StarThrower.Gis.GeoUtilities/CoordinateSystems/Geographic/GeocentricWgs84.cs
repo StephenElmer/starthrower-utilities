@@ -1,6 +1,7 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
+using StarThrower.Gis.GeoUtilities.Exceptions;
 
 namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
 {

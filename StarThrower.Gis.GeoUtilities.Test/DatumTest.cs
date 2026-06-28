@@ -390,6 +390,121 @@ namespace StarThrower.Gis.GeoUtilities.Test
 
         #region UserDefined Instantiation
 
+        [Fact]
+        public void TestUserDefinedIsSevenParamDatumFalseWhenAllRotationsZero()
+        {
+            IDatum d = DatumFactory.GetInstanceOfNewUserDefinedDatum("ZeroRotation", EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Wgs1984)),
+                0, -1, 0, -1, 0, -1, 0.0, 0.0, 0.0, 1.0, 90, -90, 180, -180);
+
+            d.IsSevenParamDatum.Should().BeFalse();
+        }
+
+        [Fact]
+        public void TestUserDefinedIsSevenParamDatumFalseWhenOnlyScaleFactorNonDefault()
+        {
+            // RotationScaleFactor alone is not a reliable signal (its "no scaling" baseline is
+            // inconsistent across data sources - 1 in some, 0 in others), so it must not affect
+            // IsSevenParamDatum on its own.
+            IDatum d = DatumFactory.GetInstanceOfNewUserDefinedDatum("ScaleFactorOnly", EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Wgs1984)),
+                0, -1, 0, -1, 0, -1, 0.0, 0.0, 0.0, 0.5, 90, -90, 180, -180);
+
+            d.IsSevenParamDatum.Should().BeFalse();
+        }
+
+        [Fact]
+        public void TestUserDefinedIsSevenParamDatumTrueWhenRotationXNonZero()
+        {
+            IDatum d = DatumFactory.GetInstanceOfNewUserDefinedDatum("RotationXNonZero", EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Wgs1984)),
+                0, -1, 0, -1, 0, -1, 0.413, 0.0, 0.0, 1.0, 90, -90, 180, -180);
+
+            d.IsSevenParamDatum.Should().BeTrue();
+        }
+
+        [Fact]
+        public void TestUserDefinedIsSevenParamDatumTrueWhenRotationYNonZero()
+        {
+            IDatum d = DatumFactory.GetInstanceOfNewUserDefinedDatum("RotationYNonZero", EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Wgs1984)),
+                0, -1, 0, -1, 0, -1, 0.0, -0.184, 0.0, 1.0, 90, -90, 180, -180);
+
+            d.IsSevenParamDatum.Should().BeTrue();
+        }
+
+        [Fact]
+        public void TestUserDefinedIsSevenParamDatumTrueWhenRotationZNonZero()
+        {
+            IDatum d = DatumFactory.GetInstanceOfNewUserDefinedDatum("RotationZNonZero", EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Wgs1984)),
+                0, -1, 0, -1, 0, -1, 0.0, 0.0, 0.385, 1.0, 90, -90, 180, -180);
+
+            d.IsSevenParamDatum.Should().BeTrue();
+        }
+
+        #endregion
+
+
+        #region Validate
+
+        [Fact]
+        public void TestValidateInsideDomainReturnsTrue()
+        {
+            IDatum d = DatumFactory.GetInstanceOfDatum(typeof(Datums.Nad1927Conus));
+            double xLon = -100.0 * GeoUtil.DegreesToRadians;
+            double yLat = 40.0 * GeoUtil.DegreesToRadians;
+
+            d.Validate(xLon, yLat).Should().BeTrue();
+        }
+
+        [Fact]
+        public void TestValidateNorthOfDomainReturnsFalse()
+        {
+            IDatum d = DatumFactory.GetInstanceOfDatum(typeof(Datums.Nad1927Conus));
+            double xLon = -100.0 * GeoUtil.DegreesToRadians;
+            double yLat = 70.0 * GeoUtil.DegreesToRadians; // domain Top is 60
+
+            d.Validate(xLon, yLat).Should().BeFalse();
+        }
+
+        [Fact]
+        public void TestValidateSouthOfDomainReturnsFalse()
+        {
+            IDatum d = DatumFactory.GetInstanceOfDatum(typeof(Datums.Nad1927Conus));
+            double xLon = -100.0 * GeoUtil.DegreesToRadians;
+            double yLat = 5.0 * GeoUtil.DegreesToRadians; // domain Bottom is 15
+
+            d.Validate(xLon, yLat).Should().BeFalse();
+        }
+
+        [Fact]
+        public void TestValidateEastOfDomainReturnsFalse()
+        {
+            IDatum d = DatumFactory.GetInstanceOfDatum(typeof(Datums.Nad1927Conus));
+            double xLon = -50.0 * GeoUtil.DegreesToRadians; // domain Right is -60
+            double yLat = 40.0 * GeoUtil.DegreesToRadians;
+
+            d.Validate(xLon, yLat).Should().BeFalse();
+        }
+
+        [Fact]
+        public void TestValidateWestOfDomainReturnsFalse()
+        {
+            IDatum d = DatumFactory.GetInstanceOfDatum(typeof(Datums.Nad1927Conus));
+            double xLon = -140.0 * GeoUtil.DegreesToRadians; // domain Left is -135
+            double yLat = 40.0 * GeoUtil.DegreesToRadians;
+
+            d.Validate(xLon, yLat).Should().BeFalse();
+        }
+
+        [Fact]
+        public void TestValidateJustInsideDomainBoundaryReturnsTrue()
+        {
+            // Points exactly on a degree boundary (e.g. -60.0) are not used here because converting
+            // degrees -> radians -> degrees does not always round-trip to the exact same double,
+            // which would make the assertion flaky. Points just inside each edge avoid that.
+            IDatum d = DatumFactory.GetInstanceOfDatum(typeof(Datums.Nad1927Conus));
+
+            d.Validate(-134.999 * GeoUtil.DegreesToRadians, 59.999 * GeoUtil.DegreesToRadians).Should().BeTrue(); // near top-left corner
+            d.Validate(-60.001 * GeoUtil.DegreesToRadians, 15.001 * GeoUtil.DegreesToRadians).Should().BeTrue(); // near bottom-right corner
+        }
+
         #endregion
     }
 }

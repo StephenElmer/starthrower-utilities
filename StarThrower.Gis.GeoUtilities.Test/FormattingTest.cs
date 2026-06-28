@@ -1,5 +1,6 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
+using System;
 using AwesomeAssertions;
 using StarThrower.Gis.GeoUtilities.Formatting;
 using StarThrower.MathUtilities;
@@ -578,6 +579,91 @@ namespace StarThrower.Gis.GeoUtilities.Test
             double expected = -180.0;
             double actual = f.DmsToDdEw(sample);
             actual.Should().Be(expected);
+        }
+
+        #endregion
+
+
+        #region Invalid Input (DMS2)
+
+        [Fact]
+        public void Dms2DmsToDdNsNullThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdNs(null!);
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdNsEmptyThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdNs(string.Empty);
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdNsMissingDMarkerThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdNs("N4557m34.96s"); // no 'D'/'d' marker
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdNsMissingMMarkerThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdNs("N45d5734.96s"); // no 'M'/'m' marker
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdNsNonNumericDegreesThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdNs("NxxD57M34.96S");
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdEwNullThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdEw(null!);
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdEwEmptyThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdEw(string.Empty);
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdEwMissingDMarkerThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdEw("E4557m34.96s"); // no 'D'/'d' marker
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdEwMissingMMarkerThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdEw("E45d5734.96s"); // no 'M'/'m' marker
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Dms2DmsToDdEwNonNumericDegreesThrowsArgumentException()
+        {
+            IDmsFormatter f = DmsFormatterFactory.Create(DmsFormat.Dms2);
+            Action act = () => f.DmsToDdEw("ExxD57M34.96S");
+            act.Should().Throw<ArgumentException>();
         }
 
         #endregion

@@ -20,6 +20,9 @@ namespace StarThrower.Gis.GeoUtilities.Translations
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the zone associated with the translated coordinate.
+        /// </summary>
         public IZone Zone
         {
             get { return _zone; }

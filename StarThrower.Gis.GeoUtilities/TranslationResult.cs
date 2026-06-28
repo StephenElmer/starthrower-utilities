@@ -26,36 +26,54 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region Public Properties
 
-        public virtual double xLon 
-        { 
+        /// <summary>
+        /// Gets the resulting longitude (or x/easting-equivalent) coordinate.
+        /// </summary>
+        public virtual double xLon
+        {
             get { return _xLon; }
             protected set { _xLon = value; }
         }
-        
-        public virtual double yLat 
-        { 
+
+        /// <summary>
+        /// Gets the resulting latitude (or y/northing-equivalent) coordinate.
+        /// </summary>
+        public virtual double yLat
+        {
             get { return _yLat; }
             protected set { _yLat = value; }
         }
-        
-        public virtual double zAlt 
-        { 
+
+        /// <summary>
+        /// Gets the resulting vertical (height/altitude) coordinate.
+        /// </summary>
+        public virtual double zAlt
+        {
             get { return _zAlt; }
             protected set { _zAlt = value; }
         }
 
+        /// <summary>
+        /// Gets the estimated 90% circular error, accumulated across the translation.
+        /// </summary>
         public virtual double ce90
         {
             get { return _ce90; }
             protected set { _ce90 = value; }
         }
 
+        /// <summary>
+        /// Gets the estimated 90% linear error, accumulated across the translation.
+        /// </summary>
         public virtual double le90
         {
             get { return _le90; }
             protected set { _le90 = value; }
         }
 
+        /// <summary>
+        /// Gets the estimated 90% spherical error, accumulated across the translation.
+        /// </summary>
         public virtual double se90
         {
             get { return _se90; }
@@ -67,6 +85,12 @@ namespace StarThrower.Gis.GeoUtilities
 
         #region Public Methods
 
+        /// <summary>
+        /// Sets the estimated accumulated computational error for this translation result.
+        /// </summary>
+        /// <param name="ce90">The estimated 90% circular error.</param>
+        /// <param name="le90">The estimated 90% linear error.</param>
+        /// <param name="se90">The estimated 90% spherical error.</param>
         public void SetComputationalError(double ce90, double le90, double se90)
         {
             _ce90 = ce90;

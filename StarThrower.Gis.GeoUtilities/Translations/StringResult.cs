@@ -5,6 +5,10 @@ using System;
 namespace StarThrower.Gis.GeoUtilities.Translations
 {
 
+    /// <summary>
+    /// A <see cref="TranslationResult"/> that also carries the translated coordinate's
+    /// formatted string representation.
+    /// </summary>
     public class StringResult : TranslationResult
     {
         #region Private Instance Variables
@@ -16,6 +20,9 @@ namespace StarThrower.Gis.GeoUtilities.Translations
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the formatted string representation of the translated coordinate.
+        /// </summary>
         public string CoordString
         {
             get { return _coordString; }
@@ -34,7 +41,7 @@ namespace StarThrower.Gis.GeoUtilities.Translations
             this.yLat = yLat;
             this.zAlt = zAlt;
             this.ce90 = ce90;
-            this.le90 = ce90;
+            this.le90 = le90;
             this.se90 = se90;
             _coordString = coordString;
         }

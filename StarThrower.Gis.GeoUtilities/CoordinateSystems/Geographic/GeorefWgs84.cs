@@ -171,29 +171,6 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <returns>The value rounded to the nearest integer value.</returns>
         private static long RoundGEOREF(double value)
         {
-            //TODO: test to make sure these are correct:
-
-            ////The original code
-            //double ivalue = 0.0;
-            //long ival = 0;
-            //double fraction = modf(value, ref ivalue);
-            //ival = (long)(ivalue);
-            //if ((fraction > 0.5) || ((fraction == 0.5) && (ival % 2 == 1)))
-            //{
-            //    ival++;
-            //}
-            //return (ival);
-
-            ////The second go
-            //long iVal = Math.Truncate(value);
-            //double fraction = value - iVal;
-            //if ((fraction > 0.5) || ((fraction == 0.5) && (ival % 2 == 1)))
-            //{
-            //    iVal++;
-            //}
-            //return iVal;
-
-            //The final go
             return Convert.ToInt64(MathUtil.RoundTo(value, 0));
         }
 
@@ -212,23 +189,23 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
                 minutes = 59.999;
             }
             minutes = minutes * 1000;
-            
+
             long min = RoundGEOREF(minutes / divisor);
 
-            StringBuilder result = new StringBuilder(String.Empty);
-            StringBuilder precisionString = new StringBuilder(String.Empty);
-            for (int i = 0; i < precision; i++)
-            {
-                precisionString.Append('0');
-            }
-            result.Append(String.Format(CultureInfo.InvariantCulture, precisionString + "." + precisionString, min));
-            
+            // GEOREF coordinate strings are plain digit sequences with no embedded separators
+            // (4 letters + up to 5 digits per axis = GEOREF_MAXIMUM of 14), so the rounded value
+            // is rendered as a zero-padded integer of width `precision`, not as a decimal number.
+            // This was previously broken: String.Format was called with a literal "000.000"-style
+            // format string containing no {0} placeholder, so `min` was silently discarded and the
+            // minutes field of every GEOREF string was always zero.
+            string result = min.ToString(CultureInfo.InvariantCulture).PadLeft((int)precision, '0');
+
             if (precision == 1)
             {
-                result.Append('0');
+                result += "0";
             }
 
-            return result.ToString();
+            return result;
         }
 
         #endregion

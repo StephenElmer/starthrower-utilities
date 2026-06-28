@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace StarThrower.Gis.GeoUtilities.Shapes
 {
+    /// <summary>
+    /// One or more rings forming a polygon. Corresponds to <see cref="ShapeType.Polygon"/>.
+    /// </summary>
     public class PolygonShape : StarThrower.Gis.GeoUtilities.Shapes.Shape, ICloneable
     {
         private List<StarThrower.Gis.GeoUtilities.Shapes.ClosedPart> _partList = new List<StarThrower.Gis.GeoUtilities.Shapes.ClosedPart>();
@@ -12,11 +15,20 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the number of parts (rings) in this polygon.
+        /// </summary>
         public int PartCount
         {
             get { return _partList.Count; }
         }
 
+        /// <summary>
+        /// Gets the bounding rectangle that encloses all parts of this polygon.
+        /// </summary>
+        /// <remarks>
+        /// The setter is a no-op; <see cref="Extent"/> is always computed from the current parts.
+        /// </remarks>
         public StarThrower.Gis.GeoUtilities.GeoRectangle Extent
         {
             get
@@ -38,6 +50,9 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
             set { }
         }
 
+        /// <summary>
+        /// Gets the total number of points across all parts of this polygon.
+        /// </summary>
         public int PointCount
         {
             get { return GetPointCount(); }
@@ -65,16 +80,27 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region Public Methods
 
+        /// <summary>
+        /// Appends a new, empty <see cref="ClosedPart"/> to this polygon.
+        /// </summary>
         public void AddPart()
         {
             _partList.Add(new StarThrower.Gis.GeoUtilities.Shapes.ClosedPart());
         }
 
+        /// <summary>
+        /// Gets the part at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the part to retrieve.</param>
+        /// <returns>The <see cref="ClosedPart"/> at <paramref name="index"/>.</returns>
         public StarThrower.Gis.GeoUtilities.Shapes.ClosedPart GetPart(int index)
         {
             return _partList[index];
         }
 
+        /// <summary>
+        /// Removes all parts from this polygon.
+        /// </summary>
         public void Clear()
         {
             _partList.Clear();
@@ -85,11 +111,18 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region Construction
 
+        /// <summary>
+        /// Initializes a new, empty instance of <see cref="PolygonShape"/>.
+        /// </summary>
         public PolygonShape() : base()
         {
             this.ShapeType = StarThrower.Gis.GeoUtilities.Shapes.ShapeType.Polygon;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="PolygonShape"/> as a copy of another instance.
+        /// </summary>
+        /// <param name="other">The instance to copy.</param>
         public PolygonShape(StarThrower.Gis.GeoUtilities.Shapes.PolygonShape other) : this()
         {
             this.ItemCopy(other);
@@ -100,6 +133,10 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region ICloneable Members
 
+        /// <summary>
+        /// Creates a deep copy of this shape.
+        /// </summary>
+        /// <returns>A new <see cref="PolygonShape"/> that is a copy of this instance.</returns>
         public override object Clone()
         {
             return new StarThrower.Gis.GeoUtilities.Shapes.PolygonShape(this);
@@ -110,6 +147,12 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region IItemCopyable Members
 
+        /// <summary>
+        /// Sets the state of the current instance equal to a copy of the state of some other instance.
+        /// </summary>
+        /// <param name="value">The instance you wish this to be a copy of. Must be a <see cref="PolygonShape"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="value"/> is not a <see cref="PolygonShape"/>.</exception>
         public override void ItemCopy(object value)
         {
             ArgumentNullException.ThrowIfNull(value);
@@ -128,6 +171,11 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region Object Overrides
 
+        /// <summary>
+        /// Tests whether the given object is equal to this object.
+        /// </summary>
+        /// <param name="obj">The object to compare to this object.</param>
+        /// <returns>true if <paramref name="obj"/> is a <see cref="PolygonShape"/> with the same parts, in the same order; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
@@ -142,6 +190,10 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
             return true;
         }
 
+        /// <summary>
+        /// Serves as a hash function for a particular type. GetHashCode is suitable for use in hashing algorithms and data structures like a hash table.
+        /// </summary>
+        /// <returns>A hash code for the current PolygonShape.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -152,6 +204,10 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
             return result;
         }
 
+        /// <summary>
+        /// Returns the string representation of this PolygonShape.
+        /// </summary>
+        /// <returns>A string describing this object.</returns>
         public override string ToString()
         {
             return "[" + this.GetType().Name + "]";

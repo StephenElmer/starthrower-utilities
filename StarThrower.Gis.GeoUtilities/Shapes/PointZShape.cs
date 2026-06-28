@@ -1,18 +1,33 @@
 ﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
+using StarThrower.Gis.GeoUtilities.Exceptions;
 
 namespace StarThrower.Gis.GeoUtilities.Shapes
 {
+    /// <summary>
+    /// A single point with a Z (elevation) value. Corresponds to <see cref="ShapeType.PointZ"/>.
+    /// </summary>
+    /// <remarks>
+    /// This class does not currently store an x/y coordinate or a Z value; it carries only its
+    /// <see cref="Shapes.Shape.ShapeType"/>.
+    /// </remarks>
     public class PointZShape : StarThrower.Gis.GeoUtilities.Shapes.Shape, ICloneable
     {
         #region Construction
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="PointZShape"/>.
+        /// </summary>
         public PointZShape() : base()
         {
             this.ShapeType = StarThrower.Gis.GeoUtilities.Shapes.ShapeType.PointZ;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="PointZShape"/> as a copy of another instance.
+        /// </summary>
+        /// <param name="other">The instance to copy.</param>
         public PointZShape(StarThrower.Gis.GeoUtilities.Shapes.PointZShape other) : this()
         {
             this.ItemCopy(other);
@@ -23,6 +38,10 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region ICloneable Members
 
+        /// <summary>
+        /// Creates a deep copy of this shape.
+        /// </summary>
+        /// <returns>A new <see cref="PointZShape"/> that is a copy of this instance.</returns>
         public override object Clone()
         {
             return new StarThrower.Gis.GeoUtilities.Shapes.PointZShape(this);
@@ -51,6 +70,11 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
 
         #region Object Overrides
 
+        /// <summary>
+        /// Tests whether the given object is equal to this object.
+        /// </summary>
+        /// <param name="obj">The object to compare to this object.</param>
+        /// <returns>true if <paramref name="obj"/> is a <see cref="PointZShape"/>; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
@@ -60,6 +84,10 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
             return true;
         }
 
+        /// <summary>
+        /// Serves as a hash function for a particular type. GetHashCode is suitable for use in hashing algorithms and data structures like a hash table.
+        /// </summary>
+        /// <returns>A hash code for the current PointZShape.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -67,6 +95,10 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
             return result;
         }
 
+        /// <summary>
+        /// Returns the string representation of this PointZShape.
+        /// </summary>
+        /// <returns>A string describing this object.</returns>
         public override string ToString()
         {
             return "[" + this.GetType().Name + "]";

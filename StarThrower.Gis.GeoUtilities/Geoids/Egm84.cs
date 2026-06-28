@@ -7,6 +7,13 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.GeoUtilities.Geoids
 {
+    /// <summary>
+    /// A <see cref="Geoid"/> implementation backed by the EGM84 (Earth Gravitational Model 1984)
+    /// undulation grid, at a 10-degree by 10-degree spacing. Supports both natural-spline
+    /// (<see cref="Geoid.ToEllipsoidHeightNs"/>/<see cref="Geoid.FromEllipsoidHeightNs"/>) and
+    /// bilinear (<see cref="Geoid.ToEllipsoidHeightBl"/>/<see cref="Geoid.FromEllipsoidHeightBl"/>)
+    /// interpolation.
+    /// </summary>
     public class Egm84 : Geoid
     {
         #region Construction

@@ -9,8 +9,11 @@ namespace StarThrower.Gis.GeoUtilities.Zones.UtmNs
     /// </summary>
     public enum LatitudinalZone
     {
+        /// <summary>No latitudinal zone has been assigned.</summary>
         Undefined = 0,
+        /// <summary>The northern hemisphere.</summary>
         North = 1,
+        /// <summary>The southern hemisphere.</summary>
         South = 2
     }
 }
