@@ -301,13 +301,17 @@ namespace StarThrower.Gis.EsriLibrary
 
         public bool FindRecord(string queryString)
         {
-            //TODO:  should there be a confirmation here (somehow) that the geoFile also contains this record?
+            // No geo-file check needed: IsValid() at Open time enforces
+            // _dataFile.RecordCount == _geoFile.RecordCount, and AddRecord/
+            // DeleteRecord keep the two files in sync on every mutation.
             return _dataFile.FindRecord(queryString);
         }
 
         public bool FindRecord(string queryString, ref int index)
         {
-            //TODO:  should there be a confirmation here (somehow) that the geoFile also contains this record?
+            // No geo-file check needed: IsValid() at Open time enforces
+            // _dataFile.RecordCount == _geoFile.RecordCount, and AddRecord/
+            // DeleteRecord keep the two files in sync on every mutation.
             return _dataFile.FindRecord(queryString, ref index);
         }
 
