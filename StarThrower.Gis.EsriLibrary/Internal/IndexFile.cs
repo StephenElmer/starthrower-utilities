@@ -238,6 +238,32 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _header.FileLength += StarThrower.Gis.EsriLibrary.Internal.IndexFileRecord.SIZE;
         }
 
+        /// <summary>
+        /// Removes the index record at the specified zero-based position, shifts the offsets of all
+        /// subsequent records backward, and decrements the file-length field in the header.
+        /// </summary>
+        /// <param name="index">Zero-based position of the record to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is negative or greater than or equal to the record count.
+        /// </exception>
+        internal void DeleteRecord(int index)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, _records.Count);
+
+            int removedContentLength = _records.GetRecord(index).ContentLength;
+            _records.RemoveAt(index);
+            _header.FileLength -= StarThrower.Gis.EsriLibrary.Internal.IndexFileRecord.SIZE;
+
+            // Shift each subsequent record's offset backward by the removed record's total size in 16-bit words:
+            // content length (in 16-bit words) + geography record header (8 bytes = 4 words).
+            int offsetShift = removedContentLength + (StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordHeader.SIZE / 2);
+            for (int i = index; i < _records.Count; i++)
+            {
+                _records.GetRecord(i).Offset -= offsetShift;
+            }
+        }
+
         #endregion
 
         #endregion

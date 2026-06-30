@@ -66,6 +66,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _list.Add(record);
         }
 
+        internal void RemoveAt(int index)
+        {
+            _list.RemoveAt(index);
+        }
+
         internal string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);

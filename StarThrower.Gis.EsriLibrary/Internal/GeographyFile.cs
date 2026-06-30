@@ -270,10 +270,49 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Record Related
 
+        /// <summary>
+        /// Removes the geography record at the specified zero-based position, decrements the
+        /// file-length field, re-sequences record numbers for all subsequent records, and
+        /// recomputes the bounding-box extent from the remaining records.
+        /// </summary>
+        /// <param name="index">Zero-based position of the record to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is negative or greater than or equal to the record count.
+        /// </exception>
+        /// <remarks>
+        /// Extent recomputation after deletion is O(n) in the number of remaining records, since
+        /// the removed record may have defined any edge of the bounding box.
+        /// </remarks>
         internal void DeleteRecord(int index)
         {
-            //TODO:
-            throw new NotImplementedException();
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, _records.Count);
+
+            int removedLength = _records[index].GetLengthInBytes();
+            _records.RemoveAt(index);
+            _indexFile.DeleteRecord(index);
+            _header.FileLength -= removedLength;
+
+            if (_records.Count == 0)
+            {
+                StarThrower.Gis.GeoUtilities.GeoRectangle empty = new StarThrower.Gis.GeoUtilities.GeoRectangle(0, 0, 0, 0);
+                _header.Extent = empty;
+                _indexFile.Extent = empty;
+            }
+            else
+            {
+                StarThrower.Gis.GeoUtilities.GeoRectangle newExtent = _records[0].Extent;
+                for (int i = 1; i < _records.Count; i++)
+                {
+                    StarThrower.Gis.GeoUtilities.GeoRectangle r = _records[i].Extent;
+                    if (r.Left < newExtent.Left) newExtent.Left = r.Left;
+                    if (r.Top < newExtent.Top) newExtent.Top = r.Top;
+                    if (r.Right > newExtent.Right) newExtent.Right = r.Right;
+                    if (r.Bottom > newExtent.Bottom) newExtent.Bottom = r.Bottom;
+                }
+                _header.Extent = newExtent;
+                _indexFile.Extent = newExtent;
+            }
         }
 
         internal void AddRecord(StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecord record)
