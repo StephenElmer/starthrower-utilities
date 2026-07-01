@@ -25,7 +25,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
         {
             get
             {
-                //TODO:
+                //TODO: #25 — implement Extent once ParseBytes populates bounding box data
                 return new StarThrower.Gis.GeoUtilities.GeoRectangle();
             }
         }
@@ -75,7 +75,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
         internal override StarThrower.Gis.GeoUtilities.Shapes.Shape GetGeoUtilitiesShape()
         {
             StarThrower.Gis.GeoUtilities.Shapes.PolygonMShape result = new StarThrower.Gis.GeoUtilities.Shapes.PolygonMShape();
-            //TODO:
+            //TODO: #25 — populate result with parsed parts, points, and M data
             return result;
         }
 
