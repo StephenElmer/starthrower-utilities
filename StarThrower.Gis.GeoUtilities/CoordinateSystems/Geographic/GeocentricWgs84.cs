@@ -27,6 +27,12 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
     {
         #region Public Methods
 
+        /// <summary>
+        /// Gets how this coordinate system's vertical (height) component should be interpreted.
+        /// Overridden to return <see cref="HeightType.EllipsoidHeight"/> rather than the base
+        /// class's <see cref="HeightType.NoHeight"/>, since geocentric Z is measured relative to
+        /// the ellipsoid.
+        /// </summary>
         public override HeightType HeightType
         {
             get { return HeightType.EllipsoidHeight; }

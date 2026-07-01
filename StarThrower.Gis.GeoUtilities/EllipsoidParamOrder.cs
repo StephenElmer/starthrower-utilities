@@ -3,11 +3,15 @@
 namespace StarThrower.Gis.GeoUtilities
 {
     /// <summary>
-    /// An argument to the Ellipsoid constructor to indicate the meaning of some of the proir parameters.
+    /// Indicates which two ellipsoid parameters a pair of double values represents.
     /// </summary>
     /// <remarks>
-    /// This type is used in the Ellipsoid(EllipsoidType, string, double, double, EllipsoidParamOrder) constructor
-    /// to indicate the meaning of the two double paramaters.
+    /// Consumed by the internal <see cref="Ellipsoids.UserDefined"/> constructor to indicate the meaning
+    /// of its <c>paramOne</c> and <c>paramTwo</c> arguments. Note that
+    /// <see cref="EllipsoidFactory.GetInstanceOfNewUserDefinedEllipsoid"/>, the only public entry point that
+    /// creates a <see cref="Ellipsoids.UserDefined"/> instance, always passes
+    /// <see cref="EquatorialRadiusFlattening"/>, so the other two values are not currently reachable through
+    /// the public API.
     /// </remarks>
     public enum EllipsoidParamOrder
     {

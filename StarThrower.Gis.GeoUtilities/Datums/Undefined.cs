@@ -9,6 +9,7 @@ namespace StarThrower.Gis.GeoUtilities.Datums
     /// </summary>
     public class Undefined : Datum
     {
+        /// <inheritdoc/>
         public override bool IsSevenParamDatum
         {
             get { return false; }

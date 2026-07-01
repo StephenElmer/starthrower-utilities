@@ -10,8 +10,8 @@ namespace StarThrower.Gis.GeoUtilities.Zones.UtmNs
     /// <summary>
     /// The concrete implementation of the Zone base class for UTM.
     /// This particular variation supports UTM zones 1 thru 60 longitudinally
-    /// and zones North and South latitudinally.  For usage of  latitudinal 
-    /// zones A thru Z, use the cref="UtmZone" class.
+    /// and zones North and South latitudinally.  For usage of  latitudinal
+    /// zones A thru Z, use the <see cref="Utm.UtmZone"/> class.
     /// </summary>
     public class UtmNsZone : Zone
     {

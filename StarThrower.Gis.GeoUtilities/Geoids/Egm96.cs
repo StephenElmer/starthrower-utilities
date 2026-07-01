@@ -100,7 +100,7 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
         #region Public Methods
 
         /// <summary>
-        /// converts the specified WGS84 geoid height at the specified geodetic coordinates to the equivalent ellipsoid height, using the EGM96 gravity model and the natural spline interpolation method.
+        /// Converts the specified WGS84 geoid height at the specified geodetic coordinates to the equivalent ellipsoid height, using the EGM96 gravity model and the natural spline interpolation method.
         /// </summary>
         /// <param name="xLon">Geodetic xLon in radians</param>
         /// <param name="yLat">Geodetic yLat in radians</param>
@@ -157,7 +157,7 @@ namespace StarThrower.Gis.GeoUtilities.Geoids
         }
 
         /// <summary>
-        /// converts the specified WGS84 ellipsoid height at the specified geodetic coordinates to the equivalent geoid height, using the EGM96 gravity model and the natural spline interpolation method.
+        /// Converts the specified WGS84 ellipsoid height at the specified geodetic coordinates to the equivalent geoid height, using the EGM96 gravity model and the natural spline interpolation method.
         /// </summary>
         /// <param name="xLon">Geodetic xLon in radians</param>
         /// <param name="yLat">Geodetic yLat in radians</param>

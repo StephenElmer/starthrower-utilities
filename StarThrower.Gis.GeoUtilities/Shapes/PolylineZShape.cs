@@ -55,8 +55,9 @@ namespace StarThrower.Gis.GeoUtilities.Shapes
         /// <summary>
         /// Sets the state of the current instance equal to a copy of the state of some other instance.
         /// </summary>
-        /// <param name="value">This instance you wish this to be a copy of.  Must be of type PolyLineZShape.</param>
-        /// <exception cref="FailedItemCopyException"></exception>
+        /// <param name="value">This instance you wish this to be a copy of.  Must be of type PolylineZShape.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidCastException"><paramref name="value"/> is not a <see cref="PolylineZShape"/>.</exception>
         public override void ItemCopy(object value)
         {
             ArgumentNullException.ThrowIfNull(value);

@@ -11,6 +11,7 @@ namespace StarThrower.Gis.GeoUtilities.Datums
     /// </summary>
     public class Wgs1972 : Datum
     {
+        /// <inheritdoc/>
         public override bool IsSevenParamDatum
         {
             get { return false; }
@@ -35,6 +36,12 @@ namespace StarThrower.Gis.GeoUtilities.Datums
             this.Domain.Right = 180;
         }
 
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Overridden to apply the empirical WGS72-to-WGS84 shift formula (per NGA GeoTrans) instead of
+        /// the base class's generic seven-parameter/Molodensky logic, since WGS72-to-WGS84 shift
+        /// parameters are not published in the same deltaX/deltaY/deltaZ form as other datums.
+        /// </remarks>
         public override void ToWgs84(double xLon, double yLat, double zAlt, ref double wgs84XLon, ref double wgs84YLat, ref double wgs84ZAlt)
         {
             IEllipsoid wgs84 = EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Wgs1984));
@@ -86,6 +93,11 @@ namespace StarThrower.Gis.GeoUtilities.Datums
             }
         }
 
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Overridden to apply the inverse of the empirical WGS72-to-WGS84 shift formula used by
+        /// <see cref="ToWgs84"/> (per NGA GeoTrans), rather than the base class's pass-through behavior.
+        /// </remarks>
         public override void FromWgs84(double wgs84XLon, double wgs84YLat, double wgs84ZAlt, ref double xLon, ref double yLat, ref double zAlt)
         {
             IEllipsoid wgs84 = EllipsoidFactory.GetInstanceOfEllipsoid(typeof(Ellipsoids.Wgs1984));

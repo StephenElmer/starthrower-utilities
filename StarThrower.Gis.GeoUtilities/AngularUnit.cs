@@ -6,15 +6,14 @@ using System.Globalization;
 namespace StarThrower.Gis.GeoUtilities
 {
     /// <summary>
-    /// Abstract base class for AngularUnit.
+    /// The abstract base class for implementations of the <see cref="IAngularUnit"/> interface,
+    /// representing a unit of angular measure (e.g. degree, grad) and its conversion factor to radians.
     /// </summary>
     public abstract class AngularUnit : IAngularUnit
     {
         #region Private Instance Variables
 
-        /// <summary>
-        /// The protected value is intended to be initialized by concrete implementations of this base class.
-        /// </summary>
+        // Set via the protected Value setter by concrete implementations' constructors.
         private double _value;
 
         #endregion
@@ -31,7 +30,7 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets the Value of the AngularUnit
+        /// Gets the number of radians represented by one of this unit (e.g. ~0.01745 for <see cref="AngularUnits.Degree"/>).
         /// </summary>
         public double Value
         {

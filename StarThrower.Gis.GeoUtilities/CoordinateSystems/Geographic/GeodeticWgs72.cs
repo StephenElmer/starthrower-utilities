@@ -1,4 +1,4 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 
@@ -18,6 +18,11 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets how this coordinate system's vertical (height) component should be interpreted.
+        /// Defaults to <see cref="HeightType.NoHeight"/>, but can be set to a different value via
+        /// the <see cref="HeightType"/>-accepting constructor.
+        /// </summary>
         public override HeightType HeightType
         {
             get { return _heightType; }
@@ -44,12 +49,15 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         #region Public Methods
 
         /// <summary>
-        /// Translates the specified coordinates from GCS WGS72 to GCS WGS84 coordinates
+        /// Returns the given coordinate unchanged, since this coordinate system's native
+        /// representation is already geodetic (latitude/longitude) in the WGS 72 datum. Any
+        /// shift to/from WGS84 is applied separately via <see cref="IDatum.ToWgs84"/>/
+        /// <see cref="IDatum.FromWgs84"/> (see <see cref="GeoUtil.Translate"/>).
         /// </summary>
-        /// <param name="xLon">xLon value in GCS WGS72 coordinates.</param>
-        /// <param name="yLat">yLat value in GCS WGS72 coordinates</param>
-        /// <param name="zAlt">Altitude value in GCS WGS72 coordinates</param>
-        /// <returns>A GenericResult implementation of the ITranslationResult, containing GCS WGS84 coordinates.</returns>
+        /// <param name="xLon">The longitude, in decimal degrees.</param>
+        /// <param name="yLat">The latitude, in decimal degrees.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {
             //TODO: implement this translation
@@ -60,12 +68,15 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         }
 
         /// <summary>
-        /// Translates the specified coordinates from GCS WGS84 to GCS WGS 72 coordinates
+        /// Returns the given coordinate unchanged, since this coordinate system's native
+        /// representation is already geodetic (latitude/longitude) in the WGS 72 datum. Any
+        /// shift to/from WGS84 is applied separately via <see cref="IDatum.ToWgs84"/>/
+        /// <see cref="IDatum.FromWgs84"/> (see <see cref="GeoUtil.Translate"/>).
         /// </summary>
-        /// <param name="xLon">xLon value in GCS WGS84 coordinates.</param>
-        /// <param name="yLat">yLat value in GCS WGS84 coordinates</param>
-        /// <param name="zAlt">Altitude value in GCS WGS84 coordinates</param>
-        /// <returns>A GenericResult implementation of the ITranslationResult, containing GCS WGS 72 coordinates.</returns>
+        /// <param name="xLon">The longitude, in decimal degrees.</param>
+        /// <param name="yLat">The latitude, in decimal degrees.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
         public override ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt)
         {
             //TODO: implement this translation

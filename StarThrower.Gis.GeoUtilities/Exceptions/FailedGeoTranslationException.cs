@@ -7,6 +7,10 @@ namespace StarThrower.Gis.GeoUtilities.Exceptions
     /// <summary>
     /// The exception that is thrown when a GeoTranslation fails.
     /// </summary>
+    /// <remarks>
+    /// Not currently thrown anywhere in this library; <see cref="GeoUtil.Translate"/> throws
+    /// <see cref="InvalidOperationException"/> for the failure cases it detects instead.
+    /// </remarks>
     public class FailedGeoTranslationException : Exception
     {
         /// <summary>

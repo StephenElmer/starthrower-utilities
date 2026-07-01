@@ -20,6 +20,9 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the unique name of this UserDefined geographic coordinate system.
+        /// </summary>
         public override string Name
         {
             get { return _name; }
@@ -65,12 +68,13 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         }
 
         /// <summary>
-        /// Translates the specified coordinates from the UserDefined system to GCS WGS84 coordinates
+        /// Returns the given coordinate unchanged, since this coordinate system's native
+        /// representation is already geodetic (latitude/longitude) in this instance's <see cref="GeographicCoordinateSystem.Datum"/>.
         /// </summary>
-        /// <param name="xLon">xLon value in the UserDefined system coordinates.</param>
-        /// <param name="yLat">yLat value in the UserDefined system coordinates</param>
-        /// <param name="zAlt">Altitude value in the UserDefined system coordinates</param>
-        /// <returns>A GenericResult implementation of the ITranslationResult, containing GCS WGS84 coordinates.</returns>
+        /// <param name="xLon">The longitude, in decimal degrees.</param>
+        /// <param name="yLat">The latitude, in decimal degrees.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {
             //TODO: implement this translation
@@ -81,12 +85,13 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         }
 
         /// <summary>
-        /// Translates the specified coordinates from GCS WGS84 coordinates to the UserDefined system.
+        /// Returns the given coordinate unchanged, since this coordinate system's native
+        /// representation is already geodetic (latitude/longitude) in this instance's <see cref="GeographicCoordinateSystem.Datum"/>.
         /// </summary>
-        /// <param name="xLon">xLon value in GCS WGS84 coordinates.</param>
-        /// <param name="yLat">yLat value in GCS WGS84 coordinates</param>
-        /// <param name="zAlt">Altitude value in GCS WGS84 coordinates</param>
-        /// <returns>A GenericResult implementation of the ITranslationResult, containing the UserDefined system coordinates.</returns>
+        /// <param name="xLon">The longitude, in decimal degrees.</param>
+        /// <param name="yLat">The latitude, in decimal degrees.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
         public override ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt)
         {
             //TODO: implement this translation
@@ -122,7 +127,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <summary>
         /// Serves as a hash function for a particular type. GetHashCode is suitable for use in hashing algorithms and data structures like a hash table.
         /// </summary>
-        /// <returns>A hash code for the current Datum.</returns>
+        /// <returns>A hash code for the current GeographicCoordinateSystem.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -134,7 +139,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         }
 
         /// <summary>
-        /// Returns the string representation of this Ellipsoid.
+        /// Returns the string representation of this GeographicCoordinateSystem.
         /// </summary>
         /// <returns>A string describing this object.</returns>
         /// <remarks>

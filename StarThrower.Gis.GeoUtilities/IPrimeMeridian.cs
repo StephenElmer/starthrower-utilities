@@ -15,7 +15,8 @@ namespace StarThrower.Gis.GeoUtilities
         string Name { get; }
 
         /// <summary>
-        /// Gets the Value of the PrimeMeridian
+        /// Gets the longitude of this prime meridian relative to Greenwich, in decimal degrees
+        /// (e.g. 2.337229166666667 for <see cref="PrimeMeridians.Paris"/>).
         /// </summary>
         double Value { get; }
 

@@ -5,8 +5,12 @@ using System;
 namespace StarThrower.Gis.GeoUtilities.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when a bad ProjectionParameters is encountered.
+    /// The exception that is intended to be thrown when a <see cref="ProjectionParameter"/> required by an
+    /// <see cref="IProjection"/> implementation is missing or has an invalid value.
     /// </summary>
+    /// <remarks>
+    /// Not currently thrown anywhere in this library.
+    /// </remarks>
     public class InvalidProjectionParametersException : Exception
     {
         /// <summary>

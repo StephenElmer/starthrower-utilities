@@ -1,4 +1,4 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 
@@ -11,6 +11,7 @@ namespace StarThrower.Gis.GeoUtilities.Datums
     /// </summary>
     public class Hungary1942 : Datum
     {
+        /// <inheritdoc/>
         public override bool IsSevenParamDatum
         {
             get { return false; }

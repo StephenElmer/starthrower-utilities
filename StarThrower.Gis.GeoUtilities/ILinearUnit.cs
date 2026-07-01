@@ -15,7 +15,7 @@ namespace StarThrower.Gis.GeoUtilities
         string Name { get; }
 
         /// <summary>
-        /// Gets the Value of the LinearUnit
+        /// Gets the number of meters represented by one of this unit (e.g. 0.3048 for <see cref="LinearUnits.Foot"/>).
         /// </summary>
         double Value { get; }
 

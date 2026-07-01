@@ -6,15 +6,14 @@ using System.Globalization;
 namespace StarThrower.Gis.GeoUtilities
 {
     /// <summary>
-    /// Abstract base class for PrimeMeridian.
+    /// The abstract base class for implementations of the <see cref="IPrimeMeridian"/> interface,
+    /// representing a reference meridian (e.g. Greenwich, Paris) and its longitude offset from Greenwich.
     /// </summary>
     public abstract class PrimeMeridian : IPrimeMeridian
     {
         #region Private Instance Variables
 
-        /// <summary>
-        /// The protected value is intended to be initialized by concrete implementations of this base class.
-        /// </summary>
+        // Set via the protected Value setter by concrete implementations' constructors.
         private double _value;
 
         #endregion
@@ -31,7 +30,8 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets the Value of the PrimeMeridian
+        /// Gets the longitude of this prime meridian relative to Greenwich, in decimal degrees
+        /// (e.g. 2.337229166666667 for <see cref="PrimeMeridians.Paris"/>).
         /// </summary>
         public double Value
         {

@@ -4,6 +4,10 @@ using System;
 
 namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
 {
+    /// <summary>
+    /// The geographic coordinate system underlying the British National Grid, based on the mean
+    /// Ordnance Survey of Great Britain 1936 (OSGB36) datum.
+    /// </summary>
     public class BngOgb36 : GeographicCoordinateSystem
     {
         #region Construction
@@ -21,24 +25,26 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         #region Public Methods
 
         /// <summary>
-        /// Translates the specified coordinates from GCS WGS84 to GCS WGS84 coordinates
+        /// Returns the given coordinate unchanged, since this coordinate system's native
+        /// representation is already geodetic (latitude/longitude) in the OSGB36 (mean) datum.
         /// </summary>
-        /// <param name="xLon">xLon value in GCS WGS84 coordinates.</param>
-        /// <param name="yLat">yLat value in GCS WGS84 coordinates</param>
-        /// <param name="zAlt">Altitude value in GCS WGS84 coordinates</param>
-        /// <returns>A GenericResult implementation of the ITranslationResult, containing GCS WGS84 coordinates.</returns>
+        /// <param name="xLon">The longitude, in decimal degrees.</param>
+        /// <param name="yLat">The latitude, in decimal degrees.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {
             return new Translations.GenericResult(xLon, yLat, zAlt);
         }
 
         /// <summary>
-        /// Translates the specified coordinates from GCS WGS84 to GCS WGS84 coordinates.
+        /// Returns the given coordinate unchanged, since this coordinate system's native
+        /// representation is already geodetic (latitude/longitude) in the OSGB36 (mean) datum.
         /// </summary>
-        /// <param name="xLon">xLon value in GCS WGS84 coordinates.</param>
-        /// <param name="yLat">yLat value in GCS WGS84 coordinates</param>
-        /// <param name="zAlt">Altitude value in GCS WGS84 coordinates</param>
-        /// <returns>A GenericResult implementation of the ITranslationResult, containing GCS WGS84 coordinates.</returns>
+        /// <param name="xLon">The longitude, in decimal degrees.</param>
+        /// <param name="yLat">The latitude, in decimal degrees.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
         public override ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt)
         {
             return new Translations.GenericResult(xLon, yLat, zAlt);

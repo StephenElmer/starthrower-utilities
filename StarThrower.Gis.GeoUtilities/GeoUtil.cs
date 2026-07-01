@@ -104,11 +104,10 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the available AngularUnitType enums.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select an Angular Unit.
+        /// Gets a collection of the concrete <see cref="AngularUnit"/> types defined in this assembly
+        /// (excluding <see cref="AngularUnits.Undefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select an Angular Unit.
         /// </summary>
-        /// <returns>A Collection of AngularUnitType.</returns>
         public static Collection<Type> AngularUnitTypes
         {
             get
@@ -130,9 +129,9 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
         /// <summary>
-        /// Gets a collection of the names of the available angular unit types.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select an Angular Unit.
+        /// Gets a collection of the type names of the concrete <see cref="AngularUnit"/> types defined
+        /// in this assembly (excluding <see cref="AngularUnits.Undefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select an Angular Unit.
         /// </summary>
         public static Collection<string> AngularUnitTypeNames
         {
@@ -156,11 +155,10 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the available DatumType enums.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Datum.
+        /// Gets a collection of the concrete <see cref="Datum"/> types defined in this assembly
+        /// (excluding <see cref="Datums.Undefined"/> and <see cref="Datums.UserDefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Datum.
         /// </summary>
-        /// <returns>A Collection of DatumType.</returns>
         public static Collection<Type> DatumTypes
         {
             get
@@ -183,9 +181,9 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
         /// <summary>
-        /// Gets a collection of the names of the available datum types.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Datum.
+        /// Gets a collection of the type names of the concrete <see cref="Datum"/> types defined in this
+        /// assembly (excluding <see cref="Datums.Undefined"/> and <see cref="Datums.UserDefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Datum.
         /// </summary>
         public static Collection<string> DatumTypeNames
         {
@@ -210,11 +208,10 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the available EllipsoidType enums.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select an Ellipsoid.
+        /// Gets a collection of the concrete <see cref="Ellipsoid"/> types defined in this assembly
+        /// (excluding <see cref="Ellipsoids.Undefined"/> and <see cref="Ellipsoids.UserDefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select an Ellipsoid.
         /// </summary>
-        /// <returns>A Collection of EllipsoidType.</returns>
         public static Collection<Type> EllipsoidTypes
         {
             get
@@ -237,9 +234,9 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
         /// <summary>
-        /// Gets a collection of the names of the available ellipsoid types.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select an Ellipsoid.
+        /// Gets a collection of the type names of the concrete <see cref="Ellipsoid"/> types defined in
+        /// this assembly (excluding <see cref="Ellipsoids.Undefined"/> and <see cref="Ellipsoids.UserDefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select an Ellipsoid.
         /// </summary>
         public static Collection<string> EllipsoidTypeNames
         {
@@ -264,11 +261,10 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the available LinearUnitType enums.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Linear Unit.
+        /// Gets a collection of the concrete <see cref="LinearUnit"/> types defined in this assembly
+        /// (excluding <see cref="LinearUnits.Undefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Linear Unit.
         /// </summary>
-        /// <returns>A Collection of LinearUnitType.</returns>
         public static Collection<Type> LinearUnitTypes
         {
             get
@@ -290,9 +286,9 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
         /// <summary>
-        /// Gets a collection of the names of the available linear unit types.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Linear Unit.
+        /// Gets a collection of the type names of the concrete <see cref="LinearUnit"/> types defined in
+        /// this assembly (excluding <see cref="LinearUnits.Undefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Linear Unit.
         /// </summary>
         public static Collection<string> LinearUnitTypeNames
         {
@@ -316,11 +312,10 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the available PrimeMeridianType enums.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Prime Meridian.
+        /// Gets a collection of the concrete <see cref="PrimeMeridian"/> types defined in this assembly
+        /// (excluding <see cref="PrimeMeridians.Undefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Prime Meridian.
         /// </summary>
-        /// <returns>A Collection of PrimeMeridianType.</returns>
         public static Collection<Type> PrimeMeridianTypes
         {
             get
@@ -342,9 +337,9 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
         /// <summary>
-        /// Gets a collection of the names of the available prime meridian types.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Prime Meridian.
+        /// Gets a collection of the type names of the concrete <see cref="PrimeMeridian"/> types defined in
+        /// this assembly (excluding <see cref="PrimeMeridians.Undefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Prime Meridian.
         /// </summary>
         public static Collection<string> PrimeMeridianTypeNames
         {
@@ -368,11 +363,10 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the available ProjectionType enums.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Projection Type.
+        /// Gets a collection of the concrete <see cref="IProjection"/> implementation types defined in
+        /// this assembly (excluding <see cref="Projections.Undefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Projection Type.
         /// </summary>
-        /// <returns>A Collection of ProjectionType.</returns>
         public static Collection<Type> ProjectionTypes
         {
             get
@@ -394,9 +388,9 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
         /// <summary>
-        /// Gets a collection of the names of the available projection types.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Projection Type.
+        /// Gets a collection of the type names of the concrete <see cref="IProjection"/> implementation
+        /// types defined in this assembly (excluding <see cref="Projections.Undefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Projection Type.
         /// </summary>
         public static Collection<string> ProjectionTypeNames
         {
@@ -420,11 +414,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the available GeographicCoordinateSystemType enums.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Geographic Coordinate System type.
+        /// Gets a collection of the concrete <see cref="CoordinateSystems.GeographicCoordinateSystem"/>
+        /// types defined in this assembly (excluding <see cref="CoordinateSystems.Geographic.Undefined"/>
+        /// and <see cref="CoordinateSystems.Geographic.UserDefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Geographic Coordinate System type.
         /// </summary>
-        /// <returns>A Collection of GeographicCoordinateSystemType.</returns>
         public static Collection<Type> GeographicCoordinateSystemTypes
         {
             get
@@ -447,9 +441,10 @@ namespace StarThrower.Gis.GeoUtilities
             }
         }
         /// <summary>
-        /// Gets a collection of the names of the available geographic coordinate system types.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Geographic Coordinate System type.
+        /// Gets a collection of the type names of the concrete <see cref="CoordinateSystems.GeographicCoordinateSystem"/>
+        /// types defined in this assembly (excluding <see cref="CoordinateSystems.Geographic.Undefined"/>
+        /// and <see cref="CoordinateSystems.Geographic.UserDefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Geographic Coordinate System type.
         /// </summary>
         public static Collection<string> GeographicCoordinateSystemTypeNames
         {
@@ -474,11 +469,11 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the available ProjectedCoordinateSystemType enums.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Projected Coordinate System type.
+        /// Gets a collection of the concrete <see cref="CoordinateSystems.ProjectedCoordinateSystem"/>
+        /// types defined in this assembly (excluding <see cref="CoordinateSystems.Projected.Undefined"/>
+        /// and <see cref="CoordinateSystems.Projected.UserDefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Projected Coordinate System type.
         /// </summary>
-        /// <returns>A Collection of ProjectedCoordinateSystemType.</returns>
         // public static List<ProjectedCoordinateSystemType> GetProjectedCoordinateSystemTypes()
         // {
         //     List<ProjectedCoordinateSystemType> result = new List<ProjectedCoordinateSystemType>();
@@ -516,9 +511,10 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets a collection of the names of the available projected coordinate system types.
-        /// This method is intended to be used for populating a list or combo box
-        /// from which a user can select a Projected Coordinate System type.
+        /// Gets a collection of the type names of the concrete <see cref="CoordinateSystems.ProjectedCoordinateSystem"/>
+        /// types defined in this assembly (excluding <see cref="CoordinateSystems.Projected.Undefined"/>
+        /// and <see cref="CoordinateSystems.Projected.UserDefined"/>).
+        /// Intended to be used for populating a list or combo box from which a user can select a Projected Coordinate System type.
         /// </summary>
         public static Collection<string> ProjectedCoordinateSystemTypeNames
         {
@@ -778,8 +774,8 @@ namespace StarThrower.Gis.GeoUtilities
         /// for a shift from the specified source datum to the specified destination 
         /// datum at the specified location.
         /// </summary>
-        /// <param name="sourceDatum"></param>
-        /// <param name="destinationDatum"></param>
+        /// <param name="sourceDatum">The datum being shifted from.</param>
+        /// <param name="destinationDatum">The datum being shifted to.</param>
         /// <param name="xLon">xLon of point being converted in radians</param>
         /// <param name="yLat">yLat of point being converted in radians</param>
         /// <param name="ce90">Combined 90% circular horizontal error in meters</param>

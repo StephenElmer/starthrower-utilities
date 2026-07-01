@@ -31,6 +31,11 @@ namespace StarThrower.Gis.GeoUtilities.Datums
             get { return _name; }
         }
 
+        /// <summary>
+        /// Gets whether this datum's shift to/from WGS84 uses the full seven-parameter
+        /// (3 translation + 3 rotation + scale) transformation rather than the simpler
+        /// three-parameter (translation-only) Molodensky shift.
+        /// </summary>
         /// <remarks>
         /// True if any of <see cref="Datum.RotationX"/>, <see cref="Datum.RotationY"/>, or
         /// <see cref="Datum.RotationZ"/> is non-zero. Rotation alone (not <see cref="Datum.RotationScaleFactor"/>)

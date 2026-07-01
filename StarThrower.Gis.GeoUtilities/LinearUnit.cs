@@ -6,15 +6,14 @@ using System.Globalization;
 namespace StarThrower.Gis.GeoUtilities
 {
     /// <summary>
-    /// Abstract base class for LinearUnit.
+    /// The abstract base class for implementations of the <see cref="ILinearUnit"/> interface,
+    /// representing a unit of linear measure (e.g. meter, foot) and its conversion factor to meters.
     /// </summary>
     public abstract class LinearUnit : ILinearUnit
     {
         #region Private Instance Variables
 
-        /// <summary>
-        /// The protected value is intended to be initialized by concrete implementations of this base class.
-        /// </summary>
+        // Set via the protected Value setter by concrete implementations' constructors.
         private double _value;
 
         #endregion
@@ -31,7 +30,7 @@ namespace StarThrower.Gis.GeoUtilities
         }
 
         /// <summary>
-        /// Gets the Value of the LinearUnit
+        /// Gets the number of meters represented by one of this unit (e.g. 0.3048 for <see cref="LinearUnits.Foot"/>).
         /// </summary>
         public double Value
         {

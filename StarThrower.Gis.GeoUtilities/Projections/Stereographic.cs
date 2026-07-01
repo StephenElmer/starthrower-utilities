@@ -173,7 +173,7 @@ namespace StarThrower.Gis.GeoUtilities.Projections
         /// <summary>
         /// Serves as a hash function for a particular type. GetHashCode is suitable for use in hashing algorithms and data structures like a hash table.
         /// </summary>
-        /// <returns>A hash code for the current Steregraphic Projection.</returns>
+        /// <returns>A hash code for the current Stereographic Projection.</returns>
         public override int GetHashCode()
         {
             int result = 17;
@@ -185,7 +185,7 @@ namespace StarThrower.Gis.GeoUtilities.Projections
         }
 
         /// <summary>
-        /// Returns the string representation of this Steregraphic Projection.
+        /// Returns the string representation of this Stereographic Projection.
         /// </summary>
         /// <returns>A string describing this object.</returns>
         /// <remarks>

@@ -1,9 +1,13 @@
-﻿// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
+// Copyright © 2005-2026 Stephen Elmer. Licensed under the MIT License.
 
 using System;
 
 namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
 {
+    /// <summary>
+    /// A <see cref="Projections.Eckert4"/>-projected coordinate system based on the WGS84
+    /// geodetic datum.
+    /// </summary>
     public class Eckert4Wgs84 : ProjectedCoordinateSystem
     {
         #region Construction
@@ -23,12 +27,14 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
         #region Public Methods
 
         /// <summary>
-        /// Translates the specified coordinates from Mercator to GCS WGS84 coordinates
+        /// Not yet implemented: this override does not convert Eckert4Wgs84
+        /// projected (easting/northing) coordinates to geodetic coordinates. It
+        /// returns the input values unchanged.
         /// </summary>
-        /// <param name="xLon">xLon value in Mercator coordinates.</param>
-        /// <param name="yLat">yLat value in Mercator coordinates</param>
-        /// <param name="zAlt">Altitude value in Mercator coordinates</param>
-        /// <returns>A GenericResult implementation of the ITranslationResult, containing GCS WGS84 coordinates.</returns>
+        /// <param name="xLon">The x (easting) coordinate.</param>
+        /// <param name="yLat">The y (northing) coordinate.</param>
+        /// <param name="zAlt">The vertical (height/altitude) coordinate.</param>
+        /// <returns>A <see cref="Translations.GenericResult"/> wrapping the unconverted input coordinate.</returns>
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {
             //TODO: implement this translation
@@ -39,12 +45,14 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
         }
 
         /// <summary>
-        /// Translates the specified coordinates from GCS WGS84 to Mercator coordinates
+        /// Not yet implemented: this override does not convert geodetic coordinates
+        /// to Eckert4Wgs84 projected (easting/northing) coordinates. It returns the
+        /// input values unchanged.
         /// </summary>
-        /// <param name="xLon">xLon value in GCS WGS84 coordinates.</param>
-        /// <param name="yLat">yLat value in GCS WGS84 coordinates</param>
-        /// <param name="zAlt">Altitude value in GCS WGS84 coordinates</param>
-        /// <returns>A GenericResult implementation of the ITranslationResult, containing Mercator coordinates.</returns>
+        /// <param name="xLon">The longitude.</param>
+        /// <param name="yLat">The latitude.</param>
+        /// <param name="zAlt">The height/altitude.</param>
+        /// <returns>A <see cref="Translations.GenericResult"/> wrapping the unconverted input coordinate.</returns>
         public override ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt)
         {
             //TODO: implement this translation

@@ -260,11 +260,12 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         }
 
         /// <summary>
-        /// Translates the specified coordinates from GCS WGS84 to GCS WGS84 coordinates
+        /// Converts a geodetic coordinate expressed in decimal degrees to the equivalent
+        /// coordinate in radians.
         /// </summary>
-        /// <param name="xLon">Longitude value in Geodetic coordinates (degrees).</param>
-        /// <param name="yLat">Longitude value in Geodetic coordinates (degrees).</param>
-        /// <param name="zAlt">Altitude value in Geodetic coordinates (meters).</param>
+        /// <param name="xLon">Longitude, in decimal degrees.</param>
+        /// <param name="yLat">Latitude, in decimal degrees.</param>
+        /// <param name="zAlt">Altitude, in meters. Not used: the result's altitude is always 0.</param>
         /// <returns>A GenericResult implementation of the ITranslationResult, containing Geodetic coordinates (Latitude, Longitude in radians, Height in meters).</returns>
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {

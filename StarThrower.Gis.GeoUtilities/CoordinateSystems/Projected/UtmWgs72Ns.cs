@@ -20,11 +20,20 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the name of this coordinate system, combining the type name with this instance's
+        /// <see cref="Zone"/> name.
+        /// </summary>
         public override string Name
         {
             get { return this.GetType().Name + "_" + _zone.Name; }
         }
 
+        /// <summary>
+        /// Gets the key value of this coordinate system, used to distinguish it from others.
+        /// Combines the type name with this instance's <see cref="Zone"/> name, unless the zone
+        /// is undefined, in which case the base class's type-name-only key is used.
+        /// </summary>
         public override string Key
         {
             get
@@ -40,6 +49,9 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
             }
         }
 
+        /// <summary>
+        /// Gets the UTM zone associated with this coordinate system.
+        /// </summary>
         public IZone Zone
         {
             get { return _zone; }

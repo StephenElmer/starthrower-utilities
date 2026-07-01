@@ -5,7 +5,9 @@ using System;
 namespace StarThrower.Gis.GeoUtilities.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when a UserDefined DatumType is encountered w/out a qualifying Name for the Datum.
+    /// The exception that is thrown when a datum type or type name refers to the UserDefined type without
+    /// the additional Name needed to identify a specific instance, or when a UserDefined datum already
+    /// exists for a given Name with different Ellipsoid or shift-parameter values.
     /// </summary>
     public class AmbiguousDatumTypeException : Exception
     {

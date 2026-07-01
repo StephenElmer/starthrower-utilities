@@ -11,6 +11,7 @@ namespace StarThrower.Gis.GeoUtilities.Datums
     /// </summary>
     public class Wgs1984 : Datum
     {
+        /// <inheritdoc/>
         public override bool IsSevenParamDatum
         {
             get { return false; }
@@ -36,6 +37,10 @@ namespace StarThrower.Gis.GeoUtilities.Datums
         }
 
 
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Overridden as a straight pass-through: since this datum already is WGS84, no shift is needed.
+        /// </remarks>
         public override void ToWgs84(double xLon, double yLat, double zAlt, ref double wgs84XLon, ref double wgs84YLat, ref double wgs84ZAlt)
         {
             wgs84XLon = xLon;
@@ -43,6 +48,10 @@ namespace StarThrower.Gis.GeoUtilities.Datums
             wgs84ZAlt = zAlt;
         }
 
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Overridden as a straight pass-through: since this datum already is WGS84, no shift is needed.
+        /// </remarks>
         public override void FromWgs84(double wgs84XLon, double wgs84YLat, double wgs84ZAlt, ref double xLon, ref double yLat, ref double zAlt)
         {
             xLon = wgs84XLon;

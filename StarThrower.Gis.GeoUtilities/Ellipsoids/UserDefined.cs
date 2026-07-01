@@ -36,6 +36,10 @@ namespace StarThrower.Gis.GeoUtilities.Ellipsoids
 
         #region Construction
 
+        /// <summary>
+        /// Derives EquatorialRadius, PolarRadius, and Flattening from two of those three values,
+        /// per the mapping indicated by <paramref name="paramOrder"/>.
+        /// </summary>
         internal UserDefined(string name, double paramOne, double paramTwo, EllipsoidParamOrder paramOrder)
         {
             ArgumentNullException.ThrowIfNull(name);

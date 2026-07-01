@@ -5,7 +5,9 @@ using System;
 namespace StarThrower.Gis.GeoUtilities.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when a UserDefined GeoidType is encountered w/out a qualifying Name for the Geoid.
+    /// The exception that is thrown when a geoid type or type name refers to <see cref="Geoids.Undefined"/>
+    /// or <see cref="Geoids.UserDefined"/>, neither of which can be resolved to a single geoid instance
+    /// through <see cref="GeoidFactory.GetInstanceOfGeoid(System.Type)"/> or its string overload.
     /// </summary>
     public class AmbiguousGeoidTypeException : Exception
     {

@@ -15,7 +15,7 @@ namespace StarThrower.Gis.GeoUtilities
         string Name { get; }
 
         /// <summary>
-        /// Gets the Value of the AngularUnit
+        /// Gets the number of radians represented by one of this unit (e.g. ~0.01745 for <see cref="AngularUnits.Degree"/>).
         /// </summary>
         double Value { get; }
 

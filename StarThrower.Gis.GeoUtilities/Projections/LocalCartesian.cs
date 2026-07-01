@@ -173,7 +173,7 @@ namespace StarThrower.Gis.GeoUtilities.Projections
         /// <summary>
         /// Serves as a hash function for a particular type. GetHashCode is suitable for use in hashing algorithms and data structures like a hash table.
         /// </summary>
-        /// <returns>A hash code for the current LocalCartestan Projection.</returns>
+        /// <returns>A hash code for the current LocalCartesian Projection.</returns>
         public override int GetHashCode()
         {
             int result = 17;
