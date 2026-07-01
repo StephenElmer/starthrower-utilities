@@ -2,6 +2,9 @@
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// ESRI prime meridian name constants, as referenced by <c>.prj</c> coordinate system definitions.
+    /// </summary>
     internal static class PrimeMeridians
     {
         internal const string Bern = "Bern";

@@ -6,6 +6,12 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
+    /// <summary>
+    /// Represents a PolyLineM shape record (a polyline with measure values per vertex).
+    /// Unimplemented: <c>ParseBytes</c> throws <see cref="NotImplementedException"/>, and
+    /// <c>GetBytes</c>/<c>GetLengthInBytes</c> only serialize the 4-byte shape-type code.
+    /// Tracked in issue #23.
+    /// </summary>
     internal sealed class PolyLineMRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction

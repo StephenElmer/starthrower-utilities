@@ -2,6 +2,10 @@
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// ESRI geographic coordinate system (GCS) name constants, as referenced by <c>.prj</c>
+    /// coordinate system definitions.
+    /// </summary>
     internal static class GeographicCoordinateSystems
     {
         internal const string GCS_Abidjan_1987 = "GCS_Abidjan_1987";

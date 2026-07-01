@@ -6,6 +6,12 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
+    /// <summary>
+    /// Represents a PolygonM shape record (a polygon with measure values per vertex).
+    /// Unimplemented: <c>ParseBytes</c> throws <see cref="NotImplementedException"/>, and
+    /// <c>GetBytes</c>/<c>GetLengthInBytes</c> only serialize the 4-byte shape-type code.
+    /// Tracked in issue #25.
+    /// </summary>
     internal sealed class PolygonMRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction

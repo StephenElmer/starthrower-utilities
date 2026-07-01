@@ -6,6 +6,11 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
+    /// <summary>
+    /// Represents a MultiPoint shape record. Unimplemented: <c>ParseBytes</c> throws
+    /// <see cref="NotImplementedException"/>, and <c>GetBytes</c>/<c>GetLengthInBytes</c>
+    /// only serialize the 4-byte shape-type code. Tracked in issue #17.
+    /// </summary>
     internal sealed class MultiPointRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction

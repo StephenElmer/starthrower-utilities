@@ -87,6 +87,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Private Methods
 
+        /// <summary>
+        /// Reads the file header and all index records from <see cref="_stream"/>. The number
+        /// of records to read is derived from the header's <c>FileLength</c> field rather than
+        /// counted directly, since the index file has fixed-length records.
+        /// </summary>
         private void Read()
         {
             if (_stream == null) throw new InvalidOperationException("Stream has not been opened.");
@@ -124,12 +129,18 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region File Related
 
+        /// <summary>
+        /// Opens the .shx index file.
+        /// </summary>
         internal void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
         {
             _stream = new FileStream(fileName, fileMode, fileAccess);
             Read();
         }
 
+        /// <summary>
+        /// Opens the .shx index file with the specified sharing option.
+        /// </summary>
         internal void Open(string fileName, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
         {
             _stream = new FileStream(fileName, fileMode, fileAccess, fileShare);
@@ -148,10 +159,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         }
 
         /// <summary>
-        /// Closes the file taking a boolean parameter
-        /// which indicates whether the file should be saved or not
+        /// Closes the file, optionally saving changes first.
         /// </summary>
-        /// <param name="save"></param>
         internal void Close(bool save)
         {
             if (save)
@@ -161,6 +170,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _stream?.Close();
         }
 
+        /// <summary>
+        /// Writes the header and all index records to the already-open file stream.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The file has not been opened.</exception>
         internal void Save()
         {
             if (_stream == null) throw new InvalidOperationException("FileStream has not yet been assigned.");
@@ -172,6 +185,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _stream.Write(recordsBuffer, 0, recordsBuffer.Length);
         }
 
+        /// <summary>
+        /// Saves the file to <paramref name="fileName"/>. If a stream is already open to that
+        /// same path, this is equivalent to <see cref="Save"/>; otherwise the current stream
+        /// (if any) is closed and a new file is created at the destination.
+        /// </summary>
         internal void SaveAs(string fileName)
         {
             if (_stream != null)
@@ -209,6 +227,9 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             }
         }
 
+        /// <summary>
+        /// Serializes the index file's header and records to XML.
+        /// </summary>
         internal string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);
@@ -223,6 +244,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Record Related
 
+        /// <summary>
+        /// Appends an index record, computing its <see cref="IndexFileRecord.Offset"/> (in
+        /// 16-bit words, per the ESRI shapefile format) from the end of the previous record,
+        /// or from the 50-word main file header size if this is the first record.
+        /// </summary>
         internal void AddRecord(StarThrower.Gis.EsriLibrary.Internal.IndexFileRecord record)
         {
             if (_records.Count > 0)

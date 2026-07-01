@@ -6,6 +6,9 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
+    /// <summary>
+    /// Represents a Null shape record: no geometry beyond the 4-byte shape-type code.
+    /// </summary>
     internal sealed class NullRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction

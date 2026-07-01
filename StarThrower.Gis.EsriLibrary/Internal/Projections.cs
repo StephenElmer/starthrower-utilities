@@ -2,6 +2,9 @@
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// ESRI map projection name constants, as referenced by <c>.prj</c> coordinate system definitions.
+    /// </summary>
     internal static class Projections
     {
         internal const string Aitoff = "Aitoff";

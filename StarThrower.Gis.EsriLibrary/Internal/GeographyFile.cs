@@ -6,6 +6,10 @@ using System.Text;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
+    /// <summary>
+    /// Reads and writes the geometry (.shp) file of a shapefile, keeping its paired index
+    /// (.shx) and, if present, projection (.prj) files in sync.
+    /// </summary>
     internal sealed class GeographyFile : IDisposable
     {
         #region Private Member Variables
@@ -26,21 +30,29 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             get { return _records.Count; }
         }
 
+        /// <summary>
+        /// Gets or sets the geometry type. Setting this also updates the paired index file's
+        /// shape type, keeping the two files consistent.
+        /// </summary>
         internal StarThrower.Gis.EsriLibrary.ShapeType ShapeType
         {
             get { return _header.ShapeType; }
-            set 
-            { 
+            set
+            {
                 _header.ShapeType = value;
                 _indexFile.ShapeType = value;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the bounding rectangle that encloses all shapes in the file. Setting
+        /// this also updates the paired index file's extent, keeping the two files consistent.
+        /// </summary>
         internal StarThrower.Gis.GeoUtilities.GeoRectangle Extent
         {
             get { return _header.Extent; }
-            set 
-            { 
+            set
+            {
                 _header.Extent = value;
                 _indexFile.Extent = value;
             }
@@ -79,6 +91,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Private Methods
 
+        /// <summary>
+        /// Reads the file header and all geometry records from <see cref="_stream"/>. Relies
+        /// on <see cref="_indexFile"/> already being open, since the number of records to
+        /// read is taken from the index file's record count rather than the .shp file itself.
+        /// </summary>
         private void Read()
         {
             if (_stream == null) throw new InvalidOperationException("Stream has not been opened.");
@@ -109,6 +126,9 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             }
         }
 
+        /// <summary>
+        /// Checks whether the index file and the loaded geometry records agree on record count.
+        /// </summary>
         private bool IsValid()
         {
             if (_indexFile.RecordCount != _records.Count) return false;
@@ -123,11 +143,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         #region File Related
 
         /// <summary>
-        /// fileName is assumed to be .shp
+        /// Opens the .shp file (<paramref name="fileName"/> is assumed to have a .shp
+        /// extension), along with its paired .shx index file and, if present, .prj
+        /// projection file.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="fileMode"></param>
-        /// <param name="fileAccess"></param>
         internal void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
         {
             string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
@@ -142,12 +161,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         }
 
         /// <summary>
-        /// fileName is assumed to be .shp
+        /// Opens the .shp file (<paramref name="fileName"/> is assumed to have a .shp
+        /// extension), along with its paired .shx index file and, if present, .prj
+        /// projection file, with the specified sharing option.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="fileMode"></param>
-        /// <param name="fileAccess"></param>
-        /// <param name="fileShare"></param>
         internal void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess, System.IO.FileShare fileShare)
         {
             string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
@@ -175,10 +192,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         }
 
         /// <summary>
-        /// Closes the file taking a boolean parameter
-        /// which indicates whether the file should be saved or not
+        /// Closes the file, optionally saving changes first.
         /// </summary>
-        /// <param name="save"></param>
         internal void Close(bool save)
         {
             if (save)
@@ -191,6 +206,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _projectionFile.Close(save);
         }
 
+        /// <summary>
+        /// Writes the header and all geometry records to the already-open file stream, then
+        /// saves the paired index and projection files.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The file has not been opened.</exception>
         internal void Save()
         {
             if (_stream == null) throw new InvalidOperationException("FileStream has not yet been assigned.");
@@ -205,6 +225,12 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _projectionFile.Save();
         }
 
+        /// <summary>
+        /// Saves the file to <paramref name="fileName"/>. If a stream is already open to that
+        /// same path, this is equivalent to <see cref="Save"/>; otherwise the current stream
+        /// (if any) is closed and a new file is created at the destination, and the paired
+        /// index and projection files are saved alongside it.
+        /// </summary>
         internal void SaveAs(string fileName)
         {
             if (_stream != null)
@@ -254,6 +280,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _projectionFile.SaveAs(baseFileName + ".prj");
         }
 
+        /// <summary>
+        /// Serializes the geometry file's header and records, plus the paired index and
+        /// projection files' XML, to a single combined XML string.
+        /// </summary>
         internal string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);
@@ -317,6 +347,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _indexFile.Extent = newExtent;
         }
 
+        /// <summary>
+        /// Appends a geometry record, assigning it the next sequential record number, adding
+        /// a matching entry to the index file, and expanding the file's bounding-box extent
+        /// (and the index file's) to include the new record's extent.
+        /// </summary>
         internal void AddRecord(StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecord record)
         {
             bool firstRecord = (_records.Count == 0);

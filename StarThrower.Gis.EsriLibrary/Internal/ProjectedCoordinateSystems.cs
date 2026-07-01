@@ -2,6 +2,10 @@
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// ESRI projected coordinate system (PCS) name constants, as referenced by <c>.prj</c>
+    /// coordinate system definitions.
+    /// </summary>
     internal static class ProjectedCoordinateSystems
     {
         internal const string Abidjan_1987_TM_5_NW = "Abidjan_1987_TM_5_NW";

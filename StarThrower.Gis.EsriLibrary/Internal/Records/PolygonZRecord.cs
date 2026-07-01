@@ -6,6 +6,12 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
+    /// <summary>
+    /// Represents a PolygonZ shape record (a polygon with elevation and measure values per
+    /// vertex). Unimplemented: <c>ParseBytes</c> throws <see cref="NotImplementedException"/>,
+    /// and <c>GetBytes</c>/<c>GetLengthInBytes</c> only serialize the 4-byte shape-type code.
+    /// Tracked in issue #24.
+    /// </summary>
     internal sealed class PolygonZRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction

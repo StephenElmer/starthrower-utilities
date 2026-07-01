@@ -6,6 +6,10 @@ using System.Collections.Generic;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
+    /// <summary>
+    /// An ordered collection of <see cref="IndexFileRecord"/> entries, used to build and
+    /// serialize the contents of a shapefile index (.shx) file.
+    /// </summary>
     internal sealed class IndexFileRecordList
     {
         #region Private Member Variables

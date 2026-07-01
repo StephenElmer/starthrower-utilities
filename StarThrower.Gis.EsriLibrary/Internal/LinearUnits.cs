@@ -2,8 +2,13 @@
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// ESRI linear unit name constants, as referenced by <c>.prj</c> coordinate system definitions.
+    /// </summary>
     internal static class LinearUnits
     {
+        // Name reversed relative to value ("150_Kilometers"/"50_Kilometers"): a C# identifier
+        // cannot start with a digit, so the number is moved after "Kilometers" in the constant name.
         internal const string Kilometers_150 = "150_Kilometers";
         internal const string Kilometers_50 = "50_Kilometers";
         internal const string Chain_Benoit_1895_B = "Chain_Benoit_1895_B";

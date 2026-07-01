@@ -74,6 +74,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Private Methods
 
+        /// <summary>
+        /// Parses the <see cref="RecordNumber"/> and <see cref="ContentLength"/> from their
+        /// 8-byte, big-endian binary representation.
+        /// </summary>
         private void ParseBytes(byte[] bytes)
         {
             _recordNumber = ByteUtil.ByteArrayToInt32(ByteUtil.ByteSubstring(bytes, 0, 4), ByteEndian.Big, BitEndian.Little);
@@ -85,6 +89,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Internal Methods
 
+        /// <summary>
+        /// Serializes the <see cref="RecordNumber"/> and <see cref="ContentLength"/> to their
+        /// 8-byte, big-endian binary representation.
+        /// </summary>
         internal byte[] GetBytes()
         {
             byte[] result = new byte[SIZE];

@@ -9,6 +9,11 @@ using StarThrower.StringUtilities;
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// Reads and writes an ESRI shapefile (a .shp geometry file paired with a .dbf attribute
+    /// table), exposing the combined geometry and attribute data as a sequence of
+    /// <see cref="Record"/> objects.
+    /// </summary>
     public class ShapeFile : IDisposable
     {
         #region Private Member Variables
@@ -21,28 +26,43 @@ namespace StarThrower.Gis.EsriLibrary
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the number of records in the shapefile.
+        /// </summary>
         public int RecordCount
         {
             get { return _geoFile.RecordCount; }
         }
 
+        /// <summary>
+        /// Gets the number of attribute fields defined for the shapefile.
+        /// </summary>
         public int FieldCount
         {
             get { return _dataFile.FieldCount; }
         }
 
+        /// <summary>
+        /// Gets or sets the geometry type stored in the shapefile.
+        /// </summary>
         public StarThrower.Gis.EsriLibrary.ShapeType ShapeType
         {
             get { return _geoFile.ShapeType; }
             set { _geoFile.ShapeType = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the bounding rectangle that encloses all shapes in the shapefile.
+        /// </summary>
         public StarThrower.Gis.GeoUtilities.GeoRectangle Extent
         {
             get { return _geoFile.Extent; }
             set { _geoFile.Extent = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the date the attribute table was last updated.
+        /// </summary>
         public DateTime LastUpdate
         {
             get { return _dataFile.LastUpdate; }
@@ -54,14 +74,35 @@ namespace StarThrower.Gis.EsriLibrary
 
         #region Construction
 
+        /// <summary>
+        /// Initializes a new, empty <see cref="ShapeFile"/> that is not associated with a file
+        /// on disk.
+        /// </summary>
         public ShapeFile() { }
 
+        /// <summary>
+        /// Initializes a new <see cref="ShapeFile"/> and opens the underlying .shp/.dbf files
+        /// with the specified file mode, access, and sharing options.
+        /// </summary>
+        /// <param name="fileName">The path to the shapefile (with or without the .shp/.dbf extension).</param>
+        /// <param name="fileMode">Specifies how the operating system should open the file.</param>
+        /// <param name="fileAccess">Specifies the type of access requested.</param>
+        /// <param name="fileShare">Specifies the type of access other threads have to the file.</param>
+        /// <exception cref="InvalidDataException">The .shp and .dbf files have mismatched record counts.</exception>
         public ShapeFile(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess, System.IO.FileShare fileShare)
             : this()
         {
             this.Open(fileName, fileMode, fileAccess, fileShare);
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="ShapeFile"/> and opens the underlying .shp/.dbf files
+        /// with the specified file mode and access.
+        /// </summary>
+        /// <param name="fileName">The path to the shapefile (with or without the .shp/.dbf extension).</param>
+        /// <param name="fileMode">Specifies how the operating system should open the file.</param>
+        /// <param name="fileAccess">Specifies the type of access requested.</param>
+        /// <exception cref="InvalidDataException">The .shp and .dbf files have mismatched record counts.</exception>
         public ShapeFile(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
             : this()
         {
@@ -73,17 +114,30 @@ namespace StarThrower.Gis.EsriLibrary
 
         #region IDisposable Members
 
+        /// <summary>
+        /// Releases all resources used by this <see cref="ShapeFile"/>.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Releases the underlying file resources if <see cref="Dispose()"/> was not called.
+        /// </summary>
         ~ShapeFile()
         {
             Dispose(false);
         }
 
+        /// <summary>
+        /// Releases the underlying geography and attribute file resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// <see langword="true"/> to release both managed and unmanaged resources;
+        /// <see langword="false"/> to release only unmanaged resources.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -110,12 +164,18 @@ namespace StarThrower.Gis.EsriLibrary
 
         #region Private Methods
 
+        /// <summary>
+        /// Checks whether the attribute file and geography file agree on record count.
+        /// </summary>
         private bool IsValid()
         {
             if (_dataFile.RecordCount != _geoFile.RecordCount) return false;
             return true;
         }
 
+        /// <summary>
+        /// Parses a point shape from a "point" XML element's lat/lon attributes.
+        /// </summary>
         private static StarThrower.Gis.GeoUtilities.Shapes.PointShape ReadPointShape(XmlNode pointNode, XmlDocument doc)
         {
             double lat = double.Parse(pointNode.Attributes?.GetNamedItem("lat")?.Value ?? throw new ArgumentException("Invalid XML: point lat attribute not found.", nameof(doc)), CultureInfo.InvariantCulture);
@@ -130,18 +190,34 @@ namespace StarThrower.Gis.EsriLibrary
 
         #region Field Related
 
+        /// <summary>
+        /// Gets the field descriptor at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the field.</param>
+        /// <returns>The <see cref="Field"/> at the specified index.</returns>
         public StarThrower.Gis.EsriLibrary.Field GetField(int index)
         {
             StarThrower.XBase.XBaseField field = _dataFile.GetField(index);
             return EsriLibrary.XBaseFieldToEsriField(field);
         }
 
+        /// <summary>
+        /// Gets the field descriptor with the specified name.
+        /// </summary>
+        /// <param name="fieldName">The name of the field.</param>
+        /// <returns>The <see cref="Field"/> with the specified name.</returns>
         public StarThrower.Gis.EsriLibrary.Field GetField(string fieldName)
         {
             StarThrower.XBase.XBaseField field = _dataFile.GetField(fieldName);
             return EsriLibrary.XBaseFieldToEsriField(field);
         }
 
+        /// <summary>
+        /// Adds a new attribute field to the shapefile.
+        /// </summary>
+        /// <param name="field">The field descriptor to add.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="field"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="field"/>.Type is <see langword="null"/>.</exception>
         public void AddField(StarThrower.Gis.EsriLibrary.Field field)
         {
             ArgumentNullException.ThrowIfNull(field);
@@ -154,31 +230,60 @@ namespace StarThrower.Gis.EsriLibrary
             _dataFile.AddField(newField);
         }
 
+        /// <summary>
+        /// Determines whether a field with the specified name exists.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to find.</param>
+        /// <returns><see langword="true"/> if the field exists; otherwise, <see langword="false"/>.</returns>
         public bool FindField(string fieldName)
         {
             return _dataFile.FindField(fieldName);
         }
 
+        /// <summary>
+        /// Determines whether a field with the specified name exists and, if so, returns its index.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to find.</param>
+        /// <param name="index">When this method returns, contains the zero-based index of the field if found.</param>
+        /// <returns><see langword="true"/> if the field exists; otherwise, <see langword="false"/>.</returns>
         public bool FindField(string fieldName, ref int index)
         {
             return _dataFile.FindField(fieldName, ref index);
         }
 
+        /// <summary>
+        /// Removes the field at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the field to remove.</param>
         public void DeleteField(int index)
         {
             _dataFile.DeleteField(index);
         }
 
+        /// <summary>
+        /// Removes the field with the specified name.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to remove.</param>
         public void DeleteField(string fieldName)
         {
             _dataFile.DeleteField(fieldName);
         }
 
+        /// <summary>
+        /// Replaces the field descriptor at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the field to alter.</param>
+        /// <param name="field">The new field descriptor.</param>
         public void AlterField(int index, StarThrower.Gis.EsriLibrary.Field field)
         {
             _dataFile.AlterField(index, EsriLibrary.EsriFieldToXBaseField(field));
         }
 
+        /// <summary>
+        /// Replaces the field descriptor with the specified name.
+        /// </summary>
+        /// <param name="fieldName">The name of the field to alter.</param>
+        /// <param name="field">The new field descriptor.</param>
         public void AlterField(string fieldName, StarThrower.Gis.EsriLibrary.Field field)
         {
             _dataFile.AlterField(fieldName, EsriLibrary.EsriFieldToXBaseField(field));
@@ -190,9 +295,10 @@ namespace StarThrower.Gis.EsriLibrary
         #region Record Related
 
         /// <summary>
-        /// Creates a new Record object with the appropriate fields already added
+        /// Creates a new <see cref="Record"/> with the shapefile's fields already added and an
+        /// empty shape initialized to match the shapefile's <see cref="ShapeType"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A new, empty <see cref="Record"/> ready to have data and shape geometry set.</returns>
         public StarThrower.Gis.EsriLibrary.Record CreateNewRecord()
         {
             StarThrower.Gis.EsriLibrary.Record newRecord = new StarThrower.Gis.EsriLibrary.Record();
@@ -258,6 +364,12 @@ namespace StarThrower.Gis.EsriLibrary
             return newRecord;
         }
 
+        /// <summary>
+        /// Appends a record's attribute data and shape geometry to the shapefile.
+        /// </summary>
+        /// <param name="record">The record to add.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="record"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="record"/>'s shape type does not match the shapefile's <see cref="ShapeType"/>.</exception>
         public void AddRecord(StarThrower.Gis.EsriLibrary.Record record)
         {
             ArgumentNullException.ThrowIfNull(record);
@@ -279,6 +391,11 @@ namespace StarThrower.Gis.EsriLibrary
             _geoFile.AddRecord(geoRecord);
         }
 
+        /// <summary>
+        /// Reads the record at the specified index, including its attribute data and shape geometry.
+        /// </summary>
+        /// <param name="index">The zero-based index of the record to retrieve.</param>
+        /// <returns>The <see cref="Record"/> at the specified index.</returns>
         public StarThrower.Gis.EsriLibrary.Record GetRecord(int index)
         {
             StarThrower.Gis.EsriLibrary.Record result = new StarThrower.Gis.EsriLibrary.Record();
@@ -299,6 +416,11 @@ namespace StarThrower.Gis.EsriLibrary
             return result;
         }
 
+        /// <summary>
+        /// Searches the attribute table for a record matching the specified query.
+        /// </summary>
+        /// <param name="queryString">The query expression used to search the attribute data.</param>
+        /// <returns><see langword="true"/> if a matching record was found; otherwise, <see langword="false"/>.</returns>
         public bool FindRecord(string queryString)
         {
             // No geo-file check needed: IsValid() at Open time enforces
@@ -307,6 +429,12 @@ namespace StarThrower.Gis.EsriLibrary
             return _dataFile.FindRecord(queryString);
         }
 
+        /// <summary>
+        /// Searches the attribute table for a record matching the specified query and returns its index.
+        /// </summary>
+        /// <param name="queryString">The query expression used to search the attribute data.</param>
+        /// <param name="index">When this method returns, contains the zero-based index of the matching record if found.</param>
+        /// <returns><see langword="true"/> if a matching record was found; otherwise, <see langword="false"/>.</returns>
         public bool FindRecord(string queryString, ref int index)
         {
             // No geo-file check needed: IsValid() at Open time enforces
@@ -315,12 +443,21 @@ namespace StarThrower.Gis.EsriLibrary
             return _dataFile.FindRecord(queryString, ref index);
         }
 
+        /// <summary>
+        /// Removes the attribute data and shape geometry for the record at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the record to remove.</param>
         public void DeleteRecord(int index)
         {
             _dataFile.DestroyRecord(index);
             _geoFile.DeleteRecord(index);
         }
 
+        /// <summary>
+        /// Finds and removes the first record matching the specified query. Does nothing if
+        /// no matching record is found.
+        /// </summary>
+        /// <param name="queryString">The query expression used to search the attribute data.</param>
         public void DeleteRecord(string queryString)
         {
             int index = -1;
@@ -330,6 +467,12 @@ namespace StarThrower.Gis.EsriLibrary
             }
         }
 
+        /// <summary>
+        /// Not implemented. Reserved for future support for altering an existing record's data in place.
+        /// </summary>
+        /// <param name="index">The zero-based index of the record to alter.</param>
+        /// <param name="record">The replacement record data.</param>
+        /// <exception cref="NotImplementedException">Always thrown; this method is not yet implemented.</exception>
         public void AlterRecord(int index, StarThrower.Gis.EsriLibrary.Record record)
         {
             throw new NotImplementedException();
@@ -340,6 +483,9 @@ namespace StarThrower.Gis.EsriLibrary
 
         #region File Related
 
+        /// <summary>
+        /// Closes the shapefile without saving and resets it to a new, empty state.
+        /// </summary>
         public void Clear()
         {
             _geoFile.Close();
@@ -350,6 +496,13 @@ namespace StarThrower.Gis.EsriLibrary
             _dataFile = new StarThrower.XBase.XBaseFile(StarThrower.XBase.XBaseFileType.dBaseIII);
         }
 
+        /// <summary>
+        /// Opens the .shp and .dbf files that make up the shapefile.
+        /// </summary>
+        /// <param name="fileName">The path to the shapefile (with or without the .shp/.dbf extension).</param>
+        /// <param name="fileMode">Specifies how the operating system should open the file.</param>
+        /// <param name="fileAccess">Specifies the type of access requested.</param>
+        /// <exception cref="InvalidDataException">The .shp and .dbf files have mismatched record counts.</exception>
         public void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
         {
             string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
@@ -358,6 +511,14 @@ namespace StarThrower.Gis.EsriLibrary
             if (!IsValid()) throw new InvalidDataException();
         }
 
+        /// <summary>
+        /// Opens the .shp and .dbf files that make up the shapefile with the specified sharing option.
+        /// </summary>
+        /// <param name="fileName">The path to the shapefile (with or without the .shp/.dbf extension).</param>
+        /// <param name="fileMode">Specifies how the operating system should open the file.</param>
+        /// <param name="fileAccess">Specifies the type of access requested.</param>
+        /// <param name="fileShare">Specifies the type of access other threads have to the file.</param>
+        /// <exception cref="InvalidDataException">The .shp and .dbf files have mismatched record counts.</exception>
         public void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess, System.IO.FileShare fileShare)
         {
             string baseFileName = (Path.GetDirectoryName(fileName) ?? string.Empty) + "\\" + (Path.GetFileNameWithoutExtension(fileName) ?? string.Empty);
@@ -376,22 +537,28 @@ namespace StarThrower.Gis.EsriLibrary
         }
 
         /// <summary>
-        /// Closes the file taking a boolean parameter
-        /// which indicates whether the file should be saved or not
+        /// Closes the shapefile, optionally saving changes first.
         /// </summary>
-        /// <param name="save"></param>
+        /// <param name="save"><see langword="true"/> to save changes before closing; otherwise, <see langword="false"/>.</param>
         public void Close(bool save)
         {
             _dataFile.Close(save);
             _geoFile.Close(save);
         }
 
+        /// <summary>
+        /// Saves changes to the .shp and .dbf files.
+        /// </summary>
         public void Save()
         {
             _dataFile.Save();
             _geoFile.Save();
         }
 
+        /// <summary>
+        /// Saves the shapefile to a new location.
+        /// </summary>
+        /// <param name="fileName">The destination path (with or without the .shp/.dbf extension).</param>
         public void SaveAs(string fileName)
         {
 
@@ -400,6 +567,13 @@ namespace StarThrower.Gis.EsriLibrary
             _geoFile.SaveAs(baseFileName + ".shp");
         }
 
+        /// <summary>
+        /// Serializes the shapefile's fields, extent, records, and geometry to an XML string
+        /// in the specified format. The <see cref="StarThrower.Gis.GeoUtilities.Formatting.XmlFormat.Gml"/>
+        /// format is not yet implemented and currently produces no output for that section.
+        /// </summary>
+        /// <param name="xmlFormat">The XML format to produce.</param>
+        /// <returns>An XML string representing the shapefile's contents.</returns>
         public string ToXml(StarThrower.Gis.GeoUtilities.Formatting.XmlFormat xmlFormat)
         {
             StringBuilder result = new StringBuilder(String.Empty);
@@ -510,6 +684,18 @@ namespace StarThrower.Gis.EsriLibrary
             return result.ToString().Replace("\0", "");
         }
 
+        /// <summary>
+        /// Clears the shapefile and repopulates it from XML previously produced by <see cref="ToXml"/>.
+        /// Only the <see cref="StarThrower.Gis.GeoUtilities.Formatting.XmlFormat.LayerWise"/>
+        /// format is currently implemented.
+        /// </summary>
+        /// <param name="doc">The XML document to load.</param>
+        /// <param name="xmlFormat">The XML format the document is expected to be in.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="doc"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="xmlFormat"/> is not supported, or <paramref name="doc"/> is missing
+        /// expected elements or attributes for the specified format.
+        /// </exception>
         public void LoadXml(XmlDocument doc, StarThrower.Gis.GeoUtilities.Formatting.XmlFormat xmlFormat)
         {
             ArgumentNullException.ThrowIfNull(doc);
@@ -639,11 +825,21 @@ namespace StarThrower.Gis.EsriLibrary
             }
         }
 
+        /// <summary>
+        /// Not implemented. Reserved for future JSON serialization support.
+        /// </summary>
+        /// <returns>Does not return; always throws.</returns>
+        /// <exception cref="NotImplementedException">Always thrown; this method is not yet implemented.</exception>
         public string ToJson()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Reserved for future JSON deserialization support.
+        /// </summary>
+        /// <param name="doc">The JSON document to load.</param>
+        /// <exception cref="NotImplementedException">Always thrown; this method is not yet implemented.</exception>
         public void LoadJson(string doc)
         {
             throw new NotImplementedException();

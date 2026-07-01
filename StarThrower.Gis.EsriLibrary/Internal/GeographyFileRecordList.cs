@@ -7,6 +7,10 @@ using System.Collections.Generic;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
+    /// <summary>
+    /// An ordered collection of <see cref="GeographyFileRecord"/> entries, used to build and
+    /// serialize the contents of a shapefile geometry (.shp) file.
+    /// </summary>
     internal sealed class GeographyFileRecordList
     {
         #region Private Member Variables
@@ -74,6 +78,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _list.Add(record);
         }
 
+        /// <summary>
+        /// Removes the record at the specified index and renumbers all subsequent records so
+        /// their record numbers remain contiguous.
+        /// </summary>
         internal void RemoveAt(int index)
         {
             _list.RemoveAt(index);

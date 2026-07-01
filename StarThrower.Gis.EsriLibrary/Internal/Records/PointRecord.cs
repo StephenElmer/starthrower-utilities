@@ -7,6 +7,9 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
+    /// <summary>
+    /// Represents a Point shape record: a single X/Y coordinate pair.
+    /// </summary>
     internal sealed class PointRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Private Member Variables
@@ -19,6 +22,9 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
 
         #region Internal Properties
 
+        /// <summary>
+        /// Gets a zero-area bounding rectangle located at this point's X/Y coordinates.
+        /// </summary>
         internal override StarThrower.Gis.GeoUtilities.GeoRectangle Extent
         {
             get

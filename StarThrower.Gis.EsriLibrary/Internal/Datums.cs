@@ -2,6 +2,9 @@
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// ESRI horizontal datum name constants, as referenced by <c>.prj</c> coordinate system definitions.
+    /// </summary>
     internal static class Datums
     {
         internal const string D_Abidjan_1987 = "D_Abidjan_1987";

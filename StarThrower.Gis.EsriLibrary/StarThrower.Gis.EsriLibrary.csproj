@@ -42,11 +42,9 @@
 
     <!-- Suite-level tags inherited from Directory.Build.props.     -->
     <!-- Append package-specific tags with semicolon separator.     -->
-    <!-- TODO: Claude Code documentation pass                       -->
-    <PackageTags>$(PackageTags);gis;esri;shapefile;shp;dbf</PackageTags>
+    <PackageTags>$(PackageTags);gis;esri;shapefile;shp;shx;prj;dbf;geospatial;vector-data</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
-    <!-- TODO: Claude Code documentation pass                       -->
     <PackageReadme>README.md</PackageReadme>
   </PropertyGroup>
 

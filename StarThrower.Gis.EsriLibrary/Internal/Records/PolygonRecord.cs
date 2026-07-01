@@ -9,6 +9,10 @@ using StarThrower.Gis.GeoUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
+    /// <summary>
+    /// Represents a Polygon shape record: a bounding box plus a parts-index array and a flat
+    /// point array describing one or more closed rings.
+    /// </summary>
     internal sealed class PolygonRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Private Member Variables
@@ -83,6 +87,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
 
         }
 
+        /// <summary>
+        /// Gets the number of points in the specified part, computed as the gap between that
+        /// part's starting point index (from <c>_parts</c>) and the next part's starting
+        /// index, or <c>_numPoints</c> if this is the last part.
+        /// </summary>
         private Int32 GetNumPointsInPart(Int32 partNumber)
         {
             ArgumentOutOfRangeException.ThrowIfNegative(partNumber);

@@ -2,6 +2,10 @@
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// ESRI spheroid (ellipsoid) name constants, as referenced by <c>.prj</c> coordinate
+    /// system definitions.
+    /// </summary>
     internal static class Spheroids
     {
         internal const string Airy_1830 = "Airy_1830";

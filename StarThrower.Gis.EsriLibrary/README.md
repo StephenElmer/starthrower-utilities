@@ -91,7 +91,8 @@ string layerWiseXml = shapeFile.ToXml(XmlFormat.LayerWise); // combined geograph
 ```
 
 `LoadXml(XmlDocument, XmlFormat)` reads the `LayerWise` format back (schema, extent, and field
-definitions); `Gml` and `ToJson`/`LoadJson` are not yet implemented.
+definitions). See [Known Limitations](#known-limitations) below for `Gml`, `ToJson`/`LoadJson`,
+and other unimplemented paths.
 
 ---
 
@@ -102,7 +103,6 @@ definitions); `Gml` and `ToJson`/`LoadJson` are not yet implemented.
   `InvalidDataException` if the `.shp` and `.dbf` record counts don't match.
 - **`AddRecord` validates `ShapeType`.** A `Record`'s shape must match the `ShapeFile`'s
   `ShapeType`, or `AddRecord` throws `ArgumentException`.
-- **`AlterRecord` is not implemented** and throws `NotImplementedException`.
 - **Field type round-tripping.** `Field`/`Types.FieldType` mirror
   [`StarThrower.XBase`](../StarThrower.XBase/README.md)'s `XBaseField`/`FieldType` exactly —
   internal conversion helpers translate between the two so the `.dbf` written alongside the
@@ -112,6 +112,26 @@ definitions); `Gml` and `ToJson`/`LoadJson` are not yet implemented.
   values; `CreateNewRecord()` returns a `Record` pre-populated with the matching
   `Shapes.Shape` subtype (e.g. `PointShape`, `PolygonShape`, `PolylineZShape`) for the
   shapefile's `ShapeType`.
+
+---
+
+## Known Limitations
+
+- **Only four shape types fully read and write geometry.** `NullShape`, `Point`, `PolyLine`,
+  and `Polygon` are fully implemented. The other ten `ShapeType` values — `MultiPoint`,
+  `PointZ`, `PolyLineZ`, `PolygonZ`, `MultiPointZ`, `PointM`, `PolyLineM`, `PolygonM`,
+  `MultiPointM`, and `MultiPatch` — throw `NotImplementedException` as soon as a record of
+  that shape type is added via `ShapeFile.AddRecord`. See issues
+  [#17](https://github.com/StephenElmer/starthrower-utilities/issues/17)–[#26](https://github.com/StephenElmer/starthrower-utilities/issues/26).
+- **`.prj` projection files can be read but not written.** Reading resolves the British
+  National Grid and all WGS72/WGS84 UTM zones from a `.prj` file's `PROJCS` name, but
+  `ShapeFile.Save`/`SaveAs` never write projection data back out — the underlying write path
+  is unimplemented. See [#16](https://github.com/StephenElmer/starthrower-utilities/issues/16).
+- **`AlterRecord`, `ToJson`, and `LoadJson` are unimplemented stubs** that throw
+  `NotImplementedException`. `ToXml(XmlFormat.Gml)` and `LoadXml` with `XmlFormat.Gml` or
+  `XmlFormat.FileWise` silently produce no output rather than throwing. See
+  [#34](https://github.com/StephenElmer/starthrower-utilities/issues/34) and
+  [#35](https://github.com/StephenElmer/starthrower-utilities/issues/35).
 
 ---
 

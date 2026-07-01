@@ -5,26 +5,66 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary
 {
+    /// <summary>
+    /// Identifies the geometry type of a shapefile or an individual shape record, using the
+    /// same numeric codes defined by the ESRI shapefile specification.
+    /// </summary>
     public enum ShapeType
     {
+        /// <summary>No geometry.</summary>
         NullShape = 0,
+
+        /// <summary>A single point.</summary>
         Point = 1,
+
+        /// <summary>An ordered set of vertices forming one or more connected line segments.</summary>
         PolyLine = 3,
+
+        /// <summary>One or more rings forming a closed area.</summary>
         Polygon = 5,
+
+        /// <summary>An unordered collection of points sharing a single set of attributes.</summary>
         MultiPoint = 8,
+
+        /// <summary>A point with an additional Z (elevation) value.</summary>
         PointZ = 11,
+
+        /// <summary>A polyline with additional Z (elevation) values for each vertex.</summary>
         PolyLineZ = 13,
+
+        /// <summary>A polygon with additional Z (elevation) values for each vertex.</summary>
         PolygonZ = 15,
+
+        /// <summary>A multipoint with an additional Z (elevation) value for each point.</summary>
         MultiPointZ = 18,
+
+        /// <summary>A point with an additional measure (M) value.</summary>
         PointM = 21,
+
+        /// <summary>A polyline with additional measure (M) values for each vertex.</summary>
         PolyLineM = 23,
+
+        /// <summary>A polygon with additional measure (M) values for each vertex.</summary>
         PolygonM = 25,
+
+        /// <summary>A multipoint with an additional measure (M) value for each point.</summary>
         MultiPointM = 28,
+
+        /// <summary>A collection of surface patches describing a 3D shape.</summary>
         MultiPatch = 31
     }
 
+    /// <summary>
+    /// Provides conversions between the public Esri shape and field types and the internal
+    /// XBase and GeoUtilities representations used to read and write shapefiles.
+    /// </summary>
     internal static class EsriLibrary
     {
+        /// <summary>
+        /// Parses the string representation of a <see cref="ShapeType"/> value (as produced by
+        /// <see cref="Enum.ToString()"/>) back into its enum value.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="shapeType"/> does not match a known <see cref="ShapeType"/> name.</exception>
         internal static StarThrower.Gis.EsriLibrary.ShapeType GetShapeTypeFromString(string shapeType)
         {
             if (shapeType.Equals(StarThrower.Gis.EsriLibrary.ShapeType.NullShape.ToString(), StringComparison.Ordinal))
@@ -89,6 +129,11 @@ namespace StarThrower.Gis.EsriLibrary
             }
         }
 
+        /// <summary>
+        /// Converts a <see cref="StarThrower.Gis.GeoUtilities.Shapes.ShapeType"/> to its
+        /// equivalent Esri <see cref="ShapeType"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="shapeType"/> is not a recognized shape type.</exception>
         internal static StarThrower.Gis.EsriLibrary.ShapeType GeoToEsriShapeType(StarThrower.Gis.GeoUtilities.Shapes.ShapeType shapeType)
         {
             switch (shapeType)
@@ -126,6 +171,11 @@ namespace StarThrower.Gis.EsriLibrary
             }
         }
 
+        /// <summary>
+        /// Converts an Esri <see cref="ShapeType"/> to its equivalent
+        /// <see cref="StarThrower.Gis.GeoUtilities.Shapes.ShapeType"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="shapeType"/> is not a recognized shape type.</exception>
         internal static StarThrower.Gis.GeoUtilities.Shapes.ShapeType EsriToGeoShapeType(StarThrower.Gis.EsriLibrary.ShapeType shapeType)
         {
             switch (shapeType)
@@ -163,6 +213,14 @@ namespace StarThrower.Gis.EsriLibrary
             }
         }
 
+        /// <summary>
+        /// Serializes a shape's geometry to its shapefile (.shp) binary record content: a
+        /// little-endian shape type code followed by the type-specific coordinate and part
+        /// data. Only <see cref="StarThrower.Gis.GeoUtilities.Shapes.ShapeType.NullShape"/>,
+        /// <c>Point</c>, <c>Polyline</c>, and <c>Polygon</c> write their full geometry; all
+        /// other shape types currently write only the 4-byte shape type code.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="shape"/>'s shape type is not recognized.</exception>
         internal static byte[] ShapeToBytes(StarThrower.Gis.GeoUtilities.Shapes.Shape shape)
         {
             byte[]? result = null;
@@ -383,6 +441,11 @@ namespace StarThrower.Gis.EsriLibrary
                 case StarThrower.Gis.GeoUtilities.Shapes.ShapeType.PolygonM:
                 case StarThrower.Gis.GeoUtilities.Shapes.ShapeType.MultipointM:
                 case StarThrower.Gis.GeoUtilities.Shapes.ShapeType.Multipatch:
+                    //TODO: #33 — this stub only writes the 4-byte shape-type code. Once the
+                    //corresponding Internal/Records/*.cs class's ParseBytes/GetBytes is
+                    //implemented (#17-#26), this case must also be implemented (or refactored
+                    //to delegate to that class), or AddRecord will silently write truncated
+                    //.shp records instead of throwing NotImplementedException as it does today.
                     result = new byte[EsriLibrary.GetShapeLengthInBytes(shape)];
 
                     curIdx = 0;
@@ -398,6 +461,11 @@ namespace StarThrower.Gis.EsriLibrary
             }
         }
 
+        /// <summary>
+        /// Calculates the length, in bytes, that the shape's binary record content occupies in
+        /// a shapefile (.shp), matching the layout produced by <see cref="ShapeToBytes"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="shape"/>'s shape type is not recognized.</exception>
         internal static int GetShapeLengthInBytes(StarThrower.Gis.GeoUtilities.Shapes.Shape shape)
         {
             switch (shape.ShapeType)
@@ -420,12 +488,17 @@ namespace StarThrower.Gis.EsriLibrary
                 case StarThrower.Gis.GeoUtilities.Shapes.ShapeType.PolygonM:
                 case StarThrower.Gis.GeoUtilities.Shapes.ShapeType.MultipointM:
                 case StarThrower.Gis.GeoUtilities.Shapes.ShapeType.Multipatch:
+                    //TODO: #33 — kept in sync with the ShapeToBytes stub above; must be
+                    //updated alongside it once full serialization is implemented.
                     return 4; //length of _shapeType
                 default:
                     throw new ArgumentException("Invalid shape type", nameof(shape));
             }
         }
 
+        /// <summary>
+        /// Converts an XBase field type code to its equivalent Esri <see cref="Types.FieldType"/>.
+        /// </summary>
         internal static StarThrower.Gis.EsriLibrary.Types.FieldType XBaseFieldTypeToEsriFieldType(StarThrower.XBase.FieldType fieldType)
         {
             switch (fieldType.Code)
@@ -447,6 +520,9 @@ namespace StarThrower.Gis.EsriLibrary
             }
         }
 
+        /// <summary>
+        /// Converts an Esri <see cref="Types.FieldType"/> to its equivalent XBase field type.
+        /// </summary>
         internal static StarThrower.XBase.FieldType EsriFieldTypeToXBaseFieldType(StarThrower.Gis.EsriLibrary.Types.FieldType fieldType)
         {
             switch (fieldType.Code)
@@ -468,6 +544,9 @@ namespace StarThrower.Gis.EsriLibrary
             }
         }
 
+        /// <summary>
+        /// Converts an XBase field descriptor to its equivalent Esri <see cref="Field"/>.
+        /// </summary>
         internal static StarThrower.Gis.EsriLibrary.Field XBaseFieldToEsriField(StarThrower.XBase.XBaseField field)
         {
             StarThrower.Gis.EsriLibrary.Field newField = new StarThrower.Gis.EsriLibrary.Field();
@@ -478,6 +557,10 @@ namespace StarThrower.Gis.EsriLibrary
             return newField;
         }
 
+        /// <summary>
+        /// Converts an Esri <see cref="Field"/> to its equivalent XBase field descriptor.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="field"/>.Type is <see langword="null"/>.</exception>
         internal static StarThrower.XBase.XBaseField EsriFieldToXBaseField(StarThrower.Gis.EsriLibrary.Field field)
         {
             StarThrower.XBase.XBaseField newField = new StarThrower.XBase.XBaseField();

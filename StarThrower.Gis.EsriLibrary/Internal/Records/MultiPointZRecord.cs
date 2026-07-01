@@ -6,6 +6,12 @@ using StarThrower.ByteUtilities;
 
 namespace StarThrower.Gis.EsriLibrary.Internal.Records
 {
+    /// <summary>
+    /// Represents a MultiPointZ shape record (a multipoint with elevation and measure
+    /// values). Unimplemented: <c>ParseBytes</c> throws <see cref="NotImplementedException"/>,
+    /// and <c>GetBytes</c>/<c>GetLengthInBytes</c> only serialize the 4-byte shape-type code.
+    /// Tracked in issue #20.
+    /// </summary>
     internal sealed class MultiPointZRecord : StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecordContent
     {
         #region Construction

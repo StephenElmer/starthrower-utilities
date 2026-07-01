@@ -11,6 +11,11 @@ using UtmNsZones = StarThrower.Gis.GeoUtilities.Zones.UtmNs;
 
 namespace StarThrower.Gis.EsriLibrary.Internal
 {
+    /// <summary>
+    /// Reads and writes the projection (.prj) file of a shapefile, mapping between the ESRI
+    /// well-known-text projection string and a <see cref="IProjectedCoordinateSystem"/> instance.
+    /// The read direction is fully implemented; the write direction is not (see <see cref="Save"/>).
+    /// </summary>
     internal sealed class ProjectionFile : IDisposable
     {
         #region Private Member Variables
@@ -23,6 +28,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Internal Properties
 
+        /// <summary>
+        /// Gets the coordinate system parsed from the .prj file, or <see langword="null"/> if
+        /// no file has been opened or the file was empty.
+        /// </summary>
         internal ICoordinateSystem? CoordinateSystem
         {
             get { return _cs; }
@@ -53,6 +62,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Private Methods
 
+        /// <summary>
+        /// Not implemented for any coordinate system type. Intended to populate the ESRI .prj
+        /// field names/values (PROJCS, GEOGCS, DATUM, SPHEROID, etc.) for <paramref name="pcs"/>,
+        /// the reverse of <see cref="GetCoordinateSystemFromEsriName"/>. Tracked in issue #16.
+        /// </summary>
         private static void GetEsriNamesFromCoordinateSystem(IProjectedCoordinateSystem pcs, ref string projcs, ref string geogcs, ref string datum, ref double equatorialRadius, ref double inverseFlattening, ref string spheroid, ref string primeem, ref double primeemValue, ref string angularUnit, ref double angularUnitValue, ref string linearUnit, ref double linearUnitValue, ref string projection, ref string[] parameters, ref double[] parameterValues)
         {
             string pcsType = pcs.GetType().Name;
@@ -75,6 +89,12 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             }
         }
 
+        /// <summary>
+        /// Maps an ESRI projected coordinate system name (as found in a .prj file's PROJCS
+        /// tag) to its corresponding <see cref="IProjectedCoordinateSystem"/> instance.
+        /// Covers the British National Grid and all WGS72/WGS84 UTM zones.
+        /// </summary>
+        /// <exception cref="NotSupportedException"><paramref name="esriName"/> does not match a known coordinate system.</exception>
         private static IProjectedCoordinateSystem GetCoordinateSystemFromEsriName(string esriName)
         {
             switch (esriName)
@@ -566,6 +586,13 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             }
         }
 
+        /// <summary>
+        /// Extracts the PROJCS name from the raw .prj file text (the substring between
+        /// <c>PROJCS["</c> and <c>"GEOGCS[</c>) and resolves it to a coordinate system via
+        /// <see cref="GetCoordinateSystemFromEsriName"/>. Sets <see cref="CoordinateSystem"/>
+        /// to <see langword="null"/> if <paramref name="data"/> is empty.
+        /// </summary>
+        /// <exception cref="FormatException"><paramref name="data"/> is missing a PROJCS or GEOGCS tag.</exception>
         private void ParseDataString(string data)
         {
             if (string.IsNullOrWhiteSpace(data))
@@ -581,6 +608,13 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _cs = GetCoordinateSystemFromEsriName(projectedCoordinateSystemName);
         }
 
+        /// <summary>
+        /// Builds the ESRI well-known-text representation of <see cref="CoordinateSystem"/>
+        /// for writing to a .prj file. Not currently reachable from <see cref="Save"/> (see
+        /// remarks there); relies on <see cref="GetEsriNamesFromCoordinateSystem"/>, which is
+        /// itself unimplemented.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"><see cref="CoordinateSystem"/> has not been set.</exception>
         private string CreateDataString()
         {
             string projcs = string.Empty;
@@ -655,6 +689,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             return result.ToString();
         }
 
+        /// <summary>
+        /// Reads the entire .prj file as text from <see cref="_stream"/> and parses it via
+        /// <see cref="ParseDataString"/>.
+        /// </summary>
         private void Read()
         {
             if (_stream == null) throw new InvalidOperationException("Stream has not been opened.");
@@ -679,12 +717,18 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Internal Methods
 
+        /// <summary>
+        /// Opens the .prj projection file.
+        /// </summary>
         internal void Open(string fileName, System.IO.FileMode fileMode, System.IO.FileAccess fileAccess)
         {
             _stream = new FileStream(fileName, fileMode, fileAccess);
             Read();
         }
 
+        /// <summary>
+        /// Opens the .prj projection file with the specified sharing option.
+        /// </summary>
         internal void Open(string fileName, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
         {
             _stream = new FileStream(fileName, fileMode, fileAccess, fileShare);
@@ -703,10 +747,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal
         }
 
         /// <summary>
-        /// Closes the file taking a boolean parameter
-        /// which indicates whether the file should be saved or not
+        /// Closes the file, optionally saving changes first.
         /// </summary>
-        /// <param name="save"></param>
         internal void Close(bool save)
         {
             if (save)
@@ -716,6 +758,12 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _stream?.Close();
         }
 
+        /// <summary>
+        /// Intended to write <see cref="CreateDataString"/>'s output to the file, but the
+        /// write itself is currently commented out, so this method is a no-op beyond
+        /// validating that the file has been opened. Tracked in issue #16.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The file has not been opened.</exception>
         internal void Save()
         {
             if (_stream == null) throw new InvalidOperationException("FileStream has not yet been assigned.");
@@ -726,6 +774,13 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             //}
         }
 
+        /// <summary>
+        /// Saves the file to <paramref name="fileName"/>. If a stream is already open to that
+        /// same path, this is equivalent to <see cref="Save"/>; otherwise the current stream
+        /// (if any) is closed and a new file is created at the destination. Since
+        /// <see cref="Save"/> is currently a no-op (see its remarks), this does not yet write
+        /// any content either.
+        /// </summary>
         internal void SaveAs(string fileName)
         {
             if (_stream != null)
@@ -763,6 +818,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             }
         }
 
+        /// <summary>
+        /// Serializes the parsed coordinate system to XML, or an empty
+        /// <c>&lt;projectionFile/&gt;</c> element if none has been set.
+        /// </summary>
         internal string ToXml()
         {
             StringBuilder result = new StringBuilder(String.Empty);

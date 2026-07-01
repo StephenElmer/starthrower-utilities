@@ -72,6 +72,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Internal Methods
 
+        /// <summary>
+        /// Serializes the <see cref="Offset"/> and <see cref="ContentLength"/> to their 8-byte,
+        /// big-endian binary representation, per the .shx index record format.
+        /// </summary>
         internal byte[] GetBytes()
         {
             byte[] result = new byte[SIZE];
@@ -93,6 +97,10 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             return result;
         }
 
+        /// <summary>
+        /// Parses the <see cref="Offset"/> and <see cref="ContentLength"/> from their 8-byte,
+        /// big-endian binary representation.
+        /// </summary>
         internal void ParseBytes(byte[] bytes)
         {
             _offset = ByteUtil.ByteArrayToInt32(ByteUtil.ByteSubstring(bytes, 0, 4), ByteEndian.Big, BitEndian.Little);

@@ -58,12 +58,18 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             set { _fileLength = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the geometry type of the shapes stored in this file.
+        /// </summary>
         internal ShapeType ShapeType
         {
             get { return _shapeType; }
             set { _shapeType = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the bounding rectangle that encloses all shapes in the file.
+        /// </summary>
         internal StarThrower.Gis.GeoUtilities.GeoRectangle Extent
         {
             get
@@ -84,6 +90,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
 
         #region Internal Methods
 
+        /// <summary>
+        /// Serializes this header to its 100-byte binary representation. Per the ESRI
+        /// shapefile format, the file-code/reserved/file-length fields are big-endian while
+        /// the version, shape type, and bounding box fields are little-endian.
+        /// </summary>
         internal byte[] GetBytes()
         {
             byte[] result = new byte[SIZE];
@@ -197,6 +208,11 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             return result;
         }
 
+        /// <summary>
+        /// Parses this header's fields from their 100-byte binary representation. Per the
+        /// ESRI shapefile format, the file-code/reserved/file-length fields are big-endian
+        /// while the version, shape type, and bounding box fields are little-endian.
+        /// </summary>
         internal void ParseBytes(byte[] bytes)
         {
             _fileCode = ByteUtil.ByteArrayToInt32(ByteUtil.ByteSubstring(bytes, 0, 4), ByteEndian.Big, BitEndian.Little);
