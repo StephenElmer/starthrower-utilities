@@ -60,7 +60,7 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             {
                 throw new NotImplementedException();
             }
-            //TODO: 
+            //TODO: #16 — implement .prj write path (GetEsriNamesFromCoordinateSystem + Save)
             //else if (String.Compare(pcsType, typeof(UTM_WGS72).Name) == 0)
             //{
             //    throw new NotImplementedException();

@@ -293,26 +293,28 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             _indexFile.DeleteRecord(index);
             _header.FileLength -= removedLength;
 
-            if (_records.Count == 0)
+            // Recompute extent from scratch. Start with empty; skip NullShape records
+            // (their IsEmpty extent would corrupt Left/Top by pulling them toward zero).
+            // If no records remain, or all remaining are NullShapes, extent stays empty.
+            StarThrower.Gis.GeoUtilities.GeoRectangle newExtent = new StarThrower.Gis.GeoUtilities.GeoRectangle(0, 0, 0, 0);
+            for (int i = 0; i < _records.Count; i++)
             {
-                StarThrower.Gis.GeoUtilities.GeoRectangle empty = new StarThrower.Gis.GeoUtilities.GeoRectangle(0, 0, 0, 0);
-                _header.Extent = empty;
-                _indexFile.Extent = empty;
-            }
-            else
-            {
-                StarThrower.Gis.GeoUtilities.GeoRectangle newExtent = _records[0].Extent;
-                for (int i = 1; i < _records.Count; i++)
+                StarThrower.Gis.GeoUtilities.GeoRectangle r = _records[i].Extent;
+                if (r.IsEmpty) continue;
+                if (newExtent.IsEmpty)
                 {
-                    StarThrower.Gis.GeoUtilities.GeoRectangle r = _records[i].Extent;
+                    newExtent = r;
+                }
+                else
+                {
                     if (r.Left < newExtent.Left) newExtent.Left = r.Left;
                     if (r.Top < newExtent.Top) newExtent.Top = r.Top;
                     if (r.Right > newExtent.Right) newExtent.Right = r.Right;
                     if (r.Bottom > newExtent.Bottom) newExtent.Bottom = r.Bottom;
                 }
-                _header.Extent = newExtent;
-                _indexFile.Extent = newExtent;
             }
+            _header.Extent = newExtent;
+            _indexFile.Extent = newExtent;
         }
 
         internal void AddRecord(StarThrower.Gis.EsriLibrary.Internal.GeographyFileRecord record)
@@ -328,32 +330,35 @@ namespace StarThrower.Gis.EsriLibrary.Internal
             //_header.FileLength += (record.GetLengthInBytes() + StarThrower.Gis.EsriLibrary.Internal.IndexFileRecord.SIZE);
             _header.FileLength += record.GetLengthInBytes();
 
-            if (firstRecord)
+            if (!record.Extent.IsEmpty)
             {
-                _header.Extent = record.Extent;
-                _indexFile.Extent = record.Extent;
-            }
-            else
-            {
-                StarThrower.Gis.GeoUtilities.GeoRectangle tempExtent = _header.Extent;
-                if (tempExtent.Left > record.Extent.Left)
+                if (firstRecord || _header.Extent.IsEmpty)
                 {
-                    tempExtent.Left = record.Extent.Left;
+                    _header.Extent = record.Extent;
+                    _indexFile.Extent = record.Extent;
                 }
-                if (tempExtent.Top > record.Extent.Top)
+                else
                 {
-                    tempExtent.Top = record.Extent.Top;
+                    StarThrower.Gis.GeoUtilities.GeoRectangle tempExtent = _header.Extent;
+                    if (tempExtent.Left > record.Extent.Left)
+                    {
+                        tempExtent.Left = record.Extent.Left;
+                    }
+                    if (tempExtent.Top > record.Extent.Top)
+                    {
+                        tempExtent.Top = record.Extent.Top;
+                    }
+                    if (tempExtent.Right < record.Extent.Right)
+                    {
+                        tempExtent.Right = record.Extent.Right;
+                    }
+                    if (tempExtent.Bottom < record.Extent.Bottom)
+                    {
+                        tempExtent.Bottom = record.Extent.Bottom;
+                    }
+                    _header.Extent = tempExtent;
+                    _indexFile.Extent = tempExtent;
                 }
-                if (tempExtent.Right < record.Extent.Right)
-                {
-                    tempExtent.Right = record.Extent.Right;
-                }
-                if (tempExtent.Bottom < record.Extent.Bottom)
-                {
-                    tempExtent.Bottom = record.Extent.Bottom;
-                }
-                _header.Extent = tempExtent;
-                _indexFile.Extent = tempExtent;
             }
         }
 

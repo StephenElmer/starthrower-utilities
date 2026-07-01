@@ -22,7 +22,6 @@ namespace StarThrower.Gis.EsriLibrary.Test
     public class UnimplementedShapeTypeTest
     {
         [Theory]
-        [InlineData(ShapeType.NullShape)]
         [InlineData(ShapeType.MultiPoint)]
         [InlineData(ShapeType.PointZ)]
         [InlineData(ShapeType.PointM)]

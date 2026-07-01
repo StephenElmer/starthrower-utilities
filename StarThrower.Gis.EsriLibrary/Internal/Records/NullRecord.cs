@@ -12,8 +12,8 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
 
         internal NullRecord(byte[] bytes)
         {
+            _ = bytes; // NullShape has no content beyond the shape-type field; nothing to parse.
             this.ShapeType = StarThrower.Gis.EsriLibrary.ShapeType.NullShape;
-            ParseBytes(bytes);
         }
 
         #endregion
@@ -25,19 +25,9 @@ namespace StarThrower.Gis.EsriLibrary.Internal.Records
         {
             get
             {
-                //TODO:
+                // NullShape has no geometry, so its extent is intentionally empty (all zeros).
                 return new StarThrower.Gis.GeoUtilities.GeoRectangle();
             }
-        }
-
-        #endregion
-
-
-        #region Private Methods
-
-        private void ParseBytes(byte[] bytes)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
