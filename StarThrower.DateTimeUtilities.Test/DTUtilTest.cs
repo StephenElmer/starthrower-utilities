@@ -251,7 +251,11 @@ namespace StarThrower.DateTimeUtilities.Test
         {
             DateTime dt = new DateTime(2007, 6, 24, 8, 13, 15);
             string expected = "2007-06-24T08:13:15.0000000+00:00";
+            #pragma warning disable CS0618 // obsolete: DateTimeToIso8601 is marked as obsolete, but we still want to test it for backwards compatibility until it is removed.
             string actual = DTUtil.DateTimeToIso8601(dt);
+            #pragma warning restore CS0618
+
+
             actual.Should().Be(expected);
         }
 
@@ -265,7 +269,9 @@ namespace StarThrower.DateTimeUtilities.Test
         {
             string iso = "2007-06-24T08:13:15.0";
             DateTime expected = new DateTime(2007, 6, 24, 8, 13, 15);
+            #pragma warning disable CS0618 // obsolete: Iso8601ToDateTime is marked as obsolete, but we still want to test it for backwards compatibility until it is removed.
             DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            #pragma warning restore CS0618
             actual.Should().Be(expected);
         }
 
@@ -274,7 +280,9 @@ namespace StarThrower.DateTimeUtilities.Test
         {
             string iso = "2007-06-24T08:13:15.0+00:00";
             DateTime expected = new DateTime(2007, 6, 24, 8, 13, 15);
+            #pragma warning disable CS0618 // obsolete: Iso8601ToDateTime is marked as obsolete, but we still want to test it for backwards compatibility until it is removed.
             DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            #pragma warning restore CS0618
             actual.Should().Be(expected);
         }
 
@@ -282,7 +290,9 @@ namespace StarThrower.DateTimeUtilities.Test
         public void TestIso8601ToDateTimeArgumentNull()
         {
             string? s = null;
+            #pragma warning disable CS0618 // obsolete: Iso8601ToDateTime is marked as obsolete, but we still want to test it for backwards compatibility until it is removed.
             Action act = () => DTUtil.Iso8601ToDateTime(s);
+            #pragma warning restore CS0618
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -291,7 +301,9 @@ namespace StarThrower.DateTimeUtilities.Test
         {
             string iso = "2007-06-24T08:13:15.0+05:00";
             DateTime expected = new DateTime(2007, 6, 24, 3, 13, 15, DateTimeKind.Utc);
+            #pragma warning disable CS0618 // obsolete: Iso8601ToDateTime is marked as obsolete, but we still want to test it for backwards compatibility until it is removed.
             DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            #pragma warning restore CS0618
             actual.Should().Be(expected);
         }
 
@@ -300,7 +312,9 @@ namespace StarThrower.DateTimeUtilities.Test
         {
             string iso = "2007-06-24T08:13:15.0-08:00";
             DateTime expected = new DateTime(2007, 6, 24, 16, 13, 15, DateTimeKind.Utc);
+            #pragma warning disable CS0618 // obsolete: Iso8601ToDateTime is marked as obsolete, but we still want to test it for backwards compatibility until it is removed.
             DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            #pragma warning restore CS0618
             actual.Should().Be(expected);
         }
 
@@ -309,7 +323,9 @@ namespace StarThrower.DateTimeUtilities.Test
         {
             string iso = "2007-06-24T08:13:15.0Z";
             DateTime expected = new DateTime(2007, 6, 24, 8, 13, 15, DateTimeKind.Utc);
+            #pragma warning disable CS0618 // obsolete: Iso8601ToDateTime is marked as obsolete, but we still want to test it for backwards compatibility until it is removed.
             DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            #pragma warning restore CS0618
             actual.Should().Be(expected);
         }
 
@@ -317,7 +333,9 @@ namespace StarThrower.DateTimeUtilities.Test
         public void TestIso8601ToDateTimeReturnsUtcKind()
         {
             string iso = "2007-06-24T08:13:15.0";
+            #pragma warning disable CS0618 // obsolete: Iso8601ToDateTime is marked as obsolete, but we still want to test it for backwards compatibility until it is removed.
             DateTime actual = DTUtil.Iso8601ToDateTime(iso);
+            #pragma warning restore CS0618
             actual.Kind.Should().Be(DateTimeKind.Utc);
         }
 
