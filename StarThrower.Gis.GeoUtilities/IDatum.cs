@@ -4,7 +4,7 @@ using System;
 
 namespace StarThrower.Gis.GeoUtilities
 {
-    //TODO: what were the two sources I used for Datum?
+    //TODO: #36 — what were the two sources I used for Datum?
 
     /// <summary>
     /// Represents a geodetic datum: an ellipsoid plus the shift parameters needed to convert
@@ -13,7 +13,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// <remarks>
     /// Except for two special cases (described below), Datum implementations in StarThrower Utilities have been obtained from two sources:
     /// 
-    /// TODO: update this comment
+    /// TODO: #36 — update this comment
     ///
     /// The special cases are as follows:
     /// 1) <see cref="Datums.Undefined"/>, which is the default type of the <see cref="Datum"/> class and represents sort of a Null Object pattern.

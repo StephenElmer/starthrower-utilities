@@ -65,6 +65,7 @@ namespace StarThrower.DataUtilities
         /// <returns>The boolean value of the field.  False if the field is null, DBNull, or an error is thrown.</returns>
         /// <exception cref="ArgumentNullException">Thrown if dataRow or fieldName are null.</exception>
         /// <exception cref="ArgumentException">Thrown if fieldName is not a valid field in dataRow.</exception>
+        //TODO: #2 — duplicate API family vs. GetBoolField; behavior diverges (see issue for details)
         public static bool GetBooleanField(DataRow? dataRow, string? fieldName)
         {
             ArgumentNullException.ThrowIfNull(dataRow);
@@ -1329,6 +1330,7 @@ namespace StarThrower.DataUtilities
 
         #region [ Guid ]
 
+        //TODO: #3 — GetGuidField/GetBinaryField have no DataRow overload, unlike every other typed field-accessor family
         /// <summary>
         /// Safely retrieves a <see cref="Guid"/> value from a field in a DbDataReader, returning
         /// <see cref="Guid.Empty"/> if the field is DBNull.

@@ -221,6 +221,7 @@ namespace StarThrower.XBase.Internal
         /// pair) rather than simply truncating/padding raw bytes, which is only valid when the type
         /// is unchanged. This is tracked as a future enhancement.
         /// </remarks>
+        //TODO: #1 — support changing a field's data type, not just rename/resize
         internal void AlterField(Int32 fieldIndex, StarThrower.XBase.Internal.Field field)
         {
             if (field.Type != _header.Fields[fieldIndex].Type)
@@ -321,6 +322,7 @@ namespace StarThrower.XBase.Internal
          * NOTE: Only the "=" operator is currently implemented (see remarks on FindRecord below).
          * The remaining comparison operators are reserved for a future LOCATE FOR / CONTINUE
          * style implementation.
+         * TODO: #10 — implement the remaining "<", ">", "<=", ">=", "<>" operators.
          *
          * Examples:
          *      "BDate=#05/18/1968#"

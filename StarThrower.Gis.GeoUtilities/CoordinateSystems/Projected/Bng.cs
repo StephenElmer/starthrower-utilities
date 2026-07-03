@@ -35,7 +35,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
         /// <returns>A <see cref="Translations.GenericResult"/> wrapping the unconverted input coordinate.</returns>
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {
-            //TODO: implement this translation
+            //TODO: #11 — implement this translation
             double resultLon = xLon;
             double resultLat = yLat;
             double resultAlt = zAlt;
@@ -53,7 +53,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Projected
         /// <returns>A <see cref="Translations.GenericResult"/> wrapping the unconverted input coordinate.</returns>
         public override ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt)
         {
-            //TODO: implement this translation
+            //TODO: #11 — implement this translation
             double resultLon = xLon;
             double resultLat = yLat;
             double resultAlt = zAlt;

@@ -736,7 +736,7 @@ namespace StarThrower.Gis.GeoUtilities
         #endregion
 
 
-        //TODO: perhaps these should be refactored into the Datum class or some such place
+        //TODO: #37 — perhaps these should be refactored into the Datum class or some such place
         #region Private Methods used for translation
 
         /// <summary>

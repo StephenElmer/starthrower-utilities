@@ -8,6 +8,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// Represents a single geodetic point, exposing both decimal-degree and
     /// degrees-minutes-seconds string representations of its longitude and latitude.
     /// </summary>
+    //TODO: #15 — xLon/yLat here are decimal degrees, but mean radians on IDatum/ICoordinateSystem/ITranslationResult and implementations; no naming distinction
     public interface IGeoPoint
     {
         /// <summary>

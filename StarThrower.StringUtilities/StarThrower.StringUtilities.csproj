@@ -34,8 +34,8 @@
     <IsPackable>true</IsPackable>
     <PackageId>$(AssemblyName)</PackageId>
 
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>$(Version).0</FileVersion>
 
     <Description>String manipulation and analysis utilities including encoding-aware character operations with consistent cross-platform Windows-1252 behavior.</Description>

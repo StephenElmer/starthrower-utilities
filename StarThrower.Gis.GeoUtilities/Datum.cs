@@ -401,6 +401,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// This base implementation is a pass-through (no shift applied); seven-parameter datums
         /// are expected to override this method to apply their translation, rotation, and scale parameters.
         /// </remarks>
+        //TODO: #12 — no subclass overrides this, so the seven-parameter/geocentric shift path is non-functional for OSGB36 and ED50
         protected virtual void GeocentricShiftToWgs84(double localX, double localY, double localZ, ref double wgs84X, ref double wgs84Y, ref double wgs84Z)
         {
             wgs84X = localX;
@@ -477,6 +478,7 @@ namespace StarThrower.Gis.GeoUtilities
         /// behavior, so converting a coordinate from WGS84 into one of those other datums does
         /// not actually apply that datum's shift.
         /// </remarks>
+        //TODO: #12 — non-functional no-op for ~230 of ~232 datums
         public virtual void FromWgs84(double wgs84XLon, double wgs84YLat, double wgs84ZAlt, ref double xLon, ref double yLat, ref double zAlt)
         {
             xLon = wgs84XLon;

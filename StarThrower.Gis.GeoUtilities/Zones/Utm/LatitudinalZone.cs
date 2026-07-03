@@ -16,11 +16,13 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
         /// Spans 90°S to 80°S. Falls outside the normal UTM projection and is not yet
         /// supported by this library (operations against it throw <see cref="NotImplementedException"/>).
         /// </summary>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         UtmA = 1,
         /// <summary>
         /// Falls outside the normal UTM projection and is not yet supported by this library
         /// (operations against it throw <see cref="NotImplementedException"/>).
         /// </summary>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         UtmB = 2,
         /// <summary>Spans 80°S to 72°S.</summary>
         UtmC = 3,
@@ -73,11 +75,13 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
         /// Spans 84°N to 90°N. Falls outside the normal UTM projection and is not yet
         /// supported by this library (operations against it throw <see cref="NotImplementedException"/>).
         /// </summary>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         UtmY = 23,
         /// <summary>
         /// Falls outside the normal UTM projection and is not yet supported by this library
         /// (operations against it throw <see cref="NotImplementedException"/>).
         /// </summary>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         UtmZ = 24
     }
 }

@@ -222,6 +222,7 @@ namespace StarThrower.EarleyParser
         /// parse trees.
         /// </summary>
         /// <returns>A hash code.</returns>
+        //TODO: #8 — hashes _parent recursively (full ancestor chain) while Equals only compares _parent.Node shallowly
         public override int GetHashCode()
         {
             int result = 17;

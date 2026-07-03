@@ -36,6 +36,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <param name="yLat">The latitude, in decimal degrees.</param>
         /// <param name="zAlt">The height/altitude.</param>
         /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
+        //TODO: #30 — does not perform GARS grid-reference encoding/decoding
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {
             return new Translations.GenericResult(xLon, yLat, zAlt);
@@ -49,6 +50,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <param name="yLat">The latitude, in decimal degrees.</param>
         /// <param name="zAlt">The height/altitude.</param>
         /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
+        //TODO: #30 — does not perform GARS grid-reference encoding/decoding
         public override ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt)
         {
             return new Translations.GenericResult(xLon, yLat, zAlt);

@@ -1,6 +1,6 @@
 # StarThrower.Utilities
 
-A suite of general-purpose C# utility libraries for .NET 10, maintained by [Stephen Elmer](https://github.com/TODO) at [StarThrower Software](https://github.com/TODO/starthrower-utilities).
+A suite of general-purpose C# utility libraries for .NET 10, maintained by [Stephen Elmer](https://github.com/StephenElmer) at [StarThrower Utilities](https://github.com/StephenElmer/starthrower-utilities).
 
 These libraries have been in active use across commercial consulting projects since the early 2000s — originating as a VB6 shared library and modernized through successive .NET generations. They represent battle-tested, production-proven utility code published here as open source for the first time.
 
@@ -45,9 +45,7 @@ Each package is independent. Install only what you need.
 ## Requirements
 
 - **.NET 10** or later
-- **Windows only** for the following packages due to platform-specific dependencies:
-  - `StarThrower.DataUtilities` — uses `System.Data.OleDb` (Windows-only)
-  - `StarThrower.Gis.EsriLibrary` — shapefile I/O depends on Windows file system conventions
+- **Windows only** for `StarThrower.DataUtilities`, which uses `System.Data.OleDb` (Windows-only)
 - All other packages are **cross-platform** (Windows, Linux, macOS)
 
 ---
@@ -110,8 +108,8 @@ Prior versions of this library used strong naming for .NET Framework consumers. 
 
 This is primarily a personal portfolio and consulting utility library. Issues and pull requests are welcome but response times may vary.
 
-- [Open an issue](https://github.com/TODO/starthrower-utilities/issues)
-- [View the changelog](https://github.com/TODO/starthrower-utilities/releases)
+- [Open an issue](https://github.com/StephenElmer/starthrower-utilities/issues)
+- [View the changelog](https://github.com/StephenElmer/starthrower-utilities/releases)
 
 ---
 
@@ -126,6 +124,6 @@ Licensed under the [MIT License](LICENSE.md).
 ## Author
 
 **Stephen Elmer** — Senior .NET Solutions Architect  
-[GitHub](https://github.com/TODO) · [LinkedIn](https://www.linkedin.com/in/TODO)
+[GitHub](https://github.com/StephenElmer) · [LinkedIn](https://www.linkedin.com/in/steveelmer/)
 
 *StarThrower Software — consulting practice specializing in enterprise .NET, geospatial systems, risk modeling, and AI-assisted development tooling.*

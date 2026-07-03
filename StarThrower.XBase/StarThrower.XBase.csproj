@@ -34,8 +34,8 @@
     <IsPackable>true</IsPackable>
     <PackageId>$(AssemblyName)</PackageId>
 
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>$(Version).0</FileVersion>
 
     <Description>Read and write dBASE (.dbf) file format including field type support for character, numeric, date, logical, and memo types.</Description>

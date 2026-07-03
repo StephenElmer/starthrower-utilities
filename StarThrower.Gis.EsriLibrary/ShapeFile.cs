@@ -473,6 +473,7 @@ namespace StarThrower.Gis.EsriLibrary
         /// <param name="index">The zero-based index of the record to alter.</param>
         /// <param name="record">The replacement record data.</param>
         /// <exception cref="NotImplementedException">Always thrown; this method is not yet implemented.</exception>
+        //TODO: #35 — unimplemented stub
         public void AlterRecord(int index, StarThrower.Gis.EsriLibrary.Record record)
         {
             throw new NotImplementedException();
@@ -670,7 +671,7 @@ namespace StarThrower.Gis.EsriLibrary
                     result.AppendLine("</layer>");
                     break;
                 case StarThrower.Gis.GeoUtilities.Formatting.XmlFormat.Gml:
-
+                    //TODO: #34 — no Gml output; returns an empty string with no indication the format isn't supported
                     break;
                 case StarThrower.Gis.GeoUtilities.Formatting.XmlFormat.FileWise:
                 default:
@@ -815,10 +816,10 @@ namespace StarThrower.Gis.EsriLibrary
 
                     break;
                 case StarThrower.Gis.GeoUtilities.Formatting.XmlFormat.Gml:
-
+                    //TODO: #34 — no Gml support; silently loads nothing rather than throwing
                     break;
                 case StarThrower.Gis.GeoUtilities.Formatting.XmlFormat.FileWise:
-
+                    //TODO: #34 — no FileWise read support (asymmetric with ToXml, which writes FileWise); silently loads nothing
                     break;
                 default:
                     throw new ArgumentException("Unsupported XML format.", nameof(xmlFormat));
@@ -830,6 +831,7 @@ namespace StarThrower.Gis.EsriLibrary
         /// </summary>
         /// <returns>Does not return; always throws.</returns>
         /// <exception cref="NotImplementedException">Always thrown; this method is not yet implemented.</exception>
+        //TODO: #35 — unimplemented stub
         public string ToJson()
         {
             throw new NotImplementedException();
@@ -840,6 +842,7 @@ namespace StarThrower.Gis.EsriLibrary
         /// </summary>
         /// <param name="doc">The JSON document to load.</param>
         /// <exception cref="NotImplementedException">Always thrown; this method is not yet implemented.</exception>
+        //TODO: #35 — unimplemented stub
         public void LoadJson(string doc)
         {
             throw new NotImplementedException();

@@ -33,7 +33,6 @@
   <!-- NuGet package metadata                                        -->
   <!-- =========================================================== -->
   <PropertyGroup>
-    <!-- TODO: Update URLs once GitHub username is resolved         -->
     <PackageProjectUrl>https://github.com/StephenElmer/starthrower-utilities</PackageProjectUrl>
     <RepositoryUrl>https://github.com/StephenElmer/starthrower-utilities</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -52,12 +51,11 @@
   <!-- =========================================================== -->
   <PropertyGroup>
     <!--
-      TODO: Set once legacy app version review is complete.
-      Recommendation: pin AssemblyVersion at MAJOR.0.0.0 and increment
+      Note: pin AssemblyVersion at MAJOR.0.0.0 and increment
       only on intentional breaking changes. FileVersion increments freely.
     -->
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>$(Version).0</FileVersion>
   </PropertyGroup>
 

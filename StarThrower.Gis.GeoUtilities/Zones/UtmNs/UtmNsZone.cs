@@ -632,6 +632,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.UtmNs
         /// boundary of the normal UTM projection and are not yet supported.
         /// </exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="latitude"/> is outside the valid range of -90 through 90 degrees.</exception>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         private static LatitudinalZone GetLatitudinalZoneForLatitude(double latitude)
         {
             if (latitude >= -90.0 && latitude < -80.0)

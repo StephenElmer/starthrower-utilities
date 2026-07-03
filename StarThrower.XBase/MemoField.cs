@@ -101,6 +101,7 @@ namespace StarThrower.XBase
         /// If data is not a string, a message describing why it's invalid.
         /// </param>
         /// <returns>True if data is a string; otherwise, false.</returns>
+        //TODO: #9 — memo content is discarded here rather than written to a .dbt file; no .dbt read/write support exists yet
         public override bool IsValidData(object data, out string result)
         {
             if (!(data is string))

@@ -67,6 +67,7 @@ namespace StarThrower.DateTimeUtilities
                 case DateInterval.Month:
                     return (date2.Month - date1.Month) + (12 * (date2.Year - date1.Year));
                 case DateInterval.Weekday:
+                    //TODO: #43 — computes a week count; DateInterval.Weekday's doc describes a day name instead
                     return MathUtil.RoundTowardsZero(ts.TotalDays) / 7;
                 case DateInterval.Day:
                     return MathUtil.RoundTowardsZero(ts.TotalDays);

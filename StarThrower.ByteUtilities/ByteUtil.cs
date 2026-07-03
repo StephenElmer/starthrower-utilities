@@ -402,6 +402,7 @@ namespace StarThrower.ByteUtilities
         /// <returns>The resulting byte.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if target is less than zero or greater than 255.</exception>
         /// <exception cref="InvalidEndianException">Thrown if byteEndian or bitEndian are something other than Little or Big.</exception>
+        //TODO: #42 — doc is a copy-paste leftover: says "byte array" (returns a single byte) and references a nonexistent byteEndian parameter
         public static byte Int16ToByte(Int16 target, BitEndian bitEndian)
         {
             ArgumentOutOfRangeException.ThrowIfNegative(target);

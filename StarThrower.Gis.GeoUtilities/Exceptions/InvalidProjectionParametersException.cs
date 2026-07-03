@@ -11,6 +11,7 @@ namespace StarThrower.Gis.GeoUtilities.Exceptions
     /// <remarks>
     /// Not currently thrown anywhere in this library.
     /// </remarks>
+    //TODO: #31 — defined but never thrown; ProjectionFactory/Projections.* constructors throw plain ArgumentException instead
     public class InvalidProjectionParametersException : Exception
     {
         /// <summary>

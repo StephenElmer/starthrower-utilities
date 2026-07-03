@@ -7,6 +7,7 @@ namespace StarThrower.Gis.GeoUtilities.Formatting
     /// <summary>
     /// An enumeration of the various XML formats available to the GeoUtilities Formatting framework.
     /// </summary>
+    //TODO: #32 — unreferenced anywhere in this assembly; no ToXml() overload branches on it
     public enum XmlFormat
     {
         /// <summary>

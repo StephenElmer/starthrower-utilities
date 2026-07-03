@@ -27,6 +27,7 @@ namespace StarThrower.Gis.GeoUtilities
         public static IGeoid GetInstanceOfGeoid(Type geoidType)
         {
             ArgumentNullException.ThrowIfNull(geoidType);
+            //TODO: #29 — throws AmbiguousGeoidTypeException for Undefined, unlike DatumFactory/EllipsoidFactory which throw Invalid*TypeException
             if (geoidType.Equals(typeof(Geoids.Undefined))) throw new Exceptions.AmbiguousGeoidTypeException();
             if (!GeoidTypeExists(geoidType.Name)) throw new Exceptions.InvalidGeoidTypeException();
             if (geoidType.GetInterface("IGeoid") != typeof(IGeoid)) throw new Exceptions.InvalidGeoidTypeException();

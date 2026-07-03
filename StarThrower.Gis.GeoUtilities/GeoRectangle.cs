@@ -8,6 +8,7 @@ namespace StarThrower.Gis.GeoUtilities
     /// A rectangular geographic region, defined by an upper-left and lower-right <see cref="GeoPoint"/>.
     /// Used to represent the valid domain of a <see cref="Datum"/>.
     /// </summary>
+    //TODO: #13 — missing Equals/GetHashCode override; uses reference equality, which affects Datum.Equals
     public class GeoRectangle
     {
         #region Private Member Variables

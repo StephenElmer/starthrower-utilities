@@ -255,6 +255,7 @@ namespace StarThrower.EarleyParser
         /// Computes a hash code for this edge based on its origin, dotted rule, and bases.
         /// </summary>
         /// <returns>A hash code.</returns>
+        //TODO: #8 — _bases.GetHashCode() hashes ReadOnlyCollection<Edge> by reference, not content, inconsistent with Equals
         public override int GetHashCode()
         {
             int result = 17;

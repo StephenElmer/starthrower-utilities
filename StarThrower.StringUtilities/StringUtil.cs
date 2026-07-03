@@ -166,6 +166,7 @@ namespace StarThrower.StringUtilities
         /// the value of s will be "s|d|f" and the value of tok will be "a"
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if source or delimiter is null.</exception>
+        //TODO: #40 — corrupts output for multi-character delimiters; hardcodes removed width as 1 char
         public static string ParseString(ref string source, string? delimiter)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -210,6 +211,7 @@ namespace StarThrower.StringUtilities
         /// the value of s will be "a|s|d" and the value of tok will be "f"
         /// </example>
         /// <exception cref="ArgumentNullException">Thrown if source or delimiter is null.</exception>
+        //TODO: #40 — corrupts output for multi-character delimiters; hardcodes removed width as 1 char
         public static string ParseStringFromRight(ref string source, string? delimiter)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -312,6 +314,7 @@ namespace StarThrower.StringUtilities
         /// <param name="compare">The ComparisonType to be converted.</param>
         /// <returns>The equivalent, if any, StringComparison enumeration.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if compare is not <see cref="ComparisonType.CaseSensitive"/> or <see cref="ComparisonType.CaseInsensitive"/>. Note that <see cref="ComparisonType.Database"/> is not currently mapped and will also throw.</exception>
+        //TODO: #7 — doesn't handle ComparisonType.Database; investigate whether Database is still needed
         public static StringComparison ConvertComparisonType(ComparisonType compare)
         {
             switch (compare)
@@ -1158,6 +1161,7 @@ namespace StarThrower.StringUtilities
         /// target passed the initial integer validation, because <c>int.TryParse</c> (used for that validation)
         /// permits leading/trailing whitespace that this method's character-by-character conversion does not.
         /// </exception>
+        //TODO: #44 — the NotSupportedException path below is inconsistent with the ArgumentOutOfRangeException used for the same class of invalid input above
         public static string ToSuperscript(string? target)
         {
             ArgumentNullException.ThrowIfNull(target);
@@ -1206,6 +1210,7 @@ namespace StarThrower.StringUtilities
                         result.Append(OneChar(SuperscriptMinus));
                         break;
                     default:
+                        //TODO: #44 — throws NotSupportedException here vs. ArgumentOutOfRangeException above for the same class of invalid input
                         throw new NotSupportedException();
                 }
             }

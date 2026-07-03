@@ -146,6 +146,7 @@ namespace StarThrower.EarleyParser
         /// Computes a hash code for this rule based on its left and right side categories.
         /// </summary>
         /// <returns>A hash code.</returns>
+        //TODO: #8 — _right.GetHashCode() hashes ReadOnlyCollection<Category> by reference, not content, inconsistent with Equals
         public override int GetHashCode()
         {
             int result = 17;

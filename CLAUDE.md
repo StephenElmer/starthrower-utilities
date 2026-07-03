@@ -597,7 +597,12 @@ Verified relative depth: build output is `Code/<Project>/bin/Debug/net10.0/`, wh
   logging abstraction (see "Removed Projects — StarThrower.Logging" above); prefer
   `Microsoft.Extensions.Logging.Abstractions` if logging is ever genuinely needed
 - Nullable suppression operators (`!`) to silence warnings — fix the root cause instead
-- `#pragma warning disable` suppression blocks
+- `#pragma warning disable` suppression blocks, with one narrow, documented exception:
+  CA1806 on the `Action act = () => new Foo(...); act.Should().Throw<T>();`
+  exception-testing idiom (see Pending Analyzer Warnings Log). The analyzer cannot tell
+  that discarding the constructor's result is the point of the test — the constructor's
+  *side effect* (throwing) is what's under test, not its return value. Any other
+  suppression still requires discussion first.
 
 ### Do not touch
 - `TestInput/` contents — read-only test fixtures; do not modify any files here
@@ -661,4 +666,8 @@ To be addressed in Step 2d. Do not modify these items during Steps 2b or 2c.
 
 ## Pending Analyzer Warnings Log
 
-No current analyzer warnings
+| Assembly | Warning | Locations | Disposition |
+|---|---|---|---|
+| `StarThrower.EarleyParser.Test` | CA1806 (object created and never used) | 15 call sites across `EdgeTests.cs`, `RuleTests.cs`, `CategoryTests.cs`, `GrammarParserTests.cs`, `ParserTests.cs` | **Accepted false positive, suppressed via scoped pragma.** All 15 are the `Action act = () => new Foo(...); act.Should().Throw<T>();` exception-testing idiom from the Step 6 MSTest→xUnit conversion. The analyzer can't recognize that discarding the constructor's result is deliberate — the constructor's *side effect* (throwing) is what's under test. Each site is wrapped in a scoped `#pragma warning disable CA1806` / `#pragma warning restore CA1806` around just the `Action act = ...` line (2026-07-02) — see the narrow exception carved out in Constraints → Do not add. |
+| `StarThrower.MathUtilities.Test` | CA1305 (locale-dependent `long.ToString()`) | `MathUtilTest.cs:459-460` | **Fixed** — added `CultureInfo.InvariantCulture` (2026-07-02). |
+| `StarThrower.DateTimeUtilities.Test` | CS0618 (obsolete API usage) | `DTUtilTest.cs` — 7 call sites | **Left standing.** Tests deliberately call `DTUtil.DateTimeToIso8601`/`DTUtil.Iso8601ToDateTime`, both `[Obsolete]` per the BCL Supersedence Log entry above, to verify the obsolete wrappers still delegate correctly. Same rationale as `ByteUtilities.Test`'s `BytesAreEqual` warnings. |

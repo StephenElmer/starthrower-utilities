@@ -64,6 +64,7 @@ namespace StarThrower.MathUtilities
         /// <param name="test">The string to be checked</param>
         /// <returns>true if the string represents a whole number; otherwise false.</returns>
         /// <exception cref="ArgumentNullException">Thrown if test is null.</exception>
+        //TODO: #6 — uses current-thread culture/default NumberStyles, inconsistent with IsNumeric's InvariantCulture/NumberStyles.Any
         public static bool IsWholeNumber(string? test)
         {
             ArgumentNullException.ThrowIfNull(test);
@@ -113,6 +114,8 @@ namespace StarThrower.MathUtilities
         /// <param name="value">The value to be rounded.</param>
         /// <param name="digits">The number of decimal places to round to. Any value less than or equal to zero rounds to the nearest whole number.</param>
         /// <returns>The rounded value.</returns>
+        //TODO: #5 — does not scale rounding precision for negative digits (e.g. round to nearest 100)
+        //TODO: #41 — rounds half toward +infinity, not "away from zero" as documented, for negative values
         public static double RoundTo(double value, long digits)
         {
             double rv = 0;

@@ -44,7 +44,9 @@ namespace StarThrower.EarleyParser.Test
         {
             Fixture f = new Fixture();
             ParserOptions? nullOptions = null;
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Parser(f.grammar, nullOptions!);
+            #pragma warning restore CA1806
             act.Should().Throw<ArgumentNullException>();
         }
 

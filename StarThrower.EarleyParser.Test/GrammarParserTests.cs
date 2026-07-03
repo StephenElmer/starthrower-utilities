@@ -73,7 +73,9 @@ namespace StarThrower.EarleyParser.Test
         [Fact]
         public void CtorThrowsWhenFileDoesNotExist()
         {
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new GrammarParser(Path.Combine(_languagesFolder, "does-not-exist.xml"));
+            #pragma warning restore CA1806
             act.Should().Throw<FileNotFoundException>();
         }
 
@@ -84,7 +86,9 @@ namespace StarThrower.EarleyParser.Test
             try
             {
                 File.WriteAllText(malformedFile, "<grammar name=\"g\"><rule></grammar>");
+                #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
                 Action act = () => new GrammarParser(malformedFile);
+                #pragma warning restore CA1806
                 act.Should().Throw<XmlException>();
             }
             finally

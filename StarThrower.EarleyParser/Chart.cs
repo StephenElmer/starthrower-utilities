@@ -345,6 +345,7 @@ namespace StarThrower.EarleyParser
         /// Computes a hash code for this chart based on its internal data structure.
         /// </summary>
         /// <returns>A hash code.</returns>
+        //TODO: #8 — _edgeSets.GetHashCode() hashes SortedDictionary<int, Collection<Edge>> by reference, not content, inconsistent with Equals
         public override int GetHashCode()
         {
             int result = 17;

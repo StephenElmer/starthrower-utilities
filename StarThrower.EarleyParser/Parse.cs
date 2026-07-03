@@ -311,6 +311,7 @@ namespace StarThrower.EarleyParser
         /// Computes a hash code for this parse based on its tokens, seed category, and chart.
         /// </summary>
         /// <returns>A hash code.</returns>
+        //TODO: #8 — _tokens.GetHashCode() hashes Collection<string> by reference, not content, inconsistent with Equals; also inherits Chart's GetHashCode bug via _chart
         public override int GetHashCode()
         {
             int result = 17;

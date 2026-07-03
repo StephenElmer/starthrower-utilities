@@ -77,6 +77,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
         /// projection and are not yet supported.
         /// </summary>
         /// <exception cref="NotImplementedException">Thrown for Latitudinal Zones A, B, Y, or Z.</exception>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         public override double ReferenceLatitude
         {
             get { return GetReferenceLatitude(); }
@@ -210,6 +211,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
         /// which are not yet supported.
         /// </exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="latitude"/> or <paramref name="longitude"/> is out of range.</exception>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         public UtmZone(double longitude, double latitude)
         {
             _longitudinalZone = GetLongitudinalZoneForLongitude(longitude, latitude);
@@ -634,6 +636,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
         /// the normal UTM projection and are not yet supported.
         /// </exception>
         /// <exception cref="ArgumentException">Thrown if <see cref="_latitudinalZone"/> is not a recognized value.</exception>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         private double GetReferenceLatitude()
         {
             switch (_latitudinalZone)
@@ -966,6 +969,7 @@ namespace StarThrower.Gis.GeoUtilities.Zones.Utm
         /// boundary of the normal UTM projection and are not yet supported.
         /// </exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="latitude"/> is outside the valid range of -90 through 90 degrees.</exception>
+        //TODO: #39 — UTM Latitudinal Zones A, B, Y, Z are unimplemented
         private static LatitudinalZone GetLatitudinalZoneForLatitude(double latitude)
         {
             if (latitude >= -90.0 && latitude < -80.0)

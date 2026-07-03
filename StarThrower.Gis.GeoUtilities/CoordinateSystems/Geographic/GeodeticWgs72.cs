@@ -60,7 +60,6 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {
-            //TODO: implement this translation
             double resultLon = xLon;
             double resultLat = yLat;
             double resultAlt = zAlt;
@@ -79,7 +78,6 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <returns>A <see cref="Translations.GenericResult"/> containing the unchanged input coordinate.</returns>
         public override ITranslationResult FromGeodetic(double xLon, double yLat, double zAlt)
         {
-            //TODO: implement this translation
             double resultLon = xLon;
             double resultLat = yLat;
             double resultAlt = zAlt;

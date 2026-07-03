@@ -61,6 +61,7 @@ namespace StarThrower.Gis.GeoUtilities.Ellipsoids
                     this.PolarRadius = this.EquatorialRadius - (this.Flattening * this.EquatorialRadius);
                     break;
                 case EllipsoidParamOrder.PolarRadiusFlattening:
+                    //TODO: #28 — EquatorialRadius formula below is dimensionally wrong, and this guard checks the wrong divisor
                     if (paramOne == 1) throw new ArgumentException("PolarRadius cannot be zero for paramOrder " + paramOrder.ToString() + " in Ellipsoid constructor.  This would cause a divide by zero exception.");
                     this.PolarRadius = paramOne;
                     this.Flattening = paramTwo;

@@ -11,6 +11,7 @@ namespace StarThrower.Gis.GeoUtilities.Exceptions
     /// Not currently thrown anywhere in this library; <see cref="GeoUtil.Translate"/> throws
     /// <see cref="InvalidOperationException"/> for the failure cases it detects instead.
     /// </remarks>
+    //TODO: #14 — defined but never thrown; wire it up or remove it
     public class FailedGeoTranslationException : Exception
     {
         /// <summary>

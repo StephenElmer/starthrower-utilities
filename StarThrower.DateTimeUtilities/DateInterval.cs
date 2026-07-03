@@ -20,6 +20,7 @@ namespace StarThrower.DateTimeUtilities
         /// <summary>
         /// Weekdays (the name of the day: mon, tues, weds, etc)
         /// </summary>
+        //TODO: #43 — doc describes a day name, but DTUtil.DateDiff's Weekday case actually computes a week count
         Weekday = 2,
 
         /// <summary>

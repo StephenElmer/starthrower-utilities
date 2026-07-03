@@ -579,8 +579,8 @@ namespace StarThrower.XBase.Test
         //5. Attempt to add / alter a record in which the data length is too long
         //6. Verify data formats are appropriate for added / altered records
         //7. When retrieving data, records flagged as deleted should not be returned in the result set
-        //8. When adding a date value, check for leap-years (e.g. Feb 29 is only allowed on leap years) //TODO: need to confirm this on dBase IV
-        //9. When a record is deleted, verify that record count is adjusted appropriately. //TODO: confirm this against dBase IV
+        //8. When adding a date value, check for leap-years (e.g. Feb 29 is only allowed on leap years) //TODO: #38 — need to confirm this on dBase IV
+        //9. When a record is deleted, verify that record count is adjusted appropriately. //TODO: #38 — confirm this against dBase IV
 
         //Complex operations
         //1. Create a dBase file, add some fields, add some records, remove/alter some fields, delete/alter some records, save the file, compare to a previously saved dBase IV file

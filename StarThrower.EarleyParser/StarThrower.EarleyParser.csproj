@@ -34,8 +34,8 @@
     <IsPackable>true</IsPackable>
     <PackageId>$(AssemblyName)</PackageId>
 
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>$(Version).0</FileVersion>
 
     <Description>A full Earley parsing algorithm implementation supporting context-free grammars defined via XML grammar files.</Description>

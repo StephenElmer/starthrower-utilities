@@ -81,14 +81,18 @@ namespace StarThrower.EarleyParser.Test
         public void CtorThrowsOnNullName()
         {
             string? nullName = null;
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Category(nullName, false);
+            #pragma warning restore CA1806
             act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
         public void CtorThrowsOnEmptyNameWithNonTerminal()
         {
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Category("", false);
+            #pragma warning restore CA1806
             act.Should().Throw<InvalidOperationException>();
         }
 
@@ -103,7 +107,9 @@ namespace StarThrower.EarleyParser.Test
         [Fact]
         public void CtorThrowsOnWhitespaceName()
         {
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Category(" ", false);
+            #pragma warning restore CA1806
             act.Should().Throw<InvalidOperationException>();
         }
 

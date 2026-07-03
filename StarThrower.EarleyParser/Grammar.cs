@@ -196,6 +196,7 @@ namespace StarThrower.EarleyParser
         /// Computes a hash code for this grammar based on its name and rules.
         /// </summary>
         /// <returns>A hash code.</returns>
+        //TODO: #8 — _rules.GetHashCode() hashes Dictionary<Category, Collection<Rule>> by reference, not content, inconsistent with Equals
         public override int GetHashCode()
         {
             int result = 17;

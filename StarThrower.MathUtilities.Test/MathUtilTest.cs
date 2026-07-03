@@ -456,8 +456,8 @@ namespace StarThrower.MathUtilities.Test
         public void TestIsInteger25()
         {
             long one = 1;
-            (MathUtil.IsInteger((int.MaxValue + one).ToString())).Should().Be(false);
-            (MathUtil.IsInteger((int.MinValue - one).ToString())).Should().Be(false);
+            (MathUtil.IsInteger((int.MaxValue + one).ToString(CultureInfo.InvariantCulture))).Should().Be(false);
+            (MathUtil.IsInteger((int.MinValue - one).ToString(CultureInfo.InvariantCulture))).Should().Be(false);
 
             //After examining the int.TryParse() function, it is clear that passing
             //any sort of decimal into it should fail.

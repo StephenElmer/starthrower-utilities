@@ -79,6 +79,7 @@ namespace StarThrower.FileUtilities
         /// The text is encoded as ASCII, so any character outside the 7-bit ASCII range is
         /// replaced with "?" rather than preserved.
         /// </remarks>
+        //TODO: #4 — lossy for non-ASCII text; consider switching to UTF-8
         public static void WriteTextFile(string fileName, string text)
         {
             if (File.Exists(fileName)) File.Delete(fileName);

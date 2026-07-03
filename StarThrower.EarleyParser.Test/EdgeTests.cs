@@ -17,7 +17,9 @@ namespace StarThrower.EarleyParser.Test
         public void Ctor1()
         {
             Fixture f = new Fixture();
+#pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Edge(new DottedRule(f.edge1.DottedRule, 0), -1);
+#pragma warning restore CA1806
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
 

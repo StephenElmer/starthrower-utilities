@@ -267,6 +267,7 @@ namespace StarThrower.Gis.GeoUtilities.CoordinateSystems.Geographic
         /// <param name="yLat">Latitude, in decimal degrees.</param>
         /// <param name="zAlt">Altitude, in meters. Not used: the result's altitude is always 0.</param>
         /// <returns>A GenericResult implementation of the ITranslationResult, containing Geodetic coordinates (Latitude, Longitude in radians, Height in meters).</returns>
+        //TODO: #27 — zAlt is silently discarded; resultZ should be assigned from it
         public override ITranslationResult ToGeodetic(double xLon, double yLat, double zAlt)
         {
             double resultX = 0.0;

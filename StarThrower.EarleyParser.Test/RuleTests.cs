@@ -20,7 +20,9 @@ namespace StarThrower.EarleyParser.Test
             List<Category> l = new List<Category>();
             l.Add(new Category("R"));
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(l);
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Rule(left, right);
+            #pragma warning restore CA1806
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -31,7 +33,9 @@ namespace StarThrower.EarleyParser.Test
             List<Category> l = new List<Category>();
             l.Add(new Category("R"));
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(l);
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Rule(left, right);
+            #pragma warning restore CA1806
             act.Should().Throw<InvalidOperationException>();
         }
 
@@ -40,7 +44,9 @@ namespace StarThrower.EarleyParser.Test
         {
             Category left = new Category("L", false);
             ReadOnlyCollection<Category>? right = null;
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Rule(left, right);
+            #pragma warning restore CA1806
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -49,7 +55,9 @@ namespace StarThrower.EarleyParser.Test
         {
             Category left = new Category("L", false);
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(new List<Category>());
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Rule(left, right);
+            #pragma warning restore CA1806
             act.Should().Throw<InvalidOperationException>();
         }
 
@@ -61,7 +69,9 @@ namespace StarThrower.EarleyParser.Test
             arr[0] = new Category("R", false);
             arr[2] = new Category("r", true);
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(arr);
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Rule(left, right);
+            #pragma warning restore CA1806
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -339,7 +349,9 @@ namespace StarThrower.EarleyParser.Test
             l.Add(f.Z);
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(l);
             Category? nullLeft = null;
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Rule(nullLeft, right);
+            #pragma warning restore CA1806
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -348,7 +360,9 @@ namespace StarThrower.EarleyParser.Test
         {
             Fixture f = new Fixture();
             ReadOnlyCollection<Category>? right = null;
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Rule(f.Z, right);
+            #pragma warning restore CA1806
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -357,7 +371,9 @@ namespace StarThrower.EarleyParser.Test
         {
             Fixture f = new Fixture();
             ReadOnlyCollection<Category> right = new ReadOnlyCollection<Category>(new List<Category>());
+            #pragma warning disable CA1806 // false positive: ctor result intentionally discarded to test throw behavior
             Action act = () => new Rule(f.Z, right);
+            #pragma warning restore CA1806
             act.Should().Throw<InvalidOperationException>();
         }
 
