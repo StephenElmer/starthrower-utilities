@@ -59,7 +59,7 @@ jobs:
       # -----------------------------------------------------------------------
       # STEP 2 — Install .NET SDK
       # -----------------------------------------------------------------------
-      # actions/setup-dotnet@v6 installs the .NET SDK on the runner.
+      # actions/setup-dotnet@v5 installs the .NET SDK on the runner.
       # The runner is a fresh VM — nothing is pre-installed except the OS.
       # We must install the SDK explicitly on every run.
       #
@@ -69,7 +69,7 @@ jobs:
       # This controls what toolchain builds it.
       # -----------------------------------------------------------------------
       - name: Install .NET SDK
-        uses: actions/setup-dotnet@v6
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
 
