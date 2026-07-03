@@ -48,18 +48,18 @@ jobs:
       # -----------------------------------------------------------------------
       # STEP 1 — Checkout
       # -----------------------------------------------------------------------
-      # actions/checkout@v4 is a pre-built action from the GitHub marketplace.
+      # actions/checkout@v6 is a pre-built action from the GitHub marketplace.
       # It checks out your repo code onto the runner so subsequent steps can
       # work with it. Without this step, the runner has an empty workspace.
       # The repo root (Code\) becomes the runner's working directory.
       # -----------------------------------------------------------------------
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # -----------------------------------------------------------------------
       # STEP 2 — Install .NET SDK
       # -----------------------------------------------------------------------
-      # actions/setup-dotnet@v4 installs the .NET SDK on the runner.
+      # actions/setup-dotnet@v6 installs the .NET SDK on the runner.
       # The runner is a fresh VM — nothing is pre-installed except the OS.
       # We must install the SDK explicitly on every run.
       #
@@ -69,7 +69,7 @@ jobs:
       # This controls what toolchain builds it.
       # -----------------------------------------------------------------------
       - name: Install .NET SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.0.x'
 
