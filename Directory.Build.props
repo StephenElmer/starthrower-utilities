@@ -77,7 +77,7 @@
     <Deterministic>true</Deterministic>
     <!-- Only enable on CI - preserves local debuggin experience -->
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
-  </PropertyGroup
+  </PropertyGroup>
 
 
   <!-- =========================================================== -->
