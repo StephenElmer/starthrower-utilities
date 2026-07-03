@@ -9,13 +9,6 @@
       - Version
       - Description
       - PackageTags (appends to shared tags via $(PackageTags);extra-tag)
-
-    Parking lot — fill in when resolved:
-      - Version-related properties (AssemblyVersion, FileVersion) pending
-        review of legacy app versions to determine new major version number
-      - PackageProjectUrl / RepositoryUrl pending GitHub username resolution
-        (investigating recovery of github.com/starthrower)
-      - PackageIcon pending design of StarThrower logo asset
   -->
 
   <!-- =========================================================== -->

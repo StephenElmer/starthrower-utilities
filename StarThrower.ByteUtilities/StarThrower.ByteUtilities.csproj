@@ -44,7 +44,7 @@
     <PackageTags>$(PackageTags);bytes;byte-array;bitwise;bit-manipulation;endianness;big-endian;little-endian;binary;byte-order;xor</PackageTags>
 
     <!-- Per-package README embedded in the NuGet package.         -->
-    <PackageReadme>README.md</PackageReadme>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <!-- =========================================================== -->
@@ -55,10 +55,10 @@
   </ItemGroup>
 
   <!-- =========================================================== -->
-  <!-- Icon embedding — uncomment once icon.png is available       -->
+  <!-- Icon embedding — pairs with <PackageIcon> in Directory.Build.props -->
   <!-- =========================================================== -->
   <ItemGroup>
-    <None Include="..\..\icon.png" Pack="true" PackagePath="\"/>
+    <None Include="..\icon.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
  
   <!-- =========================================================== -->
