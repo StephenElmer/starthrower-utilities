@@ -1,0 +1,120 @@
+# =============================================================================
+# ci.yml — Continuous Integration
+# =============================================================================
+# PURPOSE:
+#   Build and test the solution on every push to main and every pull request
+#   targeting main. This is the safety net that catches broken commits before
+#   they matter.
+#
+# TRIGGER:
+#   - Push to main branch
+#   - Pull request targeting main branch
+#
+# DOES NOT:
+#   - Pack NuGet packages
+#   - Publish anything anywhere
+# =============================================================================
+
+name: CI
+
+# -----------------------------------------------------------------------------
+# WHEN does this workflow run?
+# -----------------------------------------------------------------------------
+on:
+  push:
+    branches:
+      - main          # Run on every push to main
+  pull_request:
+    branches:
+      - main          # Run on every PR targeting main
+
+# -----------------------------------------------------------------------------
+# WHAT does this workflow do?
+# -----------------------------------------------------------------------------
+jobs:
+  build-and-test:
+
+    # -------------------------------------------------------------------------
+    # RUNNER OS
+    # windows-latest is required because:
+    #   - StarThrower.DataUtilities uses System.Data.OleDb (Windows-only)
+    #   - Some GIS tests assume Windows file system conventions
+    # Linux would be faster but would produce false test failures.
+    # -------------------------------------------------------------------------
+    runs-on: windows-latest
+
+    steps:
+
+      # -----------------------------------------------------------------------
+      # STEP 1 — Checkout
+      # -----------------------------------------------------------------------
+      # actions/checkout@v4 is a pre-built action from the GitHub marketplace.
+      # It checks out your repo code onto the runner so subsequent steps can
+      # work with it. Without this step, the runner has an empty workspace.
+      # The repo root (Code\) becomes the runner's working directory.
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------------
+      # STEP 2 — Install .NET SDK
+      # -----------------------------------------------------------------------
+      # actions/setup-dotnet@v4 installs the .NET SDK on the runner.
+      # The runner is a fresh VM — nothing is pre-installed except the OS.
+      # We must install the SDK explicitly on every run.
+      #
+      # dotnet-version: '10.0.x' means "latest patch of .NET 10 SDK".
+      # This is different from <TargetFramework>net10.0</TargetFramework> in
+      # your .csproj — that controls what runtime your library targets.
+      # This controls what toolchain builds it.
+      # -----------------------------------------------------------------------
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      # -----------------------------------------------------------------------
+      # STEP 3 — Restore NuGet packages
+      # -----------------------------------------------------------------------
+      # Downloads all NuGet package dependencies listed in your .csproj files.
+      # On a fresh runner there is no local NuGet cache, so this fetches
+      # everything from NuGet.org.
+      #
+      # Doing restore as a separate step gives cleaner output in the Actions
+      # log — you can see immediately whether a failure is a restore failure
+      # or a build failure.
+      # -----------------------------------------------------------------------
+      - name: Restore NuGet packages
+        run: dotnet restore StarThrower.Utilities.sln
+
+      # -----------------------------------------------------------------------
+      # STEP 4 — Build
+      # -----------------------------------------------------------------------
+      # Builds the solution in Debug configuration (the default).
+      #
+      # --no-restore: skips the implicit restore that 'dotnet build' would
+      # otherwise do, since we already did it in Step 3.
+      #
+      # -warnaserror: treats all compiler warnings as errors. This enforces
+      # that the solution builds cleanly with no warnings. Appropriate for
+      # a library that will be consumed by others.
+      # -----------------------------------------------------------------------
+      - name: Build
+        run: dotnet build StarThrower.Utilities.sln --no-restore -warnaserror
+
+      # -----------------------------------------------------------------------
+      # STEP 5 — Test
+      # -----------------------------------------------------------------------
+      # Runs all test projects in the solution.
+      #
+      # --no-build: skips rebuilding since Step 4 already built everything.
+      #
+      # --verbosity normal: shows test names and results in the log without
+      # being excessively verbose.
+      #
+      # The global.json at the repo root enables MTP (Microsoft Testing
+      # Platform) mode, required for xUnit v3. dotnet test reads global.json
+      # automatically from the current directory.
+      # -----------------------------------------------------------------------
+      - name: Test
+        run: dotnet test StarThrower.Utilities.sln --no-build --verbosity normal
