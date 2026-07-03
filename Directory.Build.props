@@ -70,6 +70,17 @@
   </PropertyGroup>
 
   <!-- =========================================================== -->
+  <!-- Source Link + Deterministic build                            -->
+  <!-- =========================================================== -->
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <Deterministic>true</Deterministic>
+    <!-- Only enable on CI - preserves local debuggin experience -->
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup
+
+
+  <!-- =========================================================== -->
   <!-- Package references — library projects only                   -->
   <!-- IsPackable=false on test projects excludes them              -->
   <!-- =========================================================== -->
