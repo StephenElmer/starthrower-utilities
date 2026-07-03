@@ -1,0 +1,211 @@
+# =============================================================================
+# pack.yml - Build, Test, Pack, and Create Draft Release
+# =============================================================================
+# PURPOSE:
+#   When a version tag is pushed (e.g. v2.0.0), build the solution in Release
+#   configuration, run all tests, pack all 12 NuGet packages, and attach the
+#   resulting .nupkg and .snupkg files to a draft GitHub Release for review
+#   before publishing to NuGet.org.
+#
+# TRIGGER:
+#   Push of a tag matching v* (e.g. v2.0.0, v2.1.0, v2.0.1-beta.1, etc.)
+#
+# DOES NOT:
+#   - Push anything to NuGet.org (that is publish.yml's job)
+#   - Publish the GitHub Release (it stays as a draft for review)
+#
+# WORKFLOW:
+#   1. Checkout
+#   2. Instal .NET SDK
+#   3. Restore
+#   4. Build (Release configuration)
+#   5. Test (must pass before packing)
+#   6. Pack all 12 library projects
+#   7. Upload .nupkg and .snupkg as workflow artifacts
+#   8. Create a draft GitHub release with the packages attached
+#
+# REVIEW GATE:
+#   After this workflow complets, go to the repo's Releases page on GitHub.
+#   There will be a draft release named after the tag (e.g. v2.0.0).
+#   Download the .nupkg files and inspect them (e.g. with the NuGet Package Explorer)
+#   before proceeding to publish.yml
+# =============================================================================
+
+name: Pack
+
+# -----------------------------------------------------------------------------
+# WHEN does this workflow run?
+# -----------------------------------------------------------------------------
+on:
+  push:
+    tags:
+      - 'v*'  # Matches v2.0.0, v2.1.0, v2.0.1-beta.1, etc.
+              # Does NOT run on regular branch pushes - only tags.
+
+# -----------------------------------------------------------------------------
+# PERMISSIONS
+# -----------------------------------------------------------------------------
+# contents: write is required to create a GitHub Release and upload assets.
+# Without this, the release creation step will fail with a 403 error.
+# -----------------------------------------------------------------------------
+permissions:
+  contents: write
+
+# -----------------------------------------------------------------------------
+# WHAT does this workflow do?
+# -----------------------------------------------------------------------------
+jobs:
+  pack:
+
+    runs-on: windows-latest     #Windows required - see ci.yml for reasoning
+
+    steps:
+
+      # -----------------------------------------------------------------
+      # STEP 1 - Checkout
+      # -----------------------------------------------------------------
+      # fetch-depth: 0 fetches the full git history including all tags.
+      # The default (fetch-depth: 1) is a shallow clone that only gets the
+      # latest commit.  We need full history so the pack step can embed the
+      # correct commit SHA in the .snupkg symbol package for Source Link.
+      # -----------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+        
+      # -----------------------------------------------------------------
+      # STEP 2 - Install .NET SDK
+      # -----------------------------------------------------------------
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+        
+      # -----------------------------------------------------------------
+      # STEP 3 - Restore
+      # -----------------------------------------------------------------
+      - name: Restore NuGet packages
+        run: dotnet restore StarThrower.Utilities.sln
+      
+      # -----------------------------------------------------------------
+      # STEP 4 - Build (Release configuration)
+      # -----------------------------------------------------------------
+      # Note: Release configuration, not Debug.
+      # This is what consumers will actually get in the NuGet packages.
+      # Release enables compiler optimizations and strips debug-only code paths.
+      #
+      # -warnaserror: same as Ci - warnings are errors.  The solution must be
+      # completely clean before we pack anything.
+      # -----------------------------------------------------------------
+      - name: Build
+        run: dotnet build StarThrower.Utilities.sln --no-restore --configuration Release -warnaserror
+
+      # -----------------------------------------------------------------
+      # STEP 5 - Test
+      # -----------------------------------------------------------------
+      # Tests run BEFORE packing.  If any test fails, the workflow stops here
+      # and no packages are produced.  This is non-negotiable - we never pack
+      # a build that has failing tests.
+      #
+      # --configuration Release: tests run against the Release build, not Debug.
+      # -----------------------------------------------------------------
+      - name: Test
+        run: dotnet test StarThrower.Utilities.sln --no-build --configuration Release --verbosity normal
+      
+
+      # -----------------------------------------------------------------
+      # STEP 6 - Pack
+      # -----------------------------------------------------------------
+      # dotnet pack produces .nupkg and .snupkg files for each libarary project.
+      # Test projects are excluded automatically via <IsPackable>false</IsPakable>
+      # in their .csproj files - dotnet packs skips them without any extra flags.
+      #
+      # --no-build: we already built in Step 4, so no need to rebuild.
+      #
+      # --configuration Release: pack the Release build output.
+      #
+      # --output ./nupkgs: all output files go into a single 'nupkgs' folder
+      # at the repo root.  This makes the upload step simpler - one folder,
+      # all packages.  The folder is created automatically if it doesn't exist.
+      #
+      # Note: dotnet pack runs against the entire solution, but only projects 
+      # with <IsPackable>true</IsPackable> (or no IsPackable setting, which
+      # defaults to true for library projects) will produce packages.
+      # -----------------------------------------------------------------
+      - name: Pack
+        run: dotnet pack StarThrower.Utilities.sln --no-build --configuration Release --output ./nupkgs
+      
+      # -----------------------------------------------------------------
+      # STEP 7 - Upload artifacts
+      # -----------------------------------------------------------------
+      # actions/upload-artifact stores the .nupkg and .snupkg files as a
+      # downloadable artifact attached to this workflow run.  You can find them
+      # under the Actions tab -> this run -> Artifacts section.
+      #
+      # This is the "inspectable artifacts" step - download these files and
+      # verify them in NuGet Package Explorer before publishing.
+      #
+      # name: this display name of the artifact bundle in the Actions UI.
+      # path: which files to include.  **/*.nupkg captures both .nupkg and
+      # .snupkg files recursively from the nupkgs folder.
+      #
+      # retention-days: 90 is GitHub's default maximum for public repos.
+      # Artifacts are automatically deleted after this period.
+      # -----------------------------------------------------------------
+      - name: Upload NuGet packages as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages-${{ github.ref_name }}  # e.g. nuget-packages-v2.0.0
+          path: ./nupkgs/*.nupkg
+          retention-days: 90
+        
+      - name: Upload symbol packages as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-symbols-${{ github.ref_name }}
+          path: ./nupkgs/*.snupkg
+          retention-days: 90
+      
+      # -----------------------------------------------------------------
+      # STEP 8 - Create draft GitHub Release
+      # -----------------------------------------------------------------
+      # gh release create creates a GitHub Release and attaches files to it.
+      # 'gh' is the GitHub CLI - it is pre-installed on all GitHub-hosted
+      # runners, so no installation step is needed.
+      #
+      # ${{ github.ref_name }}: the tag name that triggered this workflow
+      #    (e.g. v2.0.0).  This release is named after the tag automatically.
+      #
+      # --draft: creates the release in draft state - not publicly visible
+      #   until it is explicitly published.  This is a review gate.
+      #
+      # --title: the human-readable release title shown on GitHub.
+      #
+      # --notes: initial release notes.  You can edit these on GitHub before
+      #   publishing the release.
+      #
+      # ./nupkgs/*: attaches all .nupkg and .snupkg files to the release
+      #   as downloadable assets.
+      #
+      # GH_TOKEN: the GitHub CLI needs authentication.  GITHUB_TOKEN is a
+      #   special secret automatically provided by GitHub Actions - you don't
+      #   need to create it.  It has permissions scoped to this repo and
+      #   expires when the workflow run ends.cancel-timeout-minutes: 
+      # -----------------------------------------------------------------
+      - name: Create draft GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ github.ref_name }} ./nupkgs/* \
+            --draft \
+            --title "StarThrower.Utilities ${{ github.ref_name }}" \
+            --notes "## StarThrower.Utilities ${{ github.ref_name }}
+          
+          Review the attached .nupkg files before publishing to NuGet.org.
+          Run publish.yml to push packages to NuGet once review is complete.
+
+          See [CHANGELOG](https://github.com/${{ github.repository }}/releases) for details."
+
+            
+            

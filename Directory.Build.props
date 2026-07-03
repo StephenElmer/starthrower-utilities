@@ -56,8 +56,6 @@
   <!-- Build quality                                                 -->
   <!-- =========================================================== -->
   <PropertyGroup>
-    <!-- <GenerateDocumentationFile>true</GenerateDocumentationFile> -->
-
     <AnalysisMode>Recommended</AnalysisMode>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings> <!-- personal style -->
@@ -77,7 +75,7 @@
   <!-- =========================================================== -->
   <ItemGroup Condition="'$(IsPackable)' != 'false'">
     <PackageReference Include="Microsoft.SourceLink.GitHub"
-                      Version="10.0.300"
+                      Version="10.*"
                       PrivateAssets="All"/>
   </ItemGroup>
 
