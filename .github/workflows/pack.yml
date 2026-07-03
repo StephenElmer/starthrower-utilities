@@ -154,14 +154,14 @@ jobs:
       # Artifacts are automatically deleted after this period.
       # -----------------------------------------------------------------
       - name: Upload NuGet packages as artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: nuget-packages-${{ github.ref_name }}  # e.g. nuget-packages-v2.0.0
           path: ./nupkgs/*.nupkg
           retention-days: 90
         
       - name: Upload symbol packages as artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: nuget-symbols-${{ github.ref_name }}
           path: ./nupkgs/*.snupkg
