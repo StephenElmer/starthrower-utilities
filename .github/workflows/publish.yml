@@ -1,0 +1,223 @@
+# =============================================================================
+# publish.yml - Publish NuGet Packages via Trusted publishing (OIDC)
+# =============================================================================
+# PURPOSE:
+#   Download the .nupkg and .snupkg files from a published GitHub Release and
+#   push them to NuGet.org using Trusted Publishing (OIDC) authentication.
+#   No API key required - authentication is handled via short-lived OIDC tokens.
+#
+# TRIGGERS:
+#   A) Automatically - when a GitHub Release is published (i.e. when you click
+#      "Publish release" on a draft release).  This is the normal workflow:
+#       pack.yml creates draft -> review -> publish release -> this runs.
+#
+#   B) Manually - via Actions -> publish -> Run workflow.  Useful for re-runs
+#      or if the automatic trigger doesn't fire as expected.
+#
+# PREREQUISITES:
+#   1. pack.yml has already run successfully and created a GitHub Release
+#      with .nupkg and .snupkg files attached as assets.
+#   2. The Trusted Publishing policy on NuGet.org is configured:
+#        Repository owner: StephenElmer
+#        Repository name: starthrower-utilities
+#        Workflow:  publish.yml
+#
+# DOES NOT:
+#   - Rebuild the solution (uses the exact artifacts from the release)
+#   - Run tests (already done in pack.yml)
+#   - Create or modify the GitHub Release
+#
+# IMPORTANT:
+#   Build once, publish what has been reviewed.  This workflow downloads the exact
+#   .nupkg files attached to the GitHub Release - the same files inspected in NuGet
+#   Package Explorer.  Nothing is rebuilt at publish time.
+# =============================================================================
+
+name: Publish
+
+# -----------------------------------------------------------------------------
+# when does this workflow run?
+# -----------------------------------------------------------------------------
+on:
+  # Trigger A - automatic: fires when a draft release is published on GitHub
+  release:
+    types: [published]
+
+  # Trigger B - manual: go to Actions -> Publish -> Run workflow
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to publish (e.g. v2.0.0)'
+        required: true
+        type: string
+
+# -----------------------------------------------------------------------------
+# PERMISSIONS
+# -----------------------------------------------------------------------------
+# id-token: write - REQUIRED for Trusted Publishing (OIDC token generation).
+#   Without this, GitHub will not issue the identity token needed to
+#   authenticate with NuGet.org.  This is the key permission that makes
+#   Trusted Publishing work.
+#
+# contents: read - needed to read repo contents and download release assets.
+# -----------------------------------------------------------------------------
+permissions:
+  id-token: write
+  contents: read
+
+# -----------------------------------------------------------------------------
+# WHAT does this workflow do?
+# -----------------------------------------------------------------------------
+jobs:
+  publish:
+
+    runs-on: windows-latest   # Consistent with ci.yml and pack.yml
+
+    steps:
+
+      # -----------------------------------------------------------------------
+      # STEP 1 - Checkout
+      # -----------------------------------------------------------------------
+      # A shallow checkout is fine here - we're not building from source,
+      # just downloading release assets.  fetch-depth: 1 (the default) is
+      # sufficient.
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      # -----------------------------------------------------------------------
+      # STEP 2 - Install .NET SDK
+      # -----------------------------------------------------------------------
+      # Required for 'dotnet nuget push' in the final step.
+      # -----------------------------------------------------------------------
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+      
+      # -----------------------------------------------------------------------
+      # STEP 3 - Determine the release tag
+      # -----------------------------------------------------------------------
+      # The release tag is needed to download the correct release assets.
+      # It comes from different places depending on how the workflow was triggered:
+      # 
+      # Trigger A (release published): github.event.release.tag_name
+      #   e.g. "v2.0.0"
+      # 
+      # Trigger B (manual): the 'tag' input typed when running manually
+      #   e.g. "v2.0.0"
+      #
+      # This step writes the tag to GITHUB_ENV so subsequent steps can use it
+      # as ${{ env.RELEASE_TAG }} regardless of which trigger fired.
+      # -----------------------------------------------------------------------
+      - name: Determine release tag
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" == "release" ]; then
+            echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          else
+            echo "RELEASE_TAG=${{ inputs.tag }}" >> $GITHUB_ENV
+          fi
+        
+      # -----------------------------------------------------------------------
+      # STEP 4 - Download release assets
+      # -----------------------------------------------------------------------
+      # Downloads all .nupkg and .snupkg files attached to the GitHub Release.
+      # These are the EXACT files reviewed in NuGet Package Explorer - nothing
+      # is rebuilt here.
+      #
+      # 'gh release download' fetches all assets matching the glob pattern
+      # from the specified release tag into the ./nupkgs directory.
+      #
+      # GH_TOKEN: uses the automatic GITHUB_TOKEN (same as pack.yml)
+      # -----------------------------------------------------------------------
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          gh release download ${{ env.RELEASE_TAG }} \
+            --pattern "*.nupkg" \
+            --pattern "*.snupkg" \
+            --dir ./nupkgs
+
+      # -----------------------------------------------------------------------
+      # STEP 5 - Verify downloaded packages
+      # -----------------------------------------------------------------------
+      # List what was downloaded so the log shows exactly what's about to
+      # be pushed to NuGet.org.  A useful sanity check visible in the Action log.
+      # -----------------------------------------------------------------------
+      - name: List packages to publish
+        shell: bash
+        run: |
+          echo "Packages to publish:"
+          ls -la ./nupkgs/
+          echo "Total: $(ls ./nupkgs/*.nupkg | wc -l) packages"
+          echo "Symbols: $(ls ./nupkgs/*.snupkg | wc -l) symbol packages"
+        
+
+      # -----------------------------------------------------------------------
+      # STEP 6 - Authenticate with NuGet.org via Trusted Publishing (OIDC)
+      # -----------------------------------------------------------------------
+      # This is the key step that replaces the old 'dotnet nuget push --api-key'
+      # approach.  Here's what happens:
+      #
+      # 1. The NuGet/login@v1 action requests a short-lived OIDC identity token
+      #    from GitHub.  This token proves: "I am the publish.yml workflow running
+      #    on the StephenElmer/starthrower-utilities repo."
+      #
+      # 2. The token is presented to NuGet.org, which verifies it against the
+      #    Trusted Publishing policy (repo owner, repo name, workflow filename must
+      #    all match.
+      # 3. NuGet.org issues a temporary API key - valid for ~1 hour, scoped
+      #    to this authentication session only.
+      #
+      # 4. The temporary key is stored in the NuGet configuration on the runner
+      #    so subsequent 'dotnet nuget push' commands use it automatically.
+      #
+      # No secret is stored anywhere.  The key expires immediately after use.
+      # If this workflow is ever triggered from a different repo or workflow file,
+      # the token verification fails and nothing gets published.
+      #
+      # user: StephenElmer
+      # -----------------------------------------------------------------------
+      - name: Authenticate with NuGet.org (Trusted Publishing)
+        uses: nuget/login@v1
+        with:
+          user: StephenElmer
+      
+      # -----------------------------------------------------------------------
+      # STEP 7 - Push packages to NuGet.org
+      # -----------------------------------------------------------------------
+      # Pushes all 12 .nupkg files to NuGet.org.
+      #
+      # --source: the NuGet.org v3 API endpoint.  Always use this URL.
+      #
+      # --skip-duplicate: if a package at this version already exists on 
+      #   NuGet.org, skip it rather than failing the workflow.  This is important
+      #   for partial releases - if releasing EarleyParser 2.1.0 but all other
+      #   packages are still 2.0.0 (already published), those 2.0.0 packages
+      #   will be skipped cleanly rather than causing an error.
+      #
+      # --no-symbols: do NOT push .snupkg files in this step.  Symbol packages
+      #   are pushed separately in Step 8 to the NuGet symbol server.
+      #   Without this flag, dotnet nuget push would try to push both .nupkg
+      #   and .snupkg in one command, which can cause ordering issues.
+      # -----------------------------------------------------------------------
+      - name: Push packages to NuGet.org
+        run: dotnet nuget push "./nupkgs/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
+      
+      # -----------------------------------------------------------------------
+      # STEP 8 - Push symbol packages to NuGet.org symbol server
+      # -----------------------------------------------------------------------
+      # Pushes all 12 .snupkg symbol packages to the NuGet symbol server.
+      # Symbol packages enable step-through debugging for consumers - they can
+      # step into your library code in their debugger, with Visual Studio
+      # automatically fetching the source from GitHub via Source Link.
+      #
+      # The symbol endpoint is different from the package endpoint.
+      #
+      # --skip-duplicate: same reasoning as Step 7.
+      # -----------------------------------------------------------------------
+      - name: Push symbol packages to NuGet.org
+        run: dotnet nuget push "./nupkgs/*.snupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
