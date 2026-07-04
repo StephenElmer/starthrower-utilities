@@ -206,8 +206,13 @@ jobs:
       # -----------------------------------------------------------------------
       - name: Push packages to NuGet.org
         shell: bash
-        run: dotnet nuget push "./nupkgs/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
-      
+        #run: dotnet nuget push "./nupkgs/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
+        run: |
+          for pkg in ./nupkgs/*.nupkg; do
+            echo "Pushing package: $pkg"
+            dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
+          done
+
       # -----------------------------------------------------------------------
       # STEP 8 - Push symbol packages to NuGet.org symbol server
       # -----------------------------------------------------------------------
@@ -222,4 +227,9 @@ jobs:
       # -----------------------------------------------------------------------
       - name: Push symbol packages to NuGet.org
         shell: bash
-        run: dotnet nuget push "./nupkgs/*.snupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        #run: dotnet nuget push "./nupkgs/*.snupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: |
+          for pkg in ./nupkgs/*.snupkg; do
+            echo "Pushing symbol package: $pkg"
+            dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done
