@@ -205,6 +205,7 @@ jobs:
       #   and .snupkg in one command, which can cause ordering issues.
       # -----------------------------------------------------------------------
       - name: Push packages to NuGet.org
+        shell: bash
         run: dotnet nuget push "./nupkgs/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
       
       # -----------------------------------------------------------------------
@@ -220,4 +221,5 @@ jobs:
       # --skip-duplicate: same reasoning as Step 7.
       # -----------------------------------------------------------------------
       - name: Push symbol packages to NuGet.org
+        shell: bash
         run: dotnet nuget push "./nupkgs/*.snupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
