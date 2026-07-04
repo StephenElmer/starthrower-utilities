@@ -52,17 +52,37 @@ Each package is independent. Install only what you need.
 
 ## History
 
-StarThrower.Utilities began in the early 2000s as a VB6 shared library, folding in reusable components from commercial consulting projects. It has been carried forward through successive modernizations:
+StarThrower.Utilities has a 25-year history as a private consulting utility library,
+carried forward through successive technology generations before its first public
+release in 2026.
 
-| Era | Technology |
-|---|---|
-| Early 2000s | VB6 shared library |
-| Mid 2000s | .NET 2 |
-| Late 2000s | .NET 3 |
-| 2010s | .NET 4 / .NET 4.8 |
-| 2026 | .NET 10 / C# 14 — first public release |
+| Era | Technology | Source Control |
+|---|---|---|
+| 1998–2004 | VB6 + C++/COM | Visual SourceSafe |
+| 2004–2005 | C# .NET 2 | Seapine Surround |
+| 2005–2006 | C# .NET 2 — first StarThrower release | VSS |
+| 2006–2013 | C# .NET 2 / .NET 4 — first public open source release | SVN / [SourceForge](https://sourceforge.net/projects/starthrower/) |
+| 2014–2025 | C# .NET 4.8 — private | TFS |
+| 2026 | C# .NET 10 — open source | GitHub |
 
-The library has served as a foundation for projects spanning emergency management software, oil and gas risk modeling, geospatial analysis, and enterprise data integration. The `.NET 10` release is its first publication as open source.
+The library traces its earliest roots to **D2-Puff**, atmospheric dispersion modeling
+software developed for the U.S. Department of Defense at
+[Innovative Emergency Management (IEM)](https://www.ieminc.com) — modeling the
+airborne spread of hazardous materials near chemical weapons stockpile sites. The
+geospatial stack (`Gis.EsriLibrary`) descends from a C++ ActiveX control written
+in 1998 for that project — a 28-year lineage from COM OCX to NuGet package.
+
+Over the years the library has served projects spanning:
+- **Emergency management** — evacuee tracking (EvacuTrack, built post-Hurricane Katrina), cooperative agreement tracking, emergency response planning
+- **Defense** — atmospheric dispersion modeling for DoD chemical stockpile sites
+- **Oil and gas risk** — risk-based inspection platforms (Arivu at Lloyd's Register; RBI Migrator at AOC)
+- **Nonprofit technology** — Gallery Gorilla, a, now retired, platform providing portfolio websites to visual artists
+- **Enterprise software** — corporate websites, data migration tools, AI-driven data extraction
+
+The original bits of the library was previously published on SourceForge (2007–2014) under LGPL v2.1.
+The 2026 release re-publishes it under MIT on GitHub and NuGet for the first time.
+
+See [CHANGELOG.md](CHANGELOG.md) for the complete history.
 
 ---
 
