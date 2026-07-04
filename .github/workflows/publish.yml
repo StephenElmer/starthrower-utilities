@@ -182,6 +182,7 @@ jobs:
       # user: StephenElmer
       # -----------------------------------------------------------------------
       - name: Authenticate with NuGet.org (Trusted Publishing)
+        id: login
         uses: nuget/login@v1
         with:
           user: StephenElmer
@@ -210,7 +211,11 @@ jobs:
         run: |
           for pkg in ./nupkgs/*.nupkg; do
             echo "Pushing package: $pkg"
-            dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
+            dotnet nuget push "$pkg" \
+              --source https://api.nuget.org/v3/index.json \
+              --api-key ${{ steps.login.outputs.NUGET_API_KEY }} \
+              --skip-duplicate \
+              --no-symbols
           done
 
       # -----------------------------------------------------------------------
@@ -231,5 +236,8 @@ jobs:
         run: |
           for pkg in ./nupkgs/*.snupkg; do
             echo "Pushing symbol package: $pkg"
-            dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
+            dotnet nuget push "$pkg" \
+              --source https://api.nuget.org/v3/index.json \
+              --api-key ${{ steps.login.outputs.NUGET_API_KEY }} \
+              --skip-duplicate
           done
